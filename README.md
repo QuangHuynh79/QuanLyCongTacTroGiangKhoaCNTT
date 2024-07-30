@@ -1,1 +1,1 @@
-# Qu-n-L-C-ng-T-c-Tr-Gi-ng-Khoa-CNTT
+# Quản Lý Công Tác Trợ Giảng Khoa CNTT
