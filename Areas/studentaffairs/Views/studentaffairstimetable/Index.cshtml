@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "Student Affairs | Thời Khóa Biểu";
+    Layout = "~/Areas/studentaffairs/Views/Shared/_StudentAffairsLayout.cshtml";
+
+    int currentYear = DateTime.Now.Year;
+}
+<link href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+
+<script src="~/ActiveItemMenu/admin/admindashboard/thoikhoabieutemp.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-3 mb-3 d-flex justify-content-between align-items-center">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="h2 fw-bold">Xem Thời Khóa Biểu</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="admin-dashboard.html">Dashboard</a>
+                            </li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Xem Thời Khóa Biểu
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card">
+                <div class="card">
+                    <!-- card header  -->
+                    <div class="card-header border-bottom-0">
+                        <div class="row">
+                            <div class="mb-3 col-md-4 col-12">
+                                <label class="form-label">Năm học</label>
+                                <select class="selectpicker" data-width="100%">
+                                    <option value="">Chọn năm học</option>
+                                    @for (int i = currentYear; i >= 2020; i--)
+                                    {
+                                        if (i == currentYear)
+                                        {
+                                            <option selected value="@(i)-@(i+1)">@(i)-@(i+1)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@(i)-@(i+1)">@(i)-@(i+1)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-4 col-12">
+                                <label class="form-label">Học kỳ</label>
+                                <select class="selectpicker" data-width="100%">
+                                    <option value="1">Học kỳ 1</option>
+                                    <option selected value="2">Học kỳ 2</option>
+                                    <option value="3">Học kỳ 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-4 col-12">
+                                <label class="form-label">Tuần</label>
+                                <select class="selectpicker" data-width="100%">
+                                    <option value="">Chọn tuần học</option>
+                                    @for (int i = 1; i <= 60; i++)
+                                    {
+                                        if (i == 23)
+                                        {
+                                            <option selected value="@i">@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- table  -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-secondary text-nowrap mb-0">
+                            <thead>
+                                <tr class="bg-secondary text-white">
+                                    <th style="border-right: 1px solid #ffffff; padding-right: 0px; padding-left: 15px;">Tiết</th>
+                                    <th style="border-right: 1px solid #ffffff">Thứ 2</th>
+                                    <th style="border-right: 1px solid #ffffff">Thứ 3</th>
+                                    <th style="border-right: 1px solid #ffffff">Thứ 4</th>
+                                    <th style="border-right: 1px solid #ffffff">Thứ 5</th>
+                                    <th style="border-right: 1px solid #ffffff">Thứ 6</th>
+                                    <th style="border-right: 1px solid #ffffff">Thứ 7</th>
+                                    <th style="border-right: 1px solid #ffffff">Chủ nhật</th>
+                                    <th style="border-right: 1px solid #ffffff; padding-right: 0px; padding-left: 15px;">Tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 1; i <= 16; i++)
+                                {
+                                    <tr>
+                                        @for (int j = 1; j <= 9; j++)
+                                        {
+                                            if (j == 1 || j == 9)
+                                            {
+                                                <td align="center" class="text-dark">@i</td>
+                                            }
+                                            else
+                                            {
+                                                if ((i == 1 && j == 2) || (i == 7 && j == 7))
+                                                {
+                                                    <td rowspan="3" style="height: inherit">
+                                                        <div class="badge bg-primary" style="height: 100%; width: 100%">
+                                                            <p class="text-nowrap mt-2">
+                                                                <b>Môn:</b> Kiểm thử phần mềm (DTH0122)
+                                                            </p>
+                                                            <p class="text-nowrap">
+                                                                <b>Mã LHP:</b> 221_DTH0122_0103
+                                                            </p>
+                                                            <p class="text-nowrap">
+                                                                <b>GV:</b> Trần Công Thanh (2001100659)
+                                                            </p>
+                                                            <p class="text-nowrap">
+                                                                <b>Phòng:</b> CS3.A.07.02
+                                                            </p>
+                                                            <p class="text-nowrap">
+                                                                <b>Tiết:</b> @(i)-@(i + 2)
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if ((i > 1 && i <= 3) || (i > 7 && i <= 9))
+                                                    {
+                                                        if (j == 2)
+                                                        {
+                                                            continue;
+                                                        }
+                                                        else
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <td></td>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<script src="~/ActiveItemMenu/studentaffairs/studentaffairstimetable/index.js"></script>

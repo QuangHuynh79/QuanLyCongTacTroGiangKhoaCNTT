@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyCongTacTroGiangKhoaCNTT", "QuanLyCongTacTroGiangKhoaCNTT.csproj", "{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyCongTacTroGiangKhoaCNTT.Tests", "..\QuanLyCongTacTroGiangKhoaCNTT.Tests\QuanLyCongTacTroGiangKhoaCNTT.Tests.csproj", "{889D5F4E-BE0B-4E6C-A61A-94E29E3B8E8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889D5F4E-BE0B-4E6C-A61A-94E29E3B8E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889D5F4E-BE0B-4E6C-A61A-94E29E3B8E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889D5F4E-BE0B-4E6C-A61A-94E29E3B8E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889D5F4E-BE0B-4E6C-A61A-94E29E3B8E8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1CD00CB4-9648-447F-82D8-FF95502D98B4}
+	EndGlobalSection
+EndGlobal

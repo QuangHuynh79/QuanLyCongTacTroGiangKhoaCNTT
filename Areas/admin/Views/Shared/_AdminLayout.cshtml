@@ -1,0 +1,204 @@
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Công tác trợ giảng khoa công nghệ thông tin Trường Đại học Văn Lang" />
+    <meta name="keywords" content="trợ giảng khoa cntt, công tác trợ giảng, công tác trợ giảng vlu" />
+    <meta name="author" content="Codescandy" />
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/icon-vlu.png" />
+
+    <!-- CSS -->
+    <!-- darkmode js -->
+    <script src="~/Content/assets/js/vendors/darkMode.js"></script>
+
+    <!-- Libs CSS -->
+    <link href="~/Content/assets/fonts/feather/feather.css" rel="stylesheet" />
+
+    <link href="~/Content/assets/libs/@("@")yaireo/tagify/dist/tagify.css" rel="stylesheet" />
+
+    <link href="~/Content/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/@("@")mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+
+    <link href="~/Content/assets/libs/dragula/dist/dragula.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/bs-stepper/dist/css/bs-stepper.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/quill/dist/quill.snow.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
+
+    <link rel="canonical" href="https://trogiangvlu.website">
+    <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
+
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <!-- Wrapper -->
+    <div id="db-wrapper">
+        <!-- navbar vertical -->
+        <!-- Sidebar -->
+        <nav class="navbar-vertical navbar" style="background-image: url(/Content/img/img_sidebar_background.jpg); background-size: cover">
+            <div class="vh-100" data-simplebar>
+                <!-- Brand logo -->
+                <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("")">
+                    <img src="~/Content/img/logo-vlu.png" style="width: 100%; height: auto" alt="Trợ giảng VLU" />
+                </a>
+                <!-- Navbar nav -->
+                <ul class="navbar-nav flex-column" id="sideNavbar">
+                    <li class="nav-item">
+                        <a id="child-admin-admindashboard-index" class="child-nav-link nav-link" href="@Url.Action("index", "admindashboard")">
+                            <i class="nav-icon fe fe-home me-2"></i>
+                            Trang chủ
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <main id="page-content">
+            <div class="header">
+                <!-- navbar -->
+                <nav class="navbar-default navbar navbar-expand-lg">
+                    <a id="nav-toggle" href="#">
+                        <i class="fe fe-menu"></i>
+                    </a>
+                    <div class="ms-lg-3 d-none d-md-none d-lg-block">
+                        <!-- Form -->
+                        <form class="d-flex align-items-center">
+                            <span class="position-absolute ps-3 search-icon">
+                                <i class="fe fe-search"></i>
+                            </span>
+                            <input type="search" class="form-control ps-6" placeholder="Search Entire Dashboard">
+                        </form>
+                    </div>
+                    <!--Navbar nav -->
+                    <div class="ms-auto d-flex">
+                        <a href="#" class="form-check form-switch theme-switch btn btn-light btn-icon rounded-circle ">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+
+                        </a>
+                        <ul class="navbar-nav navbar-right-wrap ms-2 d-flex nav-top-wrap">
+                            <!-- List -->
+                            <li class="dropdown ms-2">
+                                <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="avatar avatar-md avatar-indicators avatar-online">
+                                        <img alt="avatar" src="~/Content/img/user-default.png" class="rounded-circle">
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+                                    <div class="dropdown-item">
+                                        <div class="d-flex">
+                                            <div class="avatar avatar-md avatar-indicators avatar-online">
+                                                <img alt="avatar" src="~/Content/img/user-default.png" class="rounded-circle">
+                                            </div>
+                                            <div class="ms-3 lh-1" style="display: flex; flex-direction: row; justify-content: center; margin-top: 7px;">
+                                                <h5>@Session["user-email"]</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a class="dropdown-item" href="">
+                                                <i class="fe fe-user me-2"></i> Thông tin cá nhân
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="dropdown-divider"></div>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a class="dropdown-item" role="button" href="javascript:document.getElementById('logoutForm').submit()">
+                                                <i class="fe fe-power me-2"></i> Đăng xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <!-- Container fluid -->
+
+            @RenderBody()
+            @RenderSection("scripts", required: false)
+        </main>
+    </div>
+    <form action="@Url.Action("signout","account", new {area = ""})" id="logoutForm" method="post"></form>
+    <!-- Scripts -->
+    <!-- Libs JS -->
+    <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/assets/libs/simplebar/dist/simplebar.min.js"></script>
+
+    <script src="~/Content/assets/libs/@("@")popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/libs/@("@")yaireo/tagify/dist/tagify.min.js"></script>
+    <script src="~/Content/assets/libs/bs-stepper/dist/js/bs-stepper.min.js"></script>
+    <script src="~/Content/assets/libs/dragula/dist/dragula.min.js"></script>
+    <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="~/Content/assets/libs/fullcalendar/index.global.min.js"></script>
+    <script src="~/Content/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="~/Content/assets/libs/imask/dist/imask.min.js"></script>
+    <script src="~/Content/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+
+    <script src="~/Content/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="~/Content/assets/libs/quill/dist/quill.min.js"></script>
+    <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+    <script src="~/Content/assets/libs/tippy.js/dist/tippy-bundle.umd.min.js"></script>
+
+    <!-- Bootstrap JS-->
+    <script src="~/Content/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+
+    <!-- Bootstrap Buttons JS-->
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+
+    <!-- Theme JS -->
+    <script src="~/Content/assets/js/theme.min.js"></script>
+    <script src="~/Content/assets/js/vendors/chart.js"></script>
+
+    <script src="~/Content/assets/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
+    <script src="~/Content/assets/libs/jsvectormap/dist/maps/world.js"></script>
+
+    <script src="~/Content/assets/js/vendors/beStepper.js"></script>
+    <script src="~/Content/assets/js/vendors/customDragula.js"></script>
+    <script src="~/Content/assets/js/vendors/chat.js"></script>
+    <script src="~/Content/assets/js/vendors/darkMode.js"></script>
+    <script src="~/Content/assets/js/vendors/datatables.js"></script>
+    <script src="~/Content/assets/js/vendors/dropzone.js"></script>
+    <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
+    <script src="~/Content/assets/js/vendors/editor.js"></script>
+    <script src="~/Content/assets/js/vendors/glight.js"></script>
+    <script src="~/Content/assets/js/vendors/increment-value.js"></script>
+    <script src="~/Content/assets/js/vendors/inputmask.js"></script>
+    <script src="~/Content/assets/js/vendors/tnsSlider.js"></script>
+    <script src="~/Content/assets/js/vendors/tooltip.js"></script>
+    <script src="~/Content/assets/js/vendors/validation.js"></script>
+
+</body>
+</html>
