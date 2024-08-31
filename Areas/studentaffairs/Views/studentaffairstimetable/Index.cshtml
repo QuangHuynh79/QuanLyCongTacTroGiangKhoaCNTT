@@ -18,9 +18,11 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="admin-dashboard.html">Dashboard</a>
+                                <a href="@Url.Action("index", "studentaffairsdashboard")">Dashboard</a>
                             </li>
-
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Thời Khóa Biểu
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Xem Thời Khóa Biểu
                             </li>
@@ -40,7 +42,7 @@
                         <div class="row">
                             <div class="mb-3 col-md-4 col-12">
                                 <label class="form-label">Năm học</label>
-                                <select class="selectpicker" data-width="100%">
+                                <select class="form-select" data-width="100%">
                                     <option value="">Chọn năm học</option>
                                     @for (int i = currentYear; i >= 2020; i--)
                                     {
@@ -57,7 +59,7 @@
                             </div>
                             <div class="mb-3 col-md-4 col-12">
                                 <label class="form-label">Học kỳ</label>
-                                <select class="selectpicker" data-width="100%">
+                                <select class="form-select" data-width="100%">
                                     <option value="1">Học kỳ 1</option>
                                     <option selected value="2">Học kỳ 2</option>
                                     <option value="3">Học kỳ 3</option>
@@ -65,7 +67,7 @@
                             </div>
                             <div class="mb-3 col-md-4 col-12">
                                 <label class="form-label">Tuần</label>
-                                <select class="selectpicker" data-width="100%">
+                                <select class="form-select" data-width="100%">
                                     <option value="">Chọn tuần học</option>
                                     @for (int i = 1; i <= 60; i++)
                                     {

@@ -29,6 +29,9 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
     <link href="~/Content/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/Sweetalert2/css/sweetalert2.min.css" rel="stylesheet" />
 
     <link rel="canonical" href="https://trogiangvlu.website">
     <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
@@ -55,6 +58,35 @@
                             Trang chủ
                         </a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a id="parent-studentaffairs-studentaffairssemesterandmajor" class="nav-link  " href="#"
+                           data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairssemesterandmajor" aria-expanded="false"
+                           aria-controls="nav-studentaffairs-studentaffairssemesterandmajor">
+                            <i class="nav-icon fe fe-layers me-2"></i> Học kỳ & Ngành
+                        </a>
+                        <div id="nav-studentaffairs-studentaffairssemesterandmajor" class="collapse "
+                             data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-hocky" class="child-nav-link nav-link "
+                                       href="@Url.Action("semester", "studentaffairssemesterandmajor")">
+                                        Học kỳ
+                                    </a>
+                                </li>
+                                <!-- Nav item -->
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-nganh" class="child-nav-link nav-link "
+                                       href="@Url.Action("major", "studentaffairssemesterandmajor")">
+                                        Ngành
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+
                     <li class="nav-item">
                         <a id="parent-studentaffairs-studentaffairstimetable" class="nav-link  " href="#"
                            data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairstimetable" aria-expanded="false"
@@ -157,6 +189,7 @@
             @RenderSection("scripts", required: false)
         </main>
     </div>
+    <input id="requestPath" value="@Url.Content("~")" />
     <form action="@Url.Action("signout","account", new {area = ""})" id="logoutForm" method="post"></form>
     <!-- Scripts -->
     <!-- Libs JS -->
@@ -170,10 +203,22 @@
     <script src="~/Content/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="~/Content/assets/js/vendors/chart.js"></script>
 
+    <script src="~/Content/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+
     <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
     <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
     <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
 
+    <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
     public class studentaffairsdashboardController : Controller
     {
         // GET: studentaffairs/studentaffairsdashboard
+        [Authorize]
         public ActionResult Index()
         {
             var user = User.Identity.GetUserName();
