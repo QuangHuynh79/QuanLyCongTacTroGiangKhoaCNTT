@@ -425,6 +425,7 @@
     <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\_EditSemester.cshtml" />
     <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\Major.cshtml" />
     <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\_EditMajor.cshtml" />
+    <Content Include="Content\timetable\formimport\CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

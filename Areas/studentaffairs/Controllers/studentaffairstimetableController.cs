@@ -457,5 +457,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        public ContentResult DownloadFile(string fileName)
+        {
+            fileName = "CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx";
+
+            string path = Server.MapPath("~/Content/timetable/formimport/");
+            byte[] bytes = System.IO.File.ReadAllBytes(path + fileName);
+            string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+            return Content(base64);
+        }
     }
 }
