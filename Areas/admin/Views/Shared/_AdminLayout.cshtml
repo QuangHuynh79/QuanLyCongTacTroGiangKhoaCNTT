@@ -141,6 +141,7 @@
             @RenderSection("scripts", required: false)
         </main>
     </div>
+    <input id="requestPath" value="@Url.Content("~")" />
     <form action="@Url.Action("signout","account", new {area = ""})" id="logoutForm" method="post"></form>
     <!-- Scripts -->
     <!-- Libs JS -->
