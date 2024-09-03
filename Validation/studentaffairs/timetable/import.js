@@ -48,6 +48,7 @@
     });
 
     $('body').on('click', ".upload-button", function () {
+        var btn = $(this);
         var hocky = $('body').find('[id="importhocky"] :selected').val();
         var nganh = $('body').find('[id="importnganh"] :selected').val();
         var checks = true;
@@ -78,7 +79,7 @@
             var isFileUploaded = InpFile[0].files;
             if (isFileUploaded.length > 0) {
                 $('body').find(".remove-file-icon").prop('hidden', true);
-                $('body').find('.upload-button').html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang import...');
+                btn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang import...');
 
                 var formData = new FormData();
                 formData.append('fileImport', isFileUploaded[0]);
@@ -96,14 +97,30 @@
                     contentType: false
                 }).done(function (ketqua) {
                     if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                        btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
+                        btn.html('Import');
 
                         Swal.fire({
                             title: "Thất bại!",
                             text: ketqua,
                             icon: "error"
-                        }).then(() => {
-                            window.location.reload();
+                        });
+                    }
+                    else if (ketqua == "Close") {
+                        btn.html('Import');
+
+                        Swal.fire({
+                            title: "Thất bại!",
+                            text: "Học kỳ đã đóng, không thể cập nhật thời khóa biểu.",
+                            icon: "warrning"
+                        });
+                    }
+                    else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
+                        btn.html('Import');
+
+                        Swal.fire({
+                            title: "Thất bại!",
+                            text: ketqua,
+                            icon: "warrning"
                         });
                     }
                     else if (ketqua == "Exist") {
@@ -136,47 +153,17 @@
                                     contentType: false
                                 }).done(function (ketqua) {
                                     if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                                        btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
+                                        btn.html('Import');
 
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: ketqua,
                                             icon: "error"
-                                        }).then(() => {
-                                            window.location.reload();
-                                        });
-                                    }
-                                    else if (ketqua == "Exist") {
-                                        Swal.fire({
-                                            title: 'Thông báo',
-                                            text: 'Học kỳ và ngành này đã có dữ liệu trong hệ thống, bạn muốn cập nhật hay thay thế thời khoá biểu?',
-                                            icon: "question",
-                                            showCancelButton: true,
-                                            cancelButtonColor: "#d33",
-                                            showDenyButton: true,
-                                            confirmButtonText: "Cập nhật",
-                                            denyButtonText: `Thay thế`,
-                                            denyButtonColor: '#198754',
-                                            cancelButtonText: "Hủy"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) { //Cập nhật
-                                                formData = new FormData();
-                                                formData.append('fileImport', isFileUploaded[0]);
-                                                formData.append('hocky', hocky);
-                                                formData.append('nganh', nganh);
-                                                formData.append('confirm', '');
-
-                                            }
-                                            else if (result.isDenied) { //Thay thế
-                                                formData = new FormData();
-                                                formData.append('fileImport', isFileUploaded[0]);
-                                                formData.append('hocky', hocky);
-                                                formData.append('nganh', nganh);
-                                                formData.append('confirm', '');
-                                            }
                                         });
                                     }
                                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
+                                        btn.html('Import');
+
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.',
@@ -185,7 +172,18 @@
                                             window.location.reload();
                                         });
                                     }
+                                    else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: ketqua,
+                                            icon: "warrning"
+                                        });
+                                    }
                                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
+                                        btn.html('Import');
+
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.',
@@ -195,6 +193,8 @@
                                         });
                                     }
                                     else {
+                                        btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
+
                                         Swal.fire({
                                             title: "Thành công!",
                                             text: 'Đã cập nhật thông tin thời khóa biểu!',
@@ -222,7 +222,7 @@
                                     contentType: false
                                 }).done(function (ketqua) {
                                     if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                                        btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
+                                        btn.html('Import');
 
                                         Swal.fire({
                                             title: "Thất bại!",
@@ -232,37 +232,18 @@
                                             window.location.reload();
                                         });
                                     }
-                                    else if (ketqua == "Exist") {
-                                        Swal.fire({
-                                            title: 'Thông báo',
-                                            text: 'Học kỳ và ngành này đã có dữ liệu trong hệ thống, bạn muốn cập nhật hay thay thế thời khoá biểu?',
-                                            icon: "question",
-                                            showCancelButton: true,
-                                            cancelButtonColor: "#d33",
-                                            showDenyButton: true,
-                                            confirmButtonText: "Cập nhật",
-                                            denyButtonText: `Thay thế`,
-                                            denyButtonColor: '#198754',
-                                            cancelButtonText: "Hủy"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) { //Cập nhật
-                                                formData = new FormData();
-                                                formData.append('fileImport', isFileUploaded[0]);
-                                                formData.append('hocky', hocky);
-                                                formData.append('nganh', nganh);
-                                                formData.append('confirm', '');
+                                    else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
+                                        btn.html('Import');
 
-                                            }
-                                            else if (result.isDenied) { //Thay thế
-                                                formData = new FormData();
-                                                formData.append('fileImport', isFileUploaded[0]);
-                                                formData.append('hocky', hocky);
-                                                formData.append('nganh', nganh);
-                                                formData.append('confirm', '');
-                                            }
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: ketqua,
+                                            icon: "warrning"
                                         });
                                     }
                                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
+                                        btn.html('Import');
+
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.',
@@ -272,6 +253,8 @@
                                         });
                                     }
                                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
+                                        btn.html('Import');
+
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.',
@@ -281,6 +264,8 @@
                                         });
                                     }
                                     else {
+                                        btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
+
                                         Swal.fire({
                                             title: "Thành công!",
                                             text: 'Đã thay thế thông tin thời khóa biểu!',
@@ -294,24 +279,26 @@
                         });
                     }
                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
+                        btn.html('Import');
+
                         Swal.fire({
                             title: "Thất bại!",
                             text: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.',
                             icon: "warning"
-                        }).then(() => {
-                            window.location.reload();
                         });
                     }
                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
+                        btn.html('Import');
+
                         Swal.fire({
                             title: "Thất bại!",
                             text: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.',
                             icon: "error"
-                        }).then(() => {
-                            window.location.reload();
                         });
                     }
                     else {
+                        btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
+
                         Swal.fire({
                             title: "Thành công!",
                             text: 'Đã import thời khóa biểu mới!',
