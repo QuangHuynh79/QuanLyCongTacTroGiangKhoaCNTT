@@ -51,7 +51,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
 
                     if (!string.IsNullOrEmpty(confirm))
                     {
-                        if (confirm.Equals("addnew"))
+                        if (confirm.Equals("replace"))
                         {
                             var currentTkb = model.ThoiKhoaBieu.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
                             model.ThoiKhoaBieu.RemoveRange(currentTkb);
