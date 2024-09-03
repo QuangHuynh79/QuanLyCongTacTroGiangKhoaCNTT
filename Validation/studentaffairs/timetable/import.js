@@ -105,13 +105,31 @@
                             icon: "error"
                         });
                     }
+                    else if (ketqua == "NOTEXISTNGANH") {
+                        btn.html('Import');
+
+                        Swal.fire({
+                            title: "Thất bại!",
+                            text: "Ngành đã bị xóa bỏ khỏi hệ thống!",
+                            icon: "warning"
+                        });
+                    }
+                    else if (ketqua == "NOTEXISTHOCKY") {
+                        btn.html('Import');
+
+                        Swal.fire({
+                            title: "Thất bại!",
+                            text: "Học kỳ đã bị xóa bỏ khỏi hệ thống!",
+                            icon: "warning"
+                        });
+                    }
                     else if (ketqua == "Close") {
                         btn.html('Import');
 
                         Swal.fire({
                             title: "Thất bại!",
                             text: "Học kỳ đã đóng, không thể cập nhật thời khóa biểu.",
-                            icon: "warrning"
+                            icon: "warning"
                         });
                     }
                     else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
@@ -120,7 +138,16 @@
                         Swal.fire({
                             title: "Thất bại!",
                             text: ketqua,
-                            icon: "warrning"
+                            icon: "warning"
+                        });
+                    }
+                    else if (ketqua.indexOf("Đã có lỗi") != -1) {
+                        btn.html('Import');
+
+                        Swal.fire({
+                            title: "Thất bại!",
+                            text: ketqua,
+                            icon: "warning"
                         });
                     }
                     else if (ketqua == "Exist") {
@@ -161,6 +188,33 @@
                                             icon: "error"
                                         });
                                     }
+                                    else if (ketqua.indexOf("Đã có lỗi") != -1) {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: ketqua,
+                                            icon: "warning"
+                                        });
+                                    }
+                                    else if (ketqua == "NOTEXISTNGANH") {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: "Ngành đã bị xóa bỏ khỏi hệ thống!",
+                                            icon: "warning"
+                                        });
+                                    }
+                                    else if (ketqua == "NOTEXISTHOCKY") {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: "Học kỳ đã bị xóa bỏ khỏi hệ thống!",
+                                            icon: "warning"
+                                        });
+                                    }
                                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
                                         btn.html('Import');
 
@@ -178,7 +232,7 @@
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: ketqua,
-                                            icon: "warrning"
+                                            icon: "warning"
                                         });
                                     }
                                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
@@ -232,13 +286,40 @@
                                             window.location.reload();
                                         });
                                     }
+                                    else if (ketqua.indexOf("Đã có lỗi") != -1) {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: ketqua,
+                                            icon: "warning"
+                                        });
+                                    }
+                                    else if (ketqua == "NOTEXISTNGANH") {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: "Ngành đã bị xóa bỏ khỏi hệ thống!",
+                                            icon: "warning"
+                                        });
+                                    }
+                                    else if (ketqua == "NOTEXISTHOCKY") {
+                                        btn.html('Import');
+
+                                        Swal.fire({
+                                            title: "Thất bại!",
+                                            text: "Học kỳ đã bị xóa bỏ khỏi hệ thống!",
+                                            icon: "warning"
+                                        });
+                                    }
                                     else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
                                         btn.html('Import');
 
                                         Swal.fire({
                                             title: "Thất bại!",
                                             text: ketqua,
-                                            icon: "warrning"
+                                            icon: "warning"
                                         });
                                     }
                                     else if (ketqua == "more50mb") { //File quá lớn không thể upload

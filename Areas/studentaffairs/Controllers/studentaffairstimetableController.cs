@@ -44,8 +44,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                 }
                 else
                 {
-                    // Check if term status is false to prevent assignments
+                    var nganhdb = model.Nganh.Find(nganh);
+                    if (nganhdb == null)
+                        return Content("NOTEXISTNGANH");
+
                     var hockydb = model.HocKy.Find(hocky);
+                    if (hockydb == null)
+                        return Content("NOTEXISTHOCKY");
                     if (hockydb.TrangThai == false)
                         return Content("Close");
 
@@ -104,64 +109,116 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                                 return Json("error" + e.Message);
                             }
 
-                            // Trim column name string
                             foreach (DataColumn col in dt.Columns)
                             {
                                 col.ColumnName = col.ColumnName.Trim();
                             }
 
-                            // Validate all columns
                             string isValid = ValidateColumns(dt);
                             if (isValid != null)
-                                return Content($"Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
+                                return Content("Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
 
                             List<ThoiKhoaBieu> lstTemp = new List<ThoiKhoaBieu>();
 
                             var lstTkb = new List<ThoiKhoaBieu>();
                             foreach (DataRow data in dt.Rows)
                             {
+                                if (!string.IsNullOrEmpty(data["Mã Ngành"].ToString()) && !string.IsNullOrEmpty(data["Tên Ngành"].ToString()))
+                                    if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
+                                        && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
+                                        continue;
+
+                                string originalId = data["MaGocLHP"].ToString();
+                                string subjectId = data["Mã MH"].ToString();
+                                string classSectionid = data["Mã LHP"].ToString();
+                                string name = data["Tên HP"].ToString();
+                                string credits = data["Số TC"].ToString();
+                                string type = data["Loại HP"].ToString();
+                                string studentClassId = data["Mã Lớp"].ToString();
                                 var malop = "";
-                                foreach (var item in data[6].ToString().Split('\n'))
+                                foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
                                 {
                                     malop += item + "#";
                                 }
-                                malop = malop.Substring(0, malop.Length);
+                                malop = malop.Substring(0, malop.Length - 1);
+                                string minimumStudent = data["TSMH"].ToString(); //
+                                string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
+                                string room2 = data["PH"].ToString();
+                                string day = data["Thứ"].ToString(); //
+                                string startLesson = data["Tiết BĐ"].ToString(); //
+                                string lessonNumber = data["Số Tiết"].ToString();//
+                                string lessonTime = data["Tiết Học"].ToString();//
+                                string roomId = data["Phòng"].ToString();//
+                                string lecturerId = data["Mã CBGD"].ToString();//
+                                string fullName = data["Tên CBGD"].ToString();//
+                                string roomType = data["PH_X"].ToString();//
+                                string capacity = data["Sức Chứa"].ToString();
+                                string studentNumber = data["SiSoTKB"].ToString();//
+                                string freeSlot = data["Trống"].ToString();//
+                                string state = data["Tình Trạng LHP"].ToString();//
+                                string learnWeek = data["TuanHoc2"].ToString();//
+                                string day2 = data["ThuS"].ToString();//
+                                string startLesson2 = data["TietS"].ToString();//
+                                string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                                string startWeek = data["Tuần BD"].ToString();//
+                                string endWeek = data["Tuần KT"].ToString();//
+                                string idmajor = data["Mã Ngành"].ToString();//
+                                string namemajor = data["Tên Ngành"].ToString();//
+                                string note1 = data["Ghi Chú 1"].ToString();
+                                string note2 = data["Ghi chú 2"].ToString();
+
+                                // Check if values is null
+                                string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
+                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
+                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                                string checkNull = ValidateNotNull(validRows);
+                                if (checkNull != null)
+                                {
+                                    int excelRow = dt.Rows.IndexOf(data) + 2;
+                                    return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], Có trường dữ liệu chưa được nạp vui lòng kiểm tra lại tệp tin.");
+                                }
+
+                                if (!new List<int> { 1, 4, 7, 10, 13 }.Contains(Int32.Parse(startLesson2.Trim())))
+                                {
+                                    int excelRow = dt.Rows.IndexOf(data) + 2;
+                                    return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
+                                }
 
                                 var tkb = new ThoiKhoaBieu();
                                 tkb.ID_HocKy = hocky;
                                 tkb.ID_Nganh = nganh;
-                                tkb.MaGocLHP = data[0].ToString();
-                                tkb.MaMH = data[1].ToString();
-                                tkb.MaLHP = data[2].ToString();
-                                tkb.TenHP = data[3].ToString();
-                                tkb.SoTC = data[4].ToString();
-                                tkb.LoaiHP = data[5].ToString();
+                                tkb.MaGocLHP = originalId;
+                                tkb.MaMH = subjectId;
+                                tkb.MaLHP = classSectionid;
+                                tkb.TenHP = name;
+                                tkb.SoTC = credits;
+                                tkb.LoaiHP = type;
                                 tkb.MaLop = malop;
-                                tkb.TSMH = data[7].ToString();
-                                tkb.SoTietDaXep = data[8].ToString();
-                                tkb.PH = data[9].ToString();
-                                tkb.Thu = data[10].ToString();
-                                tkb.TietBD = data[11].ToString();
-                                tkb.SoTiet = data[12].ToString();
-                                tkb.TietHoc = data[13].ToString();
-                                tkb.Phong = data[14].ToString();
-                                tkb.MaCBGD = data[15].ToString();
-                                tkb.TenCBGD = data[16].ToString();
-                                tkb.PH_X = data[17].ToString();
-                                tkb.SucChua = data[18].ToString();
-                                tkb.SiSoTKB = data[19].ToString();
-                                tkb.Trong = data[20].ToString();
-                                tkb.TinhTrangLHP = data[21].ToString();
-                                tkb.TuanHoc2 = data[22].ToString();
-                                tkb.ThuS = data[23].ToString();
-                                tkb.TietS = data[24].ToString();
-                                tkb.SoSVDK = data[25].ToString();
-                                tkb.TuanBD = data[26].ToString();
-                                tkb.TuanKT = data[27].ToString();
-                                tkb.MaNganh = data[28].ToString();
-                                tkb.TenNganh = data[29].ToString();
-                                tkb.GhiChu1 = data[30].ToString();
-                                tkb.GhiChu2 = data[31].ToString();
+                                tkb.TSMH = minimumStudent;
+                                tkb.SoTietDaXep = totalLesson;
+                                tkb.PH = room2;
+                                tkb.Thu = day;
+                                tkb.TietBD = startLesson;
+                                tkb.SoTiet = lessonNumber;
+                                tkb.TietHoc = lessonTime;
+                                tkb.Phong = roomId;
+                                tkb.MaCBGD = lecturerId;
+                                tkb.TenCBGD = fullName;
+                                tkb.PH_X = roomType;
+                                tkb.SucChua = capacity;
+                                tkb.SiSoTKB = studentNumber;
+                                tkb.Trong = freeSlot;
+                                tkb.TinhTrangLHP = state;
+                                tkb.TuanHoc2 = learnWeek;
+                                tkb.ThuS = day2;
+                                tkb.TietS = startLesson2;
+                                tkb.SoSVDK = studentRegisteredNumber;
+                                tkb.TuanBD = startWeek;
+                                tkb.TuanKT = endWeek;
+                                tkb.MaNganh = nganhdb.MaNganh;
+                                tkb.TenNganh = nganhdb.TenNganh;
+                                tkb.GhiChu1 = note1;
+                                tkb.GhiChu2 = note2;
 
                                 lstTkb.Add(tkb);
 
@@ -169,7 +226,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                             model.ThoiKhoaBieu.AddRange(lstTkb);
                             model.SaveChanges();
                         }
-                        else //replace
+                        else //cập nhật (addnew)
                         {
                             var tkb = model.ThoiKhoaBieu.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
 
@@ -220,16 +277,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                                 return Json("error" + e.Message);
                             }
 
-                            // Trim column name string
                             foreach (DataColumn col in dt.Columns)
                             {
                                 col.ColumnName = col.ColumnName.Trim();
                             }
 
-                            // Validate all columns
                             string isValid = ValidateColumns(dt);
                             if (isValid != null)
-                                return Content($"Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
+                                return Content("Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
 
                             var rowcount = tkb.Count();
                             if (rowcount < dt.Rows.Count)
@@ -239,77 +294,127 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                                 for (int i = 0; i < rowcount; i++)
                                 {
                                     DataRow data = dt.Rows[i];
-                                    var malop = "";
-                                    foreach (var item in data[6].ToString().Split('\n'))
-                                    {
-                                        malop += item.Trim() + "#";
-                                    }
-                                    malop = malop.Substring(0, malop.Length);
+                                    if (!string.IsNullOrEmpty(data["Mã Ngành"].ToString()) && !string.IsNullOrEmpty(data["Tên Ngành"].ToString()))
+                                        if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
+                                            && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
+                                            continue;
 
-                                    if (!tkb[i].MaGocLHP.Equals(data[0].ToString().ToLower().Trim()))
-                                        tkb[i].MaGocLHP = data[0].ToString().Trim();
-                                    if (!tkb[i].MaMH.Equals(data[1].ToString().ToLower().Trim()))
-                                        tkb[i].MaMH = data[1].ToString().Trim();
-                                    if (!tkb[i].MaLHP.Equals(data[2].ToString().ToLower().Trim()))
-                                        tkb[i].MaLHP = data[2].ToString().Trim();
-                                    if (!tkb[i].TenHP.ToLower().Equals(data[3].ToString().ToLower().Trim()))
-                                        tkb[i].TenHP = data[3].ToString().Trim();
-                                    if (!tkb[i].SoTC.ToLower().Equals(data[4].ToString().ToLower().Trim()))
-                                        tkb[i].SoTC = data[4].ToString().Trim();
-                                    if (!tkb[i].LoaiHP.ToLower().Equals(data[5].ToString().ToLower().Trim()))
-                                        tkb[i].LoaiHP = data[5].ToString().Trim();
+                                    string originalId = data["MaGocLHP"].ToString();
+                                    string subjectId = data["Mã MH"].ToString();
+                                    string classSectionid = data["Mã LHP"].ToString();
+                                    string name = data["Tên HP"].ToString();
+                                    string credits = data["Số TC"].ToString();
+                                    string type = data["Loại HP"].ToString();
+                                    string studentClassId = data["Mã Lớp"].ToString();
+                                    var malop = "";
+                                    foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
+                                    {
+                                        malop += item + "#";
+                                    }
+                                    malop = malop.Substring(0, malop.Length - 1);
+                                    string minimumStudent = data["TSMH"].ToString(); //
+                                    string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
+                                    string room2 = data["PH"].ToString();
+                                    string day = data["Thứ"].ToString(); //
+                                    string startLesson = data["Tiết BĐ"].ToString(); //
+                                    string lessonNumber = data["Số Tiết"].ToString();//
+                                    string lessonTime = data["Tiết Học"].ToString();//
+                                    string roomId = data["Phòng"].ToString();//
+                                    string lecturerId = data["Mã CBGD"].ToString();//
+                                    string fullName = data["Tên CBGD"].ToString();//
+                                    string roomType = data["PH_X"].ToString();//
+                                    string capacity = data["Sức Chứa"].ToString();
+                                    string studentNumber = data["SiSoTKB"].ToString();//
+                                    string freeSlot = data["Trống"].ToString();//
+                                    string state = data["Tình Trạng LHP"].ToString();//
+                                    string learnWeek = data["TuanHoc2"].ToString();//
+                                    string day2 = data["ThuS"].ToString();//
+                                    string startLesson2 = data["TietS"].ToString();//
+                                    string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                                    string startWeek = data["Tuần BD"].ToString();//
+                                    string endWeek = data["Tuần KT"].ToString();//
+                                    string idmajor = data["Mã Ngành"].ToString();//
+                                    string namemajor = data["Tên Ngành"].ToString();//
+                                    string note1 = data["Ghi Chú 1"].ToString();
+                                    string note2 = data["Ghi chú 2"].ToString();
+
+                                    // Check if values is null
+                                    string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
+                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
+                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                                    string checkNull = ValidateNotNull(validRows);
+                                    if (checkNull != null)
+                                    {
+                                        int excelRow = dt.Rows.IndexOf(data) + 2;
+                                        return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], Có trường dữ liệu chưa được nạp vui lòng kiểm tra lại tệp tin.");
+                                    }
+
+                                    if (!new List<int> { 1, 4, 7, 10, 13 }.Contains(Int32.Parse(startLesson2.Trim())))
+                                    {
+                                        int excelRow = dt.Rows.IndexOf(data) + 2;
+                                        return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
+                                    }
+
+                                    if (!tkb[i].MaGocLHP.Equals(originalId.ToString().ToLower().Trim()))
+                                        tkb[i].MaGocLHP = originalId.ToString().Trim();
+                                    if (!tkb[i].MaMH.Equals(subjectId.ToString().ToLower().Trim()))
+                                        tkb[i].MaMH = subjectId.ToString().Trim();
+                                    if (!tkb[i].MaLHP.Equals(classSectionid.ToString().ToLower().Trim()))
+                                        tkb[i].MaLHP = classSectionid.ToString().Trim();
+                                    if (!tkb[i].TenHP.ToLower().Equals(name.ToString().ToLower().Trim()))
+                                        tkb[i].TenHP = name.ToString().Trim();
+                                    if (!tkb[i].SoTC.ToLower().Equals(credits.ToString().ToLower().Trim()))
+                                        tkb[i].SoTC = credits.ToString().Trim();
+                                    if (!tkb[i].LoaiHP.ToLower().Equals(type.ToString().ToLower().Trim()))
+                                        tkb[i].LoaiHP = type.ToString().Trim();
                                     if (!tkb[i].MaLop.ToLower().Equals(malop.ToLower().Trim()))
                                         tkb[i].MaLop = malop;
-                                    if (!tkb[i].TSMH.ToLower().Equals(data[7].ToString().ToLower().Trim()))
-                                        tkb[i].TSMH = data[7].ToString().Trim();
-                                    if (!tkb[i].SoTietDaXep.ToLower().Equals(data[8].ToString().ToLower().Trim()))
-                                        tkb[i].SoTietDaXep = data[8].ToString().Trim();
-                                    if (!tkb[i].PH.ToLower().Equals(data[9].ToString().ToLower().Trim()))
-                                        tkb[i].PH = data[9].ToString().Trim();
-                                    if (!tkb[i].Thu.ToLower().Equals(data[10].ToString().ToLower().Trim()))
-                                        tkb[i].Thu = data[10].ToString().Trim();
-                                    if (!tkb[i].TietBD.ToLower().Equals(data[11].ToString().ToLower().Trim()))
-                                        tkb[i].TietBD = data[11].ToString().Trim();
-                                    if (!tkb[i].SoTiet.ToLower().Equals(data[12].ToString().ToLower().Trim()))
-                                        tkb[i].SoTiet = data[12].ToString().Trim();
-                                    if (!tkb[i].TietHoc.ToLower().Equals(data[13].ToString().ToLower().Trim()))
-                                        tkb[i].TietHoc = data[13].ToString().Trim();
-                                    if (!tkb[i].Phong.ToLower().Equals(data[14].ToString().ToLower().Trim()))
-                                        tkb[i].Phong = data[14].ToString().Trim();
-                                    if (!tkb[i].MaCBGD.ToLower().Equals(data[15].ToString().ToLower().Trim()))
-                                        tkb[i].MaCBGD = data[15].ToString().Trim();
-                                    if (!tkb[i].TenCBGD.ToLower().Equals(data[16].ToString().ToLower().Trim()))
-                                        tkb[i].TenCBGD = data[16].ToString().Trim();
-                                    if (!tkb[i].PH_X.ToLower().Equals(data[17].ToString().ToLower().Trim()))
-                                        tkb[i].PH_X = data[17].ToString().Trim();
-                                    if (!tkb[i].SucChua.ToLower().Equals(data[18].ToString().ToLower().Trim()))
-                                        tkb[i].SucChua = data[18].ToString().Trim();
-                                    if (!tkb[i].SiSoTKB.ToLower().Equals(data[19].ToString().ToLower().Trim()))
-                                        tkb[i].SiSoTKB = data[19].ToString().Trim();
-                                    if (!tkb[i].Trong.ToLower().Equals(data[20].ToString().ToLower().Trim()))
-                                        tkb[i].Trong = data[20].ToString().Trim();
-                                    if (!tkb[i].TinhTrangLHP.ToLower().Equals(data[21].ToString().ToLower().Trim()))
-                                        tkb[i].TinhTrangLHP = data[21].ToString().Trim();
-                                    if (!tkb[i].TuanHoc2.ToLower().Equals(data[22].ToString().ToLower().Trim()))
-                                        tkb[i].TuanHoc2 = data[22].ToString().Trim();
-                                    if (!tkb[i].ThuS.ToLower().Equals(data[23].ToString().ToLower().Trim()))
-                                        tkb[i].ThuS = data[23].ToString().Trim();
-                                    if (!tkb[i].TietS.ToLower().Equals(data[24].ToString().ToLower().Trim()))
-                                        tkb[i].TietS = data[24].ToString().Trim();
-                                    if (!tkb[i].SoSVDK.ToLower().Equals(data[25].ToString().ToLower().Trim()))
-                                        tkb[i].SoSVDK = data[25].ToString().Trim();
-                                    if (!tkb[i].TuanBD.ToLower().Equals(data[26].ToString().ToLower().Trim()))
-                                        tkb[i].TuanBD = data[26].ToString().Trim();
-                                    if (!tkb[i].TuanKT.ToLower().Equals(data[27].ToString().ToLower().Trim()))
-                                        tkb[i].TuanKT = data[27].ToString().Trim();
-                                    if (!tkb[i].MaNganh.ToLower().Equals(data[28].ToString().ToLower().Trim()))
-                                        tkb[i].MaNganh = data[28].ToString().Trim();
-                                    if (!tkb[i].TenNganh.ToLower().Equals(data[29].ToString().ToLower().Trim()))
-                                        tkb[i].TenNganh = data[29].ToString().Trim();
-                                    if (!tkb[i].GhiChu1.ToLower().Equals(data[30].ToString().ToLower().Trim()))
-                                        tkb[i].GhiChu1 = data[30].ToString().Trim();
-                                    if (!tkb[i].GhiChu2.ToLower().Equals(data[31].ToString().ToLower().Trim()))
-                                        tkb[i].GhiChu2 = data[31].ToString().Trim();
+                                    if (!tkb[i].TSMH.ToLower().Equals(minimumStudent.ToString().ToLower().Trim()))
+                                        tkb[i].TSMH = minimumStudent.ToString().Trim();
+                                    if (!tkb[i].SoTietDaXep.ToLower().Equals(totalLesson.ToString().ToLower().Trim()))
+                                        tkb[i].SoTietDaXep = totalLesson.ToString().Trim();
+                                    if (!tkb[i].PH.ToLower().Equals(room2.ToString().ToLower().Trim()))
+                                        tkb[i].PH = room2.ToString().Trim();
+                                    if (!tkb[i].Thu.ToLower().Equals(day.ToString().ToLower().Trim()))
+                                        tkb[i].Thu = day.ToString().Trim();
+                                    if (!tkb[i].TietBD.ToLower().Equals(startLesson.ToString().ToLower().Trim()))
+                                        tkb[i].TietBD = startLesson.ToString().Trim();
+                                    if (!tkb[i].SoTiet.ToLower().Equals(lessonNumber.ToString().ToLower().Trim()))
+                                        tkb[i].SoTiet = lessonNumber.ToString().Trim();
+                                    if (!tkb[i].TietHoc.ToLower().Equals(lessonTime.ToString().ToLower().Trim()))
+                                        tkb[i].TietHoc = lessonTime.ToString().Trim();
+                                    if (!tkb[i].Phong.ToLower().Equals(roomId.ToString().ToLower().Trim()))
+                                        tkb[i].Phong = roomId.ToString().Trim();
+                                    if (!tkb[i].MaCBGD.ToLower().Equals(lecturerId.ToString().ToLower().Trim()))
+                                        tkb[i].MaCBGD = lecturerId.ToString().Trim();
+                                    if (!tkb[i].TenCBGD.ToLower().Equals(fullName.ToString().ToLower().Trim()))
+                                        tkb[i].TenCBGD = fullName.ToString().Trim();
+                                    if (!tkb[i].PH_X.ToLower().Equals(roomType.ToString().ToLower().Trim()))
+                                        tkb[i].PH_X = roomType.ToString().Trim();
+                                    if (!tkb[i].SucChua.ToLower().Equals(capacity.ToString().ToLower().Trim()))
+                                        tkb[i].SucChua = capacity.ToString().Trim();
+                                    if (!tkb[i].SiSoTKB.ToLower().Equals(studentNumber.ToString().ToLower().Trim()))
+                                        tkb[i].SiSoTKB = studentNumber.ToString().Trim();
+                                    if (!tkb[i].Trong.ToLower().Equals(freeSlot.ToString().ToLower().Trim()))
+                                        tkb[i].Trong = freeSlot.ToString().Trim();
+                                    if (!tkb[i].TinhTrangLHP.ToLower().Equals(state.ToString().ToLower().Trim()))
+                                        tkb[i].TinhTrangLHP = state.ToString().Trim();
+                                    if (!tkb[i].TuanHoc2.ToLower().Equals(learnWeek.ToString().ToLower().Trim()))
+                                        tkb[i].TuanHoc2 = learnWeek.ToString().Trim();
+                                    if (!tkb[i].ThuS.ToLower().Equals(day2.ToString().ToLower().Trim()))
+                                        tkb[i].ThuS = day2.ToString().Trim();
+                                    if (!tkb[i].TietS.ToLower().Equals(startLesson2.ToString().ToLower().Trim()))
+                                        tkb[i].TietS = startLesson2.ToString().Trim();
+                                    if (!tkb[i].SoSVDK.ToLower().Equals(studentRegisteredNumber.ToString().ToLower().Trim()))
+                                        tkb[i].SoSVDK = studentRegisteredNumber.ToString().Trim();
+                                    if (!tkb[i].TuanBD.ToLower().Equals(startWeek.ToString().ToLower().Trim()))
+                                        tkb[i].TuanBD = startWeek.ToString().Trim();
+                                    if (!tkb[i].TuanKT.ToLower().Equals(endWeek.ToString().ToLower().Trim()))
+                                        tkb[i].TuanKT = endWeek.ToString().Trim();
+                                    if (!tkb[i].GhiChu1.ToLower().Equals(note1.ToString().ToLower().Trim()))
+                                        tkb[i].GhiChu1 = note1.ToString().Trim();
+                                    if (!tkb[i].GhiChu2.ToLower().Equals(note2.ToString().ToLower().Trim()))
+                                        tkb[i].GhiChu2 = note2.ToString().Trim();
 
                                     model.Entry(tkb[i]).State = System.Data.Entity.EntityState.Modified;
                                     lstTkb.Add(tkb[i]);
@@ -323,77 +428,127 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                                 var lstTkb = new List<ThoiKhoaBieu>();
                                 foreach (DataRow data in dt.Rows)
                                 {
-                                    var malop = "";
-                                    foreach (var item in data[6].ToString().Split('\n'))
-                                    {
-                                        malop += item.Trim() + "#";
-                                    }
-                                    malop = malop.Substring(0, malop.Length);
+                                    if (!string.IsNullOrEmpty(data["Mã Ngành"].ToString()) && !string.IsNullOrEmpty(data["Tên Ngành"].ToString()))
+                                        if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
+                                            && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
+                                            continue;
 
-                                    if (!tkb[i].MaGocLHP.Equals(data[0].ToString().ToLower().Trim()))
-                                        tkb[i].MaGocLHP = data[0].ToString().Trim();
-                                    if (!tkb[i].MaMH.Equals(data[1].ToString().ToLower().Trim()))
-                                        tkb[i].MaMH = data[1].ToString().Trim();
-                                    if (!tkb[i].MaLHP.Equals(data[2].ToString().ToLower().Trim()))
-                                        tkb[i].MaLHP = data[2].ToString().Trim();
-                                    if (!tkb[i].TenHP.ToLower().Equals(data[3].ToString().ToLower().Trim()))
-                                        tkb[i].TenHP = data[3].ToString().Trim();
-                                    if (!tkb[i].SoTC.ToLower().Equals(data[4].ToString().ToLower().Trim()))
-                                        tkb[i].SoTC = data[4].ToString().Trim();
-                                    if (!tkb[i].LoaiHP.ToLower().Equals(data[5].ToString().ToLower().Trim()))
-                                        tkb[i].LoaiHP = data[5].ToString().Trim();
+                                    string originalId = data["MaGocLHP"].ToString();
+                                    string subjectId = data["Mã MH"].ToString();
+                                    string classSectionid = data["Mã LHP"].ToString();
+                                    string name = data["Tên HP"].ToString();
+                                    string credits = data["Số TC"].ToString();
+                                    string type = data["Loại HP"].ToString();
+                                    string studentClassId = data["Mã Lớp"].ToString();
+                                    var malop = "";
+                                    foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
+                                    {
+                                        malop += item + "#";
+                                    }
+                                    malop = malop.Substring(0, malop.Length - 1);
+                                    string minimumStudent = data["TSMH"].ToString(); //
+                                    string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
+                                    string room2 = data["PH"].ToString();
+                                    string day = data["Thứ"].ToString(); //
+                                    string startLesson = data["Tiết BĐ"].ToString(); //
+                                    string lessonNumber = data["Số Tiết"].ToString();//
+                                    string lessonTime = data["Tiết Học"].ToString();//
+                                    string roomId = data["Phòng"].ToString();//
+                                    string lecturerId = data["Mã CBGD"].ToString();//
+                                    string fullName = data["Tên CBGD"].ToString();//
+                                    string roomType = data["PH_X"].ToString();//
+                                    string capacity = data["Sức Chứa"].ToString();
+                                    string studentNumber = data["SiSoTKB"].ToString();//
+                                    string freeSlot = data["Trống"].ToString();//
+                                    string state = data["Tình Trạng LHP"].ToString();//
+                                    string learnWeek = data["TuanHoc2"].ToString();//
+                                    string day2 = data["ThuS"].ToString();//
+                                    string startLesson2 = data["TietS"].ToString();//
+                                    string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                                    string startWeek = data["Tuần BD"].ToString();//
+                                    string endWeek = data["Tuần KT"].ToString();//
+                                    string idmajor = data["Mã Ngành"].ToString();//
+                                    string namemajor = data["Tên Ngành"].ToString();//
+                                    string note1 = data["Ghi Chú 1"].ToString();
+                                    string note2 = data["Ghi chú 2"].ToString();
+
+                                    // Check if values is null
+                                    string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
+                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
+                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                                    string checkNull = ValidateNotNull(validRows);
+                                    if (checkNull != null)
+                                    {
+                                        int excelRow = dt.Rows.IndexOf(data) + 2;
+                                        return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], Có trường dữ liệu chưa được nạp vui lòng kiểm tra lại tệp tin.");
+                                    }
+
+                                    if (!new List<int> { 1, 4, 7, 10, 13 }.Contains(Int32.Parse(startLesson2.Trim())))
+                                    {
+                                        int excelRow = dt.Rows.IndexOf(data) + 2;
+                                        return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
+                                    }
+
+                                    if (!tkb[i].MaGocLHP.Equals(originalId.ToString().ToLower().Trim()))
+                                        tkb[i].MaGocLHP = originalId.ToString().Trim();
+                                    if (!tkb[i].MaMH.Equals(subjectId.ToString().ToLower().Trim()))
+                                        tkb[i].MaMH = subjectId.ToString().Trim();
+                                    if (!tkb[i].MaLHP.Equals(classSectionid.ToString().ToLower().Trim()))
+                                        tkb[i].MaLHP = classSectionid.ToString().Trim();
+                                    if (!tkb[i].TenHP.ToLower().Equals(name.ToString().ToLower().Trim()))
+                                        tkb[i].TenHP = name.ToString().Trim();
+                                    if (!tkb[i].SoTC.ToLower().Equals(credits.ToString().ToLower().Trim()))
+                                        tkb[i].SoTC = credits.ToString().Trim();
+                                    if (!tkb[i].LoaiHP.ToLower().Equals(type.ToString().ToLower().Trim()))
+                                        tkb[i].LoaiHP = type.ToString().Trim();
                                     if (!tkb[i].MaLop.ToLower().Equals(malop.ToLower().Trim()))
                                         tkb[i].MaLop = malop;
-                                    if (!tkb[i].TSMH.ToLower().Equals(data[7].ToString().ToLower().Trim()))
-                                        tkb[i].TSMH = data[7].ToString().Trim();
-                                    if (!tkb[i].SoTietDaXep.ToLower().Equals(data[8].ToString().ToLower().Trim()))
-                                        tkb[i].SoTietDaXep = data[8].ToString().Trim();
-                                    if (!tkb[i].PH.ToLower().Equals(data[9].ToString().ToLower().Trim()))
-                                        tkb[i].PH = data[9].ToString().Trim();
-                                    if (!tkb[i].Thu.ToLower().Equals(data[10].ToString().ToLower().Trim()))
-                                        tkb[i].Thu = data[10].ToString().Trim();
-                                    if (!tkb[i].TietBD.ToLower().Equals(data[11].ToString().ToLower().Trim()))
-                                        tkb[i].TietBD = data[11].ToString().Trim();
-                                    if (!tkb[i].SoTiet.ToLower().Equals(data[12].ToString().ToLower().Trim()))
-                                        tkb[i].SoTiet = data[12].ToString().Trim();
-                                    if (!tkb[i].TietHoc.ToLower().Equals(data[13].ToString().ToLower().Trim()))
-                                        tkb[i].TietHoc = data[13].ToString().Trim();
-                                    if (!tkb[i].Phong.ToLower().Equals(data[14].ToString().ToLower().Trim()))
-                                        tkb[i].Phong = data[14].ToString().Trim();
-                                    if (!tkb[i].MaCBGD.ToLower().Equals(data[15].ToString().ToLower().Trim()))
-                                        tkb[i].MaCBGD = data[15].ToString().Trim();
-                                    if (!tkb[i].TenCBGD.ToLower().Equals(data[16].ToString().ToLower().Trim()))
-                                        tkb[i].TenCBGD = data[16].ToString().Trim();
-                                    if (!tkb[i].PH_X.ToLower().Equals(data[17].ToString().ToLower().Trim()))
-                                        tkb[i].PH_X = data[17].ToString().Trim();
-                                    if (!tkb[i].SucChua.ToLower().Equals(data[18].ToString().ToLower().Trim()))
-                                        tkb[i].SucChua = data[18].ToString().Trim();
-                                    if (!tkb[i].SiSoTKB.ToLower().Equals(data[19].ToString().ToLower().Trim()))
-                                        tkb[i].SiSoTKB = data[19].ToString().Trim();
-                                    if (!tkb[i].Trong.ToLower().Equals(data[20].ToString().ToLower().Trim()))
-                                        tkb[i].Trong = data[20].ToString().Trim();
-                                    if (!tkb[i].TinhTrangLHP.ToLower().Equals(data[21].ToString().ToLower().Trim()))
-                                        tkb[i].TinhTrangLHP = data[21].ToString().Trim();
-                                    if (!tkb[i].TuanHoc2.ToLower().Equals(data[22].ToString().ToLower().Trim()))
-                                        tkb[i].TuanHoc2 = data[22].ToString().Trim();
-                                    if (!tkb[i].ThuS.ToLower().Equals(data[23].ToString().ToLower().Trim()))
-                                        tkb[i].ThuS = data[23].ToString().Trim();
-                                    if (!tkb[i].TietS.ToLower().Equals(data[24].ToString().ToLower().Trim()))
-                                        tkb[i].TietS = data[24].ToString().Trim();
-                                    if (!tkb[i].SoSVDK.ToLower().Equals(data[25].ToString().ToLower().Trim()))
-                                        tkb[i].SoSVDK = data[25].ToString().Trim();
-                                    if (!tkb[i].TuanBD.ToLower().Equals(data[26].ToString().ToLower().Trim()))
-                                        tkb[i].TuanBD = data[26].ToString().Trim();
-                                    if (!tkb[i].TuanKT.ToLower().Equals(data[27].ToString().ToLower().Trim()))
-                                        tkb[i].TuanKT = data[27].ToString().Trim();
-                                    if (!tkb[i].MaNganh.ToLower().Equals(data[28].ToString().ToLower().Trim()))
-                                        tkb[i].MaNganh = data[28].ToString().Trim();
-                                    if (!tkb[i].TenNganh.ToLower().Equals(data[29].ToString().ToLower().Trim()))
-                                        tkb[i].TenNganh = data[29].ToString().Trim();
-                                    if (!tkb[i].GhiChu1.ToLower().Equals(data[30].ToString().ToLower().Trim()))
-                                        tkb[i].GhiChu1 = data[30].ToString().Trim();
-                                    if (!tkb[i].GhiChu2.ToLower().Equals(data[31].ToString().ToLower().Trim()))
-                                        tkb[i].GhiChu2 = data[31].ToString().Trim();
+                                    if (!tkb[i].TSMH.ToLower().Equals(minimumStudent.ToString().ToLower().Trim()))
+                                        tkb[i].TSMH = minimumStudent.ToString().Trim();
+                                    if (!tkb[i].SoTietDaXep.ToLower().Equals(totalLesson.ToString().ToLower().Trim()))
+                                        tkb[i].SoTietDaXep = totalLesson.ToString().Trim();
+                                    if (!tkb[i].PH.ToLower().Equals(room2.ToString().ToLower().Trim()))
+                                        tkb[i].PH = room2.ToString().Trim();
+                                    if (!tkb[i].Thu.ToLower().Equals(day.ToString().ToLower().Trim()))
+                                        tkb[i].Thu = day.ToString().Trim();
+                                    if (!tkb[i].TietBD.ToLower().Equals(startLesson.ToString().ToLower().Trim()))
+                                        tkb[i].TietBD = startLesson.ToString().Trim();
+                                    if (!tkb[i].SoTiet.ToLower().Equals(lessonNumber.ToString().ToLower().Trim()))
+                                        tkb[i].SoTiet = lessonNumber.ToString().Trim();
+                                    if (!tkb[i].TietHoc.ToLower().Equals(lessonTime.ToString().ToLower().Trim()))
+                                        tkb[i].TietHoc = lessonTime.ToString().Trim();
+                                    if (!tkb[i].Phong.ToLower().Equals(roomId.ToString().ToLower().Trim()))
+                                        tkb[i].Phong = roomId.ToString().Trim();
+                                    if (!tkb[i].MaCBGD.ToLower().Equals(lecturerId.ToString().ToLower().Trim()))
+                                        tkb[i].MaCBGD = lecturerId.ToString().Trim();
+                                    if (!tkb[i].TenCBGD.ToLower().Equals(fullName.ToString().ToLower().Trim()))
+                                        tkb[i].TenCBGD = fullName.ToString().Trim();
+                                    if (!tkb[i].PH_X.ToLower().Equals(roomType.ToString().ToLower().Trim()))
+                                        tkb[i].PH_X = roomType.ToString().Trim();
+                                    if (!tkb[i].SucChua.ToLower().Equals(capacity.ToString().ToLower().Trim()))
+                                        tkb[i].SucChua = capacity.ToString().Trim();
+                                    if (!tkb[i].SiSoTKB.ToLower().Equals(studentNumber.ToString().ToLower().Trim()))
+                                        tkb[i].SiSoTKB = studentNumber.ToString().Trim();
+                                    if (!tkb[i].Trong.ToLower().Equals(freeSlot.ToString().ToLower().Trim()))
+                                        tkb[i].Trong = freeSlot.ToString().Trim();
+                                    if (!tkb[i].TinhTrangLHP.ToLower().Equals(state.ToString().ToLower().Trim()))
+                                        tkb[i].TinhTrangLHP = state.ToString().Trim();
+                                    if (!tkb[i].TuanHoc2.ToLower().Equals(learnWeek.ToString().ToLower().Trim()))
+                                        tkb[i].TuanHoc2 = learnWeek.ToString().Trim();
+                                    if (!tkb[i].ThuS.ToLower().Equals(day2.ToString().ToLower().Trim()))
+                                        tkb[i].ThuS = day2.ToString().Trim();
+                                    if (!tkb[i].TietS.ToLower().Equals(startLesson2.ToString().ToLower().Trim()))
+                                        tkb[i].TietS = startLesson2.ToString().Trim();
+                                    if (!tkb[i].SoSVDK.ToLower().Equals(studentRegisteredNumber.ToString().ToLower().Trim()))
+                                        tkb[i].SoSVDK = studentRegisteredNumber.ToString().Trim();
+                                    if (!tkb[i].TuanBD.ToLower().Equals(startWeek.ToString().ToLower().Trim()))
+                                        tkb[i].TuanBD = startWeek.ToString().Trim();
+                                    if (!tkb[i].TuanKT.ToLower().Equals(endWeek.ToString().ToLower().Trim()))
+                                        tkb[i].TuanKT = endWeek.ToString().Trim();
+                                    if (!tkb[i].GhiChu1.ToLower().Equals(note1.ToString().ToLower().Trim()))
+                                        tkb[i].GhiChu1 = note1.ToString().Trim();
+                                    if (!tkb[i].GhiChu2.ToLower().Equals(note2.ToString().ToLower().Trim()))
+                                        tkb[i].GhiChu2 = note2.ToString().Trim();
 
                                     model.Entry(tkb[i]).State = System.Data.Entity.EntityState.Modified;
                                     lstTkb.Add(tkb[i]);
@@ -458,13 +613,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                             return Json("error" + e.Message);
                         }
 
-                        // Trim column name string
                         foreach (DataColumn col in dt.Columns)
                         {
                             col.ColumnName = col.ColumnName.Trim();
                         }
 
-                        // Validate all columns
                         string isValid = ValidateColumns(dt);
                         if (isValid != null)
                             return Content($"Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
@@ -474,50 +627,105 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                         var lstTkb = new List<ThoiKhoaBieu>();
                         foreach (DataRow data in dt.Rows)
                         {
+                            if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
+                                && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
+                                continue;
+
+                            string originalId = data["MaGocLHP"].ToString(); //
+                            string subjectId = data["Mã MH"].ToString(); //
+                            string classSectionid = data["Mã LHP"].ToString(); //
+                            string name = data["Tên HP"].ToString(); //
+                            string credits = data["Số TC"].ToString(); //
+                            string type = data["Loại HP"].ToString(); //
+                            string studentClassId = data["Mã Lớp"].ToString(); //
                             var malop = "";
-                            foreach (var item in data[6].ToString().Split('\n'))
+                            foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
                             {
                                 malop += item + "#";
                             }
-                            malop = malop.Substring(0, malop.Length);
+                            malop = malop.Substring(0, malop.Length - 1);
+                            string minimumStudent = data["TSMH"].ToString(); //
+                            string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
+                            string room2 = data["PH"].ToString();
+                            string day = data["Thứ"].ToString(); //
+                            string startLesson = data["Tiết BĐ"].ToString(); //
+                            string lessonNumber = data["Số Tiết"].ToString();//
+                            string lessonTime = data["Tiết Học"].ToString();//
+                            string roomId = data["Phòng"].ToString();//
+                            string lecturerId = data["Mã CBGD"].ToString();//
+                            string fullName = data["Tên CBGD"].ToString();//
+                            string roomType = data["PH_X"].ToString();//
+                            string capacity = data["Sức Chứa"].ToString();
+                            string studentNumber = data["SiSoTKB"].ToString();//
+                            string freeSlot = data["Trống"].ToString();//
+                            string state = data["Tình Trạng LHP"].ToString();//
+                            string learnWeek = data["TuanHoc2"].ToString();//
+                            string day2 = data["ThuS"].ToString();//
+                            string startLesson2 = data["TietS"].ToString();//
+                            string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                            string startWeek = data["Tuần BD"].ToString();//
+                            string endWeek = data["Tuần KT"].ToString();//
+                            string idmajor = data["Mã Ngành"].ToString();//
+                            string namemajor = data["Tên Ngành"].ToString();//
+                            string note1 = data["Ghi Chú 1"].ToString();
+                            string note2 = data["Ghi chú 2"].ToString();
+
+                            // Check if values is null
+                            string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
+                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
+                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                            string checkNull = ValidateNotNull(validRows);
+                            if (checkNull != null)
+                            {
+                                int excelRow = dt.Rows.IndexOf(data) + 2;
+                                return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], Có trường dữ liệu chưa được nạp vui lòng kiểm tra lại tệp tin.");
+                            }
+
+                            if (!new List<int> { 1, 4, 7, 10, 13 }.Contains(Int32.Parse(startLesson2.Trim())))
+                            {
+                                int excelRow = dt.Rows.IndexOf(data) + 2;
+                                return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
+                            }
 
                             var tkb = new ThoiKhoaBieu();
                             tkb.ID_HocKy = hocky;
                             tkb.ID_Nganh = nganh;
-                            tkb.MaGocLHP = data[0].ToString();
-                            tkb.MaMH = data[1].ToString();
-                            tkb.MaLHP = data[2].ToString();
-                            tkb.TenHP = data[3].ToString();
-                            tkb.SoTC = data[4].ToString();
-                            tkb.LoaiHP = data[5].ToString();
+                            tkb.MaGocLHP = originalId;
+                            tkb.MaMH = subjectId;
+                            tkb.MaLHP = classSectionid;
+                            tkb.TenHP = name;
+                            tkb.SoTC = credits;
+                            tkb.LoaiHP = type;
                             tkb.MaLop = malop;
-                            tkb.TSMH = data[7].ToString();
-                            tkb.SoTietDaXep = data[8].ToString();
-                            tkb.PH = data[9].ToString();
-                            tkb.Thu = data[10].ToString();
-                            tkb.TietBD = data[11].ToString();
-                            tkb.SoTiet = data[12].ToString();
-                            tkb.TietHoc = data[13].ToString();
-                            tkb.Phong = data[14].ToString();
-                            tkb.MaCBGD = data[15].ToString();
-                            tkb.TenCBGD = data[16].ToString();
-                            tkb.PH_X = data[17].ToString();
-                            tkb.SucChua = data[18].ToString();
-                            tkb.SiSoTKB = data[19].ToString();
-                            tkb.Trong = data[20].ToString();
-                            tkb.TinhTrangLHP = data[21].ToString();
-                            tkb.TuanHoc2 = data[22].ToString();
-                            tkb.ThuS = data[23].ToString();
-                            tkb.TietS = data[24].ToString();
-                            tkb.SoSVDK = data[25].ToString();
-                            tkb.TuanBD = data[26].ToString();
-                            tkb.TuanKT = data[27].ToString();
-                            tkb.MaNganh = data[28].ToString();
-                            tkb.TenNganh = data[29].ToString();
-                            tkb.GhiChu1 = data[30].ToString();
-                            tkb.GhiChu2 = data[31].ToString();
+                            tkb.TSMH = minimumStudent;
+                            tkb.SoTietDaXep = totalLesson;
+                            tkb.PH = room2;
+                            tkb.Thu = day;
+                            tkb.TietBD = startLesson;
+                            tkb.SoTiet = lessonNumber;
+                            tkb.TietHoc = lessonTime;
+                            tkb.Phong = roomId;
+                            tkb.MaCBGD = lecturerId;
+                            tkb.TenCBGD = fullName;
+                            tkb.PH_X = roomType;
+                            tkb.SucChua = capacity;
+                            tkb.SiSoTKB = studentNumber;
+                            tkb.Trong = freeSlot;
+                            tkb.TinhTrangLHP = state;
+                            tkb.TuanHoc2 = learnWeek;
+                            tkb.ThuS = day2;
+                            tkb.TietS = startLesson2;
+                            tkb.SoSVDK = studentRegisteredNumber;
+                            tkb.TuanBD = startWeek;
+                            tkb.TuanKT = endWeek;
+                            tkb.MaNganh = nganhdb.MaNganh;
+                            tkb.TenNganh = nganhdb.TenNganh;
+                            tkb.GhiChu1 = note1;
+                            tkb.GhiChu2 = note2;
 
                             lstTkb.Add(tkb);
+                            //model.ThoiKhoaBieu.Add(tkb);
+                            //model.SaveChanges();
 
                         }
                         model.ThoiKhoaBieu.AddRange(lstTkb);
@@ -539,7 +747,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                 "MaGocLHP", "Mã MH", "Mã LHP", "Tên HP", "Số TC", "Loại HP", "Mã Lớp", "TSMH",
                 "Số Tiết Đã xếp", "PH", "Thứ", "Tiết BĐ", "Số Tiết", "Tiết Học", "Phòng", "Mã CBGD",
                 "Tên CBGD", "PH_X", "Sức Chứa", "SiSoTKB", "Trống", "Tình Trạng LHP", "TuanHoc2", "ThuS",
-                "TietS", "Số SVĐK", "Tuần BD", "Tuần KT", "Ghi Chú 1", "Ghi chú 2"
+                "TietS", "Số SVĐK", "Tuần BD", "Tuần KT", "Mã Ngành", "Tên Ngành", "Ghi Chú 1", "Ghi chú 2"
             };
 
             DataColumnCollection columns = dt.Columns;
@@ -550,6 +758,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                 {
                     // Return error message
                     return validColumn;
+                }
+            }
+            return null;
+        }
+
+        public string ValidateNotNull(string[] validRows)
+        {
+            foreach (string validRow in validRows)
+            {
+                // Check if string is null
+                if (string.IsNullOrEmpty(validRow))
+                {
+                    return validRow;
                 }
             }
             return null;
