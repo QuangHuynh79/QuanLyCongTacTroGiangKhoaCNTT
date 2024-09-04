@@ -26,6 +26,30 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
         }
 
         [Authorize]
+        public ActionResult LoadContent()
+        {
+            return PartialView("_Index");
+        }
+
+        [Authorize]
+        public ActionResult FilterData(int hocky, int nganh, string mon, string gv)
+        {
+            var lstMon = mon.Split('#').ToList();
+            var lstGv = gv.Split('#').ToList();
+            var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
+            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
+            return PartialView("_FilterData", tkb);
+        }
+
+
+        [Authorize]
+        public ActionResult FilterParentData(int hocky, int nganh, string mon, string gv)
+        {
+            var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
+            return PartialView("_FilterParentData", tkb);
+        }
+
+        [Authorize]
         [HttpGet]
         public ActionResult Import()
         {
