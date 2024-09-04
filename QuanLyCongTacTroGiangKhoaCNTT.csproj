@@ -255,6 +255,7 @@
     <Compile Include="Areas\studentaffairs\Controllers\studentaffairstimetableController.cs" />
     <Compile Include="Areas\studentaffairs\studentaffairsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -367,6 +368,8 @@
     <Content Include="Content\assets\libs\moment\moment-with-locales.min.js" />
     <Content Include="Content\assets\libs\moment\moment.js" />
     <Content Include="Content\assets\libs\moment\moment.min.js" />
+    <Content Include="Content\assets\libs\multiple-select\css\multiple-select.min.css" />
+    <Content Include="Content\assets\libs\multiple-select\js\multiple-select.min.js" />
     <Content Include="Content\assets\libs\pdfmake\build\pdfmake.min.js" />
     <Content Include="Content\assets\libs\quill\dist\quill.min.js" />
     <Content Include="Content\assets\libs\quill\dist\quill.snow.css" />
@@ -419,6 +422,9 @@
     <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\Major.cshtml" />
     <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\_EditMajor.cshtml" />
     <Content Include="Content\timetable\formimport\CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx" />
+    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\_Index.cshtml" />
+    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\_FilterData.cshtml" />
+    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\_FilterParentData.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -443,7 +449,9 @@
     <Content Include="Validation\studentaffairs\semester\delete.js" />
     <Content Include="Validation\studentaffairs\semester\edit.js" />
     <Content Include="Validation\studentaffairs\semester\add.js" />
+    <Content Include="Validation\studentaffairs\timetable\filterviewtimtable.js" />
     <Content Include="Validation\studentaffairs\timetable\import.js" />
+    <Content Include="Validation\studentaffairs\timetable\load.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -458,6 +466,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

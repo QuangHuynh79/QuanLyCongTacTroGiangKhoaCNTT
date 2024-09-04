@@ -64,9 +64,12 @@
                                             <a style="font-size: 20px" role="button" id="openSua-@item.id" name="@item.id" class="text-success">
                                                 <i class="bi bi-pencil-square me-2"></i>
                                             </a>
-                                            <a style="font-size: 20px" role="button" id="openXoa-@item.id" name="@item.id" fullname="@item.MaNganh" class="text-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
+                                            @if (item.ThoiKhoaBieu.Count < 1)
+                                            {
+                                                <a style="font-size: 20px" role="button" id="openXoa-@item.id" name="@item.id" fullname="@item.MaNganh" class="text-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            }
                                         </td>
                                     </tr>
                                 }
