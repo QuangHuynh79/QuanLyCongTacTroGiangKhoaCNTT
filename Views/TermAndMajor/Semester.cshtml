@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.HocKy>
 @{
     ViewBag.Title = "Studentaffairs | Semester";
-    Layout = "~/Areas/studentaffairs/Views/Shared/_StudentAffairsLayout.cshtml";
+    Layout = "~/Views/Shared/_StudentAffairsLayout.cshtml";
 }
 
 <section class="container-fluid p-4">
@@ -106,7 +106,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="tenhocky">Học kỳ <span class="text-danger">*</span></label>
+                                <label class="form-label" maxlength="3" for="tenhocky">Học kỳ <span class="text-danger">*</span></label>
                                 <input type="number" id="tenhocky" class="form-control" placeholder="Nhập học kỳ (VD: 224)">
                                 <span class="text-danger" id="valid-tenhocky"></span>
                             </div>
@@ -138,17 +138,7 @@
                                     Năm kết thúc <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="namketthuc">
-                                    @for (int i = DateTime.Now.Year - 10; i < DateTime.Now.Year + 10; i++)
-                                    {
-                                        if (i == DateTime.Now.Year + 1)
-                                        {
-                                            <option selected value="@i">@i</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@i">@i</option>
-                                        }
-                                    }
+                                    <option selected value="@(DateTime.Now.Year + 1)">@(DateTime.Now.Year + 1)</option>
                                 </select>
                                 <span class="text-danger" id="valid-namketthuc"></span>
                             </div>

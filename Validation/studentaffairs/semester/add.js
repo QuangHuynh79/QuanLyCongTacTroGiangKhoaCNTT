@@ -1,4 +1,11 @@
 ﻿$(document).ready(function () {
+    $('body').on('change', '[id="nambatdau"]', function () {
+        var year = Number($(this).val());
+        year = year + 1;
+
+        $('body').find('[id="namketthuc"]').html('<option selected value="' + year + '">' + year + '</option>');
+    });
+
     $('body').on('click', '[id="btnSubmit"]', function () {
         var btn = $(this);
         btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span> Vui lòng chờ...');
@@ -90,7 +97,7 @@
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
-                url: $('#requestPath').val() + "studentaffairs/studentaffairssemesterandmajor/addSemester",
+                url: $('#requestPath').val() + "TermAndMajor/addSemester",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',

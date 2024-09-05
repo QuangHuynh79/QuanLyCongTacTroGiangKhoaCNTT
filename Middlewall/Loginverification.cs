@@ -30,7 +30,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
             {
                 if (!string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
                 {
-                    filterContext.Result = new RedirectResult("~/studentaffairs/studentaffairsdashboard");
+                    filterContext.Result = new RedirectResult("~/Dashboard/Index");
                     return;
                 }
             }
