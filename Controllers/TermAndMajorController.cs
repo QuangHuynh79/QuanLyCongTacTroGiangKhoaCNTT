@@ -29,6 +29,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (checks != null)
                     return Content("Exist");
 
+                if (nambatdau != ngaybatdau.Year)
+                    return Content("INVALIDYEAR");
+
                 var data = new HocKy();
                 data.TenHocKy = tenhocky;
                 data.NamBatDau = nambatdau;
@@ -96,6 +99,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
+                if (nambatdau != ngaybatdau.Year)
+                    return Content("INVALIDYEAR");
+
                 var data = model.HocKy.Find(id);
                 data.TenHocKy = tenhocky;
                 data.NamBatDau = nambatdau;

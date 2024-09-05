@@ -183,6 +183,14 @@
                         window.location.reload();
                     });
                 }
+                else if (ketqua == "INVALIDYEAR") {
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                    validngaybatdau.text("Ngày bắt đầu phải trong năm " + nambatdau + ".");
+                    $('body').find('[id="editngaybatdau"]').focus();
+                }
                 else {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);

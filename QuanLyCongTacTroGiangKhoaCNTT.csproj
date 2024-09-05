@@ -373,6 +373,8 @@
     <Content Include="Content\assets\libs\simplebar\dist\simplebar.min.js" />
     <Content Include="Content\assets\libs\Sweetalert2\css\sweetalert2.min.css" />
     <Content Include="Content\assets\libs\Sweetalert2\js\sweetalert2.all.min.js" />
+    <Content Include="Content\assets\libs\table2excel\js\jquery.table2excel.min.js" />
+    <Content Include="Content\assets\libs\table2excel\js\table2excel.js" />
     <Content Include="Content\assets\libs\timetable\timetable-load.min.js" />
     <Content Include="Content\assets\libs\timetable\timetable.min.css" />
     <Content Include="Content\assets\libs\tiny-slider\dist\min\tiny-slider.js" />
@@ -433,6 +435,7 @@
     <Content Include="Validation\studentaffairs\semester\delete.js" />
     <Content Include="Validation\studentaffairs\semester\edit.js" />
     <Content Include="Validation\studentaffairs\semester\add.js" />
+    <Content Include="Validation\studentaffairs\timetable\exportfile.js" />
     <Content Include="Validation\studentaffairs\timetable\filterviewtimtable.js" />
     <Content Include="Validation\studentaffairs\timetable\import.js" />
     <Content Include="Validation\studentaffairs\timetable\load.js" />
@@ -461,6 +464,7 @@
     <Content Include="Views\TimeTable\Import.cshtml" />
     <Content Include="Views\TimeTable\Index.cshtml" />
     <Content Include="Views\Shared\_StudentAffairsLayout.cshtml" />
+    <Content Include="Views\TimeTable\_Export.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -209,38 +210,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                if (lstTkb.Count > 0)
-                                {
-                                    foreach (var item in lstTkb)
-                                    {
-                                        int numTuanBD = Int32.Parse(item.TuanBD);
-                                        int numTuanKT = Int32.Parse(item.TuanKT);
-
-                                        int numTuanBDCurrent = Int32.Parse(startWeek);
-                                        int numTuanKTCurrent = Int32.Parse(endWeek);
-
-                                        if (numTuanBDCurrent >= numTuanBD && numTuanBDCurrent <= numTuanKT
-                                            || numTuanKTCurrent >= numTuanBD && numTuanKTCurrent <= numTuanKT)
-                                        {
-                                            int numThuBD = Int32.Parse(item.ThuS);
-                                            int numThuBDCurrent = Int32.Parse(day2);
-
-                                            int numTietBD = Int32.Parse(item.TietBD);
-                                            int numTietBDCurrent = Int32.Parse(startLesson);
-
-                                            string numPhong = item.Phong;
-                                            string numPhongCurrent = roomId;
-
-                                            if (numThuBD == numThuBDCurrent && numTietBD == numTietBDCurrent && numPhong.Equals(numPhongCurrent))
-                                            {
-                                                int excelRow = dt.Rows.IndexOf(data) + 2;
-                                                int lstRow = lstTkb.IndexOf(item) + 2;
-                                                return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "] và [" + lstRow + "], bị trùng phòng học.");
-                                            }
-                                        }
-                                    }
-                                }
-
                                 var tkb = new ThoiKhoaBieu();
                                 tkb.ID_HocKy = hocky;
                                 tkb.ID_Nganh = nganh;
@@ -411,39 +380,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                         int excelRow = dt.Rows.IndexOf(data) + 2;
                                         return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                     }
-
-                                    if (lstTkb.Count > 0)
-                                    {
-                                        foreach (var item in lstTkb)
-                                        {
-                                            int numTuanBD = Int32.Parse(item.TuanBD);
-                                            int numTuanKT = Int32.Parse(item.TuanKT);
-
-                                            int numTuanBDCurrent = Int32.Parse(startWeek);
-                                            int numTuanKTCurrent = Int32.Parse(endWeek);
-
-                                            if (numTuanBDCurrent >= numTuanBD && numTuanBDCurrent <= numTuanKT
-                                                || numTuanKTCurrent >= numTuanBD && numTuanKTCurrent <= numTuanKT)
-                                            {
-                                                int numThuBD = Int32.Parse(item.ThuS);
-                                                int numThuBDCurrent = Int32.Parse(day2);
-
-                                                int numTietBD = Int32.Parse(item.TietBD);
-                                                int numTietBDCurrent = Int32.Parse(startLesson);
-
-                                                string numPhong = item.Phong;
-                                                string numPhongCurrent = roomId;
-
-                                                if (numThuBD == numThuBDCurrent && numTietBD == numTietBDCurrent && numPhong.Equals(numPhongCurrent))
-                                                {
-                                                    int excelRow = dt.Rows.IndexOf(data) + 2;
-                                                    int lstRow = lstTkb.IndexOf(item) + 2;
-                                                    return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "] và [" + lstRow + "], bị trùng phòng học.");
-                                                }
-                                            }
-                                        }
-                                    }
-
+                                    
                                     if (!tkb[i].MaGocLHP.Equals(originalId.ToString().ToLower().Trim()))
                                         tkb[i].MaGocLHP = originalId.ToString().Trim();
                                     if (!tkb[i].MaMH.Equals(subjectId.ToString().ToLower().Trim()))
@@ -576,38 +513,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     {
                                         int excelRow = dt.Rows.IndexOf(data) + 2;
                                         return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
-                                    }
-
-                                    if (lstTkb.Count > 0)
-                                    {
-                                        foreach (var item in lstTkb)
-                                        {
-                                            int numTuanBD = Int32.Parse(item.TuanBD);
-                                            int numTuanKT = Int32.Parse(item.TuanKT);
-
-                                            int numTuanBDCurrent = Int32.Parse(startWeek);
-                                            int numTuanKTCurrent = Int32.Parse(endWeek);
-
-                                            if (numTuanBDCurrent >= numTuanBD && numTuanBDCurrent <= numTuanKT
-                                                || numTuanKTCurrent >= numTuanBD && numTuanKTCurrent <= numTuanKT)
-                                            {
-                                                int numThuBD = Int32.Parse(item.ThuS);
-                                                int numThuBDCurrent = Int32.Parse(day2);
-
-                                                int numTietBD = Int32.Parse(item.TietBD);
-                                                int numTietBDCurrent = Int32.Parse(startLesson);
-
-                                                string numPhong = item.Phong;
-                                                string numPhongCurrent = roomId;
-
-                                                if (numThuBD == numThuBDCurrent && numTietBD == numTietBDCurrent && numPhong.Equals(numPhongCurrent))
-                                                {
-                                                    int excelRow = dt.Rows.IndexOf(data) + 2;
-                                                    int lstRow = lstTkb.IndexOf(item) + 2;
-                                                    return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "] và [" + lstRow + "], bị trùng phòng học.");
-                                                }
-                                            }
-                                        }
                                     }
 
                                     if (!tkb[i].MaGocLHP.Equals(originalId.ToString().ToLower().Trim()))
@@ -808,38 +713,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                             }
 
-                            if (lstTkb.Count > 0)
-                            {
-                                foreach (var item in lstTkb)
-                                {
-                                    int numTuanBD = Int32.Parse(item.TuanBD);
-                                    int numTuanKT = Int32.Parse(item.TuanKT);
-
-                                    int numTuanBDCurrent = Int32.Parse(startWeek);
-                                    int numTuanKTCurrent = Int32.Parse(endWeek);
-
-                                    if (numTuanBDCurrent >= numTuanBD && numTuanBDCurrent <= numTuanKT
-                                        || numTuanKTCurrent >= numTuanBD && numTuanKTCurrent <= numTuanKT)
-                                    {
-                                        int numThuBD = Int32.Parse(item.ThuS);
-                                        int numThuBDCurrent = Int32.Parse(day2);
-
-                                        int numTietBD = Int32.Parse(item.TietBD);
-                                        int numTietBDCurrent = Int32.Parse(startLesson);
-
-                                        string numPhong = item.Phong;
-                                        string numPhongCurrent = roomId;
-
-                                        if (numThuBD == numThuBDCurrent && numTietBD == numTietBDCurrent && numPhong.Equals(numPhongCurrent))
-                                        {
-                                            int excelRow = dt.Rows.IndexOf(data) + 2;
-                                            int lstRow = lstTkb.IndexOf(item) + 2;
-                                            return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "] và [" + lstRow + "], bị trùng phòng học.");
-                                        }
-                                    }
-                                }
-                            }
-
                             var tkb = new ThoiKhoaBieu();
                             tkb.ID_HocKy = hocky;
                             tkb.ID_Nganh = nganh;
@@ -893,6 +766,32 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        public ContentResult DownloadFile(string fileName)
+        {
+            fileName = "CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx";
+
+            string path = Server.MapPath("~/Content/timetable/formimport/");
+            byte[] bytes = System.IO.File.ReadAllBytes(path + fileName);
+            string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+            return Content(base64);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ExportTimeTable(int hocky, int nganh, string mon, string gv)
+        {
+
+            var lstMon = mon.Split('#').ToList();
+            var lstGv = gv.Split('#').ToList();
+            var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
+            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
+
+            return PartialView("_Export", tkb);
+        }
+
         public string ValidateColumns(DataTable dt)
         {
             // Declare the valid column names
@@ -929,17 +828,5 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             return null;
         }
 
-        [Authorize]
-        [HttpPost]
-        public ContentResult DownloadFile(string fileName)
-        {
-            fileName = "CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx";
-
-            string path = Server.MapPath("~/Content/timetable/formimport/");
-            byte[] bytes = System.IO.File.ReadAllBytes(path + fileName);
-            string base64 = Convert.ToBase64String(bytes, 0, bytes.Length);
-
-            return Content(base64);
-        }
     }
 }

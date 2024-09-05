@@ -1,0 +1,88 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.ThoiKhoaBieu>
+@{
+    var lsttkb = Model.ToList();
+}
+<table id="export-thoikhoabieu-table" name="sheet1" style="border: 1px solid black; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">MaGocLHP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã MH</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã LHP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tên HP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Số TC</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Loại HP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã Lớp</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">TSMH</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Số Tiết Đã xếp</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">PH</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Thứ</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tiết BĐ</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Số Tiết</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tiết Học</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Phòng</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã CBGD</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tên CBGD</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">PH_X</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Sức Chứa</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">SiSoTKB</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Trống</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tình Trạng LHP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">TuanHoc2</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">ThuS</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">TietS</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Số SVĐK</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tuần BD</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tuần KT</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã Ngành</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tên Ngành</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Ghi chú 1</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Ghi chú 2</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã TA</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tên TA</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in lsttkb)
+        {
+            var lastIndex = item.MaLop.Split('#').ToList();
+            int i = 0;
+            <tr>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.MaGocLHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.MaMH</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.MaLHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TenHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.SoTC</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.LoaiHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@foreach (string items in item.MaLop.Split('#').ToList()){ i++; @(items) if(i < lastIndex.Count) { <br style="mso-data-placement:same-cell;" />}}</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TSMH</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.SoTietDaXep</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.PH</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.Thu</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TietBD</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.SoTiet</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TietHoc</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.Phong</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.MaCBGD</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TenCBGD</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.PH_X</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.SucChua</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.SiSoTKB</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.Trong</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TinhTrangLHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TuanHoc2</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.ThuS</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TietS</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.SoSVDK</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TuanBD</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TuanKT</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.MaNganh</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.TenNganh</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.GhiChu1</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.GhiChu2</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;"></td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;"></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
