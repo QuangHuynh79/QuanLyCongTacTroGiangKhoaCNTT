@@ -248,15 +248,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Areas\admin\adminAreaRegistration.cs" />
-    <Compile Include="Areas\admin\Controllers\admindashboardController.cs" />
-    <Compile Include="Areas\studentaffairs\Controllers\studentaffairsdashboardController.cs" />
-    <Compile Include="Areas\studentaffairs\Controllers\studentaffairssemesterandmajorController.cs" />
-    <Compile Include="Areas\studentaffairs\Controllers\studentaffairstimetableController.cs" />
-    <Compile Include="Areas\studentaffairs\studentaffairsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TermAndMajorController.cs" />
+    <Compile Include="Controllers\TimeTableController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -289,7 +286,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ActiveItemMenu\admin\admindashboard\index.js" />
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairssemesterandmajor\nganh.js" />
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairssemesterandmajor\hocky.js" />
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\import.js" />
@@ -405,26 +401,11 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\admin\Views\web.config" />
-    <Content Include="Areas\admin\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Content\assets\fonts\feather\fonts\feather.ttf" />
     <Content Include="Content\assets\fonts\feather\fonts\feather.woff" />
     <Content Include="Content\assets\libs\bootstrap-icons\font\fonts\bootstrap-icons.woff" />
     <Content Include="Content\assets\libs\bootstrap-icons\font\fonts\bootstrap-icons.woff2" />
-    <Content Include="Areas\admin\Views\admindashboard\Index.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\web.config" />
-    <Content Include="Areas\studentaffairs\Views\Shared\_StudentAffairsLayout.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\Index.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\Import.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairsdashboard\Index.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\Semester.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\_EditSemester.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\Major.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairssemesterandmajor\_EditMajor.cshtml" />
     <Content Include="Content\timetable\formimport\CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\_Index.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\_FilterData.cshtml" />
-    <Content Include="Areas\studentaffairs\Views\studentaffairstimetable\_FilterParentData.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -432,6 +413,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -467,11 +451,20 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\TermAndMajor\_EditMajor.cshtml" />
+    <Content Include="Views\TermAndMajor\_EditSemester.cshtml" />
+    <Content Include="Views\TermAndMajor\Major.cshtml" />
+    <Content Include="Views\TermAndMajor\Semester.cshtml" />
+    <Content Include="Views\TimeTable\_FilterData.cshtml" />
+    <Content Include="Views\TimeTable\_FilterParentData.cshtml" />
+    <Content Include="Views\TimeTable\_Index.cshtml" />
+    <Content Include="Views\TimeTable\Import.cshtml" />
+    <Content Include="Views\TimeTable\Index.cshtml" />
+    <Content Include="Views\Shared\_StudentAffairsLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\admin\Data\" />
-    <Folder Include="Areas\studentaffairs\Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

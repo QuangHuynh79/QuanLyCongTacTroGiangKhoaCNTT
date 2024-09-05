@@ -38,17 +38,7 @@
                     Năm kết thúc <span class="text-danger">*</span>
                 </label>
                 <select class="form-select" id="editnamketthuc">
-                    @for (int i = DateTime.Now.Year - 10; i < DateTime.Now.Year + 10; i++)
-                    {
-                        if (i == Model.NamKetThuc)
-                        {
-                            <option selected value="@i">@i</option>
-                        }
-                        else
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    }
+                    <option selected value="@(Model.NamBatDau + 1)">@(Model.NamBatDau + 1)</option>
                 </select>
                 <span class="text-danger" id="valid-editnamketthuc"></span>
             </div>

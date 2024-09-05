@@ -2,7 +2,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,35 +9,32 @@
     <meta name="keywords" content="trợ giảng khoa cntt, công tác trợ giảng, công tác trợ giảng vlu" />
     <meta name="author" content="Codescandy" />
 
+    <link href="~/Content/assets/libs/multiple-select/css/multiple-select.min.css" rel="stylesheet" />
+
+
+    <script>
+        // Render blocking JS:
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+    </script>
+
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/icon-vlu.png" />
 
     <!-- CSS -->
-    <!-- darkmode js -->
-    <script src="~/Content/assets/js/vendors/darkMode.js"></script>
-
     <!-- Libs CSS -->
+
+    <link href="~/Content/assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Content/assets/fonts/feather/feather.css" rel="stylesheet" />
-
-    <link href="~/Content/assets/libs/@("@")yaireo/tagify/dist/tagify.css" rel="stylesheet" />
-
     <link href="~/Content/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/@("@")mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
 
-    <link href="~/Content/assets/libs/dragula/dist/dragula.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/libs/bs-stepper/dist/css/bs-stepper.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
-    <link href="~/Content/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/libs/quill/dist/quill.snow.css" rel="stylesheet" />
-    <link href="~/Content/assets/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
-
-    <!-- Bootstrap CSS -->
-    <link href="~/Content/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
-
     <!-- Theme CSS -->
     <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
+    <link href="~/Content/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/Sweetalert2/css/sweetalert2.min.css" rel="stylesheet" />
 
     <link rel="canonical" href="https://trogiangvlu.website">
     <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
@@ -47,6 +43,9 @@
 </head>
 
 <body>
+    @*<div id="pageLoader" style="background: #000000b0; display: none; align-items: center; justify-content: center; width: 100vw; height: 100vh; position: fixed; z-index: 9999;">
+        <span class="spinner-border spinner-border-sm me-2 text-white" style="width: 30px; height: 30px" role="status" aria-hidden="true"></span>
+    </div>*@
     <!-- Wrapper -->
     <div id="db-wrapper">
         <!-- navbar vertical -->
@@ -54,17 +53,73 @@
         <nav class="navbar-vertical navbar" style="background-image: url(/Content/img/img_sidebar_background.jpg); background-size: cover">
             <div class="vh-100" data-simplebar>
                 <!-- Brand logo -->
-                <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("")">
+                <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("index","Dashboard")">
                     <img src="~/Content/img/logo-vlu.png" style="width: 100%; height: auto" alt="Trợ giảng VLU" />
                 </a>
                 <!-- Navbar nav -->
                 <ul class="navbar-nav flex-column" id="sideNavbar">
                     <li class="nav-item">
-                        <a id="child-admin-admindashboard-index" class="child-nav-link nav-link" href="@Url.Action("index", "admindashboard")">
+                        <a id="child-studentaffairs-studentaffairsdashboard-index" class="nav-link child-nav-link " href="@Url.Action("index", "Dashboard")">
                             <i class="nav-icon fe fe-home me-2"></i>
                             Trang chủ
                         </a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a id="parent-studentaffairs-studentaffairssemesterandmajor" class="nav-link  " href="#"
+                           data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairssemesterandmajor" aria-expanded="false"
+                           aria-controls="nav-studentaffairs-studentaffairssemesterandmajor">
+                            <i class="nav-icon fe fe-layers me-2"></i> Học kỳ & Ngành
+                        </a>
+                        <div id="nav-studentaffairs-studentaffairssemesterandmajor" class="collapse "
+                             data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-hocky" class="child-nav-link nav-link "
+                                       href="@Url.Action("semester", "TermAndMajor")">
+                                        Học kỳ
+                                    </a>
+                                </li>
+                                <!-- Nav item -->
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-nganh" class="child-nav-link nav-link "
+                                       href="@Url.Action("major", "TermAndMajor")">
+                                        Ngành
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a id="parent-studentaffairs-studentaffairstimetable" class="nav-link  " href="#"
+                           data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairstimetable" aria-expanded="false"
+                           aria-controls="nav-studentaffairs-studentaffairstimetable">
+                            <i class="nav-icon fe fe-calendar me-2"></i> Thời khóa biểu
+                        </a>
+                        <div id="nav-studentaffairs-studentaffairstimetable" class="collapse "
+                             data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairstimetable-index" class="child-nav-link nav-link "
+                                       href="@Url.Action("index", "TimeTable")">
+                                        Xem TKB
+                                    </a>
+                                </li>
+                                <!-- Nav item -->
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairstimetable-import" class="child-nav-link nav-link "
+                                       href="@Url.Action("import", "TimeTable")">
+                                        Import TKB
+
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
                 </ul>
 
             </div>
@@ -78,15 +133,7 @@
                     <a id="nav-toggle" href="#">
                         <i class="fe fe-menu"></i>
                     </a>
-                    <div class="ms-lg-3 d-none d-md-none d-lg-block">
-                        <!-- Form -->
-                        <form class="d-flex align-items-center">
-                            <span class="position-absolute ps-3 search-icon">
-                                <i class="fe fe-search"></i>
-                            </span>
-                            <input type="search" class="form-control ps-6" placeholder="Search Entire Dashboard">
-                        </form>
-                    </div>
+
                     <!--Navbar nav -->
                     <div class="ms-auto d-flex">
                         <a href="#" class="form-check form-switch theme-switch btn btn-light btn-icon rounded-circle ">
@@ -145,61 +192,32 @@
     <form action="@Url.Action("signout","account", new {area = ""})" id="logoutForm" method="post"></form>
     <!-- Scripts -->
     <!-- Libs JS -->
+
     <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Content/assets/libs/simplebar/dist/simplebar.min.js"></script>
+    <script src="~/Content/assets/js/theme.min.js"></script>
 
-    <script src="~/Content/assets/libs/@("@")popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/Content/assets/libs/@("@")yaireo/tagify/dist/tagify.min.js"></script>
-    <script src="~/Content/assets/libs/bs-stepper/dist/js/bs-stepper.min.js"></script>
-    <script src="~/Content/assets/libs/dragula/dist/dragula.min.js"></script>
-    <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
-    <script src="~/Content/assets/libs/fullcalendar/index.global.min.js"></script>
-    <script src="~/Content/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
-    <script src="~/Content/assets/libs/imask/dist/imask.min.js"></script>
-    <script src="~/Content/assets/libs/pdfmake/build/pdfmake.min.js"></script>
-
+    <script src="~/Content/assets/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
+    <script src="~/Content/assets/libs/jsvectormap/dist/maps/world.js"></script>
     <script src="~/Content/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
-    <script src="~/Content/assets/libs/quill/dist/quill.min.js"></script>
-    <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="~/Content/assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-    <script src="~/Content/assets/libs/tippy.js/dist/tippy-bundle.umd.min.js"></script>
+    <script src="~/Content/assets/js/vendors/chart.js"></script>
 
-    <!-- Bootstrap JS-->
     <script src="~/Content/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-
-    <!-- Bootstrap Buttons JS-->
     <script src="~/Content/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/assets/libs/pdfmake/build/pdfmake.min.js"></script>
 
-    <!-- Theme JS -->
-    <script src="~/Content/assets/js/theme.min.js"></script>
-    <script src="~/Content/assets/js/vendors/chart.js"></script>
-
-    <script src="~/Content/assets/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
-    <script src="~/Content/assets/libs/jsvectormap/dist/maps/world.js"></script>
-
-    <script src="~/Content/assets/js/vendors/beStepper.js"></script>
-    <script src="~/Content/assets/js/vendors/customDragula.js"></script>
-    <script src="~/Content/assets/js/vendors/chat.js"></script>
-    <script src="~/Content/assets/js/vendors/darkMode.js"></script>
-    <script src="~/Content/assets/js/vendors/datatables.js"></script>
-    <script src="~/Content/assets/js/vendors/dropzone.js"></script>
+    <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
     <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
-    <script src="~/Content/assets/js/vendors/editor.js"></script>
-    <script src="~/Content/assets/js/vendors/glight.js"></script>
-    <script src="~/Content/assets/js/vendors/increment-value.js"></script>
-    <script src="~/Content/assets/js/vendors/inputmask.js"></script>
-    <script src="~/Content/assets/js/vendors/tnsSlider.js"></script>
-    <script src="~/Content/assets/js/vendors/tooltip.js"></script>
-    <script src="~/Content/assets/js/vendors/validation.js"></script>
 
+    <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
 </body>
 </html>

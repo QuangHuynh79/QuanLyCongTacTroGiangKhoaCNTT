@@ -44,7 +44,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         // GET: /Account/SignInCallBack
         public ActionResult SignInCallBack()
         {
-            return RedirectToAction("index", "studentaffairsdashboard", new { area = "studentaffairs" });
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }

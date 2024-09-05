@@ -5,14 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
+namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
-    [Authorize]
-    public class studentaffairssemesterandmajorController : Controller
+    public class TermAndMajorController : Controller
     {
         TrogiangvluEntities model = new TrogiangvluEntities();
-        
-        // GET: studentaffairs/studentaffairssemester
+
+        // GET: TermAndMajor
         [Authorize]
         public ActionResult Semester()
         {
@@ -233,6 +232,5 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Areas.studentaffairs.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
     }
 }

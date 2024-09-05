@@ -1,4 +1,11 @@
 ﻿$(document).ready(function () {
+    $('body').on('change', '[id="editnambatdau"]', function () {
+        var year = Number($(this).val());
+        year = year + 1;
+
+        $('body').find('[id="editnamketthuc"]').html('<option selected value="' + year + '">' + year + '</option>');
+    });
+
     $('body').on('change', '[id^="trangthai-"]', function () {
         var fullName = $(this).attr('fullname');
         var formData = new FormData();
@@ -7,7 +14,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
-            url: $('#requestPath').val() + "studentaffairs/studentaffairssemesterandmajor/editStateSemester",
+            url: $('#requestPath').val() + "TermAndMajor/editStateSemester",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -49,7 +56,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
-            url: $('#requestPath').val() + "studentaffairs/studentaffairssemesterandmajor/OpenEditSemester",
+            url: $('#requestPath').val() + "TermAndMajor/OpenEditSemester",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -156,7 +163,7 @@
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
-                url: $('#requestPath').val() + "studentaffairs/studentaffairssemesterandmajor/editSemester",
+                url: $('#requestPath').val() + "TermAndMajor/editSemester",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
