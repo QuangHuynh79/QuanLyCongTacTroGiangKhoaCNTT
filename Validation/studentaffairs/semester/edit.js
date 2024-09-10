@@ -13,7 +13,7 @@
         formData.append('id', $(this).attr('name'));
 
         $.ajax({
-            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
             url: $('#requestPath').val() + "TermAndMajor/editStateSemester",
             data: formData,
             dataType: 'html',
@@ -55,7 +55,7 @@
         formData.append('id', $(this).attr('name'));
 
         $.ajax({
-            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
             url: $('#requestPath').val() + "TermAndMajor/OpenEditSemester",
             data: formData,
             dataType: 'html',
@@ -87,7 +87,6 @@
         btn.prop('disabled', true);
         $('body').find('[id="btnEditClose"]').prop('disabled', true);
 
-        var tenhocky = $('body').find('[id="edittenhocky"]').val().trim();
         var nambatdau = $('body').find('[id="editnambatdau"] :selected').val().trim();
         var namketthuc = $('body').find('[id="editnamketthuc"] :selected').val().trim();
         var tuanbatdau = $('body').find('[id="edittuanbatdau"]').val().trim();
@@ -95,13 +94,20 @@
         var tiettoida = $('body').find('[id="edittiettoida"]').val().trim();
         var loptoida = $('body').find('[id="editloptoida"]').val().trim();
 
-        var validtenhocky = $('body').find('[id="valid-edittenhocky"]');
         var validnambatdau = $('body').find('[id="valid-editnambatdau"]');
         var validnamketthuc = $('body').find('[id="valid-editnamketthuc"]');
         var validtuanbatdau = $('body').find('[id="valid-edittuanbatdau"]');
         var validngaybatdau = $('body').find('[id="valid-editngaybatdau"]');
         var validtiettoida = $('body').find('[id="valid-edittiettoida"]');
         var validloptoida = $('body').find('[id="valid-editloptoida"]');
+
+        validtenhocky.text('');
+        validnambatdau.text('');
+        validnamketthuc.text('');
+        validtuanbatdau.text('');
+        validngaybatdau.text('');
+        validtiettoida.text('');
+        validloptoida.text('');
 
         var check = true;
 
@@ -153,7 +159,6 @@
             var formData = new FormData();
 
             formData.append('id', $('body').find('[id="idhk"]').val());
-            formData.append('tenhocky', tenhocky);
             formData.append('nambatdau', nambatdau);
             formData.append('namketthuc', namketthuc);
             formData.append('tuanbatdau', tuanbatdau);
@@ -162,7 +167,7 @@
             formData.append('loptoida', loptoida);
 
             $.ajax({
-                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                 url: $('#requestPath').val() + "TermAndMajor/editSemester",
                 data: formData,
                 dataType: 'html',

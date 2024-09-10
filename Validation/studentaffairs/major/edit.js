@@ -4,7 +4,7 @@
         formData.append('id', $(this).attr('name'));
 
         $.ajax({
-            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
             url: $('#requestPath').val() + "TermAndMajor/OpenEditMajor",
             data: formData,
             dataType: 'html',
@@ -44,6 +44,11 @@
         var validtennganh = $('body').find('[id="valid-edittennganh"]');
         var validtenviettat = $('body').find('[id="valid-edittenviettat"]');
         var validctdt = $('body').find('[id="valid-editctdt"]');
+
+        validmanganh.text('');
+        validtennganh.text('');
+        validtenviettat.text('');
+        validctdt.text('');
 
         var check = true;
 
@@ -102,7 +107,7 @@
             formData.append('ctdt', ctdt);
 
             $.ajax({
-                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                 url: $('#requestPath').val() + "TermAndMajor/editMajor",
                 data: formData,
                 dataType: 'html',

@@ -15,6 +15,11 @@
         var validtenviettat = $('body').find('[id="valid-tenviettat"]');
         var validctdt = $('body').find('[id="valid-ctdt"]');
 
+        validmanganh.text('');
+        validtennganh.text('');
+        validtenviettat.text('');
+        validctdt.text('');
+
         var check = true;
 
         if (manganh.length < 1) {
@@ -69,7 +74,7 @@
             formData.append('ctdt', ctdt);
 
             $.ajax({
-                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                 url: $('#requestPath').val() + "TermAndMajor/addMajor",
                 data: formData,
                 dataType: 'html',

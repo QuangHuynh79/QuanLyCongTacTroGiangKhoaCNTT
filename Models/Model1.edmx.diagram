@@ -4,12 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="88ea1ae875204958bb84935c3bdd4bb6" Name="Diagram1">
-        <EntityTypeShape EntityType="TrogiangvluModel.HocKy" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TrogiangvluModel.Nganh" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TrogiangvluModel.ThoiKhoaBieu" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
-        <AssociationConnector Association="TrogiangvluModel.FK_ThoiKhoaBieu_HocKy" ManuallyRouted="false" />
-        <AssociationConnector Association="TrogiangvluModel.FK_ThoiKhoaBieu_Nganh" ManuallyRouted="false" />
+      <Diagram DiagramId="67fefce3564149b2a29d61b95c0f18f6" Name="Diagram1">
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.HocKy" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.Nganh" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.Quyen" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Width="1.5" PointX="8" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThoiKhoaBieu" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThoiKhoaBieu_HocKy" ManuallyRouted="false" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThoiKhoaBieu_Nganh" ManuallyRouted="false" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Quyen" ManuallyRouted="false" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

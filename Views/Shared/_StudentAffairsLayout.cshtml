@@ -39,7 +39,7 @@
     <link rel="canonical" href="https://trogiangvlu.website">
     <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
 
-    <title>@ViewBag.Title</title>
+    <title>Studient Affairs | @ViewBag.Title</title>
 </head>
 
 <body>
@@ -65,6 +65,12 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a id="child-user-index" class="nav-link child-nav-link " href="@Url.Action("index", "Users")">
+                            <i class="nav-icon fe fe-users me-2"></i>
+                            Người dùng
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a id="parent-studentaffairs-studentaffairssemesterandmajor" class="nav-link  " href="#"
@@ -120,6 +126,32 @@
                         </div>
                     </li>
 
+                    <li class="nav-item">
+                        <a id="parent-trogiang" class="nav-link  " href="#"
+                           data-bs-toggle="collapse" data-bs-target="#nav-trogiang" aria-expanded="false"
+                           aria-controls="nav-trogiang">
+                            <i class="nav-icon fe fe-calendar me-2"></i> Trợ giảng
+                        </a>
+                        <div id="nav-trogiang" class="collapse "
+                             data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-index" class="child-nav-link nav-link "
+                                       href="@Url.Action("Register", "TeachingAssistant")">
+                                        Form đăng ký
+                                    </a>
+                                </li>
+                                <!-- Nav item -->
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairstimetable-import" class="child-nav-link nav-link "
+                                       href="@Url.Action("import", "TimeTable")">
+                                        Import TKB
+
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
 
             </div>
@@ -155,8 +187,10 @@
                                             <div class="avatar avatar-md avatar-indicators avatar-online">
                                                 <img alt="avatar" src="~/Content/img/user-default.png" class="rounded-circle">
                                             </div>
-                                            <div class="ms-3 lh-1" style="display: flex; flex-direction: row; justify-content: center; margin-top: 7px;">
-                                                <h5>@Session["user-email"]</h5>
+                                            <div class="ms-3 lh-1">
+                                                <h5 class="mb-1">@Session["user-name"]</h5>
+                                                <h5 class="mb-1">@Session["user-email"]</h5>
+                                                <p class="mb-0">@Session["user-role-name"]</p>
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +205,7 @@
                                     <div class="dropdown-divider"></div>
                                     <ul class="list-unstyled">
                                         <li>
-                                            <a class="dropdown-item" role="button" href="javascript:document.getElementById('logoutForm').submit()">
+                                            <a class="dropdown-item" role="button" href="@Url.Action("Signout", "Account")">
                                                 <i class="fe fe-power me-2"></i> Đăng xuất
                                             </a>
                                         </li>
@@ -189,7 +223,6 @@
         </main>
     </div>
     <input id="requestPath" value="@Url.Content("~")" />
-    <form action="@Url.Action("signout","account", new {area = ""})" id="logoutForm" method="post"></form>
     <!-- Scripts -->
     <!-- Libs JS -->
 

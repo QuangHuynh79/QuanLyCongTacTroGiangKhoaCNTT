@@ -28,6 +28,14 @@
         var validtiettoida = $('body').find('[id="valid-tiettoida"]');
         var validloptoida = $('body').find('[id="valid-loptoida"]');
 
+        validtenhocky.text('');
+        validnambatdau.text('');
+        validnamketthuc.text('');
+        validtuanbatdau.text('');
+        validngaybatdau.text('');
+        validtiettoida.text('');
+        validloptoida.text('');
+
         var check = true;
 
         if (loptoida.length < 1) {
@@ -96,7 +104,7 @@
             formData.append('loptoida', loptoida);
 
             $.ajax({
-                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                 url: $('#requestPath').val() + "TermAndMajor/addSemester",
                 data: formData,
                 dataType: 'html',

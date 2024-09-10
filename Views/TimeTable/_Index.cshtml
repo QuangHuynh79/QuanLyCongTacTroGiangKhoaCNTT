@@ -1,6 +1,6 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
-    TrogiangvluEntities model = new TrogiangvluEntities();
+    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
     var lstNganh = model.Nganh.OrderByDescending(o => o.id).ToList();
     var lstHocKy = model.HocKy.OrderByDescending(o => o.id).ToList();
 

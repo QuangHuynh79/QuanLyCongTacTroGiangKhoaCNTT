@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TrogiangvluModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="HocKy">
           <Key>
             <PropertyRef Name="id" />
@@ -28,6 +28,30 @@
           <Property Name="TenNganh" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TenVietTat" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CTDT" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Quyen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AbbreviatedName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Quyen" Type="int" Nullable="false" />
+          <Property Name="HoTen" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="TrangThai" Type="bit" Nullable="false" />
+          <Property Name="Ma" Type="nvarchar(max)" />
+          <Property Name="GioiTinh" Type="nvarchar(max)" />
+          <Property Name="SDT" Type="nvarchar(max)" />
+          <Property Name="QuocTich" Type="nvarchar(max)" />
+          <Property Name="Khoa" Type="nvarchar(max)" />
+          <Property Name="ID_Nganh" Type="int" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -69,6 +93,30 @@
           <Property Name="GhiChu1" Type="nvarchar(max)" />
           <Property Name="GhiChu2" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_TaiKhoan_Nganh">
+          <End Role="Nganh" Type="Self.Nganh" Multiplicity="0..1" />
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nganh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="ID_Nganh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiKhoan_Quyen">
+          <End Role="Quyen" Type="Self.Quyen" Multiplicity="1" />
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quyen">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="ID_Quyen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ThoiKhoaBieu_HocKy">
           <End Role="HocKy" Type="Self.HocKy" Multiplicity="0..1" />
           <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="*" />
@@ -93,10 +141,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TrogiangvluModelStoreContainer">
+        <EntityContainer Name="CongTacTroGiangKhoaCNTTModelStoreContainer">
           <EntitySet Name="HocKy" EntityType="Self.HocKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nganh" EntityType="Self.Nganh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TaiKhoan_Nganh" Association="Self.FK_TaiKhoan_Nganh">
+            <End Role="Nganh" EntitySet="Nganh" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_Quyen" Association="Self.FK_TaiKhoan_Quyen">
+            <End Role="Quyen" EntitySet="Quyen" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
           <AssociationSet Name="FK_ThoiKhoaBieu_HocKy" Association="Self.FK_ThoiKhoaBieu_HocKy">
             <End Role="HocKy" EntitySet="HocKy" />
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
@@ -106,11 +164,10 @@
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="TrogiangvluModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="CongTacTroGiangKhoaCNTTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="HocKy">
           <Key>
             <PropertyRef Name="id" />
@@ -136,6 +193,34 @@
           <Property Name="TenVietTat" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CTDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ThoiKhoaBieu" Relationship="Self.FK_ThoiKhoaBieu_Nganh" FromRole="Nganh" ToRole="ThoiKhoaBieu" />
+          <NavigationProperty Name="TaiKhoan" Relationship="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh" FromRole="Nganh" ToRole="TaiKhoan" />
+        </EntityType>
+        <EntityType Name="Quyen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AbbreviatedName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TaiKhoan" Relationship="Self.FK_TaiKhoan_Quyen" FromRole="Quyen" ToRole="TaiKhoan" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Quyen" Type="Int32" Nullable="false" />
+          <Property Name="HoTen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Boolean" Nullable="false" />
+          <Property Name="Ma" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GioiTinh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SDT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuocTich" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Khoa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Nganh" Type="Int32" />
+          <NavigationProperty Name="Quyen" Relationship="Self.FK_TaiKhoan_Quyen" FromRole="TaiKhoan" ToRole="Quyen" />
+          <NavigationProperty Name="Nganh" Relationship="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh" FromRole="TaiKhoan" ToRole="Nganh" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -203,9 +288,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TrogiangvluEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_TaiKhoan_Quyen">
+          <End Role="Quyen" Type="Self.Quyen" Multiplicity="1" />
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quyen">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="ID_Quyen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CongTacTroGiangKhoaCNTTEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="HocKy" EntityType="Self.HocKy" />
           <EntitySet Name="Nganh" EntityType="Self.Nganh" />
+          <EntitySet Name="Quyen" EntityType="Self.Quyen" />
+          <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" />
           <AssociationSet Name="FK_ThoiKhoaBieu_HocKy" Association="Self.FK_ThoiKhoaBieu_HocKy">
             <End Role="HocKy" EntitySet="HocKy" />
@@ -215,15 +314,35 @@
             <End Role="Nganh" EntitySet="Nganh" />
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
           </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_Quyen" Association="Self.FK_TaiKhoan_Quyen">
+            <End Role="Quyen" EntitySet="Quyen" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_Nganh" Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh">
+            <End Role="Nganh" EntitySet="Nganh" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_TaiKhoan_Nganh">
+          <End Type="CongTacTroGiangKhoaCNTTModel.Nganh" Role="Nganh" Multiplicity="0..1" />
+          <End Type="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Role="TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nganh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="ID_Nganh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="TrogiangvluModelStoreContainer" CdmEntityContainer="TrogiangvluEntities">
+        <EntityContainerMapping StorageEntityContainer="CongTacTroGiangKhoaCNTTModelStoreContainer" CdmEntityContainer="CongTacTroGiangKhoaCNTTEntities">
           <EntitySetMapping Name="HocKy">
-            <EntityTypeMapping TypeName="TrogiangvluModel.HocKy">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.HocKy">
               <MappingFragment StoreEntitySet="HocKy">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="TenHocKy" ColumnName="TenHocKy" />
@@ -238,7 +357,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nganh">
-            <EntityTypeMapping TypeName="TrogiangvluModel.Nganh">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.Nganh">
               <MappingFragment StoreEntitySet="Nganh">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="MaNganh" ColumnName="MaNganh" />
@@ -248,8 +367,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Quyen">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.Quyen">
+              <MappingFragment StoreEntitySet="Quyen">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="AbbreviatedName" ColumnName="AbbreviatedName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaiKhoan">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.TaiKhoan">
+              <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Quyen" ColumnName="ID_Quyen" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="Ma" ColumnName="Ma" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="QuocTich" ColumnName="QuocTich" />
+                <ScalarProperty Name="Khoa" ColumnName="Khoa" />
+                <ScalarProperty Name="ID_Nganh" ColumnName="ID_Nganh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ThoiKhoaBieu">
-            <EntityTypeMapping TypeName="TrogiangvluModel.ThoiKhoaBieu">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.ThoiKhoaBieu">
               <MappingFragment StoreEntitySet="ThoiKhoaBieu">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_HocKy" ColumnName="ID_HocKy" />

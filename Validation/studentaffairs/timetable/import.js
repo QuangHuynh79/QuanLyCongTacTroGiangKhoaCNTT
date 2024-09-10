@@ -88,7 +88,7 @@
                 formData.append('confirm', '');
 
                 $.ajax({
-                    error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                    error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                     url: $('#requestPath').val() + "TimeTable/SubmitImport",
                     data: formData,
                     dataType: 'html',
@@ -171,7 +171,7 @@
                                 formData.append('confirm', 'addnew');
 
                                 $.ajax({
-                                    error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                                    error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                                     url: $('#requestPath').val() + "TimeTable/SubmitImport",
                                     data: formData,
                                     dataType: 'html',
@@ -267,7 +267,7 @@
                                 formData.append('confirm', 'replace');
 
                                 $.ajax({
-                                    error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "admin/dangnhap/logout"; } },
+                                    error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                                     url: $('#requestPath').val() + "TimeTable/SubmitImport",
                                     data: formData,
                                     dataType: 'html',

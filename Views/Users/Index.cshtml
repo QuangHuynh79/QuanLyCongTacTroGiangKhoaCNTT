@@ -1,0 +1,180 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.Quyen>
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstNganh = models.Nganh.ToList();
+    ViewBag.Title = "Người dùng";
+    Layout = Session["layout"].ToString();
+}
+<link href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+<script src="~/ActiveItemMenu/studentaffairs/user/index.js"></script>
+
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Người Dùng</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a>Người dùng</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm mới</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="pageload">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card">
+                <h3 class="text-center mt-4 mb-3"><span class="spinner-border spinner-border-sm me-2" style="width: 18px; height: 18px" role="status" aria-hidden="true"></span>Đang tải...</h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="themmoi" tabindex="-1" role="dialog" aria-labelledby="themmoi" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="themmoiTitle">Thêm người dùng mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="chucdanh">
+                                    Chức danh <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="chucdanh">
+                                    <option selected value="">---- Chọn chức danh ----</option>
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@item.ID">@item.name</option>
+                                    }
+                                </select>
+                                <span class="text-danger" id="valid-chucdanh"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="ma">Mã <span class="text-danger">*</span></label>
+                                <input type="text" id="ma" class="form-control" placeholder="Nhập mã người dùng">
+                                <span class="text-danger" id="valid-ma"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="hoten">Họ & Tên <span class="text-danger">*</span></label>
+                                <input type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên người dùng">
+                                <span class="text-danger" id="valid-hoten"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                                <input type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email người dùng">
+                                <span class="text-danger" id="valid-email"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="dienthoai">Số điện thoại</label>
+                                <input maxlength="10" data-type="numbers" type="tel" id="dienthoai" class="form-control" placeholder="09xxxxxxxx">
+                                <span class="text-danger" id="valid-dienthoai"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="gioitinh">
+                                    Giới tính
+                                </label>
+                                <select class="form-select" id="gioitinh">
+                                    <option selected value="">---- Chọn giới tính ----</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select>
+                                <span class="text-danger" id="valid-gioitinh"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu người dùng là người nước ngoài)</i></small></span></label>
+                                <div class="form-check form-switch mb-2 form-control">
+                                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="quoctich" checked>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="khoa">Khoa</label>
+                                <input type="text" id="khoa" class="form-control" placeholder="Nhập khoa của người dùng">
+                                <span class="text-danger" id="valid-khoa"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="nganh">
+                                    Ngành
+                                </label>
+                                <select class="form-select" id="nganh">
+                                    <option selected value="">---- Chọn ngành ----</option>
+                                    @foreach (var item in lstNganh)
+                                    {
+                                        <option value="@item.id">@item.TenNganh</option>
+                                    }
+                                </select>
+                                <span class="text-danger" id="valid-nganh"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CẬP NHẬT -->
+    <div class="modal fade" id="capnhat" tabindex="-1" role="dialog" aria-labelledby="capnhat" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="capnhatTitle">Cập nhật người dùng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="capnhat-partial">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnEditClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnEditSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Validation/studentaffairs/users/load.js"></script>
+<script src="~/Validation/studentaffairs/users/filter.js"></script>
+<script src="~/Validation/studentaffairs/users/add.js"></script>
+<script src="~/Validation/studentaffairs/users/delete.js"></script>
+<script src="~/Validation/studentaffairs/users/edit.js"></script>

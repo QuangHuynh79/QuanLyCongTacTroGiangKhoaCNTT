@@ -11,12 +11,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
+using QuanLyCongTacTroGiangKhoaCNTT.Models;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+
         [AllowAnonymous]
         [Loginverification]
         public void SignIn()
@@ -29,7 +32,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [HttpPost]
         public ActionResult SignOut()
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -39,12 +41,32 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
 
             return RedirectToAction("index", "home");
-        } 
+        }
 
         // GET: /Account/SignInCallBack
         public ActionResult SignInCallBack()
         {
-            return RedirectToAction("Index", "Dashboard");
+            var EmailUser = User.Identity.GetUserName();
+            ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+            string FullName = identity.Claims.ToList()[7].Value;
+
+            var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(EmailUser.ToLower()));
+            if (users != null)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            else
+            {
+                TaiKhoan newUser = new TaiKhoan();
+                newUser.HoTen = FullName;
+                newUser.Email = EmailUser;
+                newUser.ID_Quyen = 1;
+                newUser.TrangThai = true;
+
+                model.TaiKhoan.Add(newUser);
+                model.SaveChanges();
+                return RedirectToAction("Index", "Dashboard");
+            }
         }
     }
 }

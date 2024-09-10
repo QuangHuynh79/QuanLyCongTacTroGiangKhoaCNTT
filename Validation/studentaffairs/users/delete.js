@@ -5,7 +5,7 @@
         formData.append('id', $(this).attr('name'));
         Swal.fire({
             title: 'Xóa bỏ?',
-            text: 'Bạn có chắc muốn xóa học kỳ "' + fullname + '" không?',
+            text: 'Bạn có chắc muốn xóa người dùng: "' + fullname + '" không?',
             icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#d33",
@@ -15,7 +15,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-                    url: $('#requestPath').val() + "TermAndMajor/DeleteSemester",
+                    url: $('#requestPath').val() + "Users/Delete",
                     data: formData,
                     dataType: 'html',
                     type: 'POST',
@@ -24,7 +24,7 @@
                 }).done(function (ketqua) {
                     Swal.fire({
                         title: "Thành công!",
-                        text: "Đã xóa thông tin học kỳ " + fullname,
+                        text: "Đã xóa thông tin người dùng: " + fullname,
                         icon: "success"
                     }).then(() => {
                         window.location.reload();

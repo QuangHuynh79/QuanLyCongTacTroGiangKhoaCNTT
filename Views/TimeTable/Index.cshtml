@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Student Affairs | Thời Khóa Biểu";
-    Layout = "~/Views/Shared/_StudentAffairsLayout.cshtml";
+    Layout = Session["layout"].ToString();
 
     int currentYear = DateTime.Now.Year;
 }
@@ -17,7 +17,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("index", "studentaffairsdashboard")">Dashboard</a>
+                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Thời Khóa Biểu

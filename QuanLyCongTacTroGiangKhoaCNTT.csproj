@@ -65,6 +65,9 @@
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
@@ -251,12 +254,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TeachingAssistantController.cs" />
     <Compile Include="Controllers\TermAndMajorController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\BCNRole.cs" />
+    <Compile Include="Middlewall\AllRole.cs" />
     <Compile Include="Middlewall\Loginverification.cs" />
     <Compile Include="Models\HocKy.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -279,6 +285,12 @@
     <Compile Include="Models\Nganh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Quyen.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThoiKhoaBieu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -291,6 +303,8 @@
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\import.js" />
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\index.js" />
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairsdashboard\index.js" />
+    <Content Include="ActiveItemMenu\studentaffairs\user\index.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
     <Content Include="Content\assets\css\theme.min.css" />
     <Content Include="Content\assets\fonts\feather\feather.css" />
     <Content Include="Content\assets\images\avatar\avatar-1.jpg" />
@@ -353,6 +367,7 @@
     <Content Include="Content\assets\libs\dragula\dist\dragula.min.js" />
     <Content Include="Content\assets\libs\dropzone\dist\dropzone.css" />
     <Content Include="Content\assets\libs\dropzone\dist\min\dropzone.min.js" />
+    <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.js" />
     <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.min.css" />
     <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.min.js" />
     <Content Include="Content\assets\libs\fullcalendar\index.global.min.js" />
@@ -408,6 +423,9 @@
     <Content Include="Content\assets\libs\bootstrap-icons\font\fonts\bootstrap-icons.woff" />
     <Content Include="Content\assets\libs\bootstrap-icons\font\fonts\bootstrap-icons.woff2" />
     <Content Include="Content\timetable\formimport\CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx" />
+    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff2" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -415,9 +433,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.ttf" />
-    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff" />
-    <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -439,6 +454,11 @@
     <Content Include="Validation\studentaffairs\timetable\filterviewtimtable.js" />
     <Content Include="Validation\studentaffairs\timetable\import.js" />
     <Content Include="Validation\studentaffairs\timetable\load.js" />
+    <Content Include="Validation\studentaffairs\users\add.js" />
+    <Content Include="Validation\studentaffairs\users\delete.js" />
+    <Content Include="Validation\studentaffairs\users\edit.js" />
+    <Content Include="Validation\studentaffairs\users\filter.js" />
+    <Content Include="Validation\studentaffairs\users\load.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -465,10 +485,15 @@
     <Content Include="Views\TimeTable\Index.cshtml" />
     <Content Include="Views\Shared\_StudentAffairsLayout.cshtml" />
     <Content Include="Views\TimeTable\_Export.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\_Index.cshtml" />
+    <Content Include="Views\Users\_EditUser.cshtml" />
+    <Content Include="Views\Shared\_StudientLayout.cshtml" />
+    <Content Include="Views\TeachingAssistant\Register.cshtml" />
+    <Content Include="Views\Shared\_DepartmentLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

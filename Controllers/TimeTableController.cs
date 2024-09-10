@@ -18,7 +18,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
     public class TimeTableController : Controller
     {
-        TrogiangvluEntities model = new TrogiangvluEntities();
+        CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TimeTable
         [Authorize]

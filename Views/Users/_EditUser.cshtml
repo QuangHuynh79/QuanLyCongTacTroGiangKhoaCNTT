@@ -1,0 +1,135 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@model QuanLyCongTacTroGiangKhoaCNTT.Models.TaiKhoan
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstNganh = models.Nganh.ToList();
+    var lstQuyen = models.Quyen.ToList();
+}
+<div class="modal-body" id="capnhat-partial">
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editchucdanh">
+                    Chức danh <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="editchucdanh">
+                    <option value="">---- Chọn chức danh ----</option>
+                    @foreach (var item in lstQuyen)
+                    {
+                        if (Model.ID_Quyen == item.ID)
+                        {
+                            <option selected value="@item.ID">@item.name</option>
+                            continue;
+                        }
+                        <option value="@item.ID">@item.name</option>
+                    }
+                </select>
+                <span class="text-danger" id="valid-editchucdanh"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editma">Mã <span class="text-danger">*</span></label>
+                <input value="@Model.Ma" name="@Model.ID" type="text" id="editma" class="form-control" placeholder="Nhập mã người dùng">
+                <span class="text-danger" id="valid-editma"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="edithoten">Họ & Tên <span class="text-danger">*</span></label>
+                <input value="@Model.HoTen" type="text" id="edithoten" class="form-control" placeholder="Nhập Họ & Tên người dùng">
+                <span class="text-danger" id="valid-edithoten"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editemail">Email <span class="text-danger">*</span></label>
+                <input value="@Model.Email" type="text" id="editemail" class="form-control" placeholder="Nhập địa chỉ Email người dùng">
+                <span class="text-danger" id="valid-editemail"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editdienthoai">Số điện thoại</label>
+                <input value="@Model.SDT" maxlength="10" data-type="numbers" type="tel" id="editdienthoai" class="form-control" placeholder="09xxxxxxxx">
+                <span class="text-danger" id="valid-editdienthoai"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editgioitinh">
+                    Giới tính
+                </label>
+                <select class="form-select" id="editgioitinh">
+                    @if (string.IsNullOrEmpty(Model.GioiTinh))
+                    {
+                        <option selected value="">---- Chọn giới tính ----</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    }
+                    else if (Model.GioiTinh.Equals("Nam"))
+                    {
+                        <option value="">---- Chọn giới tính ----</option>
+                        <option selected value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    }
+                    else
+                    {
+                        <option value="">---- Chọn giới tính ----</option>
+                        <option value="Nam">Nam</option>
+                        <option selected value="Nữ">Nữ</option>
+                    }
+
+                </select>
+                <span class="text-danger" id="valid-editgioitinh"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu người dùng là người nước ngoài)</i></small></span></label>
+                <div class="form-check form-switch mb-2 form-control">
+                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="editquoctich" checked="@(string.IsNullOrEmpty(Model.QuocTich) ? true : Model.QuocTich.Equals("Việt Nam") ? true : false)">
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editkhoa">Khoa</label>
+                <input value="@Model.Khoa" type="text" id="editkhoa" class="form-control" placeholder="Nhập khoa của người dùng">
+                <span class="text-danger" id="valid-editkhoa"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editnganh">
+                    Ngành
+                </label>
+                <select class="form-select" id="editnganh">
+                    @if (Model.ID_Nganh == null)
+                    {
+                        <option selected value="">---- Chọn ngành ----</option>
+                        foreach (var item in lstNganh)
+                        {
+                            <option value="@item.id">@item.TenNganh</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">---- Chọn ngành ----</option>
+                        foreach (var item in lstNganh)
+                        {
+                            if (item.id == Model.ID_Nganh)
+                            {
+                                <option selected value="@item.id">@item.TenNganh</option>
+                                continue;
+                            }
+                            <option value="@item.id">@item.TenNganh</option>
+                        }
+                    }
+
+                </select>
+                <span class="text-danger" id="valid-editnganh"></span>
+            </div>
+        </div>
+    </div>
+</div>

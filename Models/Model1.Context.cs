@@ -13,10 +13,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class TrogiangvluEntities : DbContext
+    public partial class CongTacTroGiangKhoaCNTTEntities : DbContext
     {
-        public TrogiangvluEntities()
-            : base("name=TrogiangvluEntities")
+        public CongTacTroGiangKhoaCNTTEntities()
+            : base("name=CongTacTroGiangKhoaCNTTEntities")
         {
         }
     
@@ -27,6 +27,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     
         public virtual DbSet<HocKy> HocKy { get; set; }
         public virtual DbSet<Nganh> Nganh { get; set; }
+        public virtual DbSet<Quyen> Quyen { get; set; }
+        public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
     }
 }

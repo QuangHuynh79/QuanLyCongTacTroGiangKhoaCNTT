@@ -12,23 +12,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Nganh
+    public partial class Quyen
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Nganh()
+        public Quyen()
         {
-            this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
             this.TaiKhoan = new HashSet<TaiKhoan>();
         }
     
-        public int id { get; set; }
-        public string MaNganh { get; set; }
-        public string TenNganh { get; set; }
-        public string TenVietTat { get; set; }
-        public string CTDT { get; set; }
+        public int ID { get; set; }
+        public string name { get; set; }
+        public string AbbreviatedName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaiKhoan> TaiKhoan { get; set; }
     }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.Nganh>
 @{
     ViewBag.Title = "Studentaffairs | Major";
-    Layout = "~/Views/Shared/_StudentAffairsLayout.cshtml";
+    Layout = Session["layout"].ToString();
 }
 
 <section class="container-fluid p-4">
@@ -15,7 +15,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("index", "studentaffairsdashboard")">Dashboard</a>
+                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a>Học kỳ & Ngành</a>
