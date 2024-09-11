@@ -53,7 +53,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(EmailUser.ToLower()));
             if (users != null)
             {
-                return RedirectToAction("Index", "Dashboard");
+                if (users.TrangThai == false)
+                {
+                    Session["Locked"] = true;
+                    return RedirectToAction("SignOut", "Account");
+                }
+                return RedirectToAction("Index", "DashBoard");
             }
             else
             {

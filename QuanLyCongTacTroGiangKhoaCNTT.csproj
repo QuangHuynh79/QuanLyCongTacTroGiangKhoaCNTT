@@ -252,6 +252,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassSectionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\GVRole.cs" />
     <Compile Include="Middlewall\BCNRole.cs" />
     <Compile Include="Middlewall\AllRole.cs" />
     <Compile Include="Middlewall\Loginverification.cs" />
@@ -304,6 +306,7 @@
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\index.js" />
     <Content Include="ActiveItemMenu\studentaffairs\studentaffairsdashboard\index.js" />
     <Content Include="ActiveItemMenu\studentaffairs\user\index.js" />
+    <Content Include="ActiveItemMenu\Teacher\index.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
     <Content Include="Content\assets\css\theme.min.css" />
     <Content Include="Content\assets\fonts\feather\feather.css" />
@@ -459,6 +462,7 @@
     <Content Include="Validation\studentaffairs\users\edit.js" />
     <Content Include="Validation\studentaffairs\users\filter.js" />
     <Content Include="Validation\studentaffairs\users\load.js" />
+    <Content Include="Validation\teacher\classsection\suggestedTA.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -491,6 +495,8 @@
     <Content Include="Views\Shared\_StudientLayout.cshtml" />
     <Content Include="Views\TeachingAssistant\Register.cshtml" />
     <Content Include="Views\Shared\_DepartmentLayout.cshtml" />
+    <Content Include="Views\ClassSection\Index.cshtml" />
+    <Content Include="Views\Shared\_TeacherLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

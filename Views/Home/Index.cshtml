@@ -2,7 +2,7 @@
     Layout = null;
 }
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
     <link rel="stylesheet" href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css">
     <!-- Required meta tags -->
@@ -24,6 +24,7 @@
     <link href="~/Content/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/@("@")mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/Sweetalert2/css/sweetalert2.min.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
@@ -70,6 +71,7 @@
     <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Content/assets/libs/simplebar/dist/simplebar.min.js"></script>
     <script src="~/Content/assets/js/theme.min.js"></script>
+    <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -79,7 +81,23 @@
                 window.location.href = "@Url.Action("signin", "account")";
             });
         });
+
     </script>
+    @if (Session["Locked"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: "Đăng nhập thất bại!",
+                    text: "Tài khoản của bạn đã bị ngưng hoạt động, vui lòng liên hệ BCN Khoa để được mở lại.",
+                    icon: "error"
+                }).then(() => {
+                    window.location.reload();
+                });
+            });
+        </script>
+        Session["Locked"] = null;
+    }
 </body>
 </html>
 
