@@ -262,6 +262,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\SVRole.cs" />
     <Compile Include="Middlewall\GVRole.cs" />
     <Compile Include="Middlewall\BCNRole.cs" />
     <Compile Include="Middlewall\AllRole.cs" />
@@ -300,14 +301,15 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairssemesterandmajor\nganh.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairssemesterandmajor\hocky.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\import.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\index.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairsdashboard\index.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\user\index.js" />
-    <Content Include="ActiveItemMenu\Teacher\index.js" />
+    <Content Include="ActiveItemMenu\Dashboard\index.js" />
+    <Content Include="ActiveItemMenu\ClassSection\index.js" />
+    <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
+    <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\apply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
+    <Content Include="ActiveItemMenu\Timetable\import.js" />
+    <Content Include="ActiveItemMenu\Timetable\index.js" />
+    <Content Include="ActiveItemMenu\User\index.js" />
     <Content Include="Content\assets\css\theme.min.css" />
     <Content Include="Content\assets\fonts\feather\feather.css" />
     <Content Include="Content\assets\images\avatar\avatar-1.jpg" />
@@ -447,21 +449,22 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Validation\studentaffairs\major\add.js" />
-    <Content Include="Validation\studentaffairs\major\delete.js" />
-    <Content Include="Validation\studentaffairs\major\edit.js" />
-    <Content Include="Validation\studentaffairs\semester\delete.js" />
-    <Content Include="Validation\studentaffairs\semester\edit.js" />
-    <Content Include="Validation\studentaffairs\semester\add.js" />
-    <Content Include="Validation\studentaffairs\timetable\exportfile.js" />
-    <Content Include="Validation\studentaffairs\timetable\filterviewtimtable.js" />
-    <Content Include="Validation\studentaffairs\timetable\import.js" />
-    <Content Include="Validation\studentaffairs\timetable\load.js" />
-    <Content Include="Validation\studentaffairs\users\add.js" />
-    <Content Include="Validation\studentaffairs\users\delete.js" />
-    <Content Include="Validation\studentaffairs\users\edit.js" />
-    <Content Include="Validation\studentaffairs\users\filter.js" />
-    <Content Include="Validation\studentaffairs\users\load.js" />
+    <Content Include="Validation\department\major\add.js" />
+    <Content Include="Validation\department\major\delete.js" />
+    <Content Include="Validation\department\major\edit.js" />
+    <Content Include="Validation\department\semester\add.js" />
+    <Content Include="Validation\department\semester\delete.js" />
+    <Content Include="Validation\department\semester\edit.js" />
+    <Content Include="Validation\department\timetable\exportfile.js" />
+    <Content Include="Validation\department\timetable\filterviewtimtable.js" />
+    <Content Include="Validation\department\timetable\import.js" />
+    <Content Include="Validation\department\timetable\load.js" />
+    <Content Include="Validation\department\users\add.js" />
+    <Content Include="Validation\department\users\delete.js" />
+    <Content Include="Validation\department\users\edit.js" />
+    <Content Include="Validation\department\users\filter.js" />
+    <Content Include="Validation\department\users\load.js" />
+    <Content Include="Validation\student\load.js" />
     <Content Include="Validation\teacher\classsection\suggestedTA.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -492,11 +495,15 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_Index.cshtml" />
     <Content Include="Views\Users\_EditUser.cshtml" />
-    <Content Include="Views\Shared\_StudientLayout.cshtml" />
+    <Content Include="Views\Shared\_StudentLayout.cshtml" />
     <Content Include="Views\TeachingAssistant\Register.cshtml" />
     <Content Include="Views\Shared\_DepartmentLayout.cshtml" />
     <Content Include="Views\ClassSection\Index.cshtml" />
     <Content Include="Views\Shared\_TeacherLayout.cshtml" />
+    <Content Include="Views\Users\_Filter.cshtml" />
+    <Content Include="Views\TeachingAssistant\Apply.cshtml" />
+    <Content Include="Views\TeachingAssistant\TaskList.cshtml" />
+    <Content Include="Views\TeachingAssistant\_Apply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

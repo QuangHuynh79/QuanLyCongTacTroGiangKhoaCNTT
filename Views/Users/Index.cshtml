@@ -6,9 +6,8 @@
     ViewBag.Title = "Người dùng";
     Layout = Session["layout"].ToString();
 }
+<script src="~/ActiveItemMenu/User/index.js"></script>
 <link href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
-<script src="~/ActiveItemMenu/studentaffairs/user/index.js"></script>
-
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
@@ -62,7 +61,7 @@
                                     Chức danh <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="chucdanh">
-                                    <option selected value="">---- Chọn chức danh ----</option>
+                                    <option selected value="">---- Chọn tất cả ----</option>
                                     @foreach (var item in Model)
                                     {
                                         <option value="@item.ID">@item.name</option>
@@ -173,8 +172,8 @@
     </div>
 </section>
 
-<script src="~/Validation/studentaffairs/users/load.js"></script>
-<script src="~/Validation/studentaffairs/users/filter.js"></script>
-<script src="~/Validation/studentaffairs/users/add.js"></script>
-<script src="~/Validation/studentaffairs/users/delete.js"></script>
-<script src="~/Validation/studentaffairs/users/edit.js"></script>
+<script src="~/Validation/department/users/load.js"></script>
+<script src="~/Validation/department/users/filter.js"></script>
+<script src="~/Validation/department/users/add.js"></script>
+<script src="~/Validation/department/users/delete.js"></script>
+<script src="~/Validation/department/users/edit.js"></script>

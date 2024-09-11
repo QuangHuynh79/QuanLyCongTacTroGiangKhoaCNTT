@@ -175,5 +175,29 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
+
+        [Authorize]
+        [BCNRole]
+        [HttpPost]
+        public ActionResult Filter(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    var data = model.TaiKhoan.ToList().OrderByDescending(o => o.ID);
+                    return PartialView("_Filter", data);
+                }
+                else
+                {
+                    var data = model.TaiKhoan.Where(w => w.ID_Quyen == id).ToList().OrderByDescending(o => o.ID);
+                    return PartialView("_Filter", data);
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
     }
 }

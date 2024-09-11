@@ -1,0 +1,62 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.TaiKhoan>
+@{
+    int i = 0;
+    int idUs = Int32.Parse(Session["user-id"].ToString());
+}
+
+<div id="filterParentLoad">
+    <div class="card-body">
+        <!-- table  -->
+        <div class="table-card">
+            <table class="table table-hover" style="width:100%">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-nowrap"></th>
+                        <th class="text-nowrap">Mã</th>
+                        <th class="text-nowrap">Họ & Tên</th>
+                        <th class="text-nowrap">Liên hệ</th>
+                        <th class="text-nowrap">Chức danh</th>
+                        <th class="text-nowrap">Quốc tịch</th>
+                        <th class="text-nowrap">Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        i++;
+                        <tr>
+                            <td valign="middle">@i</td>
+
+                            <td valign="middle">@item.Ma</td>
+                            <td valign="middle">@item.HoTen</td>
+                            <td valign="middle">
+                                @item.Email<br />
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-success" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                            </td>
+                            <td valign="middle">@item.Quyen.name @(string.IsNullOrEmpty(item.Quyen.AbbreviatedName) ? "" : "(" + item.Quyen.AbbreviatedName + ")")</td>
+                            <td valign="middle">@item.QuocTich</td>
+                            <td valign="middle">
+                                <div class="form-check form-switch  mb-2">
+                                    <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
+                                </div>
+                            </td>
+                            <td valign="middle" class="text-nowrap">
+                                @if (idUs != item.ID)
+                                {
+                                    <a style="font-size: 20px" role="button" id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-success">
+                                        <i class="bi bi-pencil-square me-2"></i>
+                                    </a>
+
+                                    <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

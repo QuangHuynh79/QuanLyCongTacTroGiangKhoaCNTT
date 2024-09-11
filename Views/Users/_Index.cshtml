@@ -124,8 +124,8 @@
                 <div class="row">
                     <div class="mb-3 col-md-4 col-12">
                         <label class="form-label">Lọc chức danh</label>
-                        <select id="hocky" class="form-select" data-width="100%">
-                            <option value="">Chọn chức danh để lọc</option>
+                        <select id="chucdanh" class="form-select" data-width="100%">
+                            <option value="0">Chọn chức danh để lọc</option>
                             @foreach (var item in lstRole)
                             {
                                 <option value="@item.ID">@item.name</option>
@@ -151,7 +151,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="filterLoad">
+                            <tbody>
                                 @foreach (var item in lstUser)
                                 {
                                     i++;
@@ -193,11 +193,4 @@
         </div>
     </div>
 </div>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-</script>
-
 

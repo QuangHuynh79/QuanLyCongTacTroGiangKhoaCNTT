@@ -28,5 +28,26 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             return View("Register");
         }
+
+        [Authorize]
+        [SVRole]
+        public ActionResult Apply()
+        {
+            return View("Apply");
+        }
+
+        [Authorize]
+        [SVRole]
+        public ActionResult LoadContentApply()
+        {
+            return PartialView("_Apply");
+        }
+
+        [Authorize]
+        [SVRole]
+        public ActionResult TaskList()
+        {
+            return View("TaskList");
+        }
     }
 }
