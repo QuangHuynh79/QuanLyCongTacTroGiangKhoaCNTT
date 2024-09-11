@@ -39,7 +39,7 @@
     <link rel="canonical" href="https://trogiangvlu.website">
     <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
 
-    <title>@ViewBag.Title</title>
+    <title>Studient Affairs | @ViewBag.Title</title>
 </head>
 
 <body>
@@ -66,10 +66,44 @@
                     </li>
 
                     <li class="nav-item">
+                        <a id="child-user-index" class="nav-link child-nav-link " href="@Url.Action("index", "Users")">
+                            <i class="nav-icon fe fe-users me-2"></i>
+                            Người dùng
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a id="parent-studentaffairs-studentaffairssemesterandmajor" class="nav-link  " href="#"
+                           data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairssemesterandmajor" aria-expanded="false"
+                           aria-controls="nav-studentaffairs-studentaffairssemesterandmajor">
+                            <i class="nav-icon fe fe-layers me-2"></i> Học kỳ & Ngành
+                        </a>
+                        <div id="nav-studentaffairs-studentaffairssemesterandmajor" class="collapse "
+                             data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-hocky" class="child-nav-link nav-link "
+                                       href="@Url.Action("semester", "TermAndMajor")">
+                                        Học kỳ
+                                    </a>
+                                </li>
+                                <!-- Nav item -->
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-nganh" class="child-nav-link nav-link "
+                                       href="@Url.Action("major", "TermAndMajor")">
+                                        Ngành
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item">
                         <a id="parent-studentaffairs-studentaffairstimetable" class="nav-link  " href="#"
                            data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairstimetable" aria-expanded="false"
                            aria-controls="nav-studentaffairs-studentaffairstimetable">
-                            <i class="nav-icon fe fe-calendar me-2"></i> Trợ giảng
+                            <i class="nav-icon fe fe-calendar me-2"></i> Thời khóa biểu
                         </a>
                         <div id="nav-studentaffairs-studentaffairstimetable" class="collapse "
                              data-bs-parent="#sideNavbar">
@@ -77,7 +111,7 @@
                                 <li class="nav-item ">
                                     <a id="child-studentaffairs-studentaffairstimetable-index" class="child-nav-link nav-link "
                                        href="@Url.Action("index", "TimeTable")">
-                                        Form đăng ký
+                                        Xem TKB
                                     </a>
                                 </li>
                                 <!-- Nav item -->

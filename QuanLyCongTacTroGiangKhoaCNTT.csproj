@@ -254,6 +254,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TaskListController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
     <Compile Include="Controllers\TermAndMajorController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\GVRole.cs" />
     <Compile Include="Middlewall\BCNRole.cs" />
     <Compile Include="Middlewall\AllRole.cs" />
     <Compile Include="Middlewall\Loginverification.cs" />
@@ -491,9 +493,11 @@
     <Content Include="Views\Shared\_StudientLayout.cshtml" />
     <Content Include="Views\TeachingAssistant\Register.cshtml" />
     <Content Include="Views\Shared\_DepartmentLayout.cshtml" />
+    <Content Include="Views\Shared\_TeacherLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TaskList\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
