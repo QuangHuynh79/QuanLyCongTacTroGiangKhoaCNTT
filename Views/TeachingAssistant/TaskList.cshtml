@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Công việc";
     Layout = Session["layout"].ToString();
 }
@@ -39,7 +39,7 @@
 </section>
 
 <div class="modal fade" id="chitietmodal" tabindex="-1" role="dialog" aria-labelledby="chitietmodal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="chitietmodalTitle">Chi tiết công việc #527</h5>
@@ -49,25 +49,73 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label" for="hoten">Họ & Tên <span class="text-danger">*</span></label>
-                            <input value="" type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên">
-                            <span class="text-danger" id="valid-hoten"></span>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="hoten">Mô tả công việc</label>
+                                    <div class="form-control text-dark" style="height: 126px !important; background: var(--geeks-body-bg);">
+                                        Chuẩn bị danh sách lớp học cho buổi học đầu tiên
+                                    </div>
+                                    <span class="text-danger" id="valid-hoten"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="hoten">Kết quả mong đợi</label>
+                                    <div class="form-control text-dark" style="height: 126px !important; background: var(--geeks-body-bg); ">
+                                        hoàn thành 1 file excel chứa danh sách sinh viên trong lớp học
+                                    </div>
+                                    <span class="text-danger" id="valid-hoten"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="gioitinh">
+                                        Trạng thái <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select text-dark" id="gioitinh">
+                                        <option value="Cần làm">Cần làm</option>
+                                        <option value="Đang thực hiện">Đang thực hiện</option>
+                                        <option value="Chờ duyệt">Chờ duyệt</option>
+                                        <option value="Hoàn thành">Hoàn thành</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="hoten">Ước lượng</label>
+                                    <div class="form-control text-dark" style=" background: var(--geeks-body-bg);">
+                                        10 giờ
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="hoten">Thời gian thực hiện</label>
+                                    <div class="form-control text-dark" style=" background: var(--geeks-body-bg);">
+                                        Hoàn thành trước 13/10
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="hoten">Nơi làm việc</label>
+                                    <div class="form-control text-dark" style=" background: var(--geeks-body-bg);">
+                                        Tại nhà
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
                         <div class="mb-3">
-                            <label class="form-label" for="gioitinh">
-                                Giới tính <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-select" id="gioitinh">
-                                <option selected value="">---- Chọn giới tính ----</option>
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                            <span class="text-danger" id="valid-gioitinh"></span>
+                            <label class="form-label" for="hoten">Đặt câu hỏi hoặc thêm ghi chú</label>
+                            <textarea maxlength="200" placeholder="Nhập tối đa 200 ký tự" rows="4" class="form-control text-dark">Hoàn thành trước 13/10</textarea>
                         </div>
                     </div>
                 </div>
