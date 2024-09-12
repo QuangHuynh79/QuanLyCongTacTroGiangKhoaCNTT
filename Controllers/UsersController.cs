@@ -38,7 +38,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult AddNew(string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich)
+        public ActionResult AddNew(string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime ngaysinh)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 data.HoTen = hoten;
                 data.ID_Quyen = chucdanh;
                 data.TrangThai = true;
-
+                data.NgaySinh = ngaysinh;
                 data.Ma = ma;
                 data.GioiTinh = gioitinh;
                 if (quoctich)
@@ -120,7 +120,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich)
+        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime ngaysinh)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 data.Email = email;
                 data.HoTen = hoten;
                 data.ID_Quyen = chucdanh;
-
+                data.NgaySinh = ngaysinh;
                 data.Ma = ma;
                 data.GioiTinh = gioitinh;
                 if (quoctich)

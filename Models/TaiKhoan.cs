@@ -25,6 +25,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public string QuocTich { get; set; }
         public string Khoa { get; set; }
         public Nullable<int> ID_Nganh { get; set; }
+        public Nullable<System.DateTime> NgaySinh { get; set; }
     
         public virtual Quyen Quyen { get; set; }
         public virtual Nganh Nganh { get; set; }

@@ -52,6 +52,7 @@
           <Property Name="QuocTich" Type="nvarchar(max)" />
           <Property Name="Khoa" Type="nvarchar(max)" />
           <Property Name="ID_Nganh" Type="int" />
+          <Property Name="NgaySinh" Type="date" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -221,6 +222,7 @@
           <Property Name="ID_Nganh" Type="Int32" />
           <NavigationProperty Name="Quyen" Relationship="Self.FK_TaiKhoan_Quyen" FromRole="TaiKhoan" ToRole="Quyen" />
           <NavigationProperty Name="Nganh" Relationship="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh" FromRole="TaiKhoan" ToRole="Nganh" />
+          <Property Name="NgaySinh" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -379,6 +381,7 @@
           <EntitySetMapping Name="TaiKhoan">
             <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.TaiKhoan">
               <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Quyen" ColumnName="ID_Quyen" />
                 <ScalarProperty Name="HoTen" ColumnName="HoTen" />

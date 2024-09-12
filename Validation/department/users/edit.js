@@ -218,8 +218,9 @@
             formData.append('dienthoai', dienthoai);
             formData.append('khoa', khoa);
             formData.append('nganh', nganh);
-            formData.append('gioitinh', $('body').find('[id="gioitinh"] :selected').val());
-            formData.append('quoctich', $('body').find('[id="quoctich"]').prop('checked'));
+            formData.append('gioitinh', $('body').find('[id="editgioitinh"] :selected').val());
+            formData.append('quoctich', $('body').find('[id="editquoctich"]').prop('checked'));
+            formData.append('ngaysinh', $('body').find('[id="editngaysinh"]').val());
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
