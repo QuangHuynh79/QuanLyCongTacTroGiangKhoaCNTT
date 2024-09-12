@@ -47662,13 +47662,13 @@ input::-webkit-inner-spin-button, input::-webkit-outer-spin-button {
 
 .task-kanban-container {
     display: block;
-    overflow-x: auto;
+   /* overflow-x: auto;*/
     white-space: nowrap
 }
 
-    .task-kanban-container .task-card {
+/*    .task-kanban-container .task-card {
         width: 16rem
-    }
+    }*/
 
     .task-kanban-container .task-list {
         position: relative
@@ -52507,4 +52507,8 @@ a.fc-event, a.fc-event:hover {
 
 .dropzone {
     background: var(--geeks-white) !important
+}
+
+.task-name-label:hover > span {
+    color: var(--geeks-primary) !important;
 }
