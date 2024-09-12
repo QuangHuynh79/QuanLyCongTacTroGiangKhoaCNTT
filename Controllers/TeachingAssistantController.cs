@@ -3,6 +3,7 @@ using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
@@ -44,10 +45,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize]
-        [SVRole]
+        [TARole]
         public ActionResult TaskList()
         {
             return View("TaskList");
+        }
+
+        [Authorize]
+        [TARole]
+        public ActionResult LoadContentTaskList()
+        {
+            return PartialView("_TaskList");
         }
     }
 }
