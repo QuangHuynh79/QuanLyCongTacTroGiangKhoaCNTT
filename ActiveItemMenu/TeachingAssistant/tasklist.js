@@ -8,5 +8,5 @@
     $('body').find('#parent-trogiang').attr('aria-expanded', 'true');
     $('body').find('#parent-trogiang').removeClass('collapsed');
     $('body').find('#nav-trogiang').addClass('show');
-    $('body').find('#child-trogiang-tasklist').addClass('active');
+    $('body').find('#child-trogiang-tasklist').addClass('active'); 
 });
