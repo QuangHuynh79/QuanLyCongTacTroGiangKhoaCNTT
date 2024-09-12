@@ -8,7 +8,7 @@
         var ma = $('body').find('[id="ma"]').val().trim();
         var hoten = $('body').find('[id="hoten"]').val().trim();
         var email = $('body').find('[id="email"]').val().trim();
-        var chucdanh = $('body').find('[id="chucdanh"] :selected').val().trim();
+        var chucdanh = $('body').find('[id="chucdanh"] :selected').val();
         var dienthoai = $('body').find('[id="dienthoai"]').val().trim();
         var khoa = $('body').find('[id="khoa"]').val().trim();
         var nganh = $('body').find('[id="nganh"] :selected').val();
@@ -141,7 +141,7 @@
             formData.append('nganh', nganh);
             formData.append('gioitinh', $('body').find('[id="gioitinh"] :selected').val());
             formData.append('quoctich', $('body').find('[id="quoctich"]').prop('checked'));
-
+            formData.append('ngaysinh', $('body').find('[id="ngaysinh"]').val());
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
                 url: $('#requestPath').val() + "Users/AddNew",

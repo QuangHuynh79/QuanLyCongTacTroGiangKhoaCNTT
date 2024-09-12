@@ -31,14 +31,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize]
-        [SVRole]
+        [SVandTARole]
         public ActionResult Apply()
         {
             return View("Apply");
         }
 
         [Authorize]
-        [SVRole]
+        [SVandTARole]
         public ActionResult LoadContentApply()
         {
             return PartialView("_Apply");

@@ -263,6 +263,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\SVandTARole.cs" />
     <Compile Include="Middlewall\TARole.cs" />
     <Compile Include="Middlewall\SVRole.cs" />
     <Compile Include="Middlewall\GVRole.cs" />
@@ -377,7 +378,7 @@
     <Content Include="Content\assets\libs\dragula\dist\dragula.min.js" />
     <Content Include="Content\assets\libs\dropzone\dist\dropzone.css" />
     <Content Include="Content\assets\libs\dropzone\dist\min\dropzone.min.js" />
-    <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.js" />
+    <Content Include="Content\assets\libs\flatpickr\dist\flatpickr-vn.js" />
     <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.min.css" />
     <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.min.js" />
     <Content Include="Content\assets\libs\fullcalendar\index.global.min.js" />

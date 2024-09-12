@@ -1,12 +1,12 @@
 ﻿$(document).ready(function () {
-    $('body').on('change', '[id="chucdanh"]', function () {
+    $('body').on('change', '[id="filterchucdanh"]', function () {
         FilterParentData();
     });
 
     function FilterParentData() {
         $('body').find('[id="filterParentLoad"]').html('<h3 class="text-center mt-4 mb-3"><span class="spinner-border spinner-border-sm me-2" style="width: 18px; height: 18px" role="status" aria-hidden="true"></span>Đang tải...</h3>');
 
-        var id = $('body').find('[id="chucdanh"] :selected').val();
+        var id = $('body').find('[id="filterchucdanh"] :selected').val();
 
         var formData = new FormData();
         formData.append('id', id);

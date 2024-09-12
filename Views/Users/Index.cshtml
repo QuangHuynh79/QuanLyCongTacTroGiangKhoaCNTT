@@ -7,7 +7,6 @@
     Layout = Session["layout"].ToString();
 }
 <script src="~/ActiveItemMenu/User/index.js"></script>
-<link href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
@@ -100,6 +99,13 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
+                                <label class="form-label" for="ngaysinh">Ngày sinh</label>
+                                <input type="text" id="ngaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh người dùng">
+                                <span class="text-danger" id="valid-ngaysinh"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
                                 <label class="form-label" for="gioitinh">
                                     Giới tính
                                 </label>
@@ -177,3 +183,11 @@
 <script src="~/Validation/department/users/add.js"></script>
 <script src="~/Validation/department/users/delete.js"></script>
 <script src="~/Validation/department/users/edit.js"></script>
+<script>
+    $('.flatpickr').flatpickr({
+        disableMobile: !0,
+        allowInput: true,
+        enableTime: true,
+        locale: 'vn'
+    })
+</script>
