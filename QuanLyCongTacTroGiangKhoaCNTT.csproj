@@ -263,6 +263,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\TARole.cs" />
     <Compile Include="Middlewall\SVRole.cs" />
     <Compile Include="Middlewall\GVRole.cs" />
     <Compile Include="Middlewall\BCNRole.cs" />
@@ -306,6 +307,7 @@
     <Content Include="ActiveItemMenu\ClassSection\index.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\tasklist.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\apply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
     <Content Include="ActiveItemMenu\Timetable\import.js" />
@@ -333,6 +335,7 @@
     <Content Include="Content\assets\js\vendors\calendar.js" />
     <Content Include="Content\assets\js\vendors\chart.js" />
     <Content Include="Content\assets\js\vendors\chat.js" />
+    <Content Include="Content\assets\js\vendors\choice.js" />
     <Content Include="Content\assets\js\vendors\customDragula.js" />
     <Content Include="Content\assets\js\vendors\darkMode.js" />
     <Content Include="Content\assets\js\vendors\datatables.js" />
@@ -358,6 +361,7 @@
     <Content Include="Content\assets\libs\bootstrap\dist\js\bootstrap.min.js" />
     <Content Include="Content\assets\libs\bs-stepper\dist\css\bs-stepper.min.css" />
     <Content Include="Content\assets\libs\bs-stepper\dist\js\bs-stepper.min.js" />
+    <Content Include="Content\assets\libs\choices.js\public\assets\scripts\choices.min.js" />
     <Content Include="Content\assets\libs\datatables.net-bs5\css\dataTables.bootstrap5.min.css" />
     <Content Include="Content\assets\libs\datatables.net-bs5\js\dataTables.bootstrap5.min.js" />
     <Content Include="Content\assets\libs\datatables.net-buttons-bs5\css\buttons.bootstrap5.min.css" />
@@ -467,6 +471,7 @@
     <Content Include="Validation\department\users\load.js" />
     <Content Include="Validation\student\load.js" />
     <Content Include="Validation\teacher\classsection\suggestedTA.js" />
+    <Content Include="Validation\teachingassistant\load.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -491,7 +496,6 @@
     <Content Include="Views\TimeTable\_Index.cshtml" />
     <Content Include="Views\TimeTable\Import.cshtml" />
     <Content Include="Views\TimeTable\Index.cshtml" />
-    <Content Include="Views\Shared\_StudentAffairsLayout.cshtml" />
     <Content Include="Views\TimeTable\_Export.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_Index.cshtml" />
@@ -505,6 +509,8 @@
     <Content Include="Views\TeachingAssistant\Apply.cshtml" />
     <Content Include="Views\TeachingAssistant\TaskList.cshtml" />
     <Content Include="Views\TeachingAssistant\_Apply.cshtml" />
+    <Content Include="Views\Shared\_TALayout.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
