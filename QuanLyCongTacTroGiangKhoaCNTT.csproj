@@ -255,6 +255,7 @@
     <Compile Include="Controllers\ClassSectionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TaskListController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
     <Compile Include="Controllers\TermAndMajorController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
@@ -507,6 +508,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TaskList\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
