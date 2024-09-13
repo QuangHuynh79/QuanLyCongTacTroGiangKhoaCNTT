@@ -50,7 +50,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             var EmailUser = User.Identity.GetUserName();
             ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
-            string FullName = identity.Claims.ToList()[7].Value;
+            string FullName = identity.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
 
             var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(EmailUser.ToLower()));
             if (users != null)
