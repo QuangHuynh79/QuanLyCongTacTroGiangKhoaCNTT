@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -21,19 +22,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TimeTable
-        [Authorize]
+        [Authorize, BCNRole]
         public ActionResult Index()
         {
             return View("index");
         }
 
-        [Authorize]
+        [Authorize, BCNRole]
         public ActionResult LoadContent()
         {
             return PartialView("_Index");
         }
 
-        [Authorize]
+        [Authorize, BCNRole]
         public ActionResult FilterData(int hocky, int nganh, string mon, string gv)
         {
             var lstMon = mon.Split('#').ToList();
@@ -44,21 +45,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
 
-        [Authorize]
+        [Authorize, BCNRole]
         public ActionResult FilterParentData(int hocky, int nganh, string mon, string gv)
         {
             var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
             return PartialView("_FilterParentData", tkb);
         }
 
-        [Authorize]
+        [Authorize, BCNRole]
         [HttpGet]
         public ActionResult Import()
         {
             return View("import");
         }
 
-        [Authorize]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult SubmitImport(HttpPostedFileBase fileImport, int hocky, int nganh, string confirm)
         {
@@ -766,7 +767,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize, BCNRole]
         [HttpPost]
         public ContentResult DownloadFile(string fileName)
         {
@@ -779,7 +780,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             return Content(base64);
         }
 
-        [Authorize]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult ExportTimeTable(int hocky, int nganh, string mon, string gv)
         {

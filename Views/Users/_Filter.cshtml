@@ -30,11 +30,11 @@
 
                             <td valign="middle">@item.Ma</td>
                             <td valign="middle">@item.HoTen</td>
-                            <td valign="middle">
+                            <td valign="middle" class="text-nowrap">
                                 @item.Email<br />
                                 <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-success" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                             </td>
-                            <td valign="middle">@item.Quyen.name @(string.IsNullOrEmpty(item.Quyen.AbbreviatedName) ? "" : "(" + item.Quyen.AbbreviatedName + ")")</td>
+                            <td valign="middle" class="text-nowrap">@item.Quyen.name @(string.IsNullOrEmpty(item.Quyen.AbbreviatedName) ? "" : "(" + item.Quyen.AbbreviatedName + ")")</td>
                             <td valign="middle">@item.QuocTich</td>
                             <td valign="middle">
                                 <div class="form-check form-switch  mb-2">

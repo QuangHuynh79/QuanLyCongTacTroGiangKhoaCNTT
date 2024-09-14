@@ -22,8 +22,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         // GET: ClassSection
 
-        [Authorize]
-        [GVRole]
+        [Authorize, GVRole]
         public ActionResult Index()
         {
             return View("Index");

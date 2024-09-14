@@ -23,36 +23,31 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         // GET: TeachingAssistant
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         public ActionResult Register()
         {
             return View("Register");
         }
 
-        [Authorize]
-        [SVandTARole]
+        [Authorize, SVandTARole]
         public ActionResult Apply()
         {
             return View("Apply");
         }
 
-        [Authorize]
-        [SVandTARole]
+        [Authorize, SVandTARole]
         public ActionResult LoadContentApply()
         {
             return PartialView("_Apply");
         }
 
-        [Authorize]
-        [TARole]
+        [Authorize, TARole]
         public ActionResult TaskList()
         {
             return View("TaskList");
         }
 
-        [Authorize]
-        [TARole]
+        [Authorize, TARole]
         public ActionResult LoadContentTaskList()
         {
             return PartialView("_TaskList");

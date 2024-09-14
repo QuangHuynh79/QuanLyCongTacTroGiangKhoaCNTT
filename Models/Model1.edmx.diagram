@@ -14,6 +14,8 @@
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThoiKhoaBieu_Nganh" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Quyen" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThongBao" Width="1.5" PointX="10.25" PointY="2.375" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThongBao_TaiKhoan" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
