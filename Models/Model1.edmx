@@ -94,6 +94,16 @@
           <Property Name="GhiChu1" Type="nvarchar(max)" />
           <Property Name="GhiChu2" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="ThongBao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TieuDe" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NoiDung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ThoiGian" Type="datetime" Nullable="false" />
+          <Property Name="ID_TaiKhoan" Type="int" />
+        </EntityType>
         <Association Name="FK_TaiKhoan_Nganh">
           <End Role="Nganh" Type="Self.Nganh" Multiplicity="0..1" />
           <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
@@ -142,12 +152,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ThongBao_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="ThongBao" Type="Self.ThongBao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ThongBao">
+              <PropertyRef Name="ID_TaiKhoan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CongTacTroGiangKhoaCNTTModelStoreContainer">
           <EntitySet Name="HocKy" EntityType="Self.HocKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nganh" EntityType="Self.Nganh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_TaiKhoan_Nganh" Association="Self.FK_TaiKhoan_Nganh">
             <End Role="Nganh" EntitySet="Nganh" />
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
@@ -163,6 +186,10 @@
           <AssociationSet Name="FK_ThoiKhoaBieu_Nganh" Association="Self.FK_ThoiKhoaBieu_Nganh">
             <End Role="Nganh" EntitySet="Nganh" />
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThongBao_TaiKhoan" Association="Self.FK_ThongBao_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="ThongBao" EntitySet="ThongBao" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -223,6 +250,7 @@
           <NavigationProperty Name="Quyen" Relationship="Self.FK_TaiKhoan_Quyen" FromRole="TaiKhoan" ToRole="Quyen" />
           <NavigationProperty Name="Nganh" Relationship="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Nganh" FromRole="TaiKhoan" ToRole="Nganh" />
           <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ThongBao" Relationship="CongTacTroGiangKhoaCNTTModel.FK_ThongBao_TaiKhoan" FromRole="TaiKhoan" ToRole="ThongBao" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -324,6 +352,11 @@
             <End Role="Nganh" EntitySet="Nganh" />
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
           </AssociationSet>
+          <EntitySet Name="ThongBao" EntityType="CongTacTroGiangKhoaCNTTModel.ThongBao" />
+          <AssociationSet Name="FK_ThongBao_TaiKhoan" Association="CongTacTroGiangKhoaCNTTModel.FK_ThongBao_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="ThongBao" EntitySet="ThongBao" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_TaiKhoan_Nganh">
           <End Type="CongTacTroGiangKhoaCNTTModel.Nganh" Role="Nganh" Multiplicity="0..1" />
@@ -334,6 +367,29 @@
             </Principal>
             <Dependent Role="TaiKhoan">
               <PropertyRef Name="ID_Nganh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ThongBao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TieuDe" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ThoiGian" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_TaiKhoan" Type="Int32" />
+          <NavigationProperty Name="TaiKhoan" Relationship="CongTacTroGiangKhoaCNTTModel.FK_ThongBao_TaiKhoan" FromRole="ThongBao" ToRole="TaiKhoan" />
+        </EntityType>
+        <Association Name="FK_ThongBao_TaiKhoan">
+          <End Type="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Role="TaiKhoan" Multiplicity="0..1" />
+          <End Type="CongTacTroGiangKhoaCNTTModel.ThongBao" Role="ThongBao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ThongBao">
+              <PropertyRef Name="ID_TaiKhoan" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -434,6 +490,17 @@
                 <ScalarProperty Name="TenNganh" ColumnName="TenNganh" />
                 <ScalarProperty Name="GhiChu1" ColumnName="GhiChu1" />
                 <ScalarProperty Name="GhiChu2" ColumnName="GhiChu2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThongBao">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.ThongBao">
+              <MappingFragment StoreEntitySet="ThongBao">
+                <ScalarProperty Name="ID_TaiKhoan" ColumnName="ID_TaiKhoan" />
+                <ScalarProperty Name="ThoiGian" ColumnName="ThoiGian" />
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

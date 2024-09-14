@@ -20,8 +20,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
-        [AllowAnonymous]
-        [Loginverification]
+        [AllowAnonymous, Loginverification]
         public void SignIn()
         {
             // Send an OpenID Connect sign-in request.

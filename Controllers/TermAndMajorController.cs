@@ -13,16 +13,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TermAndMajor
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         public ActionResult Semester()
         {
             var lstSemester = model.HocKy.ToList();
             return View("Semester", lstSemester);
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult AddSemester(int tenhocky, int nambatdau, int namketthuc, int tuanbatdau, DateTime ngaybatdau, int tiettoida, int loptoida)
         {
@@ -56,8 +54,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult editStateSemester(bool trangthai, int id)
         {
@@ -79,8 +76,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult OpenEditSemester(int id)
         {
@@ -98,8 +94,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult EditSemester(int id, int tenhocky, int nambatdau, int namketthuc, int tuanbatdau, DateTime ngaybatdau, int tiettoida, int loptoida)
         {
@@ -128,8 +123,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult DeleteSemester(int id)
         {
@@ -150,16 +144,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         public ActionResult Major()
         {
             var lstMajor = model.Nganh.ToList();
             return View("Major", lstMajor);
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult AddMajor(string manganh, string tennganh, string tenviettat, string ctdt)
         {
@@ -186,8 +178,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult OpenEditMajor(int id)
         {
@@ -205,8 +196,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult EditMajor(int id, string manganh, string tennganh, string tenviettat, string ctdt)
         {
@@ -229,8 +219,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
         public ActionResult DeleteMajor(int id)
         {

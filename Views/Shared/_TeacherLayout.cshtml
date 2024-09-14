@@ -1,4 +1,4 @@
-﻿
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 <!doctype html>
 <html lang="en">
 <head>
@@ -231,6 +231,147 @@
         </main>
     </div>
     <input id="requestPath" value="@Url.Content("~")" />
+
+    <!-- Thông tin cá nhân -->
+    @{
+        CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+        var idTk = Int32.Parse(Session["user-id"].ToString());
+        var tk = models.TaiKhoan.Find(idTk);
+        var lstNganh = models.Nganh.ToList();
+    }
+    <div class="modal fade" id="thongtincanhanmodal" tabindex="-1" role="dialog" aria-labelledby="thongtincanhanmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="thongtincanhanmodalTitle">Cập nhật thông tin cá nhân</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infoma">Mã giảng viên <span class="text-danger">*</span></label>
+                                <input value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã giảng viên">
+                                <span class="text-danger" id="valid-infoma"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infohoten">Họ & Tên <span class="text-danger">*</span></label>
+                                <input value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
+                                <span class="text-danger" id="valid-infohoten"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infoemail">Email</label>
+                                <input disabled value="@tk.Email" type="text" id="infoemail" class="form-control" placeholder="Nhập địa chỉ Email đăng nhập">
+                                <span class="text-danger" id="valid-infoemail"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infodienthoai">Số điện thoại</label>
+                                <input value="@tk.SDT" maxlength="10" data-type="numbers" type="tel" id="infodienthoai" class="form-control" placeholder="Nhập số điện thoại">
+                                <span class="text-danger" id="valid-infodienthoai"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infongaysinh">Ngày sinh</label>
+                                <input value="@(tk.NgaySinh != null ? tk.NgaySinh.Value.ToString("yyyy-MM-dd") : "")" type="text" id="infongaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                                <span class="text-danger" id="valid-infongaysinh"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infogioitinh">
+                                    Giới tính
+                                </label>
+                                <select class="form-select" id="infogioitinh">
+                                    @if (string.IsNullOrEmpty(tk.GioiTinh))
+                                    {
+                                        <option selected value="">---- Chọn giới tính ----</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else if (tk.GioiTinh.Equals("Nam"))
+                                    {
+                                        <option value="">---- Chọn giới tính ----</option>
+                                        <option selected value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="">---- Chọn giới tính ----</option>
+                                        <option value="Nam">Nam</option>
+                                        <option selected value="Nữ">Nữ</option>
+                                    }
+
+                                </select>
+                                <span class="text-danger" id="valid-infogioitinh"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu bạn là người nước ngoài)</i></small></span></label>
+                                <div class="form-check form-switch mb-2 form-control">
+                                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="infoquoctich" checked="@(string.IsNullOrEmpty(tk.QuocTich) ? true : tk.QuocTich.Equals("Việt Nam") ? true : false)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infokhoa">Khoa</label>
+                                <input value="@tk.Khoa" type="text" id="infokhoa" class="form-control" placeholder="Nhập khoa bạn đang theo học">
+                                <span class="text-danger" id="valid-infokhoa"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="infonganh">
+                                    Ngành
+                                </label>
+                                <select class="form-select" id="infonganh">
+                                    @if (tk.ID_Nganh == null)
+                                    {
+                                        <option selected value="">---- Chọn ngành ----</option>
+                                        foreach (var item in lstNganh)
+                                        {
+                                            <option value="@item.id">@item.TenNganh</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">---- Chọn ngành ----</option>
+                                        foreach (var item in lstNganh)
+                                        {
+                                            if (item.id == tk.ID_Nganh)
+                                            {
+                                                <option selected value="@item.id">@item.TenNganh</option>
+                                                continue;
+                                            }
+                                            <option value="@item.id">@item.TenNganh</option>
+                                        }
+                                    }
+
+                                </select>
+                                <span class="text-danger" id="valid-infonganh"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnInfoClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnInfoSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Validation/Infomation/updateInfo.js"></script>
     <!-- Scripts -->
     <!-- Libs JS -->
 

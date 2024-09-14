@@ -38,7 +38,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult AddNew(string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime ngaysinh)
+        public ActionResult AddNew(string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime ngaysinh)
+        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -199,5 +199,42 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
+
+        [Authorize, AllRole]
+        [HttpPost]
+        public ActionResult UpdateInfo(string ma, string hoten, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        {
+            try
+            {
+                int id = Int32.Parse(Session["user-id"].ToString());
+
+                var checks = model.TaiKhoan.FirstOrDefault(u => u.Ma.ToLower().Equals(ma.ToLower()) && u.ID != id);
+                if (checks != null)
+                    return Content("Exist");
+
+                var data = model.TaiKhoan.Find(id);
+                data.HoTen = hoten;
+                data.NgaySinh = ngaysinh;
+                data.Ma = ma;
+                data.GioiTinh = gioitinh;
+                if (quoctich)
+                    data.QuocTich = "Việt Nam";
+                else
+                    data.QuocTich = "Nước ngoài";
+                data.SDT = dienthoai;
+                data.Khoa = khoa;
+                if (!string.IsNullOrEmpty(nganh))
+                    data.ID_Nganh = Int32.Parse(nganh);
+                model.Entry(data).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
     }
 }

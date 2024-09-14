@@ -14,8 +14,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         // GET: Dashboard
 
-        [Authorize]
-        [AllRole]
+        [Authorize, AllRole]
         public ActionResult Index()
         {
             var user = User.Identity.GetUserName();

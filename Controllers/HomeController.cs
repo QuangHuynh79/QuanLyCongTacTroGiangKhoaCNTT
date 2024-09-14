@@ -10,8 +10,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        [AllowAnonymous]
-        [Loginverification]
+        [AllowAnonymous, Loginverification]
         public ActionResult Index()
         {
             return View("index");

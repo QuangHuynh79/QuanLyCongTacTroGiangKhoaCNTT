@@ -14,6 +14,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     
     public partial class TaiKhoan
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TaiKhoan()
+        {
+            this.ThongBao = new HashSet<ThongBao>();
+        }
+    
         public int ID { get; set; }
         public int ID_Quyen { get; set; }
         public string HoTen { get; set; }
@@ -29,5 +35,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     
         public virtual Quyen Quyen { get; set; }
         public virtual Nganh Nganh { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ThongBao> ThongBao { get; set; }
     }
 }

@@ -30,5 +30,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual DbSet<Quyen> Quyen { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
+        public virtual DbSet<ThongBao> ThongBao { get; set; }
     }
 }
