@@ -27,6 +27,7 @@
     <link href="~/Content/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/@("@")mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
@@ -91,12 +92,24 @@
                                 <li class="nav-item ">
                                     <a id="child-trogiang-register" class="child-nav-link nav-link "
                                        href="@Url.Action("Register", "TeachingAssistant")">
-                                        Form đăng ký
+                                        Form Đăng ký
                                     </a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a id="child-trogiang-info" class="child-nav-link nav-link "
-                                       href="@Url.Action("Register", "TeachingAssistant")">
+                                    <a id="child-trogiang-advances" class="child-nav-link nav-link "
+                                       href="@Url.Action("Advances", "TeachingAssistant")">
+                                        Đề xuất trợ giảng
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-dadangky" class="child-nav-link nav-link "
+                                       href="@Url.Action("Registered", "TeachingAssistant")">
+                                        Đã đăng ký
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-quanly" class="child-nav-link nav-link "
+                                       href="@Url.Action("ListTA", "TeachingAssistant")">
                                         Thông tin trợ giảng
                                     </a>
                                 </li>
@@ -422,6 +435,8 @@
     <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
     <script src="~/Content/assets/libs/flatpickr/dist/flatpickr-vn.js"></script>
     <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
+    <script src="~/Content/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="~/Content/assets/js/vendors/glight.js"></script>
 
     <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
