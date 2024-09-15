@@ -1,3 +1,39 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@using Microsoft.AspNet.Identity;
+@{
+    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+    var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+    if (role != null)
+    {
+        Session["user-id"] = role.ID;
+        Session["user-email"] = role.Email;
+        Session["user-name"] = role.HoTen;
+        Session["user-role-name"] = role.Quyen.name;
+        Session["user-role-id"] = role.ID_Quyen;
+
+        if (role.ID_Quyen == 2)
+        {
+            Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
+        }
+        else if (role.ID_Quyen == 3)
+        {
+            Session["layout"] = "~/Views/Shared/_TeacherLayout.cshtml";
+        }
+        else if (role.ID_Quyen == 4)
+        {
+            Session["layout"] = "~/Views/Shared/_DepartmentLayout.cshtml";
+        }
+        else if (role.ID_Quyen == 5)
+        {
+            Session["layout"] = "~/Views/Shared/_TALayout.cshtml";
+        }
+        else if (role.ID_Quyen == 6)
+        {
+            Session["layout"] = "~/Views/Shared/_OfficeOfTrainingLayout.cshtml";
+        }
+        else
+        {
+            Session["layout"] = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
 }
