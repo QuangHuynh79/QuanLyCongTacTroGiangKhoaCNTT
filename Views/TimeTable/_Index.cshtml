@@ -10,15 +10,8 @@
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
     {
-        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().FirstOrDefault(f => f.NamBatDau == currentYear);
-        if (hkGanNhat == null)
-        {
-            id_hkGanNhat = lstHocKy.First().id;
-        }
-        else
-        {
-            id_hkGanNhat = hkGanNhat.id;
-        }
+        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
+        id_hkGanNhat = hkGanNhat.id;
     }
 
     int id_nganhCNTT = 0;

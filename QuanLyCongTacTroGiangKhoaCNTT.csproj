@@ -313,6 +313,9 @@
     <Content Include="ActiveItemMenu\Notifications\index.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\registered.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\tasklist.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\apply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
@@ -521,6 +524,9 @@
     <Content Include="Views\Shared\_TALayout.cshtml" />
     <Content Include="Views\TeachingAssistant\_TaskList.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\TeachingAssistant\ListTA.cshtml" />
+    <Content Include="Views\TeachingAssistant\Advances.cshtml" />
+    <Content Include="Views\TeachingAssistant\Registered.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

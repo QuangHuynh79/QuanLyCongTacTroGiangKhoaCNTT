@@ -7,13 +7,10 @@
     var lstNganh = model.Nganh.OrderByDescending(o => o.id).ToList();
     var lstHocKy = model.HocKy.OrderByDescending(o => o.id).ToList();
 
-    var currentDate = DateTime.Now;
-    var currentYear = DateTime.Now.Year;
-
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
     {
-        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().FirstOrDefault(f => f.NamBatDau == currentYear);
+        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
         if (hkGanNhat == null)
         {
             id_hkGanNhat = lstHocKy.First().id;
@@ -88,7 +85,6 @@
                                 }
                             </select>
                         </div>
-
                     </div>
                 </div>
                 <!-- table  -->
@@ -118,16 +114,16 @@
                                         <td>0</td>
                                         <td class="text-nowrap">
                                             <a style="font-size: 20px" role="button" @*id="openSua-@item.id" name="@item.id"*@ class="text-success">
-                                                <i class="bi bi-pencil-square me-2"></i>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                             </a>
 
                                             <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-primary">
-                                                <i class="bi bi-file-earmark-arrow-up me-2"></i>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Import danh sách lớp"><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
                                             </a>
 
                                             <span data-bs-toggle="modal" data-bs-target="#dexuattrogiang">
                                                 <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
-                                                    <i class="bi bi-bookmark-star me-2"></i>
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất TA"><i class="bi bi-bookmark-star me-2"></i></span>
                                                 </a>
                                             </span>
 

@@ -1,0 +1,374 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstHk = models.HocKy.ToList();
+    var lstNganh = models.Nganh.ToList();
+
+    ViewBag.Title = "Teaching Assistant";
+    Layout = Session["layout"].ToString();
+
+    var lstUs = models.TaiKhoan.ToList();
+    int i = 0;
+
+    int idtk = Int32.Parse(Session["user-id"].ToString());
+    var tksv = models.TaiKhoan.Find(idtk);
+}
+<script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Danh Sách Sinh Viên Đăng Ký Trợ Giảng</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a>Trợ Giảng</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Đã Đăng Ký
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    @*<a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm Trợ Giảng</a>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <!-- basic table -->
+        <div class="col-md-12 col-12 mb-5">
+            <div class="card">
+                <div class="card-header border-bottom-1 pt-3">
+                    <div class="row">
+                        <div class="mb-3 col-md-5 col-12 ">
+                            <label class="form-label">Đợt đăng ký</label>
+                            <select id="hocky" class="form-select" data-width="100%">
+                                @foreach (var item in lstHk)
+                                {
+                                    if (item.TenHocKy.Equals("242"))
+                                    {
+                                        <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        continue;
+                                    }
+                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-5 col-12 ">
+                            <label class="form-label">Ngành</label>
+                            <select id="hocky" class="form-select" data-width="100%">
+                                @foreach (var item in lstNganh)
+                                {
+                                    if (item.TenVietTat.Equals("CNTT"))
+                                    {
+                                        <option selected value="@item.id">@item.TenNganh</option>
+                                        continue;
+                                    }
+                                    <option value="@item.id">@item.TenNganh</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-2 col-12" style="display: flex; flex-direction: row; align-items: end">
+                            <div style="width: 100%; text-align: end">
+                                <a id="btnExportTkb" class="btn btn-outline-secondary">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- table  -->
+                <div class="card-body mt-3">
+                    <div class="table-card">
+                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th></th>
+                                    <th>Sinh viên</th>
+                                    <th>Liên hệ</th>
+                                    <th>Lớp HP</th>
+                                    <th>Điểm số</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lstUs)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td valign="middle">@i</td>
+                                        <td valign="middle">
+                                            MSSV: @item.Ma
+                                            <br />
+                                            Họ & Tên: @item.HoTen
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @item.Email
+                                            <br />
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            Mã LHP: 221_71ITBS10103_0@(i)
+                                            <br />
+                                            Tên HP: Nhập môn công nghệ thông tin
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            TB Chung: 8.0
+                                            <br />
+                                            Rèn luyện: 90
+                                            <br />
+                                            TK môn: 9.0
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#apply" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-primary">
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-circle me-2"></i></span>
+                                            </a>
+
+                                            <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#apply2" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-warning">
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem danh sách công việc"><i class="bi bi-bookmark-check-fill"></i></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyTitle">Thông tin trợ giảng 197pm31195 - Huỳnh Văn Quang.</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="hoten">Họ & Tên</label>
+                                <input disabled value="@tksv.HoTen" type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên">
+                                <span class="text-danger" id="valid-hoten"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="ma">MSSV</label>
+                                <input disabled value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
+                                <span class="text-danger" id="valid-ma"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="dienthoai">Số điện thoại</label>
+                                <input disabled value="@tksv.SDT" maxlength="10" data-type="numbers" type="tel" id="dienthoai" class="form-control" placeholder="09xxxxxxxx">
+                                <span class="text-danger" id="valid-dienthoai"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email</label>
+                                <input disabled value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
+                                <span class="text-danger" id="valid-email"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="ngaysinh">Ngày sinh</label>
+                                <input disabled name="@tksv.ID" value="@(tksv.NgaySinh.Value == null ? "" : tksv.NgaySinh.Value.ToString("yyyy-MM-dd"))" type="text" id="ngaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                                <span class="text-danger" id="valid-ngaysinh"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="gioitinh">
+                                    Giới tính
+                                </label>
+                                <select disabled class="form-select" id="gioitinh">
+                                    @if (string.IsNullOrEmpty(tksv.GioiTinh))
+                                    {
+                                        <option selected value="">---- Chọn giới tính ----</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else if (tksv.GioiTinh.Equals("Nam"))
+                                    {
+                                        <option value="">---- Chọn giới tính ----</option>
+                                        <option selected value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="">---- Chọn giới tính ----</option>
+                                        <option value="Nam">Nam</option>
+                                        <option selected value="Nữ">Nữ</option>
+                                    }
+
+                                </select>
+                                <span class="text-danger" id="valid-gioitinh"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="tbctl">Mã LHP</label>
+                                <input disabled type="text" id="tbctl" class="form-control" value="221_71ITBS10103_01" placeholder="Nhập điểm trung bình chung">
+                                <span class="text-danger" id="valid-tbctl"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="tbctl">Tên LHP</label>
+                                <input disabled type="text" id="tbctl" class="form-control" value="Nhập môn công nghệ thông tin" placeholder="Nhập điểm trung bình chung">
+                                <span class="text-danger" id="valid-tbctl"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="tbctl">Điểm trung bình chung tích lũy HK gần nhất</label>
+                                <input disabled type="text" id="tbctl" class="form-control" value="8.2" placeholder="Nhập điểm trung bình chung">
+                                <span class="text-danger" id="valid-tbctl"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="drl">Điểm rèn luyện HK gần nhất</label>
+                                <input disabled type="text" id="drl" class="form-control" value="88" placeholder="Nhập điểm rèn luyện">
+                                <span class="text-danger" id="valid-drl"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="dtk">Điểm tổng kết (thi lần 1) của học phần đăng ký làm TA</label>
+                                <input disabled type="text" id="dtk" class="form-control" value="9.0" placeholder="Nhập điểm tổng kết môn (thi lần 1)">
+                                <span class="text-danger" id="valid-dtk"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng</label>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <!-- Gallery -->
+                                        <a href="~/Content/img/logo-vlu.png" class="glightbox" data-gallery="gallery1">
+                                            <img src="~/Content/img/logo-vlu.png" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <!-- Gallery -->
+                                        <a href="~/Content/img/img_login_background.jpg" class="glightbox bg-secondary" data-gallery="gallery1">
+                                            <img src="~/Content/img/img_login_background.jpg" alt="image" class="img-fluid rounded-3 w-100" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <!-- Gallery -->
+                                        <a href="~/Content/img/img_login_background.jpg" class="glightbox bg-secondary" data-gallery="gallery1">
+                                            <img src="~/Content/img/img_login_background.jpg" alt="image" class="img-fluid rounded-3 w-100" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Duyệt ứng tuyển</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="apply2" tabindex="-1" role="dialog" aria-labelledby="apply2" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="apply2Title">Đánh giá công việc trợ giảng 197PM31195 - Huỳnh Văn Quang.</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <h5>Mã LHP: 221_71ITBS10103_01</h5>
+                                <h5>Tên LHP: Nhập môn công nghệ thông tin</h5>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless text-nowrap mb- table-centered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="pe-0">TT</th>
+                                                <th class="ps-3">Mô tả công việc</th>
+                                                <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
+                                                <th class="ps-3">T.Gian thực hiện</th>
+                                                <th class="ps-3">Nơi làm việc</th>
+                                                <th class="ps-3">Kết quả mong đợi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int j = 1; j <= 3; j++)
+                                            {
+                                                <tr id="parent-@j" name="@j">
+                                                    <td valign="middle" class="pe-0 ps-3">
+                                                        <div id="tt-@j" class="form-control">
+                                                            @j
+                                                        </div>
+                                                    </td>
+                                                    <td valign="middle" class="pe-0 ps-3">
+                                                        <div class="form-control">Mô tả công việc @j</div>
+                                                    </td>
+                                                    <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                                        <div class="form-control">@(j)h</div>
+                                                    </td>
+                                                    <td valign="middle" class="pe-0 ps-3">
+                                                        <div class="form-control">Trước 0@(j)/10/2024</div>
+                                                    </td>
+                                                    <td valign="middle" class="pe-0 ps-3">
+                                                        <div class="form-control">Tại nhà</div>
+                                                    </td>
+                                                    <td valign="middle" class="pe-0 ps-3">
+                                                        <div class="form-control">Hoàn thành công việc</div>
+                                                    </td>
+                                                </tr>
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Validation/studentaffairs/semester/add.js"></script>
+<script src="~/Validation/studentaffairs/semester/edit.js"></script>
+<script src="~/Validation/studentaffairs/semester/delete.js"></script>

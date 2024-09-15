@@ -15,25 +15,25 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Form Đăng Ký</h1>
+                    <h1 class="mb-0 h2 fw-bold">Danh Sách Đăng Ký Trợ Giảng</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a>Trợ Giảng</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Form đăng Ký
+                                Đăng Ký Trợ Giảng
                             </li>
                         </ol>
                     </nav>
                 </div>
                 <!-- button -->
                 <div>
-                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm mới</a>
+                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Mở Đăng Ký</a>
                 </div>
             </div>
         </div>
@@ -72,11 +72,11 @@
                                     <td><span class="badge bg-primary">Chưa mở</span></td>
                                     <td>
                                         <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                         </a>
 
                                         <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -91,11 +91,11 @@
                                     <td><span class="badge bg-success">Đang mở</span></td>
                                     <td>
                                         <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                         </a>
 
                                         <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -111,11 +111,11 @@
                                     <td><span class="badge bg-danger">Đã đóng</span></td>
                                     <td>
                                         <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                         </a>
 
                                         <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -130,15 +130,14 @@
                                     <td><span class="badge bg-danger">Đã đóng</span></td>
                                     <td>
                                         <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                         </a>
 
                                         <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                         </a>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -150,7 +149,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="themmoiTitle">Mở đợt đăng ký trợ giảng</h5>
+                    <h5 class="modal-title" id="themmoiTitle">Mở đăng ký trợ giảng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -220,7 +219,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="capnhatTitle">Cập nhật đợt đăng ký trợ giảng</h5>
+                    <h5 class="modal-title" id="capnhatTitle">Cập nhật đăng ký trợ giảng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
