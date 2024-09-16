@@ -1,1 +1,1 @@
-"use strict";dragula([document.querySelector("#courseOne"),document.querySelector("#courseTwo")]),dragula([document.querySelector("#taskcanlam"),document.querySelector("#taskdangthuchien"),document.querySelector("#taskchoduyet"),document.querySelector("#taskhoanthanh")]);
+"use strict";dragula([document.querySelector("#courseOne"),document.querySelector("#courseTwo")]),dragula([document.querySelector("#taskcanlam"),document.querySelector("#taskdangthuchien"),document.querySelector("#taskhoanthanh")]);

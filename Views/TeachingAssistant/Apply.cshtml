@@ -59,14 +59,14 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label" for="hoten">Họ & Tên <span class="text-danger">*</span></label>
-                            <input value="@tksv.HoTen" type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên">
+                            <input disabled value="@tksv.HoTen" type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên">
                             <span class="text-danger" id="valid-hoten"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label" for="ma">MSSV <span class="text-danger">*</span></label>
-                            <input value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
+                            <input disabled value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
                             <span class="text-danger" id="valid-ma"></span>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                            <input value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
+                            <input disabled value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
                             <span class="text-danger" id="valid-email"></span>
                         </div>
                     </div>
@@ -154,6 +154,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button id="huydangky" type="button" class="btn btn-danger">Hủy đăng ký</button>
                 <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
             </div>
         </div>
@@ -161,3 +162,18 @@
 </div>
 
 <script src="~/Validation/student/load.js"></script>
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '[id="huydangky"]', function () {
+            Swal.fire({
+                title: 'Hủy đăng ký?',
+                text: 'Bạn có chắc muốn hủy đăng ký trợ giảng lớp HP "221_71ITBS10103_0101" không?',
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Hủy ngay!",
+                cancelButtonText: "Đóng"
+            });
+        });
+    });
+</script>

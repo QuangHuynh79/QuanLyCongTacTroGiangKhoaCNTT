@@ -58,6 +58,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             return PartialView("_Apply");
         }
 
+        [Authorize, SVandTARole]
+        public ActionResult ResultApply()
+        {
+            return View("ResultApply");
+        }
         [Authorize, TARole]
         public ActionResult TaskList()
         {
@@ -68,6 +73,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult LoadContentTaskList()
         {
             return PartialView("_TaskList");
+        }
+
+        [Authorize, TARole]
+        public ActionResult Evaluation()
+        {
+            return PartialView("Evaluation");
         }
     }
 }

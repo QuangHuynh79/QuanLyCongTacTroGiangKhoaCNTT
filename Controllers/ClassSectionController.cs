@@ -27,5 +27,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             return View("Index");
         }
+
+        [Authorize, TARole]
+        public ActionResult QuanLyLopHoc()
+        {
+            return View("QuanLyLopHoc");
+        }
     }
 }

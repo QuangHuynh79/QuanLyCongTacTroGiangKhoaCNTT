@@ -135,6 +135,70 @@
 
                         </a>
                         <ul class="navbar-nav navbar-right-wrap ms-2 d-flex nav-top-wrap">
+                            <!--Thông báo-->
+                            <li class="dropdown stopevent">
+                                <a class="btn btn-light btn-icon rounded-circle indicator indicator-primary"
+                                   href="#"
+                                   role="button"
+                                   id="dropdownNotification"
+                                   data-bs-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <i class="fe fe-bell"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg" aria-labelledby="dropdownNotification">
+                                    <div>
+                                        <div class="border-bottom px-3 pb-3 d-flex justify-content-between align-items-center">
+                                            <span class="h4 mb-0">Thông Báo</span>
+                                        </div>
+                                        <div class="p-3 border-bottom ">
+                                            <div class="input-group">
+                                                <input class="form-control form-control-sm" placeholder="nhập từ khóa cần tìm" type="search" />
+                                                <a class="btn btn-secondary btn-sm" role="button">
+                                                    <i class="fe fe-search"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- List group -->
+                                        <ul class="list-group list-group-flush" data-simplebar style="max-height: 300px">
+                                            @for (int i = 0; i < 10; i++)
+                                            {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <a class="text-body" href="#">
+                                                                <div class="d-flex">
+                                                                    <img src="~/Content/img/notifi.png" alt="" class="avatar-md" />
+                                                                    <div class="ms-3">
+                                                                        <h5 class="fw-bold mb-1">Tiêu đề thông báo @i</h5>
+                                                                        <p class="mb-3">Nội dung thông báo @i</p>
+                                                                        <span class="fs-6">
+                                                                            <span>
+                                                                                <span class="bi-clock-history me-1"></span>
+                                                                                1@(i):20 2@(i)/10/2024
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-auto text-center me-2">
+                                                            <div>
+                                                                <a href="#" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
+                                                                    <i class="fe fe-x"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <div class="border-top px-3 pt-3 pb-0">
+                                            @*<a href="../../pages/notification-history.html" class="text-link fw-semibold">See all Notifications</a>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                             <!-- List -->
                             <li class="dropdown ms-2">
                                 <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
@@ -158,7 +222,7 @@
                                     <div class="dropdown-divider"></div>
                                     <ul class="list-unstyled">
                                         <li>
-                                            <a class="dropdown-item" href="">
+                                            <a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#thongtincanhanmodal">
                                                 <i class="fe fe-user me-2"></i> Thông tin cá nhân
                                             </a>
                                         </li>
@@ -177,8 +241,6 @@
                     </div>
                 </nav>
             </div>
-            <!-- Container fluid -->
-
             @RenderBody()
             @RenderSection("scripts", required: false)
         </main>
