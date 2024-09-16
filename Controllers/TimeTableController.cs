@@ -22,16 +22,25 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TimeTable
-        [Authorize, BCNRole]
+        [Authorize, GVandBCNandTARole]
         public ActionResult Index()
         {
             return View("index");
         }
 
-        [Authorize, BCNRole]
+        [Authorize, GVandBCNandTARole]
         public ActionResult LoadContent()
         {
-            return PartialView("_Index");
+            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+
+            if (role.ID_Quyen == 3)
+                return PartialView("_IndexGV");
+            else if (role.ID_Quyen == 4)
+                return PartialView("_IndexBCN");
+            else if (role.ID_Quyen == 5)
+                return PartialView("_IndexTA");
+            else
+                return new JsonResult { Data = "SystemLoginAgain", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [Authorize, BCNRole]
@@ -381,7 +390,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                         int excelRow = dt.Rows.IndexOf(data) + 2;
                                         return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                     }
-                                    
+
                                     if (!tkb[i].MaGocLHP.Equals(originalId.ToString().ToLower().Trim()))
                                         tkb[i].MaGocLHP = originalId.ToString().Trim();
                                     if (!tkb[i].MaMH.Equals(subjectId.ToString().ToLower().Trim()))

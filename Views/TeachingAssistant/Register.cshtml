@@ -133,7 +133,7 @@
                                             <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                         </a>
 
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
+                                        <a style="font-size: 20px" role="button" id="xoadangky" @*fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
                                             <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                         </a>
                                     </td>
@@ -285,6 +285,19 @@
     </div>
 
 </section>
-<script src="~/Validation/studentaffairs/semester/add.js"></script>
-<script src="~/Validation/studentaffairs/semester/edit.js"></script>
-<script src="~/Validation/studentaffairs/semester/delete.js"></script>
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '[id="xoadangky"]', function () {
+
+            Swal.fire({
+                title: 'Xóa đăng ký?',
+                text: 'Bạn có chắc muốn xóa đăng ký trợ giảng không?',
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Xóa ngay!",
+                cancelButtonText: "Hủy"
+            });
+        });
+    });
+</script>

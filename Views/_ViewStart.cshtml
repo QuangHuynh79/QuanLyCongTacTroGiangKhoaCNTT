@@ -1,5 +1,4 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
-@using Microsoft.AspNet.Identity;
 @{
     CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
     var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
@@ -11,7 +10,7 @@
         Session["user-role-name"] = role.Quyen.name;
         Session["user-role-id"] = role.ID_Quyen;
 
-        if (role.ID_Quyen == 2)
+        if (role.ID_Quyen == 1)
         {
             Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
         }

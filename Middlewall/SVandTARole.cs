@@ -35,7 +35,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                     filterContext.HttpContext.Session["user-role-name"] = role.Quyen.name;
                     filterContext.HttpContext.Session["user-role-id"] = role.ID_Quyen;
 
-                    if (role.ID_Quyen == 2)
+                    if (role.ID_Quyen == 1)
                         filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
                     else if (role.ID_Quyen == 3)
                         filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TeacherLayout.cshtml";
@@ -48,7 +48,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                     else
                         filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
 
-                    if(role.ID_Quyen != 2 && role.ID_Quyen != 5)
+                    if(role.ID_Quyen != 1 && role.ID_Quyen != 5)
                         filterContext.Result = new RedirectResult("~/Dashboard/Index");
                 }
 

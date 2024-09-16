@@ -14,7 +14,7 @@ using QuanLyCongTacTroGiangKhoaCNTT.Models;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
 {
-    public class SVRole : ActionFilterAttribute
+    public class GVandBCNandTARole : ActionFilterAttribute
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -48,7 +48,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                     else
                         filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
 
-                    if (role.ID_Quyen != 1)
+                    if (role.ID_Quyen == 1)
                         filterContext.Result = new RedirectResult("~/Dashboard/Index");
                 }
 

@@ -26,7 +26,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [BCNRole]
         public ActionResult Index()
         {
-            var lstRole = model.Quyen.Where(w => w.ID != 1).ToList();
+            var lstRole = model.Quyen.ToList();
             return View("Index", lstRole);
         }
         [Authorize]

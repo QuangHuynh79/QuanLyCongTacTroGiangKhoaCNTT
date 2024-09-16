@@ -264,9 +264,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\GVandBCNandTARole.cs" />
+    <Compile Include="Middlewall\SVRole.cs" />
     <Compile Include="Middlewall\SVandTARole.cs" />
     <Compile Include="Middlewall\TARole.cs" />
-    <Compile Include="Middlewall\SVRole.cs" />
     <Compile Include="Middlewall\GVRole.cs" />
     <Compile Include="Middlewall\BCNRole.cs" />
     <Compile Include="Middlewall\AllRole.cs" />
@@ -315,7 +316,9 @@
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\resultApply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\registered.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\evaluation.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\tasklist.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\apply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
@@ -418,6 +421,7 @@
     <Content Include="Content\img\img_login_background.jpg" />
     <Content Include="Content\img\img_sidebar_background.jpg" />
     <Content Include="Content\img\logo-vlu.png" />
+    <Content Include="Content\img\notifi.png" />
     <Content Include="Content\img\user-default.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -505,7 +509,7 @@
     <Content Include="Views\TermAndMajor\Semester.cshtml" />
     <Content Include="Views\TimeTable\_FilterData.cshtml" />
     <Content Include="Views\TimeTable\_FilterParentData.cshtml" />
-    <Content Include="Views\TimeTable\_Index.cshtml" />
+    <Content Include="Views\TimeTable\_IndexBCN.cshtml" />
     <Content Include="Views\TimeTable\Import.cshtml" />
     <Content Include="Views\TimeTable\Index.cshtml" />
     <Content Include="Views\TimeTable\_Export.cshtml" />
@@ -523,13 +527,18 @@
     <Content Include="Views\TeachingAssistant\_Apply.cshtml" />
     <Content Include="Views\Shared\_TALayout.cshtml" />
     <Content Include="Views\TeachingAssistant\_TaskList.cshtml" />
-    <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\TeachingAssistant\ListTA.cshtml" />
     <Content Include="Views\TeachingAssistant\Advances.cshtml" />
     <Content Include="Views\TeachingAssistant\Registered.cshtml" />
+    <Content Include="Views\TimeTable\_IndexTA.cshtml" />
+    <Content Include="Views\TimeTable\_IndexGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\ResultApply.cshtml" />
+    <Content Include="Views\ClassSection\QuanLyLopHoc.cshtml" />
+    <Content Include="Views\TeachingAssistant\Evaluation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Notifications\" />
     <Folder Include="Views\TaskList\" />
   </ItemGroup>
   <ItemGroup>
