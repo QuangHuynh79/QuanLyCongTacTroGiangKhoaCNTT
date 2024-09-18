@@ -32,6 +32,8 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
+    <link href="~/Content/assets/libs/dragula/dist/dragula.min.css" rel="stylesheet" />
+
     <link href="~/Content/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
@@ -82,7 +84,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a id="child-studentaffairs-studentaffairsdashboard-index" class="nav-link child-nav-link " href="@Url.Action("index", "TimeTable")">
+                        <a id="child-studentaffairs-studentaffairstimetable-index" class="nav-link child-nav-link " href="@Url.Action("index", "TimeTable")">
                             <i class="nav-icon fe fe-calendar me-2"></i> Thời khóa biểu
                         </a>
                     </li>
@@ -97,17 +99,28 @@
                              data-bs-parent="#sideNavbar">
                             <ul class="nav flex-column">
                                 <li class="nav-item ">
-                                    <a id="child-trogiang-index" class="child-nav-link nav-link "
-                                       href="@Url.Action("Register", "TeachingAssistant")">
-                                        Form đăng ký
+                                    <a id="child-trogiang-dadangky" class="child-nav-link nav-link "
+                                       href="@Url.Action("Registered", "TeachingAssistant")">
+                                        Đã đăng ký
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-phancongtrogiang" class="child-nav-link nav-link "
+                                       href="@Url.Action("Assgined", "TeachingAssistant")">
+                                        Phân công trợ giảng
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-quanly" class="child-nav-link nav-link "
+                                       href="@Url.Action("ListTA", "TeachingAssistant")">
+                                        Thông tin trợ giảng
                                     </a>
                                 </li>
                                 <!-- Nav item -->
                                 <li class="nav-item ">
-                                    <a id="child-studentaffairs-studentaffairstimetable-import" class="child-nav-link nav-link "
-                                       href="@Url.Action("import", "TimeTable")">
-                                        Import TKB
-
+                                    <a id="child-trogiang-tasklist" class="child-nav-link nav-link "
+                                       href="@Url.Action("TaskList", "TeachingAssistant")">
+                                        Công việc
                                     </a>
                                 </li>
                             </ul>

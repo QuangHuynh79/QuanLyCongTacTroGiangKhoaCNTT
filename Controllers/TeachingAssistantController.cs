@@ -29,7 +29,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             return View("Register");
         }
 
-        [Authorize, BCNRole]
+        [Authorize, GVandBCNRole]
         public ActionResult ListTA()
         {
             return View("ListTA");
@@ -40,10 +40,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             return View("Advances");
         }
-        [Authorize, BCNRole]
+        [Authorize, GVandBCNRole]
         public ActionResult Registered()
         {
-            return View("Registered");
+            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+            if (role.ID_Quyen == 4)
+                return PartialView("Registered"); //BCN
+            else
+                return PartialView("Registereds"); //GV
         }
 
         [Authorize, SVandTARole]
@@ -63,22 +67,32 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             return View("ResultApply");
         }
-        [Authorize, TARole]
+        [Authorize, TAandGVRole]
         public ActionResult TaskList()
         {
             return View("TaskList");
         }
 
-        [Authorize, TARole]
+        [Authorize, TAandGVRole]
         public ActionResult LoadContentTaskList()
         {
-            return PartialView("_TaskList");
+            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+            if (role.ID_Quyen == 5)
+                return PartialView("_TaskListTA");
+            else
+                return PartialView("_TaskListGV");
         }
 
         [Authorize, TARole]
         public ActionResult Evaluation()
         {
             return PartialView("Evaluation");
+        }
+
+        [Authorize, GVRole]
+        public ActionResult Assgined()
+        {
+            return View("Assgined");
         }
     }
 }
