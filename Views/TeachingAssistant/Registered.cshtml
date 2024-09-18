@@ -206,7 +206,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="ngaysinh">Ngày sinh</label>
-                                <input disabled name="@tksv.ID" value="@(tksv.NgaySinh.Value == null ? "" : tksv.NgaySinh.Value.ToString("yyyy-MM-dd"))" type="text" id="ngaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                                <input disabled name="@tksv.ID" value="@(tksv.NgaySinh == null ? "" : tksv.NgaySinh.Value.ToString("yyyy-MM-dd"))" type="text" id="ngaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
                                 <span class="text-danger" id="valid-ngaysinh"></span>
                             </div>
                         </div>

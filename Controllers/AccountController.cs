@@ -71,6 +71,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 model.TaiKhoan.Add(newUser);
                 model.SaveChanges();
+
                 return RedirectToAction("Index", "Dashboard");
             }
         }
