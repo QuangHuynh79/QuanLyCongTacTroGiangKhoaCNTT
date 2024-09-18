@@ -191,61 +191,57 @@
                         <div class="col-12">
                             <hr class="my-4" />
                         </div>
-                        <div class="col-12">
-                            <div class="mb-4">
-                                <h5 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h5>
-                            </div>
+                        <div class="col-12 mb-3">
+                            <h5 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h5>
                         </div>
                         <div class="col-12">
-                            <div class="card">
-                                <div class="table-responsive">
-                                    <table class="table table-borderless text-nowrap mb- table-centered">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th class="pe-0">TT</th>
-                                                <th class="ps-3">Mô tả công việc</th>
-                                                <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
-                                                <th class="ps-3">T.Gian thực hiện</th>
-                                                <th class="ps-3">Nơi làm việc</th>
-                                                <th class="ps-3">Kết quả mong đợi</th>
+                            <div class="table-card mt-0">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="pe-0">TT</th>
+                                            <th class="ps-3">Mô tả công việc</th>
+                                            <th style="max-width: 100px;" class="ps-3">K.Lượng</th>
+                                            <th class="ps-3">T.Gian thực hiện</th>
+                                            <th class="ps-3">Nơi làm việc</th>
+                                            <th class="ps-3">Kết quả mong đợi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int j = 1; j <= 3; j++)
+                                        {
+                                            <tr id="parent-@j" name="@j">
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div id="tt-@j" class="form-control">
+                                                        @j
+                                                    </div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Mô tả công việc @j</div>
+                                                </td>
+                                                <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                                    <div class="form-control">@(j)h</div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Trước 0@(j)/10/2024</div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Tại nhà</div>
+                                                </td>
+                                                <td valign="middle" class="ps-3">
+                                                    <div class="form-control">Hoàn thành công việc</div>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for (int j = 1; j <= 3; j++)
-                                            {
-                                                <tr id="parent-@j" name="@j">
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div id="tt-@j" class="form-control">
-                                                            @j
-                                                        </div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Mô tả công việc @j</div>
-                                                    </td>
-                                                    <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                        <div class="form-control">@(j)h</div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Trước 0@(j)/10/2024</div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Tại nhà</div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Hoàn thành công việc</div>
-                                                    </td>
-                                                </tr>
 
-                                            }
+                                        }
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="modal-footer">
                     <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button id="btnSubmit" type="button" class="btn btn-primary">Duyệt công việc</button>

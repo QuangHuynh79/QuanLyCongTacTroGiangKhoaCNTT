@@ -32,7 +32,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult LoadContent()
         {
             var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
-
             if (role.ID_Quyen == 3)
                 return PartialView("_IndexGV");
             else if (role.ID_Quyen == 4)

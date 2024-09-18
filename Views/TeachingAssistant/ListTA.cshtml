@@ -20,7 +20,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Danh Sách Trợ Giảng</h1>
+                    <h1 class="mb-0 h2 fw-bold">Thông Tin Trợ Giảng Đã Được Chọn</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -80,8 +80,8 @@
                             </select>
                         </div>
                         <div class="mb-3 col-md-2 col-12" style="display: flex; flex-direction: row; align-items: end">
-                            <div style="width: 100%; text-align: end">
-                                <a id="btnExportTkb" class="btn btn-outline-secondary">
+                            <div class="w-100 text-end">
+                                <a id="btnExportTkb" class="btn btn-outline-secondary w-100">
                                     <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
                                 </a>
                             </div>
@@ -95,9 +95,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th></th>
-                                    <th>MSSV</th>
-                                    <th>Họ & Tên</th>
-                                    <th>Liên hệ</th>
+                                    <th>Thông tin SV</th>
                                     <th>Lớp HP</th>
                                     <th>Tiến độ CV</th>
                                     <th></th>
@@ -109,13 +107,16 @@
                                     i++;
                                     <tr>
                                         <td valign="middle">@i</td>
-                                        <td valign="middle">@item.Ma</td>
-                                        <td valign="middle">@item.HoTen</td>
-                                        <td valign="middle" class="text-nowrap">
-                                            @item.Email
+                                        <td valign="middle">
+                                            <span>MSSV: @item.Ma</span>
                                             <br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-success" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span>Họ & Tên: @item.HoTen</span>
+                                            <br />
+                                            <span class="text-nowrap">Email: @item.Email</span>
+                                            <br />
+                                            <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @item.SDT<br>Ngày sinh: @item.NgaySinh.Value.ToString("dd/MM/yyyy")<br>Giới tính: @item.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
+
                                         <td valign="middle" class="text-nowrap">
                                             <div class="form-control">
                                                 Mã LHP: 221_71ITBS10103_0@(i)
@@ -320,66 +321,64 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="card">
-                                <div class="table-responsive">
-                                    <table class="table table-borderless text-nowrap mb- table-centered">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th class="pe-0">TT</th>
-                                                <th class="ps-3">Mô tả công việc</th>
-                                                <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
-                                                <th class="ps-3">T.Gian thực hiện</th>
-                                                <th class="ps-3">Nơi làm việc</th>
-                                                <th class="ps-3">Kết quả mong đợi</th>
-                                                <th class="ps-3 pe-3"></th>
+                            <div class="table-card mt-0">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="pe-0">TT</th>
+                                            <th class="ps-3">Mô tả công việc</th>
+                                            <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
+                                            <th class="ps-3">T.Gian thực hiện</th>
+                                            <th class="ps-3">Nơi làm việc</th>
+                                            <th class="ps-3">Kết quả mong đợi</th>
+                                            <th class="ps-3 pe-3"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int j = 1; j <= 3; j++)
+                                        {
+                                            <tr id="parent-@j" name="@j">
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div id="tt-@j" class="form-control">
+                                                        @j
+                                                    </div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Mô tả công việc @j</div>
+                                                </td>
+                                                <td valign="middle" style="width: 100px;" class="pe-0 ps-3">
+                                                    <div class="form-control">@(j)h</div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Trước 0@(j)/10/2024</div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Tại nhà</div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div class="form-control">Hoàn thành công việc</div>
+                                                </td>
+                                                <td valign="middle" class="ps-3">
+                                                    @if (j == 1)
+                                                    {
+                                                        <a role="button" name="@j" class="text-danger form-control"  style="max-width: fit-content">
+                                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Chưa hoàn thành"><i style="font-size: 20px" class="bi bi-x-circle-fill"></i></span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a role="button" name="@j" class="text-success form-control"  style="max-width: fit-content">
+                                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Đã hoàn thành"><i style="font-size: 20px" class="bi bi-check-circle-fill"></i></span>
+                                                        </a>
+                                                    }
+                                                </td>
+
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for (int j = 1; j <= 3; j++)
-                                            {
-                                                <tr id="parent-@j" name="@j">
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div id="tt-@j" class="form-control">
-                                                            @j
-                                                        </div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Mô tả công việc @j</div>
-                                                    </td>
-                                                    <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                        <div class="form-control">@(j)h</div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Trước 0@(j)/10/2024</div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Tại nhà</div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div class="form-control">Hoàn thành công việc</div>
-                                                    </td>
-                                                    <td valign="middle" class="ps-3 pe-3">
-                                                        @if (j == 1)
-                                                        {
-                                                            <a role="button" name="@j" class="text-danger form-control">
-                                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Chưa hoàn thành"><i style="font-size: 20px" class="bi bi-x-circle-fill"></i></span>
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a role="button" name="@j" class="text-success form-control">
-                                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Đã hoàn thành"><i style="font-size: 20px" class="bi bi-check-circle-fill"></i></span>
-                                                            </a>
-                                                        }
-                                                    </td>
 
-                                                </tr>
+                                        }
 
-                                            }
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

@@ -102,13 +102,12 @@
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
-                                    <th></th>
-                                    <th>Sinh viên</th>
-                                    <th>Liên hệ</th>
-                                    <th>Lớp HP</th>
-                                    <th>Điểm số</th>
-                                    <th>Trạng Thái</th>
-                                    <th></th>
+                                    <th class="text-nowrap">Sinh viên</th>
+                                    <th class="text-nowrap">Lớp HP</th>
+                                    <th class="text-nowrap">Điểm số</th>
+                                    <th class="text-nowrap">Phỏng vấn</th>
+                                    <th class="text-nowrap">Trạng Thái</th>
+                                    <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,14 +115,12 @@
                                 {
                                     i++;
                                     <tr>
-                                        <td valign="middle">@i</td>
                                         <td valign="middle">
                                             MSSV: @item.Ma
                                             <br />
                                             Họ & Tên: @item.HoTen
-                                        </td>
-                                        <td valign="middle" class="text-nowrap">
-                                            @item.Email
+                                            <br />
+                                            <span class="text-nowrap">Email: @item.Email</span>
                                             <br />
                                             <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
@@ -138,6 +135,13 @@
                                             Rèn luyện: 90
                                             <br />
                                             TK môn: 9.0
+                                        </td>
+                                        <td valign="middle">
+                                            <select id="" class="form-select w-auto">
+                                                <option value="all">Chưa PV</option>
+                                                <option selected value="dat">Đạt</option>
+                                                <option value="chuadat">Chưa đạt</option>
+                                            </select>
                                         </td>
                                         <td valign="middle" class="text-nowrap">
                                             @if (i == 2 || i == 3 || i == 5)
@@ -308,7 +312,6 @@
 
                 <div class="modal-footer">
                     <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Duyệt ứng tuyển</button>
                 </div>
             </div>
         </div>

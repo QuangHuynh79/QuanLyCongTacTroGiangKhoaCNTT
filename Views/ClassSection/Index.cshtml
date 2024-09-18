@@ -113,13 +113,19 @@
                                         <td>@item.SoTietDaXep</td>
                                         <td>0</td>
                                         <td class="text-nowrap">
-                                            <a style="font-size: 20px" role="button" @*id="openSua-@item.id" name="@item.id"*@ class="text-success">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
-                                            </a>
+                                            <span data-bs-toggle="modal" data-bs-target="#diemdanh">
+                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                                    <span><i class="bi bi-calendar3 me-2"></i></span>
+                                                </a>
+                                            </span>
 
-                                            <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-primary">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Import danh sách lớp"><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
-                                            </a>
+                                            <span data-bs-toggle="modal" data-bs-target="#importsv">
+                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                                </a>
+                                            </span>
+
+
 
                                             <span data-bs-toggle="modal" data-bs-target="#dexuattrogiang">
                                                 <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
@@ -166,99 +172,205 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="card">
-                                <div class="table-responsive">
-                                    <table class="table table-borderless text-nowrap mb- table-centered">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th class="pe-0">TT</th>
-                                                <th class="ps-3">Mô tả công việc</th>
-                                                <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
-                                                <th class="ps-3">T.Gian thực hiện</th>
-                                                <th class="ps-3">Nơi làm việc</th>
-                                                <th class="ps-3">Kết quả mong đợi</th>
-                                                <th class="ps-3 pe-3"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for (int i = 1; i <= 3; i++)
-                                            {
-                                                <tr id="parent-@i" name="@i">
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <div id="tt-@i" class="form-control">
-                                                            @i
-                                                        </div>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <textarea rows="1" type="text" id="mota-@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
-                                                        <span class="text-danger" id="valid-mota-@i"></span>
-                                                    </td>
-                                                    <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                        <input data-type="numbers" type="number" maxlength="3" id="khoiluong-@i" class="form-control" placeholder="giờ" />
-                                                        <span class="text-danger" id="valid-khoiluong-@i"></span>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <input type="text" id="thoigian-@i" class="form-control" placeholder="Ngày/buổi/tuần" />
-                                                        <span class="text-danger" id="valid-thoigian-@i"></span>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <textarea rows="1" type="text" id="noilamviec-@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
-                                                        <span class="text-danger" id="valid-noilamviec-@i"></span>
-                                                    </td>
-                                                    <td valign="middle" class="pe-0 ps-3">
-                                                        <textarea rows="1" type="text" id="ketqua-@i" class="form-control" placeholder="Kết quả công việc"></textarea>
-                                                        <span class="text-danger" id="valid-ketqua-@i"></span>
-                                                    </td>
-                                                    <td valign="middle" class="ps-3 pe-3">
-                                                        <a role="button" id="btnXoa-@i" name="@i" class="text-danger form-control">
-                                                            <i class="bi bi-trash"></i>
-                                                        </a>
-                                                    </td>
-
-                                                </tr>
-
-                                            }
-                                            <tr id="row-append">
-                                                <td colspan="7" class="text-center">
-                                                    <a id="addRow" data-bs-toggle="tooltip" data-bs-html="true" title="Thêm hàng mới" class="btn btn-sm btn-secondary">
-                                                        <i style="font-size: 18px" class="bi bi-plus-square-dotted"></i>
+                            <div class="table-card">
+                                <table class="table table-hover" data-width="100%">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="pe-0">TT</th>
+                                            <th class="ps-3">Mô tả công việc</th>
+                                            <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
+                                            <th class="ps-3">T.Gian thực hiện</th>
+                                            <th class="ps-3">Nơi làm việc</th>
+                                            <th class="ps-3">Kết quả mong đợi</th>
+                                            <th class="ps-3 pe-3"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 1; i <= 3; i++)
+                                        {
+                                            <tr id="tr-parent-@i" name="@i">
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <div id="tt-@i" class="form-control">
+                                                        @i
+                                                    </div>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <textarea rows="1" type="text" id="mota-@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
+                                                    <span class="text-danger" id="valid-mota-@i"></span>
+                                                </td>
+                                                <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                                    <input data-type="numbers" type="number" maxlength="3" id="khoiluong-@i" class="form-control" placeholder="giờ" />
+                                                    <span class="text-danger" id="valid-khoiluong-@i"></span>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <input type="text" id="thoigian-@i" class="form-control" placeholder="Ngày/buổi/tuần" />
+                                                    <span class="text-danger" id="valid-thoigian-@i"></span>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <textarea rows="1" type="text" id="noilamviec-@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
+                                                    <span class="text-danger" id="valid-noilamviec-@i"></span>
+                                                </td>
+                                                <td valign="middle" class="pe-0 ps-3">
+                                                    <textarea rows="1" type="text" id="ketqua-@i" class="form-control" placeholder="Kết quả công việc"></textarea>
+                                                    <span class="text-danger" id="valid-ketqua-@i"></span>
+                                                </td>
+                                                <td valign="middle" class="ps-3 pe-3">
+                                                    <a role="button" id="btnXoa-@i" name="@i" class="text-danger form-control">
+                                                        <i class="bi bi-trash"></i>
                                                     </a>
                                                 </td>
+
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+
+                                        }
+                                        <tr id="row-append">
+                                            <td colspan="7" class="text-center">
+                                                <a id="addRow" data-bs-toggle="tooltip" data-bs-html="true" title="Thêm hàng mới" class="btn btn-sm btn-secondary">
+                                                    <i style="font-size: 18px" class="bi bi-plus-square-dotted"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CẬP NHẬT -->
-    <div class="modal fade" id="capnhat" tabindex="-1" role="dialog" aria-labelledby="capnhat" aria-hidden="true">
+    <div class="modal fade" id="importsv" tabindex="-1" role="dialog" aria-labelledby="importsv" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="capnhatTitle">Cập nhật ngành</h5>
+                    <h5 class="modal-title" id="importsvTitle">Import danh sách sinh viên LHP 221_71ITBS10103_01</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body" id="capnhatnganh-partial">
-
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label" for="hinhanhmc">File import <small><small class="text-muted"><i>(chọn hoặc kéo thả file excel, tối đa 10MB)</i></small></small> <span class="text-danger">*</span></label>
+                            <div class="mb-3">
+                                <input type="file" class="form-control form-control-file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                <span class="text-danger" id="valid-import"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnEditClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnEditSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="diemdanh" tabindex="-1" role="dialog" aria-labelledby="diemdanh" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="diemdanhTitle">Điểm danh LHP 221_71ITBS10103_01</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body overflow-x-hidden">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <select id="hocky" class="form-select w-auto">
+                                            <option value="7">Thứ 2, Tiết 1 - 3, Tuần 5</option>
+                                            <option value="7">Thứ 2, Tiết 1 - 3, Tuần 6</option>
+                                            <option value="7">Thứ 2, Tiết 1 - 3, Tuần 7</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="w-100 text-end">
+                                        <a id="btnExportTkb" class="btn btn-outline-secondary">
+                                            <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5>Lớp HP: 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
+                            <h5>Sỉ Số: 0/20</h5>
+                        </div>
+                        <div class="col-12">
+                            <hr class="my-4" />
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-4">
+                                <h5 class="text-center" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h5>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-card">
+                                <table id="diemDanhTable" class="table table-hover" style="width:100%">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>TT</th>
+                                            <th>MSSV</th>
+                                            <th>Họ & Tên</th>
+                                            <th>Email</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Giới tính</th>
+                                            <th data-bs-toggle="tooltip" data-bs-html="true" title="Chọn nếu sinh viên có mặt">
+                                                Đ.Danh
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 1; i <= 20; i++)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>MSSV@(i)</td>
+                                                <td class="text-nowrap">Họ và tên của sinh viên @(i)</td>
+                                                <td>Địa chỉ emial @(i)</td>
+                                                <td>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                                                <td>Giới tính</td>
+                                                <td>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 <script src="~/Validation/teacher/classsection/suggestedTA.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#diemDanhTable").DataTable({
+            responsive: !0,
+            pagingType: "numbers",
+            pageLength: 100,
+        });
+    });
+</script>

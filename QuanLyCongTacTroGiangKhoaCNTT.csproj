@@ -264,7 +264,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\GVandBCNRole.cs" />
     <Compile Include="Middlewall\GVandBCNandTARole.cs" />
+    <Compile Include="Middlewall\TAandGVRole.cs" />
     <Compile Include="Middlewall\SVRole.cs" />
     <Compile Include="Middlewall\SVandTARole.cs" />
     <Compile Include="Middlewall\TARole.cs" />
@@ -316,6 +318,7 @@
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\assigned.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\resultApply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\registered.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\evaluation.js" />
@@ -487,6 +490,7 @@
     <Content Include="Validation\Infomation\updateInfo.js" />
     <Content Include="Validation\student\load.js" />
     <Content Include="Validation\teacher\classsection\suggestedTA.js" />
+    <Content Include="Validation\teacher\teachingassistant\viewAddTask.js" />
     <Content Include="Validation\teachingassistant\load.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -526,7 +530,7 @@
     <Content Include="Views\TeachingAssistant\TaskList.cshtml" />
     <Content Include="Views\TeachingAssistant\_Apply.cshtml" />
     <Content Include="Views\Shared\_TALayout.cshtml" />
-    <Content Include="Views\TeachingAssistant\_TaskList.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskListTA.cshtml" />
     <Content Include="Views\TeachingAssistant\ListTA.cshtml" />
     <Content Include="Views\TeachingAssistant\Advances.cshtml" />
     <Content Include="Views\TeachingAssistant\Registered.cshtml" />
@@ -535,6 +539,9 @@
     <Content Include="Views\TeachingAssistant\ResultApply.cshtml" />
     <Content Include="Views\ClassSection\QuanLyLopHoc.cshtml" />
     <Content Include="Views\TeachingAssistant\Evaluation.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskListGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\Assgined.cshtml" />
+    <Content Include="Views\TeachingAssistant\Registereds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

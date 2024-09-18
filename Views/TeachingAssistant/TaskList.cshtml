@@ -1,6 +1,9 @@
-﻿@{
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
     ViewBag.Title = "Công việc";
     Layout = Session["layout"].ToString();
+    var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
 }
 
 <script src="~/ActiveItemMenu/TeachingAssistant/tasklist.js"></script>
@@ -14,7 +17,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
                             </li>
                             <li class="breadcrumb-item" aria-current="page">
                                 Trợ giảng
@@ -53,19 +56,23 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="hoten">Mô tả công việc</label>
-                                    <div class="form-control text-dark" style="height: 126px !important; background: var(--geeks-body-bg);">
-                                        Chuẩn bị danh sách lớp học cho buổi học đầu tiên
-                                    </div>
+                                    <label class="form-label" for="hoten">
+                                        Mô tả công việc
+                                        @if (role.ID_Quyen != 5)
+                                        {<span class="text-danger">*</span>}
+                                    </label>
+                                    <textarea class="form-control text-dark" style="height: 126px !important;" @(role.ID_Quyen == 5 ? "disabled" : "")>Chuẩn bị danh sách lớp học cho buổi học đầu tiên</textarea>
                                     <span class="text-danger" id="valid-hoten"></span>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="hoten">Kết quả mong đợi</label>
-                                    <div class="form-control text-dark" style="height: 126px !important; background: var(--geeks-body-bg); ">
-                                        hoàn thành 1 file excel chứa danh sách sinh viên trong lớp học
-                                    </div>
+                                    <label class="form-label" for="hoten">
+                                        Kết quả mong đợi
+                                        @if (role.ID_Quyen != 5)
+                                        {<span class="text-danger">*</span>}
+                                    </label>
+                                    <textarea class="form-control text-dark" style="height: 126px !important;" @(role.ID_Quyen == 5 ? "disabled" : "")>hoàn thành 1 file excel chứa danh sách sinh viên trong lớp học</textarea>
                                     <span class="text-danger" id="valid-hoten"></span>
                                 </div>
                             </div>
@@ -87,26 +94,32 @@
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="hoten">Ước lượng</label>
-                                    <div class="form-control text-dark" style=" background: var(--geeks-body-bg);">
-                                        10 giờ
-                                    </div>
+                                    <label class="form-label" for="hoten">
+                                        Ước lượng <small><small class="text-muted">(số giờ)</small></small>
+                                        @if (role.ID_Quyen != 5)
+                                        {<span class="text-danger">*</span>}
+                                    </label>
+                                    <input value="10" type="number" class="form-control text-dark" @(role.ID_Quyen == 5 ? "disabled" : "") />
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="hoten">Thời gian thực hiện</label>
-                                    <div class="form-control text-dark" style=" background: var(--geeks-body-bg);">
-                                        Hoàn thành trước 13/10
-                                    </div>
+                                    <label class="form-label" for="hoten">
+                                        Thời gian thực hiện
+                                        @if (role.ID_Quyen != 5)
+                                        {<span class="text-danger">*</span>}
+                                    </label>
+                                    <input value="Hoàn thành trước 13/10" type="text" class="form-control text-dark" @(role.ID_Quyen == 5 ? "disabled" : "") />
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="hoten">Nơi làm việc</label>
-                                    <div class="form-control text-dark" style=" background: var(--geeks-body-bg);">
-                                        Tại nhà
-                                    </div>
+                                    <label class="form-label" for="hoten">
+                                        Nơi làm việc
+                                        @if (role.ID_Quyen != 5)
+                                        {<span class="text-danger">*</span>}
+                                    </label>
+                                    <input value="tại nhà" type="text" class="form-control text-dark" @(role.ID_Quyen == 5 ? "disabled" : "") />
                                 </div>
                             </div>
                         </div>
@@ -121,9 +134,112 @@
             </div>
             <div class="modal-footer">
                 <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                @if (role.ID_Quyen != 5)
+                {
+                    <button id="btnSubmit" type="button" class="btn btn-danger">Xác nhận chưa hoàn thành</button>
+                    <button id="btnSubmit" type="button" class="btn btn-success">Xác nhận hoàn thành</button>
+                }
+                <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="themcongviecmoi" tabindex="-1" role="dialog" aria-labelledby="themcongviecmoi" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="themcongviecmoiTitle">Thêm công việc mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="mb-3 col-md-6 col-12">
+                        <label class="form-label">Lớp học phần <span class="text-danger">*</span></label>
+                        <select id="hocky" class="form-select" data-width="100%">
+                            <option selected value="">---- Chọn lớp học phần ----</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-6 col-12">
+                        <label class="form-label">TA <span class="text-danger">*</span></label>
+                        <select id="hocky" class="form-select" data-width="100%">
+                            <option selected value="">Chọn TA</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <div class="table-card mt-0">
+                            <table class="table table-hover" data-width="100%">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="pe-0">TT</th>
+                                        <th class="ps-3">Mô tả công việc</th>
+                                        <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
+                                        <th class="ps-3">T.Gian thực hiện</th>
+                                        <th class="ps-3">Nơi làm việc</th>
+                                        <th class="ps-3">Kết quả mong đợi</th>
+                                        <th class="ps-3 pe-3"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 1; i <= 3; i++)
+                                    {
+                                        <tr id="tr-parent-@i" name="@i">
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <div id="tt-@i" class="form-control">
+                                                    @i
+                                                </div>
+                                            </td>
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <textarea rows="1" type="text" id="mota-@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
+                                                <span class="text-danger" id="valid-mota-@i"></span>
+                                            </td>
+                                            <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                                <input data-type="numbers" type="number" maxlength="3" id="khoiluong-@i" class="form-control" placeholder="giờ" />
+                                                <span class="text-danger" id="valid-khoiluong-@i"></span>
+                                            </td>
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <input type="text" id="thoigian-@i" class="form-control" placeholder="Ngày/buổi/tuần" />
+                                                <span class="text-danger" id="valid-thoigian-@i"></span>
+                                            </td>
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <textarea rows="1" type="text" id="noilamviec-@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
+                                                <span class="text-danger" id="valid-noilamviec-@i"></span>
+                                            </td>
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <textarea rows="1" type="text" id="ketqua-@i" class="form-control" placeholder="Kết quả công việc"></textarea>
+                                                <span class="text-danger" id="valid-ketqua-@i"></span>
+                                            </td>
+                                            <td valign="middle" class="ps-3 pe-3">
+                                                <a role="button" id="btnXoa-@i" name="@i" class="text-danger form-control">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+
+                                    }
+                                    <tr id="row-append">
+                                        <td colspan="7" class="text-center">
+                                            <a id="addRow" data-bs-toggle="tooltip" data-bs-html="true" title="Thêm hàng mới" class="btn btn-sm btn-secondary">
+                                                <i style="font-size: 18px" class="bi bi-plus-square-dotted"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                 <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
             </div>
         </div>
     </div>
 </div>
 <script src="~/Validation/teachingassistant/load.js"></script>
+<script src="~/Validation/teacher/teachingassistant/viewAddTask.js"></script>
