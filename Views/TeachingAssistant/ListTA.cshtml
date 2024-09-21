@@ -114,7 +114,7 @@
                                             <br />
                                             <span class="text-nowrap">Email: @item.Email</span>
                                             <br />
-                                            <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @item.SDT<br>Ngày sinh: @item.NgaySinh.Value.ToString("dd/MM/yyyy")<br>Giới tính: @item.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @item.SDT<br>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @item.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
 
                                         <td valign="middle" class="text-nowrap">
