@@ -156,7 +156,7 @@
                                                 <br />
                                                 <span class="text-nowrap">Email: @tksv.Email</span>
                                                 <br />
-                                                <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @tksv.NgaySinh.Value.ToString("dd/MM/yyyy")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                                <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @(tksv.NgaySinh != null ? tksv.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                             }
                                         </td>
                                         <td valign="middle">@item.SoTC</td>
