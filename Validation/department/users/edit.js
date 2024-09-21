@@ -87,7 +87,7 @@
         var ma = $('body').find('[id="editma"]').val().trim();
         var hoten = $('body').find('[id="edithoten"]').val().trim();
         var email = $('body').find('[id="editemail"]').val().trim();
-        var chucdanh = $('body').find('[id="editchucdanh"] :selected').val().trim();
+        var chucdanh = $('body').find('[id="editchucdanh"] :selected').val();
         var dienthoai = $('body').find('[id="editdienthoai"]').val().trim();
         var khoa = $('body').find('[id="editkhoa"]').val().trim();
         var nganh = $('body').find('[id="editnganh"] :selected').val();
