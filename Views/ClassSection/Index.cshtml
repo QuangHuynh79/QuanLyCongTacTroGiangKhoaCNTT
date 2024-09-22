@@ -32,7 +32,7 @@
     }
 
     var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
-
+    int j = 0;
 
 }
 <script src="~/ActiveItemMenu/ClassSection/index.js"></script>
@@ -95,23 +95,33 @@
                                 <tr>
                                     <th class="text-nowrap">Mã LHP</th>
                                     <th class="text-nowrap">Tên HP</th>
-                                    <th class="text-nowrap">Số TC</th>
                                     <th class="text-nowrap">Lịch Học</th>
-                                    <th class="text-nowrap">Số tiết</th>
-                                    <th class="text-nowrap">Số SV</th>
+                                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái đề xuất</th>
                                     <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in lstTkb.ToList())
                                 {
+                                    j++;
                                     <tr>
                                         <td>@item.MaLHP</td>
                                         <td>@item.TenHP</td>
-                                        <td>@item.SoTC</td>
                                         <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
-                                        <td>@item.SoTietDaXep</td>
-                                        <td>0</td>
+                                        <td>
+                                            @if (j == 4 || j == 6)
+                                            {
+                                                <span class="badge bg-success">Đã được duyệt</span>
+                                            }
+                                            else if (j == 3 || j == 8)
+                                            {
+                                                <span class="badge bg-danger">Chưa được duyệt</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Không đăng ký</span>
+                                            }
+                                        </td>
                                         <td class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#diemdanh">
                                                 <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
@@ -146,10 +156,10 @@
     </div>
 
     <div class="modal fade" id="dexuattrogiang" tabindex="-1" role="dialog" aria-labelledby="dexuattrogiang" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="dexuattrogiangTitle">Đề Xuất Trợ Giảng LHP 221_71ITBS10103_01</h5>
+                    <h5 class="modal-title" id="dexuattrogiangTitle">Đề Xuất Trợ Giảng LHP 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -168,21 +178,21 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-4">
-                                <h5 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h5>
+                                <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="table-card">
+                            <div class="table-card mt-0">
                                 <table class="table table-hover" data-width="100%">
                                     <thead class="table-light">
                                         <tr>
-                                            <th class="pe-0">TT</th>
-                                            <th class="ps-3">Mô tả công việc</th>
-                                            <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
-                                            <th class="ps-3">T.Gian thực hiện</th>
-                                            <th class="ps-3">Nơi làm việc</th>
-                                            <th class="ps-3">Kết quả mong đợi</th>
-                                            <th class="ps-3 pe-3"></th>
+                                            <th class="pe-0 text-nowrap">TT</th>
+                                            <th class="ps-3 text-nowrap">Mô tả công việc</th>
+                                            <th style="max-width: 80px;" class="ps-3 text-nowrap">T.Gian</th>
+                                            <th class="ps-3 text-nowrap">T.Gian hoàn thành</th>
+                                            <th class="ps-3 text-nowrap">Nơi làm việc</th>
+                                            <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
+                                            <th class="ps-3 pe-3 text-nowrap"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -245,7 +255,7 @@
     </div>
 
     <div class="modal fade" id="importsv" tabindex="-1" role="dialog" aria-labelledby="importsv" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="importsvTitle">Import danh sách sinh viên LHP 221_71ITBS10103_01</h5>
@@ -304,18 +314,19 @@
                                 </div>
                             </div>
                             <h5>Lớp HP: 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
-                            <h5>Sỉ Số: 0/20</h5>
+                            <h5>Sĩ Số: 20/20</h5>
                         </div>
                         <div class="col-12">
                             <hr class="my-4" />
                         </div>
                         <div class="col-12">
                             <div class="mb-4">
-                                <h5 class="text-center" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h5>
+                                <h3 class="text-center mb-0" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h3>
+                                <label class="small text-center w-100">(Bỏ chọn nếu sinh viên vắng mặt)</label>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="table-card">
+                            <div class="table-card mt-0">
                                 <table id="diemDanhTable" class="table table-hover" style="width:100%">
                                     <thead class="table-light">
                                         <tr>
@@ -325,7 +336,7 @@
                                             <th>Email</th>
                                             <th>Ngày sinh</th>
                                             <th>Giới tính</th>
-                                            <th data-bs-toggle="tooltip" data-bs-html="true" title="Chọn nếu sinh viên có mặt">
+                                            <th>
                                                 Đ.Danh
                                             </th>
                                         </tr>
@@ -342,7 +353,7 @@
                                                 <td>Giới tính</td>
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch">
+                                                        <input checked="true" class="form-check-input" type="checkbox" role="switch">
                                                     </div>
                                                 </td>
                                             </tr>

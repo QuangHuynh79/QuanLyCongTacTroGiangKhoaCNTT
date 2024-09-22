@@ -83,8 +83,8 @@
                             <label class="form-label">Lọc trạng thái</label>
                             <select id="" class="form-select" data-width="100%">
                                 <option value="all">Chọn tất cả</option>
-                                <option value="all">Đã phân công</option>
-                                <option value="all">Chưa phân công</option>
+                                <option value="all">Đã được duỵệt</option>
+                                <option value="all">Chưa được duyệt</option>
                             </select>
                         </div>
                         <div class="mb-3 col-md-3 col-12" style="display: flex; flex-direction: row; align-items: end">
@@ -142,11 +142,11 @@
                                         <td valign="middle" class="text-nowrap">
                                             @if (i == 2 || i == 3 || i == 5)
                                             {
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa phân công</span>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
                                             }
                                             else
                                             {
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã phân công</span>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
@@ -164,7 +164,7 @@
         </div>
     </div>
     <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="applyTitle">Thông tin trợ giảng 197pm31195 - Huỳnh Văn Quang.</h5>

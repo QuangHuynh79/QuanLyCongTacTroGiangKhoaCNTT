@@ -92,7 +92,7 @@
                         </a>
                         <ul class="navbar-nav navbar-right-wrap ms-2 d-flex nav-top-wrap">
                             <!--Thông báo-->
-                            <li class="dropdown stopevent">
+                            <li class="dropdown stopevent me-2">
                                 <a class="btn btn-light btn-icon rounded-circle indicator indicator-primary"
                                    href="#"
                                    role="button"
@@ -156,6 +156,10 @@
                                 </div>
                             </li>
 
+                            <li class="dropdown ms-2 text-end">
+                                <h5 style=" margin-top: 3px !important; margin-bottom: -5px !important" class="m-0">@Session["user-name"]</h5>
+                                <span class="mb-0 small">@Session["user-role-name"]</span>
+                            </li>
                             <!-- List -->
                             <li class="dropdown ms-2">
                                 <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
@@ -213,7 +217,7 @@
         var lstNganh = models.Nganh.ToList();
     }
     <div class="modal fade" id="thongtincanhanmodal" tabindex="-1" role="dialog" aria-labelledby="thongtincanhanmodal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="thongtincanhanmodalTitle">Cập nhật thông tin cá nhân</h5>
