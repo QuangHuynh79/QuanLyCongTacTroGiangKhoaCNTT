@@ -127,9 +127,7 @@
                                 <tr>
                                     <th class="text-nowrap">Học phần</th>
                                     <th class="text-nowrap">Trợ giảng</th>
-                                    <th class="text-nowrap">Số TC</th>
                                     <th class="text-nowrap">Lịch Học</th>
-                                    <th class="text-nowrap">Số tiết</th>
                                     <th class="text-nowrap">Số SV</th>
                                     <th class="text-nowrap"></th>
                                 </tr>
@@ -159,13 +157,11 @@
                                                 <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @(tksv.NgaySinh != null ? tksv.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                             }
                                         </td>
-                                        <td valign="middle">@item.SoTC</td>
                                         <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
-                                        <td valign="middle">@item.SoTietDaXep</td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#phancong">
-                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho học phần" class="text-primary">
+                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho lớp học phần" class="text-primary">
                                                     <span><i class="bi bi-person-check"></i></span>
                                                 </a>
                                             </span>
@@ -182,7 +178,7 @@
         </div>
     </div>
     <div class="modal fade" id="phancong" tabindex="-1" role="dialog" aria-labelledby="phancong" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="phancongTitle">Phân công trợ giảng cho LHP 221_71ITBS10103_01 - Nhập môn công nghệ thông tin.</h5>
@@ -190,13 +186,12 @@
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body overflow-x-hidden">
                     <div class="row">
                         <div class="col-12">
-                            <h5 class="text-center" for="tennganh">DANH SÁCH SINH VIÊN ĐĂNG KÝ LÀM TA LHP 221_71ITBS10103_01</h5>
+                            <h3 class="text-center mb-3" for="tennganh">DANH SÁCH SINH VIÊN ĐĂNG KÝ LÀM TA LHP 221_71ITBS10103_01</h3>
                         </div>
                     </div>
-                    <hr class="my-3" />
                     <div class="table-card mt-0">
                         <table id="phanCongTable" class="table table-hover" style="width:100%">
                             <thead class="table-light">

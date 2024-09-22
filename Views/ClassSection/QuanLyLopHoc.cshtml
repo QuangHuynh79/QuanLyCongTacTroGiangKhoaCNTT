@@ -93,9 +93,7 @@
                                 <tr>
                                     <th class="text-nowrap">Mã LHP</th>
                                     <th class="text-nowrap">Tên HP</th>
-                                    <th class="text-nowrap">Số TC</th>
                                     <th class="text-nowrap">Lịch Học</th>
-                                    <th class="text-nowrap">Số tiết</th>
                                     <th class="text-nowrap">Số SV</th>
                                     <th class="text-nowrap"></th>
                                 </tr>
@@ -106,9 +104,7 @@
                                     <tr>
                                         <td>@item.MaLHP</td>
                                         <td>@item.TenHP</td>
-                                        <td>@item.SoTC</td>
                                         <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
-                                        <td>@item.SoTietDaXep</td>
                                         <td>0</td>
                                         <td class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#diemdanh">
@@ -139,7 +135,7 @@
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body overflow-x-hidden">
                     <div class="row mb-4">
                         <div class="col-12">
                             <div class="row">
@@ -161,7 +157,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <h5>Lớp HP: 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
                             <h5>GV: Lê Thị Hồng</h5>
                             <h5>Sỉ Số: 0/20</h5>
@@ -171,7 +167,8 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-4">
-                                <h5 class="text-center" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h5>
+                                <h3 class="text-center mb-0" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h3>
+                                <label class="small text-center w-100">(Bỏ chọn nếu sinh viên vắng mặt)</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -202,7 +199,7 @@
                                                 <td>Giới tính</td>
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch">
+                                                        <input checked="true" class="form-check-input" type="checkbox" role="switch">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -213,10 +210,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>

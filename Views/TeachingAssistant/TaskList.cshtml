@@ -42,7 +42,7 @@
 </section>
 
 <div class="modal fade" id="chitietmodal" tabindex="-1" role="dialog" aria-labelledby="chitietmodal" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="chitietmodalTitle">Chi tiết công việc #527</h5>
@@ -85,17 +85,28 @@
                                     <label class="form-label" for="gioitinh">
                                         Trạng thái <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select text-dark" id="gioitinh">
-                                        <option value="Cần làm">Cần làm</option>
-                                        <option value="Đang thực hiện">Đang thực hiện</option>
-                                        <option value="Hoàn thành">Hoàn thành</option>
-                                    </select>
+                                    @if (role.ID_Quyen != 5)
+                                    {
+                                        <select class="form-select text-dark">
+                                            <option value="Đang thực hiện">Chưa hoàn thành</option>
+                                            <option value="Hoàn thành">Hoàn thành</option>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-select text-dark" id="gioitinh">
+                                            <option value="Cần làm">Cần làm</option>
+                                            <option value="Đang thực hiện">Đang thực hiện</option>
+                                            <option value="Hoàn thành">Hoàn thành</option>
+                                        </select>
+                                    }
+
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="hoten">
-                                        Ước lượng <small><small class="text-muted">(số giờ)</small></small>
+                                        Thời gian <small><small class="text-muted">(số giờ)</small></small>
                                         @if (role.ID_Quyen != 5)
                                         {<span class="text-danger">*</span>}
                                     </label>
@@ -105,11 +116,11 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="hoten">
-                                        Thời gian thực hiện
+                                        Thời gian hoàn thành
                                         @if (role.ID_Quyen != 5)
                                         {<span class="text-danger">*</span>}
                                     </label>
-                                    <input value="Hoàn thành trước 13/10" type="text" class="form-control text-dark" @(role.ID_Quyen == 5 ? "disabled" : "") />
+                                    <input value="2024-10-30" type="text" class="form-control text-dark" @(role.ID_Quyen == 5 ? "disabled" : "") />
                                 </div>
                             </div>
                             <div class="col-12">
@@ -134,11 +145,6 @@
             </div>
             <div class="modal-footer">
                 <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                @if (role.ID_Quyen != 5)
-                {
-                    <button id="btnSubmit" type="button" class="btn btn-danger">Xác nhận chưa hoàn thành</button>
-                    <button id="btnSubmit" type="button" class="btn btn-success">Xác nhận hoàn thành</button>
-                }
                 <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
             </div>
         </div>
@@ -162,25 +168,18 @@
                             <option selected value="">---- Chọn lớp học phần ----</option>
                         </select>
                     </div>
-                    <div class="mb-3 col-md-6 col-12">
-                        <label class="form-label">TA <span class="text-danger">*</span></label>
-                        <select id="hocky" class="form-select" data-width="100%">
-                            <option selected value="">Chọn TA</option>
-                        </select>
-                    </div>
-
                     <div class="col-12 mt-3">
                         <div class="table-card mt-0">
                             <table class="table table-hover" data-width="100%">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="pe-0">TT</th>
-                                        <th class="ps-3">Mô tả công việc</th>
-                                        <th style="max-width: 80px;" class="ps-3">K.Lượng</th>
-                                        <th class="ps-3">T.Gian thực hiện</th>
-                                        <th class="ps-3">Nơi làm việc</th>
-                                        <th class="ps-3">Kết quả mong đợi</th>
-                                        <th class="ps-3 pe-3"></th>
+                                        <th class="pe-0 text-nowrap">TT</th>
+                                        <th class="ps-3 text-nowrap">Mô tả công việc</th>
+                                        <th style="max-width: 80px;" class="ps-3 text-nowrap">T.Gian</th>
+                                        <th class="ps-3 text-nowrap">T.Gian hoàn thành</th>
+                                        <th class="ps-3 text-nowrap">Nơi làm việc</th>
+                                        <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
+                                        <th class="ps-3 pe-3 text-nowrap"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
