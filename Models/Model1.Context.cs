@@ -25,11 +25,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<CongViec> CongViec { get; set; }
+        public virtual DbSet<DanhSachSinhVien> DanhSachSinhVien { get; set; }
+        public virtual DbSet<DeXuatTroGiang> DeXuatTroGiang { get; set; }
+        public virtual DbSet<DiemDanh> DiemDanh { get; set; }
+        public virtual DbSet<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
         public virtual DbSet<HocKy> HocKy { get; set; }
+        public virtual DbSet<HocPhan> HocPhan { get; set; }
         public virtual DbSet<Nganh> Nganh { get; set; }
+        public virtual DbSet<PhanCongTroGiang> PhanCongTroGiang { get; set; }
+        public virtual DbSet<Phong> Phong { get; set; }
         public virtual DbSet<Quyen> Quyen { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
         public virtual DbSet<ThongBao> ThongBao { get; set; }
+        public virtual DbSet<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
     }
 }
