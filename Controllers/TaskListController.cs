@@ -23,7 +23,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, BCNRole]
         public ActionResult Index()
         {
-            return View();
+            return View(); 
         }
     }
 }
