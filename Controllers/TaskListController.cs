@@ -11,7 +11,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         // GET: TaskList
         public ActionResult Index()
         {
-            return View();
+            return View(); 
         }
     }
 }
