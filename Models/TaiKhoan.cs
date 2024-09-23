@@ -17,7 +17,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TaiKhoan()
         {
+            this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
+            this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
             this.ThongBao = new HashSet<ThongBao>();
+            this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
         }
     
         public int ID { get; set; }
@@ -33,9 +36,15 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public Nullable<int> ID_Nganh { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
     
-        public virtual Quyen Quyen { get; set; }
         public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhanCongTroGiang> PhanCongTroGiang { get; set; }
+        public virtual Quyen Quyen { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThongBao> ThongBao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
     }
 }

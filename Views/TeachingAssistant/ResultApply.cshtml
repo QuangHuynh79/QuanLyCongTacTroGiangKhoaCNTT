@@ -100,7 +100,6 @@
                                 <tr>
                                     <th class="text-nowrap">Mã LHP</th>
                                     <th class="text-nowrap">Tên HP</th>
-                                    <th class="text-nowrap">Số TC</th>
                                     <th class="text-nowrap">Lịch Học</th>
                                     <th class="text-nowrap">Số tiết</th>
                                     <th class="text-nowrap">Trạng thái</th>
@@ -112,8 +111,7 @@
                                 {
                                     <tr>
                                         <td valign="middle">@item.MaLHP</td>
-                                        <td valign="middle">@item.TenHP</td>
-                                        <td valign="middle">@item.SoTC</td>
+                                        <td valign="middle">@item.HocPhan.TenHP</td>
                                         <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
                                         <td valign="middle">@item.SoTietDaXep</td>
                                         <td valign="middle" class="text-nowrap">

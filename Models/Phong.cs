@@ -12,30 +12,24 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class HocKy
+    public partial class Phong
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public HocKy()
+        public Phong()
         {
-            this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
-            this.Phong = new HashSet<Phong>();
             this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
         }
     
-        public int id { get; set; }
-        public int TenHocKy { get; set; }
-        public int NamBatDau { get; set; }
-        public int NamKetThuc { get; set; }
-        public int TuanBatDau { get; set; }
-        public System.DateTime NgayBatDau { get; set; }
-        public int TietToiDa { get; set; }
-        public int LopToiDa { get; set; }
-        public bool TrangThai { get; set; }
+        public int ID { get; set; }
+        public int ID_HocKy { get; set; }
+        public int ID_Nganh { get; set; }
+        public string TenPhong { get; set; }
+        public string PH { get; set; }
+        public string PH_X { get; set; }
+        public int SucChua { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Phong> Phong { get; set; }
+        public virtual HocKy HocKy { get; set; }
+        public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
     }

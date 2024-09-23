@@ -15,42 +15,40 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     public partial class ThoiKhoaBieu
     {
         public int ID { get; set; }
-        public Nullable<int> ID_HocKy { get; set; }
-        public Nullable<int> ID_Nganh { get; set; }
-        public string MaGocLHP { get; set; }
-        public string MaMH { get; set; }
+        public int ID_HocKy { get; set; }
+        public int ID_Nganh { get; set; }
+        public int ID_HocPhan { get; set; }
+        public int ID_Phong { get; set; }
         public string MaLHP { get; set; }
-        public string TenHP { get; set; }
-        public string SoTC { get; set; }
+        public string MaGocLHP { get; set; }
         public string LoaiHP { get; set; }
+        public string MaMH { get; set; }
         public string MaLop { get; set; }
-        public string TSMH { get; set; }
-        public string SoTietDaXep { get; set; }
-        public string PH { get; set; }
+        public int TSMH { get; set; }
+        public Nullable<int> SoTietDaXep { get; set; }
         public string Thu { get; set; }
-        public string TietBD { get; set; }
-        public string SoTiet { get; set; }
+        public int TietBD { get; set; }
+        public int SoTiet { get; set; }
         public string TietHoc { get; set; }
-        public string Phong { get; set; }
-        public string MaCBGD { get; set; }
-        public string TenCBGD { get; set; }
-        public string PH_X { get; set; }
-        public string SucChua { get; set; }
-        public string SiSoTKB { get; set; }
-        public string Trong { get; set; }
+        public int SiSoTKB { get; set; }
+        public int Trong { get; set; }
         public string TinhTrangLHP { get; set; }
         public string TuanHoc2 { get; set; }
-        public string ThuS { get; set; }
-        public string TietS { get; set; }
-        public string SoSVDK { get; set; }
-        public string TuanBD { get; set; }
-        public string TuanKT { get; set; }
-        public string MaNganh { get; set; }
-        public string TenNganh { get; set; }
+        public int ThuS { get; set; }
+        public int TietS { get; set; }
+        public int SoSVDK { get; set; }
+        public int TuanBD { get; set; }
+        public int TuanKT { get; set; }
+        public string MaCBGD { get; set; }
+        public string TenCBGD { get; set; }
         public string GhiChu1 { get; set; }
         public string GhiChu2 { get; set; }
+        public Nullable<int> ID_TaiKhoan { get; set; }
     
         public virtual HocKy HocKy { get; set; }
+        public virtual HocPhan HocPhan { get; set; }
         public virtual Nganh Nganh { get; set; }
+        public virtual Phong Phong { get; set; }
+        public virtual TaiKhoan TaiKhoan { get; set; }
     }
 }
