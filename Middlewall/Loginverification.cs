@@ -31,7 +31,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
             }
             else
             {
-                if (!string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
+                if (string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
                 {
                     return;
                 }

@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -117,9 +118,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var data = model.TaiKhoan.Find(id);
                 if (data == null)
                     return Content("Người dùng không tồn tại trên hệ thống.");
-                data.TrangThai = trangthai;
 
-                model.Entry(data).State = System.Data.Entity.EntityState.Modified;
+                var aspUser = data.AspNetUsers;
+                aspUser.LockoutEnabled = true;
+
+                model.Entry(aspUser).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
                 return Content("SUCCESS");
@@ -210,7 +213,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (data == null)
                     return Content("SUCCESS");
 
+                var aspUser = data.AspNetUsers;
+
+                string userId = data.Email.ToLower();
+                var aspNetUsers = model.AspNetUsers.Find(userId);
+
+                string idRole = aspNetUsers.AspNetRoles.First().Id;
+                UserManager.RemoveFromRoles(userId, idRole);
+
                 model.TaiKhoan.Remove(data);
+                model.AspNetUsers.Remove(aspUser);
                 model.SaveChanges();
 
                 return Content("SUCCESS");
