@@ -31,9 +31,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
             }
             else
             {
-                if (string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
+                if (!string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
                 {
-                    filterContext.Result = new RedirectResult("~/Home/Index");
+                    return;
                 }
                 else
                 {
@@ -62,9 +62,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
 
                         filterContext.Result = new RedirectResult("~/Dashboard/Index");
+                        return;
                     }
                 }
-                return;
             }
         }
     }

@@ -394,6 +394,8 @@
     <Content Include="Content\assets\images\avatar\avatar-2.jpg" />
     <Content Include="Content\assets\images\avatar\avatar-3.jpg" />
     <Content Include="Content\assets\images\avatar\avatar-4.jpg" />
+    <Content Include="Content\assets\images\background\dashboard-default.gif" />
+    <Content Include="Content\assets\images\background\dashboard-default.png" />
     <Content Include="Content\assets\images\background\giftbox.png" />
     <Content Include="Content\assets\images\brand\logo\logo-inverse.svg" />
     <Content Include="Content\assets\images\browser-svg\brave.svg" />
