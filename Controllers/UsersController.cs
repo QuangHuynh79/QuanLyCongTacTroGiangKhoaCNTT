@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
 using System;
@@ -12,8 +14,10 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -21,15 +25,28 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         // GET: Users
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         public ActionResult Index()
         {
-            var lstRole = model.Quyen.ToList();
+            var lstRole = model.AspNetRoles.ToList();
             return View("Index", lstRole);
         }
-        [Authorize]
+
+        [Authorize, BCNRole]
         public ActionResult LoadContent()
         {
             return PartialView("_Index");
@@ -38,7 +55,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult AddNew(string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult AddNew(string ma, string hoten, string email, string chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -46,10 +63,26 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (checks != null)
                     return Content("Exist");
 
+                string userId = email.ToLower();
+                var aspNetRoles = model.AspNetRoles.Where(w => w.Id.Equals(chucdanh)).ToList();
+
+                AspNetUsers aspNetUsers = new AspNetUsers();
+                aspNetUsers.Id = userId;
+                aspNetUsers.Email = email;
+                aspNetUsers.EmailConfirmed = false;
+                aspNetUsers.PhoneNumberConfirmed = false;
+                aspNetUsers.TwoFactorEnabled = false;
+                aspNetUsers.LockoutEnabled = false;
+                aspNetUsers.AccessFailedCount = 0;
+                aspNetUsers.UserName = hoten;
+                aspNetUsers.AspNetRoles = aspNetRoles;
+                model.AspNetUsers.Add(aspNetUsers);
+                model.SaveChanges();
+
                 var data = new TaiKhoan();
                 data.Email = email;
                 data.HoTen = hoten;
-                data.ID_Quyen = chucdanh;
+                data.ID_AspNetUsers = aspNetUsers.Id;
                 data.TrangThai = true;
                 data.NgaySinh = ngaysinh;
                 data.Ma = ma;
@@ -117,10 +150,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
+        [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, int chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -128,10 +160,23 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (checks != null)
                     return Content("Exist");
 
+                var aspNetRoles = model.AspNetRoles.Where(w => w.Id.Equals(chucdanh)).ToList();
+
+                string userId = email.ToLower();
+                var aspNetUsers = model.AspNetUsers.Find(userId);
+
+                string idRole = aspNetUsers.AspNetRoles.First().Id;
+                UserManager.RemoveFromRoles(userId, idRole);
+
+                aspNetUsers.AspNetRoles = aspNetRoles;
+                aspNetUsers.Email = email;
+                aspNetUsers.UserName = hoten;
+                model.Entry(aspNetUsers).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+
                 var data = model.TaiKhoan.Find(id);
                 data.Email = email;
                 data.HoTen = hoten;
-                data.ID_Quyen = chucdanh;
                 data.NgaySinh = ngaysinh;
                 data.Ma = ma;
                 data.GioiTinh = gioitinh;
@@ -190,7 +235,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 }
                 else
                 {
-                    var data = model.TaiKhoan.Where(w => w.ID_Quyen == id).ToList().OrderByDescending(o => o.ID);
+                    var data = model.TaiKhoan.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals(id)).ToList().OrderByDescending(o => o.ID);
                     return PartialView("_Filter", data);
                 }
             }

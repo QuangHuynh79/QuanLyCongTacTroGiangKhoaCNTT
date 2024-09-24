@@ -31,12 +31,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, GVandBCNandTARole]
         public ActionResult LoadContent()
         {
-            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
-            if (role.ID_Quyen == 3)
+            int role = Int32.Parse(Session["user-role-id"].ToString());
+            if (role == 2)
                 return PartialView("_IndexGV");
-            else if (role.ID_Quyen == 4)
+            else if (role == 3)
                 return PartialView("_IndexBCN");
-            else if (role.ID_Quyen == 5)
+            else if (role == 4)
                 return PartialView("_IndexTA");
             else
                 return new JsonResult { Data = "SystemLoginAgain", JsonRequestBehavior = JsonRequestBehavior.AllowGet };

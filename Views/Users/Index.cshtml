@@ -1,5 +1,5 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
-@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.Quyen>
+@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.AspNetRoles>
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
     var lstNganh = models.Nganh.ToList();
@@ -63,7 +63,7 @@
                                     <option selected value="">---- Chọn tất cả ----</option>
                                     @foreach (var item in Model)
                                     {
-                                        <option value="@item.ID">@item.name</option>
+                                        <option value="@item.Id">@item.Name</option>
                                     }
                                 </select>
                                 <span class="text-danger" id="valid-chucdanh"></span>

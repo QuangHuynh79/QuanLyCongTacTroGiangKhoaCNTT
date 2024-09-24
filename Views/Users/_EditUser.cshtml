@@ -3,7 +3,7 @@
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
     var lstNganh = models.Nganh.ToList();
-    var lstQuyen = models.Quyen.ToList();
+    var lstQuyen = models.AspNetRoles.ToList();
 }
 <div class="modal-body" id="capnhat-partial">
     <div class="row">
@@ -16,12 +16,12 @@
                     <option value="">---- Chọn chức danh ----</option>
                     @foreach (var item in lstQuyen)
                     {
-                        if (Model.ID_Quyen == item.ID)
+                        if (Model.AspNetUsers.AspNetRoles.First().Id == item.Id)
                         {
-                            <option selected value="@item.ID">@item.name</option>
+                            <option selected value="@item.Id">@item.Name</option>
                             continue;
                         }
-                        <option value="@item.ID">@item.name</option>
+                        <option value="@item.Id">@item.Name</option>
                     }
                 </select>
                 <span class="text-danger" id="valid-editchucdanh"></span>

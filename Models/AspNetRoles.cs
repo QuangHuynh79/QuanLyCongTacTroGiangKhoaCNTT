@@ -12,19 +12,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Quyen
+    public partial class AspNetRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Quyen()
+        public AspNetRoles()
         {
-            this.TaiKhoan = new HashSet<TaiKhoan>();
+            this.AspNetUsers = new HashSet<AspNetUsers>();
         }
     
-        public int ID { get; set; }
-        public string name { get; set; }
-        public string AbbreviatedName { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaiKhoan> TaiKhoan { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }

@@ -32,14 +32,17 @@
                             <td valign="middle">@item.HoTen</td>
                             <td valign="middle" class="text-nowrap">
                                 @item.Email<br />
-                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                             </td>
-                            <td valign="middle" class="text-nowrap">@item.Quyen.name @(string.IsNullOrEmpty(item.Quyen.AbbreviatedName) ? "" : "(" + item.Quyen.AbbreviatedName + ")")</td>
+                            <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
                             <td valign="middle">@item.QuocTich</td>
                             <td valign="middle">
-                                <div class="form-check form-switch  mb-2">
-                                    <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
-                                </div>
+                                @if (idUs != item.ID)
+                                {
+                                    <div class="form-check form-switch  mb-2">
+                                        <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
+                                    </div>
+                                }
                             </td>
                             <td valign="middle" class="text-nowrap">
                                 @if (idUs != item.ID)
