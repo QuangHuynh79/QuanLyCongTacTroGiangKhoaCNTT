@@ -43,8 +43,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, GVandBCNRole]
         public ActionResult Registered()
         {
-            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
-            if (role.ID_Quyen == 4)
+            int role = Int32.Parse(Session["user-role-id"].ToString());
+            if (role == 3)
                 return PartialView("Registered"); //BCN
             else
                 return PartialView("Registereds"); //GV
@@ -76,8 +76,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, TAandGVRole]
         public ActionResult LoadContentTaskList()
         {
-            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
-            if (role.ID_Quyen == 5)
+            int role = Int32.Parse(Session["user-role-id"].ToString());
+            if (role == 4)
                 return PartialView("_TaskListTA");
             else
                 return PartialView("_TaskListGV");

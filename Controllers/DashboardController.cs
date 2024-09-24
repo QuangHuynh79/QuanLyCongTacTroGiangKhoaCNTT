@@ -17,12 +17,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, AllRole]
         public ActionResult Index()
         {
-            var user = User.Identity.GetUserName();
-            Session["user-email"] = user;
-            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(user.ToLower()));
-            Session["user-role-name"] = role.Quyen.name;
-            Session["user-role-id"] = role.ID_Quyen;
-
             return View("index");
         }
     }

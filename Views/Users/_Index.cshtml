@@ -1,7 +1,7 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstRole = models.Quyen.ToList();
+    var lstRole = models.AspNetRoles.ToList();
     var lstUser = models.TaiKhoan.OrderByDescending(o => o.ID).ToList();
     int i = 0;
     int idUs = Int32.Parse(Session["user-id"].ToString());
@@ -14,7 +14,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 1).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("1")).Count())</h2>
                         <span>Sinh viên</span>
                     </div>
                     <div>
@@ -32,7 +32,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 5).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("4")).Count())</h2>
                         <span>Trợ giảng</span>
                     </div>
                     <div>
@@ -50,7 +50,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 3).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("2")).Count())</h2>
                         <span>Giảng viên</span>
                     </div>
                     <div>
@@ -68,7 +68,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 4).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("3")).Count())</h2>
                         <span>Chủ nhiệm khoa</span>
                     </div>
                     <div>
@@ -86,7 +86,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 6).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("5")).Count())</h2>
                         <span>Phòng đào tạo</span>
                     </div>
                     <div>
@@ -110,7 +110,7 @@
                             <option value="0">Chọn chức danh để lọc</option>
                             @foreach (var item in lstRole)
                             {
-                                <option value="@item.ID">@item.name</option>
+                                <option value="@item.Id">@item.Name</option>
                             }
                         </select>
                     </div>
@@ -146,7 +146,7 @@
                                             @item.Email<br />
                                             <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
-                                        <td valign="middle" class="text-nowrap">@item.Quyen.name @(string.IsNullOrEmpty(item.Quyen.AbbreviatedName) ? "" : "(" + item.Quyen.AbbreviatedName + ")")</td>
+                                        <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
                                         <td valign="middle">@item.QuocTich</td>
                                         <td valign="middle">
                                             @if (idUs != item.ID)

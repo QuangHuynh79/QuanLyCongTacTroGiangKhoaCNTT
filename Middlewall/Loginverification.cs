@@ -31,34 +31,40 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
             }
             else
             {
-                if (!string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
+                if (string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
                 {
-                    var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(filterContext.HttpContext.User.Identity.Name.ToLower()));
-                    if (role != null)
+                    filterContext.Result = new RedirectResult("~/Home/Index");
+                }
+                else
+                {
+                    var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(filterContext.HttpContext.User.Identity.Name.ToLower()));
+                    if (users != null)
                     {
-                        filterContext.HttpContext.Session["user-id"] = role.ID;
-                        filterContext.HttpContext.Session["user-email"] = role.Email;
-                        filterContext.HttpContext.Session["user-name"] = role.HoTen;
-                        filterContext.HttpContext.Session["user-role-name"] = role.Quyen.name;
-                        filterContext.HttpContext.Session["user-role-id"] = role.ID_Quyen;
+                        int roleId = Int32.Parse(users.AspNetUsers.AspNetRoles.First().Id);
 
-                        if (role.ID_Quyen == 1)
+                        filterContext.HttpContext.Session["user-id"] = users.ID;
+                        filterContext.HttpContext.Session["user-email"] = users.Email;
+                        filterContext.HttpContext.Session["user-name"] = users.HoTen;
+                        filterContext.HttpContext.Session["user-role-name"] = users.AspNetUsers.AspNetRoles.First().Name;
+                        filterContext.HttpContext.Session["user-role-id"] = roleId;
+
+                        if (roleId == 1)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
-                        else if (role.ID_Quyen == 3)
+                        else if (roleId == 2)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TeacherLayout.cshtml";
-                        else if (role.ID_Quyen == 4)
+                        else if (roleId == 3)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_DepartmentLayout.cshtml";
-                        else if (role.ID_Quyen == 5)
+                        else if (roleId == 4)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TALayout.cshtml";
-                        else if (role.ID_Quyen == 6)
+                        else if (roleId == 5)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_OfficeOfTrainingLayout.cshtml";
                         else
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
-                    }
 
-                    filterContext.Result = new RedirectResult("~/Dashboard/Index");
-                    return;
+                        filterContext.Result = new RedirectResult("~/Dashboard/Index");
+                    }
                 }
+                return;
             }
         }
     }

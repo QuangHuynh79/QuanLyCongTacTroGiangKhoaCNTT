@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -19,6 +20,20 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class AccountController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         [AllowAnonymous, Loginverification]
         public void SignIn()
@@ -48,13 +63,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult SignInCallBack()
         {
             var EmailUser = User.Identity.GetUserName();
-            ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
-            string FullName = identity.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
+            ClaimsIdentity identitys = (ClaimsIdentity)User.Identity;
+            string FullName = identitys.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
+            string userId = EmailUser.ToLower();
 
-            var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(EmailUser.ToLower()));
+            var users = model.AspNetUsers.Find(EmailUser.ToLower());
             if (users != null)
             {
-                if (users.TrangThai == false)
+                if (users.LockoutEnabled == true)
                 {
                     Session["Locked"] = true;
                     return RedirectToAction("SignOut", "Account");
@@ -63,10 +79,25 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
             else
             {
+                var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.Id.Equals("1")).ToList();
+
+                AspNetUsers aspNetUsers = new AspNetUsers();
+                aspNetUsers.Id = userId;
+                aspNetUsers.Email = EmailUser;
+                aspNetUsers.EmailConfirmed = false;
+                aspNetUsers.PhoneNumberConfirmed = false;
+                aspNetUsers.TwoFactorEnabled = false;
+                aspNetUsers.LockoutEnabled = false;
+                aspNetUsers.AccessFailedCount = 0;
+                aspNetUsers.UserName = FullName;
+                aspNetUsers.AspNetRoles = aspNetRolesSinhVien;
+                model.AspNetUsers.Add(aspNetUsers);
+                model.SaveChanges();
+
                 TaiKhoan newUser = new TaiKhoan();
                 newUser.HoTen = FullName;
                 newUser.Email = EmailUser;
-                newUser.ID_Quyen = 1;
+                newUser.ID_AspNetUsers = aspNetUsers.Id;
                 newUser.TrangThai = true;
 
                 model.TaiKhoan.Add(newUser);

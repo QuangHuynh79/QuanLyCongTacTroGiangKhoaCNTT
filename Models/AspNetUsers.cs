@@ -12,39 +12,37 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TaiKhoan
+    public partial class AspNetUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TaiKhoan()
+        public AspNetUsers()
         {
-            this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
-            this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
-            this.ThongBao = new HashSet<ThongBao>();
-            this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
+            this.AspNetUserClaims = new HashSet<AspNetUserClaims>();
+            this.AspNetUserLogins = new HashSet<AspNetUserLogins>();
+            this.TaiKhoan = new HashSet<TaiKhoan>();
+            this.AspNetRoles = new HashSet<AspNetRoles>();
         }
     
-        public int ID { get; set; }
-        public Nullable<int> ID_Nganh { get; set; }
-        public string ID_AspNetUsers { get; set; }
-        public string HoTen { get; set; }
+        public string Id { get; set; }
         public string Email { get; set; }
-        public bool TrangThai { get; set; }
-        public string Ma { get; set; }
-        public string GioiTinh { get; set; }
-        public string SDT { get; set; }
-        public string QuocTich { get; set; }
-        public string Khoa { get; set; }
-        public Nullable<System.DateTime> NgaySinh { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
+        public string UserName { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
-        public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhanCongTroGiang> PhanCongTroGiang { get; set; }
+        public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
+        public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThongBao> ThongBao { get; set; }
+        public virtual ICollection<TaiKhoan> TaiKhoan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
+        public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }
     }
 }
