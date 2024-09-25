@@ -157,7 +157,7 @@
                                                 <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @(tksv.NgaySinh != null ? tksv.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                             }
                                         </td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
+                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong.TenPhong)</td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#phancong">
