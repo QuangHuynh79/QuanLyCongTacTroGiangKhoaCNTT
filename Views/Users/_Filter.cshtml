@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.TaiKhoan>
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.AspNetUsers>
 @{
     int i = 0;
     int idUs = Int32.Parse(Session["user-id"].ToString());
@@ -22,8 +22,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var items in Model)
                     {
+                        var item = items.TaiKhoan.First();
                         i++;
                         <tr>
                             <td valign="middle">@i</td>

@@ -236,18 +236,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult Filter(int id)
+        public ActionResult Filter(string id)
         {
             try
             {
-                if (id == 0)
+                if (string.IsNullOrEmpty(id) || id.Equals("0"))
                 {
-                    var data = model.TaiKhoan.ToList().OrderByDescending(o => o.ID);
+                    var data = model.AspNetUsers.ToList().OrderByDescending(o => o.Id);
                     return PartialView("_Filter", data);
                 }
                 else
                 {
-                    var data = model.TaiKhoan.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals(id)).ToList().OrderByDescending(o => o.ID);
+                    var data = model.AspNetUsers.Where(w => w.AspNetRoles.Where(wh => wh.Id.Equals(id)).Count() > 0).ToList().OrderByDescending(o => o.Id);
                     return PartialView("_Filter", data);
                 }
             }
