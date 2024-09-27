@@ -25,21 +25,20 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<CongViec> CongViec { get; set; }
+        public virtual DbSet<DanhGiaPhongVan> DanhGiaPhongVan { get; set; }
         public virtual DbSet<DanhSachSinhVien> DanhSachSinhVien { get; set; }
         public virtual DbSet<DeXuatTroGiang> DeXuatTroGiang { get; set; }
         public virtual DbSet<DiemDanh> DiemDanh { get; set; }
         public virtual DbSet<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
         public virtual DbSet<HocKy> HocKy { get; set; }
-        public virtual DbSet<HocPhan> HocPhan { get; set; }
+        public virtual DbSet<LopHocPhan> LopHocPhan { get; set; }
         public virtual DbSet<Nganh> Nganh { get; set; }
         public virtual DbSet<PhanCongTroGiang> PhanCongTroGiang { get; set; }
-        public virtual DbSet<Phong> Phong { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }

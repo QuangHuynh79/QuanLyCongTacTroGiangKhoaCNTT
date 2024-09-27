@@ -70,7 +70,7 @@
                     <select class="form-select" id="locmonhoc" placeholder="Lọc giảng viên" multiple="multiple">
                         @foreach (var item in lstTkb.GroupBy(o => o.MaMH).ToList())
                         {
-                            var items = item.Select(s => new { s.HocPhan.TenHP, s.MaMH }).First();
+                            var items = item.Select(s => new { s.LopHocPhan.TenHP, s.MaMH }).First();
                             <option selected value="@items.MaMH">@items.TenHP</option>
                         }
                     </select>
@@ -78,9 +78,9 @@
                 <div class="mb-3 col-md-3 col-12">
                     <label class="form-label">Lọc giảng viên</label>
                     <select class="form-select" id="locgiangvien" placeholder="Lọc giảng viên" multiple="multiple" filter="true">
-                        @foreach (var item in lstTkb.GroupBy(o => o.TenCBGD).ToList())
+                        @foreach (var item in lstTkb.GroupBy(o => o.LopHocPhan.TenCBGD).ToList())
                         {
-                            var items = item.Select(s => new { s.MaCBGD, s.TenCBGD }).First();
+                            var items = item.Select(s => new { s.LopHocPhan.MaCBGD, s.LopHocPhan.TenCBGD }).First();
                             <option selected value="@items.MaCBGD">@items.TenCBGD</option>
                         }
                     </select>
@@ -125,14 +125,14 @@
                     @foreach (var item in lstTkb.GroupBy(g => g.MaMH))
                     {
                         <tr>
-                            <td class="bg-secondary text-white" style="box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.HocPhan.TenHP }).First().TenHP</td>
+                            <td class="bg-secondary text-white" style="box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
                             @for (int i = 0; i < 7; i++)
                             {
                                 for (int j = 0; j < 5; j++)
                                 {
                                     if (j == 0) // 1-3
                                     {
-                                        var lstTkbs = lstTkb.Where(w => w.HocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.HocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 1 || w.TietS == 1) && w.ThuS == (i + 2)).ToList();
+                                        var lstTkbs = lstTkb.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 1 || w.TietS == 1) && w.ThuS == (i + 2)).ToList();
                                         if (lstTkbs.Count > 0)
                                         {
                                             <td style="padding: 10px;">
@@ -140,11 +140,11 @@
                                                 {
                                                     if (items.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -156,7 +156,7 @@
                                     }
                                     else if (j == 1) //4-6
                                     {
-                                        var lstTkbs = lstTkb.Where(w => w.HocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.HocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 4 || w.TietS == 4) && w.ThuS == (i + 2)).ToList();
+                                        var lstTkbs = lstTkb.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 4 || w.TietS == 4) && w.ThuS == (i + 2)).ToList();
                                         if (lstTkbs.Count > 0)
                                         {
                                             <td style="padding: 10px;">
@@ -165,11 +165,11 @@
                                                 {
                                                     if (items.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -181,7 +181,7 @@
                                     }
                                     else if (j == 2) //7-9
                                     {
-                                        var lstTkbs = lstTkb.Where(w => w.HocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.HocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 7 || w.TietS == 7) && w.ThuS == (i + 2)).ToList();
+                                        var lstTkbs = lstTkb.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 7 || w.TietS == 7) && w.ThuS == (i + 2)).ToList();
                                         if (lstTkbs.Count > 0)
                                         {
                                             <td style="padding: 10px;">
@@ -190,11 +190,11 @@
                                                 {
                                                     if (items.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -206,7 +206,7 @@
                                     }
                                     else if (j == 3) //10-12
                                     {
-                                        var lstTkbs = lstTkb.Where(w => w.HocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.HocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 10 || w.TietS == 10) && w.ThuS == (i + 2)).ToList();
+                                        var lstTkbs = lstTkb.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 10 || w.TietS == 10) && w.ThuS == (i + 2)).ToList();
                                         if (lstTkbs.Count > 0)
                                         {
                                             <td style="padding: 10px;">
@@ -215,11 +215,11 @@
                                                 {
                                                     if (items.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -231,7 +231,7 @@
                                     }
                                     else if (j == 4) //13-15
                                     {
-                                        var lstTkbs = lstTkb.Where(w => w.HocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.HocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 13 || w.TietS == 13) && w.ThuS == (i + 2)).ToList();
+                                        var lstTkbs = lstTkb.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP.ToLower()) && (w.TietBD == 13 || w.TietS == 13) && w.ThuS == (i + 2)).ToList();
                                         if (i == 6)
                                         {
 
@@ -243,11 +243,11 @@
                                                     {
                                                         if (items.LoaiHP.ToLower().Equals("thực hành"))
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                         else
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                     }
                                                 </td>
@@ -267,11 +267,11 @@
                                                     {
                                                         if (items.LoaiHP.ToLower().Equals("thực hành"))
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                         else
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                     }
                                                 </td>

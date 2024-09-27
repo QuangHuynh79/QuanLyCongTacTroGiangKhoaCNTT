@@ -21,16 +21,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         }
     
         public int ID { get; set; }
-        public int ID_HocPhan { get; set; }
+        public int ID_LopHocPhan { get; set; }
         public string MaSV { get; set; }
         public string HoLot { get; set; }
         public string Ten { get; set; }
-        public System.DateTime NgaySinh { get; set; }
+        public Nullable<System.DateTime> NgaySinh { get; set; }
         public string GioiTinh { get; set; }
         public string Email { get; set; }
         public string LopHanhChinh { get; set; }
     
-        public virtual HocPhan HocPhan { get; set; }
+        public virtual LopHocPhan LopHocPhan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DiemDanh> DiemDanh { get; set; }
     }

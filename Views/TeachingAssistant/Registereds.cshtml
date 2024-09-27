@@ -137,11 +137,18 @@
                                             TK môn: 9.0
                                         </td>
                                         <td valign="middle">
-                                            <select id="" class="form-select w-auto">
-                                                <option value="all">Chưa PV</option>
-                                                <option selected value="dat">Đạt</option>
-                                                <option value="chuadat">Chưa đạt</option>
-                                            </select>
+                                            @if (i == 1 || i == 4 || i == 7)
+                                            {
+                                                <span data-bs-toggle="modal" data-bs-target="#phongvan">
+                                                    <a data-bs-toggle="tooltip" data-bs-html="true" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt Y/C</a>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span data-bs-toggle="modal" data-bs-target="#phongvan">
+                                                    <a data-bs-toggle="tooltip" data-bs-html="true" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt Y/C</a>
+                                                </span>
+                                            }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
                                             @if (i == 2 || i == 3 || i == 5)
@@ -381,6 +388,291 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="phongvan" tabindex="-1" role="dialog" aria-labelledby="phongvan" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="phongvanTitle">Thông tin/kết quả phỏng vấn TA 197PM09522 - Đào Duy Toàn - K25T-PM2.</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body pt-0 pb-0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-card mt-0">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Tiêu chí</th>
+                                            <th class="text-center">Không Đạt</th>
+                                            <th class="text-center">Phân Vân</th>
+                                            <th class="text-center">Đạt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle">
+                                                1. Ngoại hình tác phong
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-01" id="tieuchi-01-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-01" id="tieuchi-01-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-01" id="tieuchi-01-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                2. Kiến thức chuyên môn liên quan học phần cần TA
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-2" id="tieuchi-2-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-2" id="tieuchi-2-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-2" id="tieuchi-2-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                3. Hiểu biết về công việc
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-3" id="tieuchi-3-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-3" id="tieuchi-3-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-3" id="tieuchi-3-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                4. Thái độ tích cực
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-4" id="tieuchi-4-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-4" id="tieuchi-4-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-4" id="tieuchi-4-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                5. Kỹ năng trình bày
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-5" id="tieuchi-5-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-5" id="tieuchi-5-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-5" id="tieuchi-5-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                6. Kỹ năng giao tiếp
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-6" id="tieuchi-6-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-6" id="tieuchi-6-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-6" id="tieuchi-6-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                7. Kỹ năng giải quyết vấn đề
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-7" id="tieuchi-7-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-7" id="tieuchi-7-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-7" id="tieuchi-7-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                8. Khả năng sư phạm
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-8" id="tieuchi-8-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-8" id="tieuchi-8-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-8" id="tieuchi-8-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                9. Kỹ năng sử dụng công nghệ thông tin
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-9" id="tieuchi-9-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-9" id="tieuchi-9-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-9" id="tieuchi-9-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                10. Yếu tố khác phù hợp yêu cầu đặc thù của môn học
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-10" id="tieuchi-10-0">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input class="form-check-input" type="radio" name="tieuchi-10" id="tieuchi-10-1">
+                                                </div>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                                    <input checked class="form-check-input" type="radio" name="tieuchi-10" id="tieuchi-10-2">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle">
+                                                <b>Tổng Điểm</b>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <b>0</b>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <b>2</b>
+                                            </td>
+                                            <td valign="middle" align="center">
+                                                <b>8</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="middle" colspan="4">
+                                                <h5>SV đủ điều kiện làm TA khi có ít nhất 8 tiêu chí được đánh giá “đạt” trong đó bắt buộc có tiêu chí 2.</h5>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <label class="form-label">Nhận xét:</label>
+                                                <textarea rows="5" class="form-control" placeholder="Nhập nhận xét........"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <label class="form-label">Kết quả phỏng vấn:</label>
+                                                <select class="form-select">
+                                                    <option>---- Chọn kết kết phỏng vấn ----</option>
+                                                    <option>Đạt yêu cầu</option>
+                                                    <option>Không đạt yêu cầu</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <label class="form-label">Ngày phỏng vấn:</label>
+                                                <input type="date" class="form-control flatpickr" placeholder="Chọn ngày phỏng vấn" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <label class="form-label">Ngày duyệt phỏng vấn:</label>
+                                                <input type="date" class="form-control flatpickr" placeholder="Chọn ngày duyệt phỏng vấn" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+
             </div>
         </div>
     </div>

@@ -48,7 +48,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var lstMon = mon.Split('#').ToList();
             var lstGv = gv.Split('#').ToList();
             var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
-            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
+            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
             return PartialView("_FilterData", tkb);
         }
 
@@ -97,12 +97,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             model.ThoiKhoaBieu.RemoveRange(currentTkb);
                             model.SaveChanges();
 
-                            var currentHocPhan = model.HocPhan.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
-                            model.HocPhan.RemoveRange(currentHocPhan);
-                            model.SaveChanges();
-
-                            var currentPhong = model.Phong.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
-                            model.Phong.RemoveRange(currentPhong);
+                            var currentHocPhan = model.LopHocPhan.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
+                            model.LopHocPhan.RemoveRange(currentHocPhan);
                             model.SaveChanges();
 
                             string filePath = string.Empty;
@@ -226,50 +222,38 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                var hocphan = new HocPhan()
+                                var hocphan = new LopHocPhan()
                                 {
                                     ID_HocKy = hocky,
                                     ID_Nganh = nganh,
                                     MaMH = subjectId,
                                     TenHP = name,
-                                    SoTC = Int32.Parse(credits),
+                                    MaCBGD = lecturerId,
+                                    TenCBGD = fullName,
                                 };
-                                model.HocPhan.Add(hocphan);
+                                model.LopHocPhan.Add(hocphan);
                                 model.SaveChanges();
                                 int idHp = hocphan.ID;
-
-                                var phong = new Phong()
-                                {
-                                    ID_HocKy = hocky,
-                                    ID_Nganh = nganh,
-                                    TenPhong = roomId,
-                                    PH = room2,
-                                    PH_X = roomType,
-                                    SucChua = Int32.Parse(capacity),
-                                };
-
-                                model.Phong.Add(phong);
-                                model.SaveChanges();
-                                int idPhong = phong.ID;
 
                                 var tkb = new ThoiKhoaBieu();
                                 tkb.ID_HocKy = hocky;
                                 tkb.ID_Nganh = nganh;
-                                tkb.ID_HocPhan = idHp;
-                                tkb.ID_Phong = idPhong;
+                                tkb.ID_LopHocPhan = idHp;
                                 tkb.MaGocLHP = originalId;
                                 tkb.MaLHP = classSectionid;
                                 tkb.MaMH = subjectId;
                                 tkb.LoaiHP = type;
                                 tkb.MaLop = malop;
+                                tkb.TenPhong = roomId;
+                                tkb.PH = room2;
+                                tkb.PH_X = roomType;
+                                tkb.SucChua = Int32.Parse(capacity);
                                 tkb.TSMH = Int32.Parse(minimumStudent);
                                 tkb.SoTietDaXep = Int32.Parse(totalLesson);
                                 tkb.Thu = day;
                                 tkb.TietBD = Int32.Parse(startLesson);
                                 tkb.SoTiet = Int32.Parse(lessonNumber);
                                 tkb.TietHoc = lessonTime;
-                                tkb.MaCBGD = lecturerId;
-                                tkb.TenCBGD = fullName;
                                 tkb.SiSoTKB = Int32.Parse(studentNumber);
                                 tkb.Trong = Int32.Parse(freeSlot);
                                 tkb.TinhTrangLHP = state;
@@ -279,6 +263,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                                 tkb.TuanBD = Int32.Parse(startWeek);
                                 tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.SoTC = Int32.Parse(credits);
                                 tkb.GhiChu1 = note1;
                                 tkb.GhiChu2 = note2;
 
@@ -412,39 +397,37 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                var hocphan = tkb.HocPhan;
-                                hocphan.ID_HocKy = hocky;
-                                hocphan.ID_Nganh = nganh;
-                                hocphan.MaMH = subjectId;
-                                hocphan.TenHP = name;
-                                hocphan.SoTC = Int32.Parse(credits);
-
-                                model.Entry(hocphan).State = System.Data.Entity.EntityState.Modified;
+                                var hocphan = new LopHocPhan()
+                                {
+                                    ID_HocKy = hocky,
+                                    ID_Nganh = nganh,
+                                    MaMH = subjectId,
+                                    TenHP = name,
+                                    MaCBGD = lecturerId,
+                                    TenCBGD = fullName,
+                                };
+                                model.LopHocPhan.Add(hocphan);
                                 model.SaveChanges();
+                                int idHp = hocphan.ID;
 
-                                var phong = tkb.Phong;
-                                phong.ID_HocKy = hocky;
-                                phong.ID_Nganh = nganh;
-                                phong.TenPhong = roomId;
-                                phong.PH = room2;
-                                phong.PH_X = roomType;
-                                phong.SucChua = Int32.Parse(capacity);
-
-                                model.Entry(phong).State = System.Data.Entity.EntityState.Modified;
-                                model.SaveChanges();
-
+                                tkb.ID_HocKy = hocky;
+                                tkb.ID_Nganh = nganh;
+                                tkb.ID_LopHocPhan = idHp;
                                 tkb.MaGocLHP = originalId;
+                                tkb.MaLHP = classSectionid;
                                 tkb.MaMH = subjectId;
                                 tkb.LoaiHP = type;
                                 tkb.MaLop = malop;
+                                tkb.TenPhong = roomId;
+                                tkb.PH = room2;
+                                tkb.PH_X = roomType;
+                                tkb.SucChua = Int32.Parse(capacity);
                                 tkb.TSMH = Int32.Parse(minimumStudent);
                                 tkb.SoTietDaXep = Int32.Parse(totalLesson);
                                 tkb.Thu = day;
                                 tkb.TietBD = Int32.Parse(startLesson);
                                 tkb.SoTiet = Int32.Parse(lessonNumber);
                                 tkb.TietHoc = lessonTime;
-                                tkb.MaCBGD = lecturerId;
-                                tkb.TenCBGD = fullName;
                                 tkb.SiSoTKB = Int32.Parse(studentNumber);
                                 tkb.Trong = Int32.Parse(freeSlot);
                                 tkb.TinhTrangLHP = state;
@@ -454,6 +437,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                                 tkb.TuanBD = Int32.Parse(startWeek);
                                 tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.SoTC = Int32.Parse(credits);
                                 tkb.GhiChu1 = note1;
                                 tkb.GhiChu2 = note2;
 
@@ -594,50 +578,38 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                             }
 
-                            var hocphan = new HocPhan()
+                            var hocphan = new LopHocPhan()
                             {
                                 ID_HocKy = hocky,
                                 ID_Nganh = nganh,
                                 MaMH = subjectId,
                                 TenHP = name,
-                                SoTC = Int32.Parse(credits),
+                                MaCBGD = lecturerId,
+                                TenCBGD = fullName,
                             };
-                            model.HocPhan.Add(hocphan);
+                            model.LopHocPhan.Add(hocphan);
                             model.SaveChanges();
                             int idHp = hocphan.ID;
-
-                            var phong = new Phong()
-                            {
-                                ID_HocKy = hocky,
-                                ID_Nganh = nganh,
-                                TenPhong = roomId,
-                                PH = room2,
-                                PH_X = roomType,
-                                SucChua = Int32.Parse(capacity),
-                            };
-
-                            model.Phong.Add(phong);
-                            model.SaveChanges();
-                            int idPhong = phong.ID;
 
                             var tkb = new ThoiKhoaBieu();
                             tkb.ID_HocKy = hocky;
                             tkb.ID_Nganh = nganh;
-                            tkb.ID_HocPhan = idHp;
-                            tkb.ID_Phong = idPhong;
+                            tkb.ID_LopHocPhan = idHp;
                             tkb.MaGocLHP = originalId;
                             tkb.MaLHP = classSectionid;
                             tkb.MaMH = subjectId;
                             tkb.LoaiHP = type;
                             tkb.MaLop = malop;
+                            tkb.TenPhong = roomId;
+                            tkb.PH = room2;
+                            tkb.PH_X = roomType;
+                            tkb.SucChua = Int32.Parse(capacity);
                             tkb.TSMH = Int32.Parse(minimumStudent);
                             tkb.SoTietDaXep = Int32.Parse(totalLesson);
                             tkb.Thu = day;
                             tkb.TietBD = Int32.Parse(startLesson);
                             tkb.SoTiet = Int32.Parse(lessonNumber);
                             tkb.TietHoc = lessonTime;
-                            tkb.MaCBGD = lecturerId;
-                            tkb.TenCBGD = fullName;
                             tkb.SiSoTKB = Int32.Parse(studentNumber);
                             tkb.Trong = Int32.Parse(freeSlot);
                             tkb.TinhTrangLHP = state;
@@ -647,6 +619,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                             tkb.TuanBD = Int32.Parse(startWeek);
                             tkb.TuanKT = Int32.Parse(endWeek);
+                            tkb.SoTC = Int32.Parse(credits);
                             tkb.GhiChu1 = note1;
                             tkb.GhiChu2 = note2;
 
@@ -688,7 +661,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var lstMon = mon.Split('#').ToList();
             var lstGv = gv.Split('#').ToList();
             var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
-            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
+            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
 
             return PartialView("_Export", tkb);
         }

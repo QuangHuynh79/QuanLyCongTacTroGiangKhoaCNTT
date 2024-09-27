@@ -14,24 +14,31 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     
     public partial class UngTuyenTroGiang
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UngTuyenTroGiang()
+        {
+            this.DanhGiaPhongVan = new HashSet<DanhGiaPhongVan>();
+        }
+    
         public int ID { get; set; }
         public int ID_FormDangKyTroGiang { get; set; }
-        public int ID_HocPhan { get; set; }
+        public int ID_LopHocPhan { get; set; }
         public int ID_TaiKhoan { get; set; }
         public string MSSV { get; set; }
         public string Email { get; set; }
         public string HoTen { get; set; }
-        public System.DateTime NgaySinh { get; set; }
+        public Nullable<System.DateTime> NgaySinh { get; set; }
         public string GioiTinh { get; set; }
         public decimal DiemTBTL { get; set; }
-        public int DiemRL { get; set; }
+        public decimal DiemRL { get; set; }
         public decimal DiemTKMH { get; set; }
         public string HinhAnhMinhChung { get; set; }
         public bool TrangThai { get; set; }
-        public string PhongVan { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DanhGiaPhongVan> DanhGiaPhongVan { get; set; }
         public virtual FormDangKyTroGiang FormDangKyTroGiang { get; set; }
-        public virtual HocPhan HocPhan { get; set; }
+        public virtual LopHocPhan LopHocPhan { get; set; }
         public virtual TaiKhoan TaiKhoan { get; set; }
     }
 }
