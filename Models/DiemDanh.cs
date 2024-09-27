@@ -16,7 +16,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     {
         public int ID { get; set; }
         public int ID_DanhSachSinhVien { get; set; }
-        public int Tuan { get; set; }
+        public Nullable<int> Tuan { get; set; }
         public bool CoMat { get; set; }
     
         public virtual DanhSachSinhVien DanhSachSinhVien { get; set; }

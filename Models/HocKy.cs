@@ -18,7 +18,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public HocKy()
         {
             this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
-            this.Phong = new HashSet<Phong>();
+            this.LopHocPhan = new HashSet<LopHocPhan>();
             this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
         }
     
@@ -35,7 +35,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Phong> Phong { get; set; }
+        public virtual ICollection<LopHocPhan> LopHocPhan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
     }

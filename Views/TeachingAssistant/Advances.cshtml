@@ -130,7 +130,7 @@
                                         <td valign="middle">
                                             Mã: @item.MaLHP
                                             <br />
-                                            Tên: @item.HocPhan.TenHP
+                                            Tên: @item.LopHocPhan.TenHP
                                             <br />
                                             Loại: @if (item.LoaiHP.ToLower().Equals("lý thuyết"))
                                             {
@@ -142,11 +142,11 @@
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            Mã: @item.MaCBGD
+                                            Mã: @item.LopHocPhan.MaCBGD
                                             <br />
-                                            Tên: @item.TenCBGD
+                                            Tên: @item.LopHocPhan.TenCBGD
                                         </td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong.TenPhong)</td>
+                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.TenPhong)</td>
                                         <td valign="middle">@item.SoTietDaXep</td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">

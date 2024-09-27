@@ -17,6 +17,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TaiKhoan()
         {
+            this.CongViec = new HashSet<CongViec>();
+            this.LopHocPhan = new HashSet<LopHocPhan>();
             this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
             this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
             this.ThongBao = new HashSet<ThongBao>();
@@ -37,6 +39,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public Nullable<System.DateTime> NgaySinh { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CongViec> CongViec { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LopHocPhan> LopHocPhan { get; set; }
         public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhanCongTroGiang> PhanCongTroGiang { get; set; }

@@ -15,10 +15,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     public partial class DeXuatTroGiang
     {
         public int ID { get; set; }
-        public int ID_HocPhan { get; set; }
+        public int ID_LopHocPhan { get; set; }
         public string LyDoDeXuat { get; set; }
         public bool TrangThai { get; set; }
     
-        public virtual HocPhan HocPhan { get; set; }
+        public virtual LopHocPhan LopHocPhan { get; set; }
     }
 }
