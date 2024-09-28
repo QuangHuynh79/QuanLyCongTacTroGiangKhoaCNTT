@@ -325,6 +325,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Khoa.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LopHocPhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -372,6 +375,7 @@
     <Content Include="ActiveItemMenu\ClassSection\index.js" />
     <Content Include="ActiveItemMenu\Notifications\index.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
+    <Content Include="ActiveItemMenu\SemesterAndMajor\khoa.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
@@ -518,6 +522,11 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Validation\department\faculty\add.js" />
+    <Content Include="Validation\department\faculty\delete.js" />
+    <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Views\TermAndMajor\Faculty.cshtml" />
+    <Content Include="Views\TermAndMajor\_EditFaculty.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

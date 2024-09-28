@@ -5,62 +5,33 @@
         btn.prop('disabled', true);
         $('body').find('[id="btnClose"]').prop('disabled', true);
 
-        var manganh = $('body').find('[id="manganh"]').val().trim();
-        var tennganh = $('body').find('[id="tennganh"]').val().trim();
-        var khoa = $('body').find('[id="khoa"] :selected').val();
+        var tenkhoa = $('body').find('[id="tenkhoa"]').val().trim();
 
-        var validmanganh = $('body').find('[id="valid-manganh"]');
-        var validtennganh = $('body').find('[id="valid-tennganh"]');
-        var validkhoa = $('body').find('[id="valid-khoa"]');
+        var validtenkhoa = $('body').find('[id="valid-tenkhoa"]');
 
-        validmanganh.text('');
-        validtennganh.text('');
-        validkhoa.text('');
+        validtenkhoa.text('');
 
         var check = true;
 
-        if (manganh.length < 1) {
+       
+        if (tenkhoa.length < 1) {
             check = false;
 
             btn.html('Lưu thông tin');
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validmanganh.text("Vui lòng nhập mã ngành.");
-            $('body').find('[id="manganh"]').focus();
-        }
-
-        if (tennganh.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnClose"]').prop('disabled', false);
-
-            validtennganh.text("Vui lòng nhập tên ngành.");
-            $('body').find('[id="tennganh"]').focus();
-        }
-
-        if (validkhoa.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnClose"]').prop('disabled', false);
-
-            validkhoa.text("Vui lòng chọn khoa.");
-            $('body').find('[id="khoa"]').focus();
+            validtennganh.text("Vui lòng nhập tên khoa.");
+            $('body').find('[id="tenkhoa"]').focus();
         }
 
         if (check == true) {
             var formData = new FormData();
-            formData.append('manganh', manganh);
-            formData.append('tennganh', tennganh);
-            formData.append('khoa', khoa);
+            formData.append('tenkhoa', tenkhoa);
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-                url: $('#requestPath').val() + "TermAndMajor/addMajor",
+                url: $('#requestPath').val() + "TermAndMajor/addFaculty",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
@@ -74,7 +45,7 @@
 
                     Swal.fire({
                         title: "Thành công!",
-                        text: "Đã lưu thông tin ngành mới.",
+                        text: "Đã lưu thông tin khoa mới.",
                         icon: "success"
                     }).then(() => {
                         window.location.reload();
@@ -87,7 +58,7 @@
 
                     Swal.fire({
                         title: "Thất bại!",
-                        text: "Ngành " + manganh + " đã tồn tại trên hệ thống.",
+                        text: "Khoa " + tenkhoa + " đã tồn tại trên hệ thống.",
                         icon: "warning"
                     });
                 }

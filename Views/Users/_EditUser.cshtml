@@ -10,18 +10,18 @@
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="editchucdanh">
-                    Chức danh <span class="text-danger">*</span>
+                    Vai trò <span class="text-danger">*</span>
                 </label>
                 <select class="form-select" id="editchucdanh">
-                    <option value="">---- Chọn chức danh ----</option>
+                    <option value="">---- Chọn Vai trò ----</option>
                     @foreach (var item in lstQuyen)
                     {
-                        if (Model.AspNetUsers.AspNetRoles.First().Id == item.Id)
+                        if (Model.AspNetUsers.AspNetRoles.First().ID == item.ID)
                         {
-                            <option selected value="@item.Id">@item.Name</option>
+                            <option selected value="@item.ID">@item.Name</option>
                             continue;
                         }
-                        <option value="@item.Id">@item.Name</option>
+                        <option value="@item.ID">@item.Name</option>
                     }
                 </select>
                 <span class="text-danger" id="valid-editchucdanh"></span>
@@ -30,7 +30,7 @@
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="editma">Mã <span class="text-danger">*</span></label>
-                <input value="@Model.Ma" name="@Model.ID" type="text" id="editma" class="form-control" placeholder="Nhập mã người dùng">
+                <input maxlength="10" value="@Model.Ma" name="@Model.ID" type="text" id="editma" class="form-control" placeholder="Nhập mã người dùng">
                 <span class="text-danger" id="valid-editma"></span>
             </div>
         </div>
@@ -101,13 +101,6 @@
         </div>
         <div class="col-12">
             <div class="mb-3">
-                <label class="form-label" for="editkhoa">Khoa</label>
-                <input value="@Model.Khoa" type="text" id="editkhoa" class="form-control" placeholder="Nhập khoa của người dùng">
-                <span class="text-danger" id="valid-editkhoa"></span>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="mb-3">
                 <label class="form-label" for="editnganh">
                     Ngành
                 </label>
@@ -117,7 +110,7 @@
                         <option selected value="">---- Chọn ngành ----</option>
                         foreach (var item in lstNganh)
                         {
-                            <option value="@item.id">@item.TenNganh</option>
+                            <option value="@item.ID">@item.TenNganh</option>
                         }
                     }
                     else
@@ -125,12 +118,12 @@
                         <option value="">---- Chọn ngành ----</option>
                         foreach (var item in lstNganh)
                         {
-                            if (item.id == Model.ID_Nganh)
+                            if (item.ID == Model.ID_Nganh)
                             {
-                                <option selected value="@item.id">@item.TenNganh</option>
+                                <option selected value="@item.ID">@item.TenNganh</option>
                                 continue;
                             }
-                            <option value="@item.id">@item.TenNganh</option>
+                            <option value="@item.ID">@item.TenNganh</option>
                         }
                     }
 

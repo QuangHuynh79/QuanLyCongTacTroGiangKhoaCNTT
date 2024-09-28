@@ -4,7 +4,7 @@
     var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(User.Identity.Name.ToLower()));
     if (users != null)
     {
-        int roleId = Int32.Parse(users.AspNetUsers.AspNetRoles.First().Id);
+        int roleId = Int32.Parse(users.AspNetUsers.AspNetRoles.First().ID);
 
         Session["user-id"] = users.ID;
         Session["user-email"] = users.Email;

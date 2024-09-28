@@ -10,7 +10,6 @@
         var email = $('body').find('[id="email"]').val().trim();
         var chucdanh = $('body').find('[id="chucdanh"] :selected').val();
         var dienthoai = $('body').find('[id="dienthoai"]').val().trim();
-        var khoa = $('body').find('[id="khoa"]').val().trim();
         var nganh = $('body').find('[id="nganh"] :selected').val();
 
         var validma = $('body').find('[id="valid-ma"]');
@@ -51,7 +50,7 @@
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validchucdanh.text("Vui lòng chọn chức danh người dùng.");
+            validchucdanh.text("Vui lòng chọn Vai trò người dùng.");
             $('body').find('[id="chucdanh"]').focus();
         }
 
@@ -137,7 +136,6 @@
             formData.append('email', email);
             formData.append('chucdanh', chucdanh);
             formData.append('dienthoai', dienthoai);
-            formData.append('khoa', khoa);
             formData.append('nganh', nganh);
             formData.append('gioitinh', $('body').find('[id="gioitinh"] :selected').val());
             formData.append('quoctich', $('body').find('[id="quoctich"]').prop('checked'));

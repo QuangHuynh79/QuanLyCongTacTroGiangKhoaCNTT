@@ -29,7 +29,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                 var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(filterContext.HttpContext.User.Identity.Name.ToLower()));
                 if (users != null)
                 {
-                    int roleId = Int32.Parse(users.AspNetUsers.AspNetRoles.First().Id);
+                    model = new CongTacTroGiangKhoaCNTTEntities();
+                    int roleId = Int32.Parse(users.AspNetUsers.AspNetRoles.First().ID);
 
                     filterContext.HttpContext.Session["user-id"] = users.ID;
                     filterContext.HttpContext.Session["user-email"] = users.Email;

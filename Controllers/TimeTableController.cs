@@ -48,7 +48,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var lstMon = mon.Split('#').ToList();
             var lstGv = gv.Split('#').ToList();
             var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
-            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+            var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
             return PartialView("_FilterData", tkb);
         }
 
@@ -166,22 +166,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                         && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
                                         continue;
 
-                                string originalId = data["MaGocLHP"].ToString();
                                 string subjectId = data["Mã MH"].ToString();
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
-                                string credits = data["Số TC"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string studentClassId = data["Mã Lớp"].ToString();
-                                var malop = "";
-                                foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
-                                {
-                                    malop += item + "#";
-                                }
-                                malop = malop.Substring(0, malop.Length - 1);
-                                string minimumStudent = data["TSMH"].ToString(); //
                                 string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
-                                string room2 = data["PH"].ToString();
                                 string day = data["Thứ"].ToString(); //
                                 string startLesson = data["Tiết BĐ"].ToString(); //
                                 string lessonNumber = data["Số Tiết"].ToString();//
@@ -189,12 +178,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string roomId = data["Phòng"].ToString();//
                                 string lecturerId = data["Mã CBGD"].ToString();//
                                 string fullName = data["Tên CBGD"].ToString();//
-                                string roomType = data["PH_X"].ToString();//
-                                string capacity = data["Sức Chứa"].ToString();
-                                string studentNumber = data["SiSoTKB"].ToString();//
-                                string freeSlot = data["Trống"].ToString();//
-                                string state = data["Tình Trạng LHP"].ToString();//
-                                string learnWeek = data["TuanHoc2"].ToString();//
                                 string day2 = data["ThuS"].ToString();//
                                 string startLesson2 = data["TietS"].ToString();//
                                 string studentRegisteredNumber = data["Số SVĐK"].ToString();
@@ -202,13 +185,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string endWeek = data["Tuần KT"].ToString();//
                                 string idmajor = data["Mã Ngành"].ToString();//
                                 string namemajor = data["Tên Ngành"].ToString();//
-                                string note1 = data["Ghi Chú 1"].ToString();
-                                string note2 = data["Ghi chú 2"].ToString();
 
                                 // Check if values is null
-                                string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
-                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
-                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                                string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
+                                        , lessonNumber, lessonTime, roomId, lecturerId, fullName
+                                    , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
                                 string checkNull = ValidateNotNull(validRows);
                                 if (checkNull != null)
                                 {
@@ -227,10 +208,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     ID_HocKy = hocky,
                                     ID_Nganh = nganh,
                                     MaMH = subjectId,
+                                    MaLHP = classSectionid,
                                     TenHP = name,
+                                    LoaiHP = type,
                                     MaCBGD = lecturerId,
                                     TenCBGD = fullName,
                                 };
+
+                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                                if (tkGv != null)
+                                    hocphan.ID_TaiKhoan = tkGv.ID;
+
                                 model.LopHocPhan.Add(hocphan);
                                 model.SaveChanges();
                                 int idHp = hocphan.ID;
@@ -239,37 +227,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.ID_HocKy = hocky;
                                 tkb.ID_Nganh = nganh;
                                 tkb.ID_LopHocPhan = idHp;
-                                tkb.MaGocLHP = originalId;
-                                tkb.MaLHP = classSectionid;
-                                tkb.MaMH = subjectId;
-                                tkb.LoaiHP = type;
-                                tkb.MaLop = malop;
-                                tkb.TenPhong = roomId;
-                                tkb.PH = room2;
-                                tkb.PH_X = roomType;
-                                tkb.SucChua = Int32.Parse(capacity);
-                                tkb.TSMH = Int32.Parse(minimumStudent);
                                 tkb.SoTietDaXep = Int32.Parse(totalLesson);
                                 tkb.Thu = day;
                                 tkb.TietBD = Int32.Parse(startLesson);
                                 tkb.SoTiet = Int32.Parse(lessonNumber);
                                 tkb.TietHoc = lessonTime;
-                                tkb.SiSoTKB = Int32.Parse(studentNumber);
-                                tkb.Trong = Int32.Parse(freeSlot);
-                                tkb.TinhTrangLHP = state;
-                                tkb.TuanHoc2 = learnWeek;
                                 tkb.ThuS = Int32.Parse(day2);
                                 tkb.TietS = Int32.Parse(startLesson2);
                                 tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                                 tkb.TuanBD = Int32.Parse(startWeek);
                                 tkb.TuanKT = Int32.Parse(endWeek);
-                                tkb.SoTC = Int32.Parse(credits);
-                                tkb.GhiChu1 = note1;
-                                tkb.GhiChu2 = note2;
-
-                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                                if (tkGv != null)
-                                    tkb.ID_TaiKhoan = tkGv.ID;
 
                                 model.ThoiKhoaBieu.Add(tkb);
                                 model.SaveChanges();
@@ -337,26 +304,15 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                             foreach (DataRow data in dt.Rows)
                             {
-                                var tkb = tkbs.FirstOrDefault(f => f.MaLHP.Equals(data["Mã LHP"].ToString()));
+                                var tkb = tkbs.FirstOrDefault(f => f.LopHocPhan.MaLHP.Equals(data["Mã LHP"].ToString()));
                                 if (tkb == null)
                                     continue;
 
-                                string originalId = data["MaGocLHP"].ToString();
                                 string subjectId = data["Mã MH"].ToString();
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
-                                string credits = data["Số TC"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string studentClassId = data["Mã Lớp"].ToString();
-                                var malop = "";
-                                foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
-                                {
-                                    malop += item + "#";
-                                }
-                                malop = malop.Substring(0, malop.Length - 1);
-                                string minimumStudent = data["TSMH"].ToString(); //
                                 string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
-                                string room2 = data["PH"].ToString();
                                 string day = data["Thứ"].ToString(); //
                                 string startLesson = data["Tiết BĐ"].ToString(); //
                                 string lessonNumber = data["Số Tiết"].ToString();//
@@ -364,12 +320,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string roomId = data["Phòng"].ToString();//
                                 string lecturerId = data["Mã CBGD"].ToString();//
                                 string fullName = data["Tên CBGD"].ToString();//
-                                string roomType = data["PH_X"].ToString();//
-                                string capacity = data["Sức Chứa"].ToString();
-                                string studentNumber = data["SiSoTKB"].ToString();//
-                                string freeSlot = data["Trống"].ToString();//
-                                string state = data["Tình Trạng LHP"].ToString();//
-                                string learnWeek = data["TuanHoc2"].ToString();//
                                 string day2 = data["ThuS"].ToString();//
                                 string startLesson2 = data["TietS"].ToString();//
                                 string studentRegisteredNumber = data["Số SVĐK"].ToString();
@@ -377,13 +327,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string endWeek = data["Tuần KT"].ToString();//
                                 string idmajor = data["Mã Ngành"].ToString();//
                                 string namemajor = data["Tên Ngành"].ToString();//
-                                string note1 = data["Ghi Chú 1"].ToString();
-                                string note2 = data["Ghi chú 2"].ToString();
 
                                 // Check if values is null
-                                string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
-                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
-                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                                string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
+                                        , lessonNumber, lessonTime, roomId, lecturerId, fullName
+                                    , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
                                 string checkNull = ValidateNotNull(validRows);
                                 if (checkNull != null)
                                 {
@@ -402,10 +350,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     ID_HocKy = hocky,
                                     ID_Nganh = nganh,
                                     MaMH = subjectId,
+                                    MaLHP = classSectionid,
                                     TenHP = name,
+                                    LoaiHP = type,
                                     MaCBGD = lecturerId,
                                     TenCBGD = fullName,
                                 };
+
+                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                                if (tkGv != null)
+                                    hocphan.ID_TaiKhoan = tkGv.ID;
+
                                 model.LopHocPhan.Add(hocphan);
                                 model.SaveChanges();
                                 int idHp = hocphan.ID;
@@ -413,37 +368,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.ID_HocKy = hocky;
                                 tkb.ID_Nganh = nganh;
                                 tkb.ID_LopHocPhan = idHp;
-                                tkb.MaGocLHP = originalId;
-                                tkb.MaLHP = classSectionid;
-                                tkb.MaMH = subjectId;
-                                tkb.LoaiHP = type;
-                                tkb.MaLop = malop;
-                                tkb.TenPhong = roomId;
-                                tkb.PH = room2;
-                                tkb.PH_X = roomType;
-                                tkb.SucChua = Int32.Parse(capacity);
-                                tkb.TSMH = Int32.Parse(minimumStudent);
                                 tkb.SoTietDaXep = Int32.Parse(totalLesson);
                                 tkb.Thu = day;
                                 tkb.TietBD = Int32.Parse(startLesson);
                                 tkb.SoTiet = Int32.Parse(lessonNumber);
                                 tkb.TietHoc = lessonTime;
-                                tkb.SiSoTKB = Int32.Parse(studentNumber);
-                                tkb.Trong = Int32.Parse(freeSlot);
-                                tkb.TinhTrangLHP = state;
-                                tkb.TuanHoc2 = learnWeek;
                                 tkb.ThuS = Int32.Parse(day2);
                                 tkb.TietS = Int32.Parse(startLesson2);
                                 tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                                 tkb.TuanBD = Int32.Parse(startWeek);
                                 tkb.TuanKT = Int32.Parse(endWeek);
-                                tkb.SoTC = Int32.Parse(credits);
-                                tkb.GhiChu1 = note1;
-                                tkb.GhiChu2 = note2;
-
-                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                                if (tkGv != null)
-                                    tkb.ID_TaiKhoan = tkGv.ID;
 
                                 model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
                                 model.SaveChanges();
@@ -520,51 +454,30 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
                                 continue;
 
-                            string originalId = data["MaGocLHP"].ToString(); //
-                            string subjectId = data["Mã MH"].ToString();////
-                            string classSectionid = data["Mã LHP"].ToString(); //
-                            string name = data["Tên HP"].ToString();  ////
-                            string credits = data["Số TC"].ToString(); ////
-                            string type = data["Loại HP"].ToString(); //
-
-                            string studentClassId = data["Mã Lớp"].ToString(); //
-                            var malop = "";
-                            foreach (var item in data["Mã Lớp"].ToString().Split('\n'))
-                            {
-                                malop += item + "#";
-                            }
-                            malop = malop.Substring(0, malop.Length - 1);
-
-                            string minimumStudent = data["TSMH"].ToString(); //
+                            string subjectId = data["Mã MH"].ToString();
+                            string classSectionid = data["Mã LHP"].ToString();
+                            string name = data["Tên HP"].ToString();
+                            string type = data["Loại HP"].ToString();
                             string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
                             string day = data["Thứ"].ToString(); //
                             string startLesson = data["Tiết BĐ"].ToString(); //
-                            string lessonNumber = data["Số Tiết"].ToString(); //
-                            string lessonTime = data["Tiết Học"].ToString(); //
-                            string room2 = data["PH"].ToString();
-                            string roomId = data["Phòng"].ToString();
+                            string lessonNumber = data["Số Tiết"].ToString();//
+                            string lessonTime = data["Tiết Học"].ToString();//
+                            string roomId = data["Phòng"].ToString();//
                             string lecturerId = data["Mã CBGD"].ToString();//
                             string fullName = data["Tên CBGD"].ToString();//
-                            string roomType = data["PH_X"].ToString();
-                            string capacity = data["Sức Chứa"].ToString();
-                            string studentNumber = data["SiSoTKB"].ToString(); //
-                            string freeSlot = data["Trống"].ToString(); //
-                            string state = data["Tình Trạng LHP"].ToString(); //
-                            string learnWeek = data["TuanHoc2"].ToString(); //
-                            string day2 = data["ThuS"].ToString(); //
-                            string startLesson2 = data["TietS"].ToString(); //
-                            string studentRegisteredNumber = data["Số SVĐK"].ToString(); //
-                            string startWeek = data["Tuần BD"].ToString(); //
-                            string endWeek = data["Tuần KT"].ToString(); //
-                            string idmajor = data["Mã Ngành"].ToString();
-                            string namemajor = data["Tên Ngành"].ToString();
-                            string note1 = data["Ghi Chú 1"].ToString(); //
-                            string note2 = data["Ghi chú 2"].ToString(); //
+                            string day2 = data["ThuS"].ToString();//
+                            string startLesson2 = data["TietS"].ToString();//
+                            string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                            string startWeek = data["Tuần BD"].ToString();//
+                            string endWeek = data["Tuần KT"].ToString();//
+                            string idmajor = data["Mã Ngành"].ToString();//
+                            string namemajor = data["Tên Ngành"].ToString();//
 
                             // Check if values is null
-                            string[] validRows = { originalId, subjectId, classSectionid, name, credits, type, studentClassId, minimumStudent
-                                    , totalLesson, day, startLesson, lessonNumber, lessonTime, roomId, lecturerId, fullName, roomType, studentNumber
-                                    , freeSlot, state, learnWeek, day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
+                            string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
+                                        , lessonNumber, lessonTime, roomId, lecturerId, fullName
+                                    , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
                             string checkNull = ValidateNotNull(validRows);
                             if (checkNull != null)
                             {
@@ -583,10 +496,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 ID_HocKy = hocky,
                                 ID_Nganh = nganh,
                                 MaMH = subjectId,
+                                MaLHP = classSectionid,
                                 TenHP = name,
+                                LoaiHP = type,
                                 MaCBGD = lecturerId,
                                 TenCBGD = fullName,
                             };
+
+                            var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                            if (tkGv != null)
+                                hocphan.ID_TaiKhoan = tkGv.ID;
+
                             model.LopHocPhan.Add(hocphan);
                             model.SaveChanges();
                             int idHp = hocphan.ID;
@@ -595,37 +515,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             tkb.ID_HocKy = hocky;
                             tkb.ID_Nganh = nganh;
                             tkb.ID_LopHocPhan = idHp;
-                            tkb.MaGocLHP = originalId;
-                            tkb.MaLHP = classSectionid;
-                            tkb.MaMH = subjectId;
-                            tkb.LoaiHP = type;
-                            tkb.MaLop = malop;
-                            tkb.TenPhong = roomId;
-                            tkb.PH = room2;
-                            tkb.PH_X = roomType;
-                            tkb.SucChua = Int32.Parse(capacity);
-                            tkb.TSMH = Int32.Parse(minimumStudent);
                             tkb.SoTietDaXep = Int32.Parse(totalLesson);
                             tkb.Thu = day;
                             tkb.TietBD = Int32.Parse(startLesson);
                             tkb.SoTiet = Int32.Parse(lessonNumber);
                             tkb.TietHoc = lessonTime;
-                            tkb.SiSoTKB = Int32.Parse(studentNumber);
-                            tkb.Trong = Int32.Parse(freeSlot);
-                            tkb.TinhTrangLHP = state;
-                            tkb.TuanHoc2 = learnWeek;
                             tkb.ThuS = Int32.Parse(day2);
                             tkb.TietS = Int32.Parse(startLesson2);
                             tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                             tkb.TuanBD = Int32.Parse(startWeek);
                             tkb.TuanKT = Int32.Parse(endWeek);
-                            tkb.SoTC = Int32.Parse(credits);
-                            tkb.GhiChu1 = note1;
-                            tkb.GhiChu2 = note2;
-
-                            var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                            if (tkGv != null)
-                                tkb.ID_TaiKhoan = tkGv.ID;
 
                             model.ThoiKhoaBieu.Add(tkb);
                             model.SaveChanges();
@@ -661,7 +560,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var lstMon = mon.Split('#').ToList();
             var lstGv = gv.Split('#').ToList();
             var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
-            var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+            var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
 
             return PartialView("_Export", tkb);
         }
@@ -670,10 +569,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             // Declare the valid column names
             string[] validColumns = {
-                "MaGocLHP", "Mã MH", "Mã LHP", "Tên HP", "Số TC", "Loại HP", "Mã Lớp", "TSMH",
-                "Số Tiết Đã xếp", "PH", "Thứ", "Tiết BĐ", "Số Tiết", "Tiết Học", "Phòng", "Mã CBGD",
-                "Tên CBGD", "PH_X", "Sức Chứa", "SiSoTKB", "Trống", "Tình Trạng LHP", "TuanHoc2", "ThuS",
-                "TietS", "Số SVĐK", "Tuần BD", "Tuần KT", "Mã Ngành", "Tên Ngành", "Ghi Chú 1", "Ghi chú 2"
+                "Mã MH", "Mã LHP", "Tên HP", "Loại HP",
+                "Số Tiết Đã xếp","Thứ", "Tiết BĐ", "Số Tiết", "Tiết Học", "Phòng", "Mã CBGD",
+                "Tên CBGD", "ThuS", "TietS", "Số SVĐK", "Tuần BD", "Tuần KT", "Mã Ngành", "Tên Ngành"
             };
 
             DataColumnCollection columns = dt.Columns;

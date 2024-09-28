@@ -58,10 +58,10 @@
                                 {
                                     if (item.TenHocKy.Equals("242"))
                                     {
-                                        <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                         continue;
                                     }
-                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                                 }
                             </select>
                         </div>
@@ -70,12 +70,12 @@
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenVietTat.Equals("CNTT"))
+                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
                                     {
-                                        <option selected value="@item.id">@item.TenNganh</option>
+                                        <option selected value="@item.ID">@item.TenNganh</option>
                                         continue;
                                     }
-                                    <option value="@item.id">@item.TenNganh</option>
+                                    <option value="@item.ID">@item.TenNganh</option>
                                 }
                             </select>
                         </div>

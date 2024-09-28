@@ -79,10 +79,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
             else
             {
-                var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.Id.Equals("1")).ToList();
+                var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
 
                 AspNetUsers aspNetUsers = new AspNetUsers();
-                aspNetUsers.Id = userId;
+                aspNetUsers.ID = userId;
                 aspNetUsers.Email = EmailUser;
                 aspNetUsers.EmailConfirmed = false;
                 aspNetUsers.PhoneNumberConfirmed = false;
@@ -94,14 +94,24 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
 
-                TaiKhoan newUser = new TaiKhoan();
-                newUser.HoTen = FullName;
-                newUser.Email = EmailUser;
-                newUser.ID_AspNetUsers = aspNetUsers.Id;
-                newUser.TrangThai = true;
+                var taikhoanExist = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(userId));
+                if (taikhoanExist == null)
+                {
+                    TaiKhoan newUser = new TaiKhoan();
+                    newUser.HoTen = FullName;
+                    newUser.Email = EmailUser;
+                    newUser.ID_AspNetUsers = aspNetUsers.ID;
+                    newUser.TrangThai = true;
 
-                model.TaiKhoan.Add(newUser);
-                model.SaveChanges();
+                    model.TaiKhoan.Add(newUser);
+                    model.SaveChanges();
+                }
+                else
+                {
+                    taikhoanExist.ID_AspNetUsers = aspNetUsers.ID;
+                    model.Entry(taikhoanExist).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+                }
 
                 return RedirectToAction("Index", "Dashboard");
             }

@@ -19,7 +19,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public string NgoaiHinhTacPhong { get; set; }
         public string KienThuc { get; set; }
         public string HieuBietCongViec { get; set; }
-        public string ThaiDoTichCuc { get; set; }
+        public string ThaIDoTichCuc { get; set; }
         public string KyNangTrinhBay { get; set; }
         public string KyNangGiaoTiep { get; set; }
         public string GiaiQuyetVanDe { get; set; }

@@ -58,10 +58,10 @@
                                 {
                                     if (item.TenHocKy.Equals("242"))
                                     {
-                                        <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                         continue;
                                     }
-                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                                 }
                             </select>
                         </div>
@@ -70,12 +70,12 @@
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenVietTat.Equals("CNTT"))
+                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
                                     {
-                                        <option selected value="@item.id">@item.TenNganh</option>
+                                        <option selected value="@item.ID">@item.TenNganh</option>
                                         continue;
                                     }
-                                    <option value="@item.id">@item.TenNganh</option>
+                                    <option value="@item.ID">@item.TenNganh</option>
                                 }
                             </select>
                         </div>
@@ -122,7 +122,7 @@
                                             <br />
                                             <span class="text-nowrap">Email: @item.Email</span>
                                             <br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
                                         <td valign="middle" class="text-nowrap">
                                             Mã LHP: 221_71ITBS10103_0@(i)

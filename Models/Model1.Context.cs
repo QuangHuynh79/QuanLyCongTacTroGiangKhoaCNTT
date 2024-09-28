@@ -36,6 +36,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual DbSet<DiemDanh> DiemDanh { get; set; }
         public virtual DbSet<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
         public virtual DbSet<HocKy> HocKy { get; set; }
+        public virtual DbSet<Khoa> Khoa { get; set; }
         public virtual DbSet<LopHocPhan> LopHocPhan { get; set; }
         public virtual DbSet<Nganh> Nganh { get; set; }
         public virtual DbSet<PhanCongTroGiang> PhanCongTroGiang { get; set; }

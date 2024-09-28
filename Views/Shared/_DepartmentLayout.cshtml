@@ -160,7 +160,7 @@
                         <a id="parent-studentaffairs-studentaffairssemesterandmajor" class="nav-link  " href="#"
                            data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairssemesterandmajor" aria-expanded="false"
                            aria-controls="nav-studentaffairs-studentaffairssemesterandmajor">
-                            <i class="nav-icon fe fe-layers me-2"></i> Học kỳ & Ngành
+                            <i class="nav-icon fe fe-layers me-2"></i> Học kỳ, Ngành & Khoa
                         </a>
                         <div id="nav-studentaffairs-studentaffairssemesterandmajor" class="collapse "
                              data-bs-parent="#sideNavbar">
@@ -176,6 +176,13 @@
                                     <a id="child-studentaffairs-studentaffairssemesterandmajor-nganh" class="child-nav-link nav-link "
                                        href="@Url.Action("major", "TermAndMajor")">
                                         Ngành
+                                    </a>
+                                </li>
+                                <!-- Nav item -->
+                                <li class="nav-item ">
+                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-khoa" class="child-nav-link nav-link "
+                                       href="@Url.Action("faculty", "TermAndMajor")">
+                                        Khoa
                                     </a>
                                 </li>
                             </ul>
@@ -421,13 +428,6 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="infokhoa">Khoa</label>
-                                <input value="@tk.Khoa" type="text" id="infokhoa" class="form-control" placeholder="Nhập khoa bạn đang theo học">
-                                <span class="text-danger" id="valid-infokhoa"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
                                 <label class="form-label" for="infonganh">
                                     Ngành
                                 </label>
@@ -437,7 +437,7 @@
                                         <option selected value="">---- Chọn ngành ----</option>
                                         foreach (var item in lstNganh)
                                         {
-                                            <option value="@item.id">@item.TenNganh</option>
+                                            <option value="@item.ID">@item.TenNganh</option>
                                         }
                                     }
                                     else
@@ -445,12 +445,12 @@
                                         <option value="">---- Chọn ngành ----</option>
                                         foreach (var item in lstNganh)
                                         {
-                                            if (item.id == tk.ID_Nganh)
+                                            if (item.ID == tk.ID_Nganh)
                                             {
-                                                <option selected value="@item.id">@item.TenNganh</option>
+                                                <option selected value="@item.ID">@item.TenNganh</option>
                                                 continue;
                                             }
-                                            <option value="@item.id">@item.TenNganh</option>
+                                            <option value="@item.ID">@item.TenNganh</option>
                                         }
                                     }
 

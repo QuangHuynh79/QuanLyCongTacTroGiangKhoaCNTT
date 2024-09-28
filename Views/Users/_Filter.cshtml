@@ -15,7 +15,7 @@
                         <th class="text-nowrap">Mã</th>
                         <th class="text-nowrap">Họ & Tên</th>
                         <th class="text-nowrap">Liên hệ</th>
-                        <th class="text-nowrap">Chức danh</th>
+                        <th class="text-nowrap">Vai trò</th>
                         <th class="text-nowrap">Quốc tịch</th>
                         <th class="text-nowrap">Trạng thái</th>
                         <th></th>
@@ -33,7 +33,7 @@
                             <td valign="middle">@item.HoTen</td>
                             <td valign="middle" class="text-nowrap">
                                 @item.Email<br />
-                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                             </td>
                             <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
                             <td valign="middle">@item.QuocTich</td>

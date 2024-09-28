@@ -57,13 +57,13 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="chucdanh">
-                                    Chức danh <span class="text-danger">*</span>
+                                    Vai trò <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="chucdanh">
                                     <option selected value="">---- Chọn tất cả ----</option>
                                     @foreach (var item in Model)
                                     {
-                                        <option value="@item.Id">@item.Name</option>
+                                        <option value="@item.ID">@item.Name</option>
                                     }
                                 </select>
                                 <span class="text-danger" id="valid-chucdanh"></span>
@@ -72,7 +72,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="ma">Mã <span class="text-danger">*</span></label>
-                                <input type="text" id="ma" class="form-control" placeholder="Nhập mã người dùng">
+                                <input type="text" id="ma" maxlength="10" class="form-control" placeholder="Nhập mã người dùng">
                                 <span class="text-danger" id="valid-ma"></span>
                             </div>
                         </div>
@@ -127,13 +127,6 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="khoa">Khoa</label>
-                                <input type="text" id="khoa" class="form-control" placeholder="Nhập khoa của người dùng">
-                                <span class="text-danger" id="valid-khoa"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
                                 <label class="form-label" for="nganh">
                                     Ngành
                                 </label>
@@ -141,7 +134,7 @@
                                     <option selected value="">---- Chọn ngành ----</option>
                                     @foreach (var item in lstNganh)
                                     {
-                                        <option value="@item.id">@item.TenNganh</option>
+                                        <option value="@item.ID">@item.TenNganh</option>
                                     }
                                 </select>
                                 <span class="text-danger" id="valid-nganh"></span>

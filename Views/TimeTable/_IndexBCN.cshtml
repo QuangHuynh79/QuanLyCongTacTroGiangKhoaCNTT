@@ -1,8 +1,8 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
     CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.id).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.id).ToList();
+    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
 
     var currentDate = DateTime.Now;
     var currentYear = DateTime.Now.Year;
@@ -11,7 +11,7 @@
     if (lstHocKy.Count > 0)
     {
         var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
-        id_hkGanNhat = hkGanNhat.id;
+        id_hkGanNhat = hkGanNhat.ID;
     }
 
     int id_nganhCNTT = 0;
@@ -20,7 +20,7 @@
         var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
         if (nganhcntt != null)
         {
-            id_nganhCNTT = nganhcntt.id;
+            id_nganhCNTT = nganhcntt.ID;
         }
     }
 
@@ -37,13 +37,13 @@
                     @foreach (var item in lstHocKy)
                     {
 
-                        if (id_hkGanNhat == item.id)
+                        if (id_hkGanNhat == item.ID)
                         {
-                            <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                            <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                         }
                         else
                         {
-                            <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                            <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                         }
                     }
                 </select>
@@ -55,11 +55,11 @@
                     {
                         if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
                         {
-                            <option selected value="@item.id">@item.MaNganh - @item.TenNganh</option>
+                            <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
                         }
                         else
                         {
-                            <option value="@item.id">@item.MaNganh - @item.TenNganh</option>
+                            <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
                         }
                     }
                 </select>
@@ -78,9 +78,9 @@
                 <div class="mb-3 col-md-3 col-12">
                     <label class="form-label">Lọc môn học</label>
                     <select class="form-select" id="locmonhoc" placeholder="Lọc giảng viên" multiple="multiple">
-                        @foreach (var item in lstTkb.GroupBy(o => o.MaMH).ToList())
+                        @foreach (var item in lstTkb.GroupBy(o => o.LopHocPhan.MaMH).ToList())
                         {
-                            var items = item.Select(s => new { s.LopHocPhan.TenHP, s.MaMH }).First();
+                            var items = item.Select(s => new { s.LopHocPhan.TenHP, s.LopHocPhan.MaMH }).First();
                             <option selected value="@items.MaMH">@items.TenHP</option>
                         }
                     </select>
@@ -138,7 +138,7 @@
                     </tr>
                 </thead>
                 <tbody id="filterLoad">
-                    @foreach (var item in lstTkb.GroupBy(g => g.MaMH))
+                    @foreach (var item in lstTkb.GroupBy(g => g.LopHocPhan.MaMH))
                     {
                         <tr>
                             <td class="bg-secondary text-white" style="box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
@@ -154,13 +154,13 @@
                                             <td style="padding: 10px;">
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -179,13 +179,13 @@
 
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -204,13 +204,13 @@
 
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -229,13 +229,13 @@
 
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -257,13 +257,13 @@
 
                                                     @foreach (var items in lstTkbs)
                                                     {
-                                                        if (items.LoaiHP.ToLower().Equals("thực hành"))
+                                                        if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                         else
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                     }
                                                 </td>
@@ -281,13 +281,13 @@
 
                                                     @foreach (var items in lstTkbs)
                                                     {
-                                                        if (items.LoaiHP.ToLower().Equals("thực hành"))
+                                                        if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                         else
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.MaGocLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.TenPhong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>TA:</b> Chưa phân" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                     }
                                                 </td>

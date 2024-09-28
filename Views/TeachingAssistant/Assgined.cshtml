@@ -3,8 +3,8 @@
     Layout = Session["layout"].ToString();
     ViewBag.Title = "Phân công trợ giảng";
     CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.id).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.id).ToList();
+    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
 
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
@@ -12,11 +12,11 @@
         var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
         if (hkGanNhat == null)
         {
-            id_hkGanNhat = lstHocKy.First().id;
+            id_hkGanNhat = lstHocKy.First().ID;
         }
         else
         {
-            id_hkGanNhat = hkGanNhat.id;
+            id_hkGanNhat = hkGanNhat.ID;
         }
     }
 
@@ -26,7 +26,7 @@
         var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
         if (nganhcntt != null)
         {
-            id_nganhCNTT = nganhcntt.id;
+            id_nganhCNTT = nganhcntt.ID;
         }
     }
 
@@ -82,10 +82,10 @@
                                 {
                                     if (item.TenHocKy.Equals("242"))
                                     {
-                                        <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                         continue;
                                     }
-                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                                 }
                             </select>
                         </div>
@@ -94,12 +94,12 @@
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenVietTat.Equals("CNTT"))
+                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
                                     {
-                                        <option selected value="@item.id">@item.TenNganh</option>
+                                        <option selected value="@item.ID">@item.TenNganh</option>
                                         continue;
                                     }
-                                    <option value="@item.id">@item.TenNganh</option>
+                                    <option value="@item.ID">@item.TenNganh</option>
                                 }
                             </select>
                         </div>
@@ -137,12 +137,12 @@
                                 {
                                     <tr>
                                         <td valign="middle" class="text-nowrap">
-                                            Mã: @item.MaLHP
+                                            Mã: @item.LopHocPhan.MaLHP
                                             <br />
                                             Tên: @item.LopHocPhan.TenHP
                                         </td>
                                         <td valign="middle">
-                                            @if (item.MaLHP.Length == 18)
+                                            @if (item.LopHocPhan.MaLHP.Length == 18)
                                             {
                                                 <span role="button" class="badge bg-warning">Chưa phân công</span>
                                             }
@@ -157,7 +157,7 @@
                                                 <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @(tksv.NgaySinh != null ? tksv.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                             }
                                         </td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.TenPhong)</td>
+                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#phancong">

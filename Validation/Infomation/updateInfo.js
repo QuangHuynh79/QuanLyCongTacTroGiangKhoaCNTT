@@ -9,7 +9,6 @@
         var ma = $('body').find('[id="infoma"]').val().trim();
         var hoten = $('body').find('[id="infohoten"]').val().trim();
         var dienthoai = $('body').find('[id="infodienthoai"]').val().trim();
-        var khoa = $('body').find('[id="infokhoa"]').val().trim();
         var nganh = $('body').find('[id="infonganh"] :selected').val();
 
         var validma = $('body').find('[id="valid-infoma"]');
@@ -86,7 +85,6 @@
             formData.append('ma', ma);
             formData.append('hoten', hoten);
             formData.append('dienthoai', dienthoai);
-            formData.append('khoa', khoa);
             formData.append('nganh', nganh);
             formData.append('gioitinh', $('body').find('[id="infogioitinh"] :selected').val());
             formData.append('quoctich', $('body').find('[id="infoquoctich"]').prop('checked'));

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
@@ -56,7 +57,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult AddNew(string ma, string hoten, string email, string chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult AddNew(string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -65,10 +66,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("Exist");
 
                 string userId = email.ToLower();
-                var aspNetRoles = model.AspNetRoles.Where(w => w.Id.Equals(chucdanh)).ToList();
+                var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals(chucdanh)).ToList();
 
                 AspNetUsers aspNetUsers = new AspNetUsers();
-                aspNetUsers.Id = userId;
+                aspNetUsers.ID = userId;
                 aspNetUsers.Email = email;
                 aspNetUsers.EmailConfirmed = false;
                 aspNetUsers.PhoneNumberConfirmed = false;
@@ -83,7 +84,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var data = new TaiKhoan();
                 data.Email = email;
                 data.HoTen = hoten;
-                data.ID_AspNetUsers = aspNetUsers.Id;
+                data.ID_AspNetUsers = aspNetUsers.ID;
                 data.TrangThai = true;
                 data.NgaySinh = ngaysinh;
                 data.Ma = ma;
@@ -93,7 +94,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 else
                     data.QuocTich = "Nước ngoài";
                 data.SDT = dienthoai;
-                data.Khoa = khoa;
                 if (!string.IsNullOrEmpty(nganh))
                     data.ID_Nganh = Int32.Parse(nganh);
 
@@ -155,7 +155,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -163,12 +163,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (checks != null)
                     return Content("Exist");
 
-                var aspNetRoles = model.AspNetRoles.Where(w => w.Id.Equals(chucdanh)).ToList();
+                var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals(chucdanh)).ToList();
 
                 string userId = email.ToLower();
                 var aspNetUsers = model.AspNetUsers.Find(userId);
 
-                string idRole = aspNetUsers.AspNetRoles.First().Id;
+                string idRole = aspNetUsers.AspNetRoles.First().ID;
                 UserManager.RemoveFromRoles(userId, idRole);
 
                 aspNetUsers.AspNetRoles = aspNetRoles;
@@ -188,7 +188,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 else
                     data.QuocTich = "Nước ngoài";
                 data.SDT = dienthoai;
-                data.Khoa = khoa;
                 if (!string.IsNullOrEmpty(nganh))
                     data.ID_Nganh = Int32.Parse(nganh);
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
@@ -218,7 +217,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 string userId = data.Email.ToLower();
                 var aspNetUsers = model.AspNetUsers.Find(userId);
 
-                string idRole = aspNetUsers.AspNetRoles.First().Id;
+                string idRole = aspNetUsers.AspNetRoles.First().ID;
                 UserManager.RemoveFromRoles(userId, idRole);
 
                 model.TaiKhoan.Remove(data);
@@ -242,12 +241,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 if (string.IsNullOrEmpty(id) || id.Equals("0"))
                 {
-                    var data = model.AspNetUsers.ToList().OrderByDescending(o => o.Id);
+                    var data = model.AspNetUsers.ToList().OrderByDescending(o => o.ID);
                     return PartialView("_Filter", data);
                 }
                 else
                 {
-                    var data = model.AspNetUsers.Where(w => w.AspNetRoles.Where(wh => wh.Id.Equals(id)).Count() > 0).ToList().OrderByDescending(o => o.Id);
+                    var data = model.AspNetUsers.Where(w => w.AspNetRoles.Where(wh => wh.ID.Equals(id)).Count() > 0).ToList().OrderByDescending(o => o.ID);
                     return PartialView("_Filter", data);
                 }
             }
@@ -259,7 +258,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, AllRole]
         [HttpPost]
-        public ActionResult UpdateInfo(string ma, string hoten, string dienthoai, string khoa, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult UpdateInfo(string ma, string hoten, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
@@ -279,7 +278,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 else
                     data.QuocTich = "Nước ngoài";
                 data.SDT = dienthoai;
-                data.Khoa = khoa;
                 if (!string.IsNullOrEmpty(nganh))
                     data.ID_Nganh = Int32.Parse(nganh);
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
