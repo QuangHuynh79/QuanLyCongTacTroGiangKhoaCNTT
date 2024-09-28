@@ -20,7 +20,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             this.CongViec = new HashSet<CongViec>();
             this.LopHocPhan = new HashSet<LopHocPhan>();
             this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
-            this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
             this.ThongBao = new HashSet<ThongBao>();
             this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
         }
@@ -35,7 +34,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public string GioiTinh { get; set; }
         public string SDT { get; set; }
         public string QuocTich { get; set; }
-        public string Khoa { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
@@ -46,8 +44,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhanCongTroGiang> PhanCongTroGiang { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThongBao> ThongBao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

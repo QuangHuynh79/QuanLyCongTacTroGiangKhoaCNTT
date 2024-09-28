@@ -17,14 +17,15 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID { get; set; }
         public int ID_LopHocPhan { get; set; }
         public string MoTa { get; set; }
-        public double ThoiGian { get; set; }
-        public System.DateTime ThoiGianHoanThanh { get; set; }
+        public double SoGioQuyDoi { get; set; }
+        public System.DateTime ThoiHanHoanThanh { get; set; }
         public string NoiLamViec { get; set; }
         public string KetQuaMongDoi { get; set; }
         public string TrangThai { get; set; }
-        public bool DanhGia { get; set; }
+        public Nullable<bool> DanhGia { get; set; }
         public Nullable<int> ID_TaiKhoan { get; set; }
     
+        public virtual LopHocPhan LopHocPhan { get; set; }
         public virtual TaiKhoan TaiKhoan { get; set; }
     }
 }

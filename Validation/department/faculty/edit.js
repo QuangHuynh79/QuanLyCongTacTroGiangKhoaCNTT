@@ -5,14 +5,14 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "TermAndMajor/OpenEditMajor",
+            url: $('#requestPath').val() + "TermAndMajor/OpenEditFaculty",
             data: formData,
             dataType: 'html',
             type: 'POST',
             processData: false,
             contentType: false,
         }).done(function (ketqua) {
-            if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Ngành không tồn tại") !== -1) {
+            if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Khoa không tồn tại") !== -1) {
                 Swal.fire({
                     title: "Đã xảy ra lỗi!",
                     text: ketqua,
@@ -22,8 +22,8 @@
                 });
             }
             else {
-                $('body').find('[id="capnhatnganh-partial"]').replaceWith(ketqua);
-                $('body').find('[id="capnhatTitle"]').text("Cập nhật ngành " + $('body').find('[id="editmanganh"]').val());
+                $('body').find('[id="capnhatkhoa-partial"]').replaceWith(ketqua);
+                $('body').find('[id="capnhatTitle"]').text("Cập nhật khoa " + $('body').find('[id="edittenkhoa"]').val());
                 $('body').find('[id="capnhat"]').modal('toggle');
             }
         });
@@ -35,63 +35,33 @@
         btn.prop('disabled', true);
         $('body').find('[id="btnEditClose"]').prop('disabled', true);
 
-        var manganh = $('body').find('[id="editmanganh"]').val().trim();
-        var tennganh = $('body').find('[id="edittennganh"]').val().trim();
-        var khoa = $('body').find('[id="editkhoa"] :selected').val();
+        var tenkhoa = $('body').find('[id="edittenkhoa"]').val().trim();
 
-        var validmanganh = $('body').find('[id="valid-editmanganh"]');
-        var validtennganh = $('body').find('[id="valid-edittennganh"]');
-        var validkhoa = $('body').find('[id="valid-editkhoa"]');
+        var validtenkhoa = $('body').find('[id="valid-edittenkhoa"]');
 
-        validmanganh.text('');
-        validtennganh.text('');
-        validkhoa.text('');
+        validtenkhoa.text('');
 
         var check = true;
 
-        if (manganh.length < 1) {
+        if (tenkhoa.length < 1) {
             check = false;
 
             btn.html('Lưu thông tin');
             btn.prop('disabled', false);
             $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-            validmanganh.text("Vui lòng nhập mã ngành.");
-            $('body').find('[id="editmanganh"]').focus();
-        }
-
-        if (tennganh.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnEditClose"]').prop('disabled', false);
-
-            validtennganh.text("Vui lòng nhập tên ngành.");
-            $('body').find('[id="edittennganh"]').focus();
-        }
-
-        if (khoa.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnEditClose"]').prop('disabled', false);
-
-            validkhoa.text("Vui lòng chọn khoa.");
-            $('body').find('[id="editkhoa"]').focus();
+            validtenkhoa.text("Vui lòng nhập tên khoa.");
+            $('body').find('[id="edittenkhoa"]').focus();
         }
 
         if (check == true) {
             var formData = new FormData();
-            formData.append('id', $('body').find('[id="idn"]').val());
-            formData.append('manganh', manganh);
-            formData.append('tennganh', tennganh);
-            formData.append('khoa', khoa);
+            formData.append('id', $('body').find('[id="idk"]').val());
+            formData.append('tenkhoa', tenkhoa);
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-                url: $('#requestPath').val() + "TermAndMajor/editMajor",
+                url: $('#requestPath').val() + "TermAndMajor/editFaculty",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
@@ -105,7 +75,7 @@
 
                     Swal.fire({
                         title: "Thành công!",
-                        text: "Đã lưu thông tin ngành " + manganh,
+                        text: "Đã lưu thông tin khoa " + tenkhoa,
                         icon: "success"
                     }).then(() => {
                         window.location.reload();

@@ -4,8 +4,8 @@
     Layout = Session["layout"].ToString();
 
     CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.id).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.id).ToList();
+    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
 
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
@@ -13,11 +13,11 @@
         var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
         if (hkGanNhat == null)
         {
-            id_hkGanNhat = lstHocKy.First().id;
+            id_hkGanNhat = lstHocKy.First().ID;
         }
         else
         {
-            id_hkGanNhat = hkGanNhat.id;
+            id_hkGanNhat = hkGanNhat.ID;
         }
     }
 
@@ -27,7 +27,7 @@
         var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
         if (nganhcntt != null)
         {
-            id_nganhCNTT = nganhcntt.id;
+            id_nganhCNTT = nganhcntt.ID;
         }
     }
 
@@ -72,13 +72,13 @@
                                 @foreach (var item in lstHocKy)
                                 {
 
-                                    if (id_hkGanNhat == item.id)
+                                    if (id_hkGanNhat == item.ID)
                                     {
-                                        <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                     }
                                     else
                                     {
-                                        <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                                     }
                                 }
                             </select>
@@ -102,9 +102,9 @@
                                 @foreach (var item in lstTkb.ToList())
                                 {
                                     <tr>
-                                        <td>@item.MaLHP</td>
+                                        <td>@item.LopHocPhan.MaLHP</td>
                                         <td>@item.LopHocPhan.TenHP</td>
-                                        <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.TenPhong)</td>
+                                        <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
                                         <td>0</td>
                                         <td class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#diemdanh">

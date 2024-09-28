@@ -12,12 +12,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserLogins
+    public partial class Khoa
     {
-        public string LoginProvIDer { get; set; }
-        public string ProvIDerKey { get; set; }
-        public string UserID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Khoa()
+        {
+            this.Nganh = new HashSet<Nganh>();
+        }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public int ID { get; set; }
+        public string TenKhoa { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Nganh> Nganh { get; set; }
     }
 }

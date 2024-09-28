@@ -15,51 +15,20 @@
         var tenhocky = $('body').find('[id="tenhocky"]').val().trim();
         var nambatdau = $('body').find('[id="nambatdau"] :selected').val().trim();
         var namketthuc = $('body').find('[id="namketthuc"] :selected').val().trim();
-        var tuanbatdau = $('body').find('[id="tuanbatdau"]').val().trim();
         var ngaybatdau = $('body').find('[id="ngaybatdau"]').val().trim();
-        var tiettoida = $('body').find('[id="tiettoida"]').val().trim();
-        var loptoida = $('body').find('[id="loptoida"]').val().trim();
 
         var validtenhocky = $('body').find('[id="valid-tenhocky"]');
         var validnambatdau = $('body').find('[id="valid-nambatdau"]');
         var validnamketthuc = $('body').find('[id="valid-namketthuc"]');
-        var validtuanbatdau = $('body').find('[id="valid-tuanbatdau"]');
         var validngaybatdau = $('body').find('[id="valid-ngaybatdau"]');
-        var validtiettoida = $('body').find('[id="valid-tiettoida"]');
-        var validloptoida = $('body').find('[id="valid-loptoida"]');
 
         validtenhocky.text('');
         validnambatdau.text('');
         validnamketthuc.text('');
-        validtuanbatdau.text('');
         validngaybatdau.text('');
-        validtiettoida.text('');
-        validloptoida.text('');
 
         var check = true;
-
-        if (loptoida.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnClose"]').prop('disabled', false);
-
-            validloptoida.text("Vui lòng nhập số lớp tối đa");
-            $('body').find('[id="loptoida"]').focus();
-        }
-
-        if (tiettoida.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnClose"]').prop('disabled', false);
-
-            validtiettoida.text("Vui lòng nhập số tiết tối đa");
-            $('body').find('[id="tiettoida"]').focus();
-        }
-
+        
         if (ngaybatdau.length < 1) {
             check = false;
 
@@ -70,18 +39,7 @@
             validngaybatdau.text("Vui lòng chọn ngày bắt đầu");
             $('body').find('[id="ngaybatdau"]').focus();
         }
-
-        if (tuanbatdau.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnClose"]').prop('disabled', false);
-
-            validtuanbatdau.text("Vui lòng nhập tuần bắt đầu");
-            $('body').find('[id="tuanbatdau"]').focus();
-        }
-
+       
         if (tenhocky.length < 1) {
             check = false;
 
@@ -98,10 +56,7 @@
             formData.append('tenhocky', tenhocky);
             formData.append('nambatdau', nambatdau);
             formData.append('namketthuc', namketthuc);
-            formData.append('tuanbatdau', tuanbatdau);
             formData.append('ngaybatdau', ngaybatdau);
-            formData.append('tiettoida', tiettoida);
-            formData.append('loptoida', loptoida);
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },

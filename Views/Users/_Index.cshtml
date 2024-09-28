@@ -14,7 +14,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("1")).Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("1")).Count())</h2>
                         <span>Sinh viên</span>
                     </div>
                     <div>
@@ -32,7 +32,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("4")).Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("4")).Count())</h2>
                         <span>Trợ giảng</span>
                     </div>
                     <div>
@@ -50,7 +50,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("2")).Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("2")).Count())</h2>
                         <span>Giảng viên</span>
                     </div>
                     <div>
@@ -68,7 +68,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("3")).Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("3")).Count())</h2>
                         <span>Chủ nhiệm khoa</span>
                     </div>
                     <div>
@@ -86,7 +86,7 @@
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().Id.Equals("5")).Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("5")).Count())</h2>
                         <span>Phòng đào tạo</span>
                     </div>
                     <div>
@@ -105,12 +105,12 @@
             <div class="card-header border-bottom-0 pb-0">
                 <div class="row">
                     <div class="mb-3 col-md-4 col-12">
-                        <label class="form-label" for="filterchucdanh">Lọc chức danh</label>
+                        <label class="form-label" for="filterchucdanh">Lọc Vai trò</label>
                         <select id="filterchucdanh" class="form-select" data-width="100%">
-                            <option value="0">Chọn chức danh để lọc</option>
+                            <option value="0">Chọn Vai trò để lọc</option>
                             @foreach (var item in lstRole)
                             {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.ID">@item.Name</option>
                             }
                         </select>
                     </div>
@@ -127,7 +127,7 @@
                                     <th class="text-nowrap">Mã</th>
                                     <th class="text-nowrap">Họ & Tên</th>
                                     <th class="text-nowrap">Liên hệ</th>
-                                    <th class="text-nowrap">Chức danh</th>
+                                    <th class="text-nowrap">Vai trò</th>
                                     <th class="text-nowrap">Quốc tịch</th>
                                     <th class="text-nowrap">Trạng thái</th>
                                     <th></th>
@@ -144,7 +144,7 @@
                                         <td valign="middle">@item.HoTen</td>
                                         <td valign="middle" class="text-nowrap">
                                             @item.Email<br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
                                         <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
                                         <td valign="middle">@item.QuocTich</td>

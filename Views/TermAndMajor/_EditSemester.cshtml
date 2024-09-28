@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="edittenhocky">Học kỳ </label>
-                <input hidden id="idhk" value="@Model.id" />
+                <input hidden id="idhk" value="@Model.ID" />
                 <input value="@Model.TenHocKy" disabled type="number" id="edittenhocky" class="form-control" placeholder="Nhập học kỳ (VD: 224)">
                 <span class="text-danger" id="valid-edittenhocky"></span>
             </div>
@@ -43,16 +43,7 @@
                 <span class="text-danger" id="valid-editnamketthuc"></span>
             </div>
         </div>
-
-        <div class="col-12">
-            <div class="mb-3">
-                <label class="form-label" for="edittuanbatdau">
-                    Tuần bắt đầu <span class="text-danger">*</span>
-                </label>
-                <input value="@Model.TuanBatDau" type="number" id="edittuanbatdau" class="form-control" placeholder="Nhập số tuần (VD: 30)">
-                <span class="text-danger" id="valid-edittuanbatdau"></span>
-            </div>
-        </div>
+        
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="editngaybatdau">
@@ -60,21 +51,6 @@
                 </label>
                 <input value="@Model.NgayBatDau.ToString("yyyy-MM-dd")" id="editngaybatdau" type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu">
                 <span class="text-danger" id="valid-editngaybatdau"></span>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-12">
-            <div class="mb-3">
-                <label class="form-label" for="edittiettoida">Số tiết tối đa  <span class="text-danger">*</span></label>
-                <input value="@Model.TietToiDa" type="number" id="edittiettoida" class="form-control" placeholder="Nhập số tiết (VD: 60)">
-                <span class="text-danger" id="valid-edittiettoida"></span>
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="mb-3">
-                <label class="form-label" for="editloptoida">Số lớp tối đa <span class="text-danger">*</span></label>
-                <input value="@Model.LopToiDa" type="number" id="editloptoida" class="form-control" placeholder="Nhập số lớp (VD: 20)">
-                <span class="text-danger" id="valid-editloptoida"></span>
             </div>
         </div>
 

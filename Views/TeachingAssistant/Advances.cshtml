@@ -19,11 +19,11 @@
         var hkGanNhat = lstHk.OrderByDescending(o => o.NgayBatDau).ToList().First();
         if (hkGanNhat == null)
         {
-            id_hkGanNhat = lstHk.First().id;
+            id_hkGanNhat = lstHk.First().ID;
         }
         else
         {
-            id_hkGanNhat = hkGanNhat.id;
+            id_hkGanNhat = hkGanNhat.ID;
         }
     }
 
@@ -33,7 +33,7 @@
         var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
         if (nganhcntt != null)
         {
-            id_nganhCNTT = nganhcntt.id;
+            id_nganhCNTT = nganhcntt.ID;
         }
     }
 
@@ -84,10 +84,10 @@
                                 {
                                     if (item.TenHocKy.Equals("242"))
                                     {
-                                        <option selected value="@item.id">Học kỳ @item.TenHocKy</option>
+                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                         continue;
                                     }
-                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                                 }
                             </select>
                         </div>
@@ -96,12 +96,12 @@
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenVietTat.Equals("CNTT"))
+                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
                                     {
-                                        <option selected value="@item.id">@item.TenNganh</option>
+                                        <option selected value="@item.ID">@item.TenNganh</option>
                                         continue;
                                     }
-                                    <option value="@item.id">@item.TenNganh</option>
+                                    <option value="@item.ID">@item.TenNganh</option>
                                 }
                             </select>
                         </div>
@@ -128,17 +128,17 @@
                                 {
                                     <tr>
                                         <td valign="middle">
-                                            Mã: @item.MaLHP
+                                            Mã: @item.LopHocPhan.MaLHP
                                             <br />
                                             Tên: @item.LopHocPhan.TenHP
                                             <br />
-                                            Loại: @if (item.LoaiHP.ToLower().Equals("lý thuyết"))
+                                            Loại: @if (item.LopHocPhan.LoaiHP.ToLower().Equals("lý thuyết"))
                                             {
-                                                <span class="badge bg-success">@item.LoaiHP</span>
+                                                <span class="badge bg-success">@item.LopHocPhan.LoaiHP</span>
                                             }
                                             else
                                             {
-                                                <span class="badge bg-warning">@item.LoaiHP</span>
+                                                <span class="badge bg-warning">@item.LopHocPhan.LoaiHP</span>
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
@@ -146,7 +146,7 @@
                                             <br />
                                             Tên: @item.LopHocPhan.TenCBGD
                                         </td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.TenPhong)</td>
+                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
                                         <td valign="middle">@item.SoTietDaXep</td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
@@ -244,12 +244,26 @@
 
                 <div class="modal-footer">
                     <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Duyệt công việc</button>
+                    <button disabled id="btnSubmit" type="button" class="btn btn-primary">Duyệt công việc</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        $('#camket').on('change', function () {
+            if ($(this).prop('checked')) {
+                $('#btnSubmit').prop('disabled', false);
+            }
+            else {
+                $('#btnSubmit').prop('disabled', true);
+            }
+        });
+
+        
+    });
+</script>
 <script src="~/Validation/studentaffairs/semester/add.js"></script>
 <script src="~/Validation/studentaffairs/semester/edit.js"></script>
 <script src="~/Validation/studentaffairs/semester/delete.js"></script>

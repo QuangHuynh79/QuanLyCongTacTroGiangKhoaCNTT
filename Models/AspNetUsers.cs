@@ -23,7 +23,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             this.AspNetRoles = new HashSet<AspNetRoles>();
         }
     
-        public string Id { get; set; }
+        public string ID { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
         public string PasswordHash { get; set; }

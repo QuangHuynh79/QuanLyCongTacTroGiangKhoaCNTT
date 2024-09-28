@@ -1,30 +1,28 @@
-﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.Nganh>
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.Khoa>
 @using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
-    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstKhoa = models.Khoa.ToList();
-    ViewBag.Title = "Ngành";
+    ViewBag.Title = "Khoa";
     Layout = Session["layout"].ToString();
 }
-<script src="~/ActiveItemMenu/SemesterAndMajor/nganh.js"></script>
+<script src="~/ActiveItemMenu/SemesterAndMajor/khoa.js"></script>
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Quản Lý Ngành</h1>
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Khoa</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a>Học kỳ, Ngành & Khoa</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Quản Lý Ngành
+                                Quản Lý Khoa
                             </li>
                         </ol>
                     </nav>
@@ -48,9 +46,7 @@
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Mã ngành</th>
-                                    <th>Tên ngành</th>
-                                    <th>Khoa</th>
+                                    <th>Tên khoa</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -58,16 +54,14 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.MaNganh</td>
-                                        <td>@item.TenNganh</td>
-                                        <td>@item.Khoa.TenKhoa</td>
+                                        <td>@item.TenKhoa</td>
                                         <td class="text-nowrap">
                                             <a style="font-size: 20px" role="button" id="openSua-@item.ID" name="@item.ID" class="text-success">
                                                 <i class="bi bi-pencil-square me-2"></i>
                                             </a>
-                                            @if (item.ThoiKhoaBieu.Count < 1)
+                                            @if (item.Nganh.Count < 1)
                                             {
-                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" name="@item.ID" fullname="@item.MaNganh" class="text-danger">
+                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" name="@item.ID" fullname="@item.TenKhoa" class="text-danger">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             }
@@ -87,7 +81,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="themmoiTitle">Thêm ngành mới</h5>
+                    <h5 class="modal-title" id="themmoiTitle">Thêm khoa mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -96,30 +90,9 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="manganh">Mã ngành <span class="text-danger">*</span></label>
-                                <input type="text" id="manganh" class="form-control" placeholder="Nhập mã ngành">
-                                <span class="text-danger" id="valid-manganh"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="tennganh">Tên ngành <span class="text-danger">*</span></label>
-                                <input type="text" id="tennganh" class="form-control" placeholder="Nhập tên ngành">
-                                <span class="text-danger" id="valid-tennganh"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="khoa">Khoa <span class="text-danger">*</span></label>
-                                <select id="khoa" class="form-select">
-                                    <option value="">---- Chọn khoa ----</option>
-                                    @foreach (var item in lstKhoa)
-                                    {
-                                        <option value="@item.ID">@item.TenKhoa</option>
-                                    }
-                                </select>
-                                <span class="text-danger" id="valid-khoa"></span>
+                                <label class="form-label" for="tenkhoa">Tên Khoa <span class="text-danger">*</span></label>
+                                <input type="text" id="tenkhoa" class="form-control" placeholder="Nhập tên khoa">
+                                <span class="text-danger" id="valid-tenkhoa"></span>
                             </div>
                         </div>
                     </div>
@@ -136,12 +109,12 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="capnhatTitle">Cập nhật ngành</h5>
+                    <h5 class="modal-title" id="capnhatTitle">Cập nhật khoa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body" id="capnhatnganh-partial">
+                <div class="modal-body" id="capnhatkhoa-partial">
 
                 </div>
                 <div class="modal-footer">
@@ -152,6 +125,6 @@
         </div>
     </div>
 </section>
-<script src="~/Validation/department/major/add.js"></script>
-<script src="~/Validation/department/major/edit.js"></script>
-<script src="~/Validation/department/major/delete.js"></script>
+<script src="~/Validation/department/faculty/add.js"></script>
+<script src="~/Validation/department/faculty/edit.js"></script>
+<script src="~/Validation/department/faculty/delete.js"></script>

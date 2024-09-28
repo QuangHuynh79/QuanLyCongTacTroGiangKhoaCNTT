@@ -361,13 +361,6 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="infokhoa">Khoa</label>
-                                <input value="@tk.Khoa" type="text" id="infokhoa" class="form-control" placeholder="Nhập khoa bạn đang theo học">
-                                <span class="text-danger" id="valid-infokhoa"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
                                 <label class="form-label" for="infonganh">
                                     Ngành
                                 </label>
@@ -377,7 +370,7 @@
                                         <option selected value="">---- Chọn ngành ----</option>
                                         foreach (var item in lstNganh)
                                         {
-                                            <option value="@item.id">@item.TenNganh</option>
+                                            <option value="@item.ID">@item.TenNganh</option>
                                         }
                                     }
                                     else
@@ -385,12 +378,12 @@
                                         <option value="">---- Chọn ngành ----</option>
                                         foreach (var item in lstNganh)
                                         {
-                                            if (item.id == tk.ID_Nganh)
+                                            if (item.ID == tk.ID_Nganh)
                                             {
-                                                <option selected value="@item.id">@item.TenNganh</option>
+                                                <option selected value="@item.ID">@item.TenNganh</option>
                                                 continue;
                                             }
-                                            <option value="@item.id">@item.TenNganh</option>
+                                            <option value="@item.ID">@item.TenNganh</option>
                                         }
                                     }
 

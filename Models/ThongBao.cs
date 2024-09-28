@@ -16,7 +16,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     {
         public int ID { get; set; }
         public string TieuDe { get; set; }
-        public string NoiDung { get; set; }
+        public string NoIDung { get; set; }
         public System.DateTime ThoiGian { get; set; }
         public Nullable<int> ID_TaiKhoan { get; set; }
     

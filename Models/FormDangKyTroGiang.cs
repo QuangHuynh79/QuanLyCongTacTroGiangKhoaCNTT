@@ -23,8 +23,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID { get; set; }
         public int ID_HocKy { get; set; }
         public int ID_Nganh { get; set; }
+        public int ID_TaiKhoan { get; set; }
         public System.DateTime ThoiGianMo { get; set; }
         public Nullable<System.DateTime> ThoiGianDong { get; set; }
+        public System.DateTime NgayTao { get; set; }
+        public System.DateTime NgayCapNhat { get; set; }
     
         public virtual HocKy HocKy { get; set; }
         public virtual Nganh Nganh { get; set; }

@@ -22,11 +22,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult AddSemester(int tenhocky, int nambatdau, int namketthuc, int tuanbatdau, DateTime ngaybatdau, int tiettoida, int loptoida)
+        public ActionResult AddSemester(string tenhocky, int nambatdau, int namketthuc, DateTime ngaybatdau)
         {
-            try
+            try 
             {
-                var checks = model.HocKy.FirstOrDefault(f => f.TenHocKy == tenhocky);
+                var checks = model.HocKy.FirstOrDefault(f => f.TenHocKy.Equals(tenhocky));
                 if (checks != null)
                     return Content("Exist");
 
@@ -37,10 +37,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 data.TenHocKy = tenhocky;
                 data.NamBatDau = nambatdau;
                 data.NamKetThuc = namketthuc;
-                data.TuanBatDau = tuanbatdau;
                 data.NgayBatDau = ngaybatdau;
-                data.TietToiDa = tiettoida;
-                data.LopToiDa = loptoida;
                 data.TrangThai = false;
 
                 model.HocKy.Add(data);
@@ -96,7 +93,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult EditSemester(int id, int tenhocky, int nambatdau, int namketthuc, int tuanbatdau, DateTime ngaybatdau, int tiettoida, int loptoida)
+        public ActionResult EditSemester(int id, string tenhocky, int nambatdau, int namketthuc, DateTime ngaybatdau)
         {
             try
             {
@@ -107,10 +104,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 data.TenHocKy = tenhocky;
                 data.NamBatDau = nambatdau;
                 data.NamKetThuc = namketthuc;
-                data.TuanBatDau = tuanbatdau;
                 data.NgayBatDau = ngaybatdau;
-                data.TietToiDa = tiettoida;
-                data.LopToiDa = loptoida;
 
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
@@ -153,7 +147,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult AddMajor(string manganh, string tennganh, string tenviettat, string ctdt)
+        public ActionResult AddMajor(string manganh, string tennganh, int khoa)
         {
             try
             {
@@ -164,8 +158,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var data = new Nganh();
                 data.MaNganh = manganh;
                 data.TenNganh = tennganh;
-                data.TenVietTat = tenviettat;
-                data.CTDT = ctdt;
+                data.ID_Khoa = khoa;
 
                 model.Nganh.Add(data);
                 model.SaveChanges();
@@ -198,15 +191,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult EditMajor(int id, string manganh, string tennganh, string tenviettat, string ctdt)
+        public ActionResult EditMajor(int id, string manganh, string tennganh, int khoa)
         {
             try
             {
                 var data = model.Nganh.Find(id);
                 data.MaNganh = manganh;
                 data.TenNganh = tennganh;
-                data.TenVietTat = tenviettat;
-                data.CTDT = ctdt;
+                data.ID_Khoa = khoa;
 
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
@@ -230,6 +222,98 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("SUCCESS");
 
                 model.Nganh.Remove(data);
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+
+
+        [Authorize, BCNRole]
+        public ActionResult Faculty()
+        {
+            var lstFaculty = model.Khoa.ToList();
+            return View("Faculty", lstFaculty);
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult AddFaculty(string tenkhoa)
+        {
+            try
+            {
+                var checks = model.Khoa.FirstOrDefault(f => f.TenKhoa.ToLower().Equals(tenkhoa.ToLower()));
+                if (checks != null)
+                    return Content("Exist");
+
+                var data = new Khoa();
+                data.TenKhoa = tenkhoa;
+
+                model.Khoa.Add(data);
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult OpenEditFaculty(int id)
+        {
+            try
+            {
+                var data = model.Khoa.Find(id);
+                if (data == null)
+                    return Content("Khoa không tồn tại trên hệ thống.");
+
+                return PartialView("_EditFaculty", data);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult EditFaculty(int id, string tenkhoa)
+        {
+            try
+            {
+                var data = model.Khoa.Find(id);
+                data.TenKhoa = tenkhoa;
+
+                model.Entry(data).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult DeleteFaculty(int id)
+        {
+            try
+            {
+                var data = model.Khoa.Find(id);
+                if (data == null)
+                    return Content("SUCCESS");
+
+                model.Khoa.Remove(data);
                 model.SaveChanges();
 
                 return Content("SUCCESS");

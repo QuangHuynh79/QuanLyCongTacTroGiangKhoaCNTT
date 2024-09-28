@@ -196,7 +196,7 @@
                                 <option selected value="">---- Chọn học kỳ ----</option>
                                 @foreach (var item in lstHk.OrderByDescending(o => o.NgayBatDau).ToList())
                                 {
-                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
                                 }
                             </select>
                         </div>
@@ -208,9 +208,9 @@
                             </label>
                             <select class="form-select" id="importnganh">
                                 <option selected value="">---- Chọn ngành ----</option>
-                                @foreach (var item in lstNganh.OrderByDescending(o => o.id).ToList())
+                                @foreach (var item in lstNganh.OrderByDescending(o => o.ID).ToList())
                                 {
-                                    <option value="@item.id">@item.TenNganh</option>
+                                    <option value="@item.ID">@item.TenNganh</option>
                                 }
                             </select>
                         </div>
