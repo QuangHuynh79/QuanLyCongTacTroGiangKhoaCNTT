@@ -544,13 +544,6 @@
     <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.ttf" />
     <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff" />
     <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff2" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
@@ -562,6 +555,13 @@
     </EntityDeploy>
     <Content Include="Models\vanlanguniAPI.edmx.diagram">
       <DependentUpon>vanlanguniAPI.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />

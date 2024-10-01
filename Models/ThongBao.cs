@@ -18,6 +18,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public string TieuDe { get; set; }
         public string NoIDung { get; set; }
         public System.DateTime ThoiGian { get; set; }
+        public bool DaDoc { get; set; }
         public Nullable<int> ID_TaiKhoan { get; set; }
     
         public virtual TaiKhoan TaiKhoan { get; set; }
