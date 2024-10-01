@@ -22,7 +22,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public string NoiLamViec { get; set; }
         public string KetQuaMongDoi { get; set; }
         public string TrangThai { get; set; }
-        public Nullable<bool> DanhGia { get; set; }
+        public string GhiChu { get; set; }
+        public string KetQuaCongViec { get; set; }
         public Nullable<int> ID_TaiKhoan { get; set; }
     
         public virtual LopHocPhan LopHocPhan { get; set; }

@@ -17,6 +17,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID { get; set; }
         public int ID_LopHocPhan { get; set; }
         public int ID_TaiKhoan { get; set; }
+        public bool DaNghiViec { get; set; }
     
         public virtual LopHocPhan LopHocPhan { get; set; }
         public virtual TaiKhoan TaiKhoan { get; set; }
