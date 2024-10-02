@@ -1,4 +1,5 @@
-﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.FormDangKyTroGiang>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
     var lstHk = models.HocKy.ToList();
@@ -6,7 +7,10 @@
 
     ViewBag.Title = "Teaching Assistant";
     Layout = Session["layout"].ToString();
+    var currentDate = DateTime.Now;
+    int first = 0;
 }
+
 
 <script src="~/ActiveItemMenu/TeachingAssistant/register.js"></script>
 <section class="container-fluid p-4">
@@ -50,94 +54,64 @@
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
-                                    <th></th>
-                                    <th>Học Kỳ</th>
-                                    <th>Thời gian mở</th>
-                                    <th>Thời gian đóng</th>
-                                    <th>Ngành</th>
-                                    <th>Đã đăng ký</th>
-                                    <th>Trạng thái</th>
-                                    <th></th>
+                                    <th class="text-nowrap">Thời gian</th>
+                                    <th class="text-nowrap">Học Kỳ</th>
+                                    <th class="text-nowrap">Thời gian mở</th>
+                                    <th class="text-nowrap">Thời gian đóng</th>
+                                    <th class="text-nowrap">Ngành</th>
+                                    <th class="text-nowrap">Đã đăng ký</th>
+                                    <th class="text-nowrap">Trạng thái</th>
+                                    <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>243</td>
-                                    <td>18:30 16/02/2025</td>
-                                    <td>22:30 22/02/2025</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>0</td>
-                                    <td><span class="badge bg-primary">Chưa mở</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>2</td>
-                                    <td>242</td>
-                                    <td>17:00 12/09/2024</td>
-                                    <td>23:00 20/09/2024</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>23</td>
-                                    <td><span class="badge bg-success">Đang mở</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                        </a>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td>3</td>
-                                    <td>233</td>
-                                    <td>19:00 20/04/2023</td>
-                                    <td>00:00 27/04/2023</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>25</td>
-                                    <td><span class="badge bg-danger">Đã đóng</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>4</td>
-                                    <td>231</td>
-                                    <td>18:30 20/08/2023</td>
-                                    <td>22:30 27/08/2023</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>28</td>
-                                    <td><span class="badge bg-danger">Đã đóng</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" id="xoadangky" @*fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td valign="middle">
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Lần cuối bởi: @item.TaiKhoan.Email">
+                                                <span>Ngày tạo: @item.NgayTao.ToString("HH:mm dd/MM/yyyy")</span>
+                                                @if (item.NgayTao != item.NgayCapNhat)
+                                                {
+                                                    <br />
+                                                    <span>Cập nhật cuối: @item.NgayCapNhat.ToString("HH:mm dd/MM/yyyy")</span>
+                                                }
+                                            </span>
+                                        </td>
+                                        <td valign="middle">@item.HocKy.TenHocKy</td>
+                                        <td valign="middle">@item.ThoiGianMo.ToString("dd/MM/yyyy")</td>
+                                        <td valign="middle">@(item.ThoiGianDong != null ? item.ThoiGianDong.Value.ToString("dd/MM/yyyy") : "")</td>
+                                        <td valign="middle">@item.Nganh.TenNganh</td>
+                                        <td valign="middle">
+                                            @item.UngTuyenTroGiang.Count() SV
+                                        </td>
+                                        <td valign="middle">
+                                            @if (currentDate < item.ThoiGianMo)
+                                            {
+                                                <span class="badge bg-primary">Chưa mở</span>
+                                            }
+                                            else if (currentDate >= item.ThoiGianMo && currentDate <= item.ThoiGianDong)
+                                            {
+                                                <span class="badge bg-success">Đang mở</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Đã đóng</span>
+                                            }
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" id="openSua-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-success">
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
+                                            </a>
+                                            @if (item.ThoiGianDong > currentDate)
+                                            {
+                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-danger">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -150,7 +124,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="themmoiTitle">Mở đăng ký trợ giảng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" id="btnXClose" class="btn-close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
@@ -162,9 +136,15 @@
                                     Học kỳ <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="hocky">
-                                    <option selected value="">---- Chọn học kỳ ----</option>
-                                    @foreach (var item in lstHk)
+                                    <option value="">---- Chọn học kỳ ----</option>
+                                    @foreach (var item in lstHk.OrderByDescending(o => o.ID))
                                     {
+                                        if (first == 0)
+                                        {
+                                            first++;
+                                            <option selected value="@item.ID">@item.TenHocKy</option>
+                                            continue;
+                                        }
                                         <option value="@item.ID">@item.TenHocKy</option>
                                     }
                                 </select>
@@ -191,7 +171,7 @@
                                 <label class="form-label" for="thoigianmo">
                                     Thời gian mở <span class="text-danger">*</span>
                                 </label>
-                                <input type="datetime-local" id="thoigianmo" class="form-control" placeholder="Chọn thời gian mở">
+                                <input type="date" value="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" id="thoigianmo" class="form-control flatpickr" placeholder="Chọn thời gian mở">
                                 <span class="text-danger" id="valid-thoigianmo"></span>
                             </div>
                         </div>
@@ -200,14 +180,14 @@
                                 <label class="form-label" for="thoigiandong">
                                     Thời gian đóng <span class="text-danger">*</span>
                                 </label>
-                                <input type="datetime-local" id="thoigiandong" class="form-control" placeholder="Chọn thời gian đóng đăng ký">
+                                <input type="date" id="thoigiandong" class="form-control flatpickr" placeholder="Chọn thời gian đóng">
                                 <span class="text-danger" id="valid-thoigiandong"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnClose" type="button" class="btn btn-secondary">Đóng</button>
                     <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
@@ -220,84 +200,22 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="capnhatTitle">Cập nhật đăng ký trợ giảng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" id="btnXEditClose" class="btn-close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="hocky">
-                                    Học kỳ <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="hocky">
-                                    <option selected value="">---- Chọn học kỳ ----</option>
-                                    @foreach (var item in lstHk)
-                                    {
-                                        <option value="@item.ID">@item.TenHocKy</option>
-                                    }
-                                </select>
-                                <span class="text-danger" id="valid-hocky"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="nganh">
-                                    Ngành <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="nganh">
-                                    <option selected value="">---- Chọn ngành ----</option>
-                                    @foreach (var item in lstNganh)
-                                    {
-                                        <option value="@item.ID">@item.TenNganh</option>
-                                    }
-                                </select>
-                                <span class="text-danger" id="valid-nganh"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="thoigianmo">
-                                    Thời gian mở <span class="text-danger">*</span>
-                                </label>
-                                <input type="datetime-local" id="thoigianmo" class="form-control" placeholder="Chọn thời gian mở">
-                                <span class="text-danger" id="valid-thoigianmo"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="thoigiandong">
-                                    Thời gian đóng <span class="text-danger">*</span>
-                                </label>
-                                <input type="datetime-local" id="thoigiandong" class="form-control" placeholder="Chọn thời gian đóng đăng ký">
-                                <span class="text-danger" id="valid-thoigiandong"></span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-body" id="capnhat-partial">
+
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnEditClose" type="button" class="btn btn-secondary">Đóng</button>
+                    <button id="btnEditSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
-<script>
-    $(document).ready(function () {
-        $('body').on('click', '[id="xoadangky"]', function () {
 
-            Swal.fire({
-                title: 'Xóa đăng ký?',
-                text: 'Bạn có chắc muốn xóa đăng ký trợ giảng không?',
-                icon: "question",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Xóa ngay!",
-                cancelButtonText: "Hủy"
-            });
-        });
-    });
-</script>
+<script src="~/Validation/teachingassistant/register/add.js"></script>
+<script src="~/Validation/teachingassistant/register/delete.js"></script>
+<script src="~/Validation/teachingassistant/register/edit.js"></script>

@@ -1,0 +1,80 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.FormDangKyTroGiang
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstHk = models.HocKy.ToList();
+    var lstNganh = models.Nganh.ToList();
+
+    var currentDate = DateTime.Now;
+}
+
+<div class="modal-body" id="capnhat-partial">
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="edithocky">
+                    Học kỳ <span class="text-danger">*</span>
+                </label>
+                <input hidden id="idFdk" value="@Model.ID" />
+                <select class="form-select" id="edithocky">
+                    @foreach (var item in lstHk.OrderByDescending(o => o.ID))
+                    {
+                        if (Model.ID_HocKy == item.ID)
+                        {
+                            <option selected value="@item.ID">@item.TenHocKy</option>
+                            continue;
+                        }
+                        <option value="@item.ID">@item.TenHocKy</option>
+                    }
+                </select>
+                <span class="text-danger" id="valid-edithocky"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editnganh">
+                    Ngành <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="editnganh">
+                    @foreach (var item in lstNganh)
+                    {
+                        if (item.ID == Model.ID_Nganh)
+                        {
+                            <option selected value="@item.ID">@item.TenNganh</option>
+                            continue;
+                        }
+                        <option value="@item.ID">@item.TenNganh</option>
+                    }
+                </select>
+                <span class="text-danger" id="valid-editnganh"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editthoigianmo">
+                    Thời gian mở <span class="text-danger">*</span>
+                </label>
+                <input type="date" value="@Model.ThoiGianMo.ToString("yyyy-MM-dd")" id="editthoigianmo" class="form-control flatpickr" placeholder="Chọn thời gian mở">
+                <span class="text-danger" id="valid-editthoigianmo"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editthoigiandong">
+                    Thời gian đóng <span class="text-danger">*</span>
+                </label>
+                <input type="date" id="editthoigiandong" value="@Model.ThoiGianDong.Value.ToString("yyyy-MM-dd")" class="form-control flatpickr" placeholder="Chọn thời gian đóng">
+                <span class="text-danger" id="valid-editthoigiandong"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#editthoigianmo').flatpickr({
+        locale: 'vn'
+    });
+    $('#editthoigiandong').flatpickr({
+        locale: 'vn'
+    });
+</script>

@@ -51484,7 +51484,7 @@ table.dataTable {
     }
 
 div.dataTables_wrapper div.dataTables_length {
-    padding: 16px 24px
+    padding: 24px 24px
 }
 
     div.dataTables_wrapper div.dataTables_length label {
@@ -51499,9 +51499,7 @@ div.dataTables_wrapper div.dataTables_length {
     }
 
 div.dataTables_wrapper div.dataTables_filter {
-    padding-bottom: .5rem;
-    padding-right: 1.5rem;
-    padding-top: .5rem;
+    padding: 24px 24px;
     text-align: right
 }
 

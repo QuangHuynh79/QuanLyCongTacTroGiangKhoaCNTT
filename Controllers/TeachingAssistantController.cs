@@ -26,7 +26,123 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, BCNRole]
         public ActionResult Register()
         {
-            return View("Register");
+            return View("Register", model.FormDangKyTroGiang.OrderByDescending(o => o.ID));
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult AddRegister(int hocky, int nganh, DateTime thoigianmo, DateTime thoigiandong)
+        {
+            try
+            {
+                var check = model.FormDangKyTroGiang.FirstOrDefault(f => f.ID_Nganh == nganh && f.ID_HocKy == hocky
+                && ((f.ThoiGianMo <= thoigianmo && f.ThoiGianDong >= thoigianmo)
+                || (f.ThoiGianMo <= thoigiandong && f.ThoiGianDong >= thoigiandong)));
+                if (check != null)
+                    return Content("Exist");
+
+                var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                if (thoigianmo <= currentDate)
+                    return Content("NhoHonHienTai");
+
+                if (thoigianmo >= thoigiandong)
+                    return Content("LonHonDangKy");
+
+                var form = new FormDangKyTroGiang();
+                form.ID_HocKy = hocky;
+                form.ID_Nganh = nganh;
+                form.ID_TaiKhoan = Int32.Parse(Session["user-id"].ToString());
+                form.ThoiGianMo = thoigianmo;
+                form.ThoiGianDong = thoigiandong;
+                form.NgayTao = DateTime.Now;
+                form.NgayCapNhat = DateTime.Now;
+
+                model.FormDangKyTroGiang.Add(form);
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult OpenEditRegister(int id)
+        {
+            try
+            {
+                var data = model.FormDangKyTroGiang.Find(id);
+                if (data == null)
+                    return Content("Form đăng ký không tồn tại trên hệ thống.");
+
+                return PartialView("_EditRegister", data);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult EditRegister(int id, int hocky, int nganh, DateTime thoigianmo, DateTime thoigiandong)
+        {
+            try
+            {
+                var check = model.FormDangKyTroGiang.FirstOrDefault(f => f.ID != id && f.ID_Nganh == nganh && f.ID_HocKy == hocky
+                && ((f.ThoiGianMo <= thoigianmo && f.ThoiGianDong >= thoigianmo)
+                || (f.ThoiGianMo <= thoigiandong && f.ThoiGianDong >= thoigiandong)));
+                if (check != null)
+                    return Content("Exist");
+
+                var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                if (thoigianmo <= currentDate)
+                    return Content("NhoHonHienTai");
+
+                if (thoigianmo >= thoigiandong)
+                    return Content("LonHonDangKy");
+
+                var form = model.FormDangKyTroGiang.Find(id);
+                form.ID_HocKy = hocky;
+                form.ID_Nganh = nganh;
+                form.ID_TaiKhoan = Int32.Parse(Session["user-id"].ToString());
+                form.ThoiGianMo = thoigianmo;
+                form.ThoiGianDong = thoigiandong;
+                form.NgayCapNhat = DateTime.Now;
+
+                model.Entry(form).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult DeleteRegister(int id)
+        {
+            try
+            {
+                var data = model.FormDangKyTroGiang.Find(id);
+                if (data == null)
+                    return Content("SUCCESS");
+                model.UngTuyenTroGiang.RemoveRange(data.UngTuyenTroGiang);
+                model.FormDangKyTroGiang.Remove(data);
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
         }
 
         [Authorize, GVandBCNRole]
