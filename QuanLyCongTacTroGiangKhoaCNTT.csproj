@@ -547,6 +547,9 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\teachingassistant\register\add.js" />
+    <Content Include="Validation\teachingassistant\register\delete.js" />
+    <Content Include="Validation\teachingassistant\register\edit.js" />
     <Content Include="Views\TermAndMajor\Faculty.cshtml" />
     <Content Include="Views\TermAndMajor\_EditFaculty.cshtml" />
     <EntityDeploy Include="Models\vanlanguniAPI.edmx">
@@ -563,6 +566,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\TeachingAssistant\_EditRegister.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="ID" />
@@ -422,6 +422,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_FormDangKyTroGiang_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="1" />
+          <End Role="FormDangKyTroGiang" Type="Self.FormDangKyTroGiang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FormDangKyTroGiang">
+              <PropertyRef Name="ID_TaiKhoan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LopHocPhan_HocKy">
           <End Role="HocKy" Type="Self.HocKy" Multiplicity="1" />
           <End Role="LopHocPhan" Type="Self.LopHocPhan" Multiplicity="*" />
@@ -672,6 +684,10 @@
             <End Role="Nganh" EntitySet="Nganh" />
             <End Role="FormDangKyTroGiang" EntitySet="FormDangKyTroGiang" />
           </AssociationSet>
+          <AssociationSet Name="FK_FormDangKyTroGiang_TaiKhoan" Association="Self.FK_FormDangKyTroGiang_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="FormDangKyTroGiang" EntitySet="FormDangKyTroGiang" />
+          </AssociationSet>
           <AssociationSet Name="FK_LopHocPhan_HocKy" Association="Self.FK_LopHocPhan_HocKy">
             <End Role="HocKy" EntitySet="HocKy" />
             <End Role="LopHocPhan" EntitySet="LopHocPhan" />
@@ -733,8 +749,7 @@
             <End Role="UngTuyenTroGiang" EntitySet="UngTuyenTroGiang" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CongTacTroGiangKhoaCNTTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -883,6 +898,7 @@
           <NavigationProperty Name="HocKy" Relationship="Self.FK_FormDangKyTroGiang_HocKy" FromRole="FormDangKyTroGiang" ToRole="HocKy" />
           <NavigationProperty Name="Nganh" Relationship="Self.FK_FormDangKyTroGiang_Nganh" FromRole="FormDangKyTroGiang" ToRole="Nganh" />
           <NavigationProperty Name="UngTuyenTroGiang" Relationship="Self.FK_UngTuyenTroGiang_FormDangKyTroGiang" FromRole="FormDangKyTroGiang" ToRole="UngTuyenTroGiang" />
+          <NavigationProperty Name="TaiKhoan" Relationship="CongTacTroGiangKhoaCNTTModel.FK_FormDangKyTroGiang_TaiKhoan" FromRole="FormDangKyTroGiang" ToRole="TaiKhoan" />
         </EntityType>
         <EntityType Name="HocKy">
           <Key>
@@ -987,6 +1003,7 @@
           <NavigationProperty Name="PhanCongTroGiang" Relationship="Self.FK_PhanCongTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="PhanCongTroGiang" />
           <NavigationProperty Name="ThongBao" Relationship="Self.FK_ThongBao_TaiKhoan" FromRole="TaiKhoan" ToRole="ThongBao" />
           <NavigationProperty Name="UngTuyenTroGiang" Relationship="Self.FK_UngTuyenTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="UngTuyenTroGiang" />
+          <NavigationProperty Name="FormDangKyTroGiang" Relationship="CongTacTroGiangKhoaCNTTModel.FK_FormDangKyTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="FormDangKyTroGiang" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -1480,7 +1497,23 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_FormDangKyTroGiang_TaiKhoan" Association="CongTacTroGiangKhoaCNTTModel.FK_FormDangKyTroGiang_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="FormDangKyTroGiang" EntitySet="FormDangKyTroGiang" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_FormDangKyTroGiang_TaiKhoan">
+          <End Type="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Role="TaiKhoan" Multiplicity="1" />
+          <End Type="CongTacTroGiangKhoaCNTTModel.FormDangKyTroGiang" Role="FormDangKyTroGiang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FormDangKyTroGiang">
+              <PropertyRef Name="ID_TaiKhoan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
