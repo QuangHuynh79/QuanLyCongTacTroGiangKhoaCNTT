@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyCongTacTroGiangKhoaCNTT", "QuanLyCongTacTroGiangKhoaCNTT.csproj", "{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyCongTacTroGiangKhoaCNTTTest", "QuanLyCongTacTroGiangKhoaCNTTTest\QuanLyCongTacTroGiangKhoaCNTTTest.csproj", "{DC8CF0FC-58A2-4B09-832E-5B8732D157B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30A33BA-F8A2-4514-81B0-9B9EADE8E45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC8CF0FC-58A2-4B09-832E-5B8732D157B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC8CF0FC-58A2-4B09-832E-5B8732D157B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC8CF0FC-58A2-4B09-832E-5B8732D157B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC8CF0FC-58A2-4B09-832E-5B8732D157B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

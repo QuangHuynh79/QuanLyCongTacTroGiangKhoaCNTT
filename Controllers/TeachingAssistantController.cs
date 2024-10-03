@@ -26,7 +26,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, BCNRole]
         public ActionResult Register()
         {
-            return View("Register", model.FormDangKyTroGiang.OrderByDescending(o => o.ID));
+            var lst = model.FormDangKyTroGiang.OrderByDescending(o => o.ID);
+            return View("Register", lst);
         }
 
         [Authorize, BCNRole]
