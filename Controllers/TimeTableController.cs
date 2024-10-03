@@ -237,6 +237,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                                 tkb.TuanBD = Int32.Parse(startWeek);
                                 tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.Phong = roomId;
 
                                 model.ThoiKhoaBieu.Add(tkb);
                                 model.SaveChanges();
@@ -378,6 +379,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                                 tkb.TuanBD = Int32.Parse(startWeek);
                                 tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.Phong = roomId;
 
                                 model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
                                 model.SaveChanges();
@@ -525,6 +527,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
                             tkb.TuanBD = Int32.Parse(startWeek);
                             tkb.TuanKT = Int32.Parse(endWeek);
+                            tkb.Phong = roomId;
 
                             model.ThoiKhoaBieu.Add(tkb);
                             model.SaveChanges();

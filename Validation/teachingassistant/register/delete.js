@@ -1,15 +1,4 @@
 ﻿$(document).ready(function () {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
 
     $('body').on('click', '[id^="openXoa-"]', function () {
         var fullname = $(this).attr('fullname');
@@ -34,9 +23,10 @@
                     processData: false,
                     contentType: false,
                 }).done(function (ketqua) {
-                    Toast.fire({
-                        icon: "success",
-                        title: "Xóa thành công form đăng ký trợ giảng.",
+                    Swal.fire({
+                        title: "Thành công!",
+                        text: "Xóa thành công form đăng ký trợ giảng.",
+                        icon: "success"
                     }).then(() => {
                         window.location.reload();
                     });

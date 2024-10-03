@@ -23,6 +23,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             this.ThongBao = new HashSet<ThongBao>();
             this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
             this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
+            this.FormDangKyTroGiang1 = new HashSet<FormDangKyTroGiang>();
         }
     
         public int ID { get; set; }
@@ -51,5 +52,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang1 { get; set; }
     }
 }

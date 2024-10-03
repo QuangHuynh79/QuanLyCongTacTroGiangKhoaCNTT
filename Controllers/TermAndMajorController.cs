@@ -93,7 +93,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult EditSemester(int id, string tenhocky, int nambatdau, int namketthuc, DateTime ngaybatdau)
+        public ActionResult EditSemester(int id, int nambatdau, int namketthuc, DateTime ngaybatdau)
         {
             try
             {
@@ -101,7 +101,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("INVALIDYEAR");
 
                 var data = model.HocKy.Find(id);
-                data.TenHocKy = tenhocky;
                 data.NamBatDau = nambatdau;
                 data.NamKetThuc = namketthuc;
                 data.NgayBatDau = ngaybatdau;

@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Lớp học phần";
     Layout = Session["layout"].ToString();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
     CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
     var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
@@ -10,15 +12,8 @@
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
     {
-        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
-        if (hkGanNhat == null)
-        {
-            id_hkGanNhat = lstHocKy.First().ID;
-        }
-        else
-        {
-            id_hkGanNhat = hkGanNhat.ID;
-        }
+        var hkGanNhat = lstHocKy.OrderByDescending(o => o.ID).ToList().First();
+        id_hkGanNhat = hkGanNhat.ID;
     }
 
     int id_nganhCNTT = 0;
@@ -31,9 +26,7 @@
         }
     }
 
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
-    int j = 0;
-
+    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
 }
 <script src="~/ActiveItemMenu/ClassSection/index.js"></script>
 <section class="container-fluid p-4">
@@ -103,23 +96,25 @@
                             <tbody>
                                 @foreach (var item in lstTkb.ToList())
                                 {
-                                    j++;
                                     <tr>
                                         <td>@item.LopHocPhan.MaLHP</td>
                                         <td>@item.LopHocPhan.TenHP</td>
                                         <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
                                         <td>
-                                            @if (j == 4 || j == 6)
+                                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
                                             {
-                                                <span class="badge bg-success">Đã được duyệt</span>
-                                            }
-                                            else if (j == 3 || j == 8)
-                                            {
-                                                <span class="badge bg-danger">Chưa được duyệt</span>
+                                                <span>Không đăng ký</span>
                                             }
                                             else
                                             {
-                                                <span>Không đăng ký</span>
+                                                if (item.LopHocPhan.DeXuatTroGiang.First().TrangThai)
+                                                {
+                                                    <span class="badge bg-success">Đã được duyệt</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">Chưa được duyệt</span>
+                                                }
                                             }
                                         </td>
                                         <td class="text-nowrap">
@@ -135,9 +130,7 @@
                                                 </a>
                                             </span>
 
-
-
-                                            <span data-bs-toggle="modal" data-bs-target="#dexuattrogiang">
+                                            <span id="dexuat-@item.ID" name="@item.LopHocPhan.ID" data-bs-target="#dexuattrogiang">
                                                 <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
                                                     <span><i class="bi bi-bookmark-star me-2"></i></span>
                                                 </a>
@@ -177,7 +170,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="camket">
                                 <label class="form-check-label fw-bold" for="camket">
-                                    Đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.
+                                    Chọn khi đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.
                                 </label>
                             </div>
                             <span class="text-danger" id="valid-camket"></span>
@@ -186,8 +179,8 @@
                             <hr class="my-4" />
                         </div>
                         <div class="col-12">
-                            <div class="mb-4">
-                                <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
+                            <div class="mb-4 text-nowrap">
+                               <a class="btn btn-sm btn-primary position-absolute"><i class="bi bi-copy me-2"></i>Đồng bộ công việc từ HP tương tự</a> <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
                             </div>
                         </div>
                         <div class="col-12">
@@ -195,10 +188,10 @@
                                 <table class="table table-hover" data-width="100%">
                                     <thead class="table-light">
                                         <tr>
-                                            <th class="pe-0 text-nowrap">TT</th>
+                                            <input hidden value="" id="dexuatLHPID" />
                                             <th class="ps-3 text-nowrap">Mô tả công việc</th>
-                                            <th style="max-width: 80px;" class="ps-3 text-nowrap">T.Gian</th>
-                                            <th class="ps-3 text-nowrap">T.Gian hoàn thành</th>
+                                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
+                                            <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
                                             <th class="ps-3 text-nowrap">Nơi làm việc</th>
                                             <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
                                             <th class="ps-3 pe-3 text-nowrap"></th>
@@ -209,28 +202,23 @@
                                         {
                                             <tr id="tr-parent-@i" name="@i">
                                                 <td valign="middle" class="pe-0 ps-3">
-                                                    <div id="tt-@i" class="form-control">
-                                                        @i
-                                                    </div>
-                                                </td>
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <textarea rows="1" type="text" id="mota-@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
+                                                    <textarea rows="1" type="text" id="mota-@i" name="@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
                                                     <span class="text-danger" id="valid-mota-@i"></span>
                                                 </td>
                                                 <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                    <input data-type="numbers" type="number" maxlength="3" id="khoiluong-@i" class="form-control" placeholder="giờ" />
+                                                    <input type="number" maxlength="3" id="khoiluong-@i" name="@i" class="form-control" placeholder="Số giờ" />
                                                     <span class="text-danger" id="valid-khoiluong-@i"></span>
                                                 </td>
                                                 <td valign="middle" class="pe-0 ps-3">
-                                                    <input type="text" id="thoigian-@i" class="form-control" placeholder="Ngày/buổi/tuần" />
+                                                    <input type="date" id="thoigian-@i" name="@i" class="form-control flatpickr" placeholder="Chọn hạn hoàn thành" />
                                                     <span class="text-danger" id="valid-thoigian-@i"></span>
                                                 </td>
                                                 <td valign="middle" class="pe-0 ps-3">
-                                                    <textarea rows="1" type="text" id="noilamviec-@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
+                                                    <textarea rows="1" type="text" id="noilamviec-@i" name="@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
                                                     <span class="text-danger" id="valid-noilamviec-@i"></span>
                                                 </td>
                                                 <td valign="middle" class="pe-0 ps-3">
-                                                    <textarea rows="1" type="text" id="ketqua-@i" class="form-control" placeholder="Kết quả công việc"></textarea>
+                                                    <textarea rows="1" type="text" id="ketqua-@i" name="@i" class="form-control" placeholder="Kết quả công việc"></textarea>
                                                     <span class="text-danger" id="valid-ketqua-@i"></span>
                                                 </td>
                                                 <td valign="middle" class="ps-3 pe-3">
@@ -256,8 +244,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnDeXuatClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button disabled id="btnDeXuatSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
@@ -385,6 +373,7 @@
 
 </section>
 <script src="~/Validation/teacher/classsection/suggestedTA.js"></script>
+<script src="~/Validation/teacher/classsection/DeXuatLHP.js"></script>
 <script>
     $(document).ready(function () {
         $("#diemDanhTable").DataTable({

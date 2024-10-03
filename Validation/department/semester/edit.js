@@ -95,7 +95,6 @@
         var validnamketthuc = $('body').find('[id="valid-editnamketthuc"]');
         var validngaybatdau = $('body').find('[id="valid-editngaybatdau"]');
 
-        validtenhocky.text('');
         validnambatdau.text('');
         validnamketthuc.text('');
         validngaybatdau.text('');
@@ -137,7 +136,7 @@
 
                     Swal.fire({
                         title: "Thành công!",
-                        text: "Đã lưu thông tin học kỳ " + tenhocky,
+                        text: "Đã lưu thông tin học kỳ",
                         icon: "success"
                     }).then(() => {
                         window.location.reload();

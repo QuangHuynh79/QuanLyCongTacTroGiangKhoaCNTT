@@ -56,8 +56,8 @@
                                 <tr>
                                     <th class="text-nowrap">Thời gian</th>
                                     <th class="text-nowrap">Học Kỳ</th>
-                                    <th class="text-nowrap">Thời gian mở</th>
-                                    <th class="text-nowrap">Thời gian đóng</th>
+                                    <th class="text-nowrap">Ngày mở</th>
+                                    <th class="text-nowrap">Ngày đóng</th>
                                     <th class="text-nowrap">Ngành</th>
                                     <th class="text-nowrap">Đã đăng ký</th>
                                     <th class="text-nowrap">Trạng thái</th>
@@ -69,14 +69,12 @@
                                 {
                                     <tr>
                                         <td valign="middle">
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Lần cuối bởi: @item.TaiKhoan.Email">
-                                                <span>Ngày tạo: @item.NgayTao.ToString("HH:mm dd/MM/yyyy")</span>
-                                                @if (item.NgayTao != item.NgayCapNhat)
-                                                {
-                                                    <br />
-                                                    <span>Cập nhật cuối: @item.NgayCapNhat.ToString("HH:mm dd/MM/yyyy")</span>
-                                                }
-                                            </span>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Tạo bởi: @item.TaiKhoan.Email">Ngày tạo: @item.NgayTao.ToString("HH:mm dd/MM/yyyy")</span>
+                                            @if (item.NgayTao != item.NgayCapNhat)
+                                            {
+                                                <br />
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật bởi: @item.TaiKhoan1.Email">Cập nhật cuối: @item.NgayCapNhat.ToString("HH:mm dd/MM/yyyy")</span>
+                                            }
                                         </td>
                                         <td valign="middle">@item.HocKy.TenHocKy</td>
                                         <td valign="middle">@item.ThoiGianMo.ToString("dd/MM/yyyy")</td>
@@ -169,7 +167,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="thoigianmo">
-                                    Thời gian mở <span class="text-danger">*</span>
+                                    Ngày mở <span class="text-danger">*</span>
                                 </label>
                                 <input type="date" value="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" id="thoigianmo" class="form-control flatpickr" placeholder="Chọn thời gian mở">
                                 <span class="text-danger" id="valid-thoigianmo"></span>
@@ -178,7 +176,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="thoigiandong">
-                                    Thời gian đóng <span class="text-danger">*</span>
+                                    Ngày đóng <span class="text-danger">*</span>
                                 </label>
                                 <input type="date" id="thoigiandong" class="form-control flatpickr" placeholder="Chọn thời gian đóng">
                                 <span class="text-danger" id="valid-thoigiandong"></span>

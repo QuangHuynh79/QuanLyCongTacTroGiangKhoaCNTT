@@ -10,7 +10,7 @@
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
     {
-        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
+        var hkGanNhat = lstHocKy.OrderByDescending(o => o.ID).ToList().First();
         id_hkGanNhat = hkGanNhat.ID;
     }
 

@@ -547,6 +547,7 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\teacher\classsection\DeXuatLHP.js" />
     <Content Include="Validation\teachingassistant\register\add.js" />
     <Content Include="Validation\teachingassistant\register\delete.js" />
     <Content Include="Validation\teachingassistant\register\edit.js" />

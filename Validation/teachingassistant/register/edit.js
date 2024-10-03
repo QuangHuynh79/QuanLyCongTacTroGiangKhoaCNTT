@@ -1,15 +1,4 @@
 ﻿$(document).ready(function () {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
     function confirmCloseEditForm() {
         var hocky = $('body').find('[id="edithocky"] :selected').val();
         var nganh = $('body').find('[id="editnganh"] :selected').val();
@@ -157,9 +146,14 @@
                 contentType: false,
             }).done(function (ketqua) {
                 if (ketqua == "SUCCESS") {
-                    Toast.fire({
-                        icon: "success",
-                        title: "Cập nhật đăng ký trợ giảng thành công.",
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="EditbtnClose"]').prop('disabled', false);
+
+                    Swal.fire({
+                        title: "Thành công!",
+                        text: "Cập nhật đăng ký trợ giảng thành công.",
+                        icon: "success"
                     }).then(() => {
                         window.location.reload();
                     });
@@ -169,9 +163,10 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="EditbtnClose"]').prop('disabled', false);
 
-                    Toast.fire({
-                        icon: "error",
-                        title: "Thời gian đăng ký " + hocky + " bị trùng.",
+                    Swal.fire({
+                        title: "Thành công!",
+                        text: "Thời gian đăng ký " + hocky + " bị trùng.",
+                        icon: "error"
                     });
                 }
                 else if (ketqua == "NhoHonHienTai") {

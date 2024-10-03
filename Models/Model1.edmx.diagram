@@ -52,6 +52,7 @@
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_UngTuyenTroGiang_TaiKhoan" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_FormDangKyTroGiang_TaiKhoan" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_FormDangKyTroGiang_TaiKhoanCapNhat" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

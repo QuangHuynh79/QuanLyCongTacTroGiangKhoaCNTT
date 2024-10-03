@@ -28,11 +28,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public Nullable<System.DateTime> ThoiGianDong { get; set; }
         public System.DateTime NgayTao { get; set; }
         public System.DateTime NgayCapNhat { get; set; }
+        public Nullable<int> ID_TaiKhoanCapNhat { get; set; }
     
         public virtual HocKy HocKy { get; set; }
         public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
         public virtual TaiKhoan TaiKhoan { get; set; }
+        public virtual TaiKhoan TaiKhoan1 { get; set; }
     }
 }

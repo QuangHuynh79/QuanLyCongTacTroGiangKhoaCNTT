@@ -32,6 +32,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                 {
                     int roleId = Int32.Parse(users.AspNetUsers.AspNetRoles.First().ID);
 
+                    filterContext.HttpContext.Session["TaiKhoan"] = users;
                     filterContext.HttpContext.Session["user-id"] = users.ID;
                     filterContext.HttpContext.Session["user-email"] = users.Email;
                     filterContext.HttpContext.Session["user-name"] = users.HoTen;
