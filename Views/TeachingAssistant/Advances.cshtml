@@ -4,11 +4,10 @@
     var lstHk = models.HocKy.ToList();
     var lstNganh = models.Nganh.ToList();
 
-    ViewBag.Title = "Teaching Assistant";
+    ViewBag.Title = "Đề Xuất Trợ Giảng";
     Layout = Session["layout"].ToString();
 
     var lstUs = models.TaiKhoan.ToList();
-    int i = 0;
 
     int idtk = Int32.Parse(Session["user-id"].ToString());
     var tksv = models.TaiKhoan.Find(idtk);
@@ -37,7 +36,7 @@
         }
     }
 
-    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
+    var lstDeXuat = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.DeXuatTroGiang.Count > 0).ToList();
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/advances.js"></script>
 <section class="container-fluid p-4">
@@ -124,37 +123,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in lstTkb.ToList())
+                                @foreach (var item in lstDeXuat.ToList())
                                 {
                                     <tr>
                                         <td valign="middle">
-                                            Mã: @item.LopHocPhan.MaLHP
+                                            Mã: @item.MaLHP
                                             <br />
-                                            Tên: @item.LopHocPhan.TenHP
+                                            Tên: @item.TenHP
                                             <br />
-                                            Loại: @if (item.LopHocPhan.LoaiHP.ToLower().Equals("lý thuyết"))
+                                            Loại: @if (item.LoaiHP.ToLower().Equals("lý thuyết"))
                                             {
-                                                <span class="badge bg-success">@item.LopHocPhan.LoaiHP</span>
+                                                <span class="badge bg-success">@item.LoaiHP</span>
                                             }
                                             else
                                             {
-                                                <span class="badge bg-warning">@item.LopHocPhan.LoaiHP</span>
+                                                <span class="badge bg-warning">@item.LoaiHP</span>
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            Mã: @item.LopHocPhan.MaCBGD
+                                            Mã: @item.MaCBGD
                                             <br />
-                                            Tên: @item.LopHocPhan.TenCBGD
+                                            Tên: @item.TenCBGD
                                         </td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
-                                        <td valign="middle">@item.SoTietDaXep</td>
+                                        <td valign="middle">@(item.ThoiKhoaBieu.First().Thu); Tiết @(item.ThoiKhoaBieu.First().TietHoc); Tuần @(item.ThoiKhoaBieu.First().TuanBD) - @(item.ThoiKhoaBieu.First().TuanKT); Phòng @(item.ThoiKhoaBieu.First().Phong)</td>
+                                        <td valign="middle">@item.ThoiKhoaBieu.First().SoTietDaXep</td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
-                                            <span class="badge bg-success"><i class="bi bi-check2-square me-2"></i>đã duyệt</span>
+                                            @if (item.DeXuatTroGiang.First().TrangThai == false)
+                                            {
+                                                <span class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
+                                            }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#apply" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-primary">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square me-2"></i></span>
+                                            <a style="font-size: 20px" id="openChiTietDeXuat-@item.ID" trangthaidexuat="@item.DeXuatTroGiang.First().TrangThai.ToString().ToLower()" name="@item.ID" role="button" class="text-primary">
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & duyệt đề xuất"><i class="bi bi-info-square me-2"></i></span>
                                             </a>
                                         </td>
                                     </tr>
@@ -167,97 +173,25 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
+    <div class="modal fade" id="chiTietDeXuat" tabindex="-1" role="dialog" aria-labelledby="chiTietDeXuat" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="applyTitle">Xét duyệt danh sách công việc được giao cho TA.</h5>
+                    <h5 class="modal-title" id="chiTietDeXuatTitle">Xét duyệt danh sách công việc được giao cho TA.</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Lớp HP: 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
-                            <h5>GV: Lê Thị Hồng</h5>
-                        </div>
-                        <div class="col-12">
-                            <div class="">
-                                <label class="form-label" for="lydo">Lý do đề xuất</label>
-                                <div id="lydo" class="form-control" style="min-height: 120px">Khối lượng công việc cao cần TA hỗ trợ</div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <hr class="my-4" />
-                        </div>
-                        <div class="col-12 mb-3">
-                            <h5 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h5>
-                        </div>
-                        <div class="col-12">
-                            <div class="table-card mt-0">
-                                <table class="table table-hover">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th class="ps-3 text-nowrap">Mô tả công việc</th>
-                                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
-                                            <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
-                                            <th class="ps-3 text-nowrap">Nơi làm việc</th>
-                                            <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (int j = 1; j <= 3; j++)
-                                        {
-                                            <tr id="parent-@j" name="@j">
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <div class="form-control">Mô tả công việc @j</div>
-                                                </td>
-                                                <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                    <div class="form-control">@(j)h</div>
-                                                </td>
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <div class="form-control">0@(j)/10/2024</div>
-                                                </td>
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <div class="form-control">Tại nhà</div>
-                                                </td>
-                                                <td valign="middle" class="ps-3">
-                                                    <div class="form-control">Hoàn thành công việc</div>
-                                                </td>
-                                            </tr>
+                <div class="modal-body" id="contentChiTietDeXuat">
 
-                                        }
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
                 <div class="modal-footer">
                     <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button disabled id="btnSubmit" type="button" class="btn btn-primary">Duyệt công việc</button>
+                    <button id="btnSubmit" name="" type="button" class="btn btn-primary">Duyệt công việc</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script>
-    $(document).ready(function () {
-        $('#camket').on('change', function () {
-            if ($(this).prop('checked')) {
-                $('#btnSubmit').prop('disabled', false);
-            }
-            else {
-                $('#btnSubmit').prop('disabled', true);
-            }
-        });
+<script src="~/Validation/department/suggested/accepted.js"></script>
 
-        
-    });
-</script>
-<script src="~/Validation/studentaffairs/semester/add.js"></script>
-<script src="~/Validation/studentaffairs/semester/edit.js"></script>
-<script src="~/Validation/studentaffairs/semester/delete.js"></script>

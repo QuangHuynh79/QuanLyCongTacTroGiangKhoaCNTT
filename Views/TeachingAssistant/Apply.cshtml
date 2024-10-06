@@ -65,8 +65,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
+                            <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                            <input disabled value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
+                            <span class="text-danger" id="valid-email"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
                             <label class="form-label" for="ma">MSSV <span class="text-danger">*</span></label>
-                            <input disabled value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
+                            <input value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
                             <span class="text-danger" id="valid-ma"></span>
                         </div>
                     </div>
@@ -77,14 +84,6 @@
                             <span class="text-danger" id="valid-dienthoai"></span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                            <input disabled value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
-                            <span class="text-danger" id="valid-email"></span>
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label" for="ngaysinh">Ngày sinh <span class="text-danger">*</span></label>
@@ -172,7 +171,7 @@
                 showCancelButton: true,
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Hủy ngay!",
-                cancelButtonText: "Đóng"
+                cancelButtonText: "Không hủy"
             });
         });
     });

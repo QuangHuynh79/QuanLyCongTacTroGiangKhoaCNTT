@@ -1,0 +1,70 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan
+
+<div class="modal-body" id="contentChiTietDeXuat">
+    <div class="row">
+        <div class="col-12">
+            <h5>Lớp HP: @Model.MaLHP - @Model.TenHP</h5>
+            <h5>GV: @Model.MaCBGD - @Model.TenCBGD</h5>
+            <h5>
+                Trạng thái:
+                @if (Model.DeXuatTroGiang.First().TrangThai == true)
+                {
+                    <span class="badge bg-success">Đã duyệt</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Chưa duyệt</span>
+                }
+            </h5>
+        </div>
+        <div class="col-12">
+            <div class="">
+                <label class="form-label" for="lydo">Lý do đề xuất</label>
+                <div id="lydo" class="form-control" style="min-height: 120px">@Model.DeXuatTroGiang.First().LyDoDeXuat</div>
+            </div>
+        </div>
+        <div class="col-12">
+            <hr class="my-4" />
+        </div>
+        <div class="col-12 mb-3">
+            <h5 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h5>
+        </div>
+        <div class="col-12">
+            <div class="table-card mt-0">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3 text-nowrap">Mô tả công việc</th>
+                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
+                            <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
+                            <th class="ps-3 text-nowrap">Nơi làm việc</th>
+                            <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CongViec.ToList())
+                        {
+                            <tr>
+                                <td valign="middle" class="pe-0 ps-3">
+                                    <div class="form-control">@item.MoTa</div>
+                                </td>
+                                <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                    <div class="form-control">@(item.SoGioQuyDoi.ToString().Replace(",", ".")) h</div>
+                                </td>
+                                <td valign="middle" class="pe-0 ps-3">
+                                    <div class="form-control">@item.ThoiHanHoanThanh.ToString("yyyy-MM-dd")</div>
+                                </td>
+                                <td valign="middle" class="pe-0 ps-3">
+                                    <div class="form-control">@item.NoiLamViec</div>
+                                </td>
+                                <td valign="middle" class="ps-3">
+                                    <div class="form-control">@item.KetQuaMongDoi</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

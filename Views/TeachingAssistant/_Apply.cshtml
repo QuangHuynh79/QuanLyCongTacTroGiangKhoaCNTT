@@ -32,6 +32,7 @@
     }
 
     var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
+    int idTk = Int32.Parse(Session["user-id"].ToString());
 }
 
 <div class="card" id="pageload">
@@ -42,7 +43,7 @@
     <div id="filterParentLoad">
         <div class="card-header border-bottom-0 pt-0">
             <div class="row">
-                <div class="mb-3 col-md-3 col-12">
+                <div class="mb-3 col-md-6 col-12">
                     <label class="form-label">Đợt đăng ký</label>
                     <select id="hocky" class="form-select" data-width="100%">
                         @foreach (var item in lstHocKy)
@@ -59,10 +60,26 @@
                         }
                     </select>
                 </div>
+                <div class="mb-3 col-md-6 col-12">
+                    <label class="form-label">Ngành</label>
+                    <select id="nganh" class="form-select" data-width="100%">
+                        @foreach (var item in lstNganh)
+                        {
+                            if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                            {
+                                <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                            }
+                        }
+                    </select>
+                </div>
                 <div class="mb-3 col-md-3 col-12">
                     <label class="form-label">Chú thích</label>
                     <div class="form-control">
-                        <span class="badge bg-warning me-2">Chưa đăng ký</span><span class="badge bg-success">Đã Đăng ký</span>
+                        <span class="badge bg-warning me-2">Chưa đăng ký</span><span class="badge bg-success">Đã đăng ký</span>
                     </div>
                 </div>
                 <div class="mb-3 col-md-3 col-12">
@@ -85,7 +102,14 @@
                         }
                     </select>
                 </div>
-
+                <div class="mb-3 col-md-3 col-12">
+                    <label class="form-label">Lọc trạng thái</label>
+                    <select class="form-select" id="loctrangthai">
+                        <option value="tatca">Chọn tất cả</option>
+                        <option value="chuadangky">Chưa đăng ký</option>
+                        <option value="dadangky">Đã đăng ký</option>
+                    </select>
+                </div>
             </div>
         </div>
         <!-- table  -->
@@ -138,13 +162,13 @@
                                             <td style="padding: 10px;">
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -163,13 +187,13 @@
 
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -188,13 +212,13 @@
 
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -213,13 +237,13 @@
 
                                                 @foreach (var items in lstTkbs)
                                                 {
-                                                    if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
+                                                    if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                     else
                                                     {
-                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                        <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                     }
                                                 }
                                             </td>
@@ -241,13 +265,13 @@
 
                                                     @foreach (var items in lstTkbs)
                                                     {
-                                                        if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
+                                                        if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                         else
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                     }
                                                 </td>
@@ -265,13 +289,13 @@
 
                                                     @foreach (var items in lstTkbs)
                                                     {
-                                                        if (items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành"))
+                                                        if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                         else
                                                         {
-                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-success" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
+                                                            <p style="margin-bottom: 0.5rem;" data-bs-toggle="modal" data-bs-target="#apply"><span data-bs-toggle="tooltip" data-bs-html="true" title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)" class="badge bg-warning" role="button">GV: @items.LopHocPhan.TenCBGD</span></p>
                                                         }
                                                     }
                                                 </td>

@@ -157,6 +157,52 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             return View("Advances");
         }
+
+        [Authorize, BCNRole]
+        public ActionResult OpenSuggest(int id)
+        {
+            try
+            {
+                var lhp = model.LopHocPhan.Find(id);
+                if (lhp == null)
+                    return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                return PartialView("_DetailAdvances", lhp);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        public ActionResult AcceptedAdvances(int id)
+        {
+            try
+            {
+                var lhp = model.LopHocPhan.Find(id);
+                if (lhp == null)
+                    return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                var dx = lhp.DeXuatTroGiang.First();
+                bool trangthai = dx.TrangThai;
+
+                if (trangthai)
+                    dx.TrangThai = false;
+                else
+                    dx.TrangThai = true;
+
+                model.Entry(dx).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
         [Authorize, GVandBCNRole]
         public ActionResult Registered()
         {

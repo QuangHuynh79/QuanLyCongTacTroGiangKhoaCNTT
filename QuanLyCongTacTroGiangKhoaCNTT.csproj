@@ -547,6 +547,7 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\department\suggested\accepted.js" />
     <Content Include="Validation\teacher\classsection\DeXuatLHP.js" />
     <Content Include="Validation\teacher\classsection\viewTaskList.js" />
     <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
@@ -574,6 +575,7 @@
     <Content Include="Views\ClassSection\_LoadSyncTask.cshtml" />
     <Content Include="Views\ClassSection\_TaskList.cshtml" />
     <Content Include="Views\TeachingAssistant\_TaskDetailGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\_DetailAdvances.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
