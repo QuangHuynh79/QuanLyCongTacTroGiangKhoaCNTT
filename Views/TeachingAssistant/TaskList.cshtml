@@ -45,12 +45,12 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="chitietmodalTitle">Chi tiết công việc #527</h5>
+                <h5 class="modal-title" id="chitietmodalTitle"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="contentTaskDetail">
                 <div class="row">
                     <div class="col-8">
                         <div class="row">
@@ -160,7 +160,7 @@
                     <span aria-hidden="true"></span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="loadcontentTaskDetail">
                 <div class="row">
                     <div class="mb-3 col-md-6 col-12">
                         <label class="form-label">Lớp học phần <span class="text-danger">*</span></label>
@@ -173,10 +173,10 @@
                             <table class="table table-hover" data-width="100%">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="pe-0 text-nowrap">TT</th>
+                                        <input hidden value="" id="dexuatLHPID" />
                                         <th class="ps-3 text-nowrap">Mô tả công việc</th>
-                                        <th style="max-width: 80px;" class="ps-3 text-nowrap">T.Gian</th>
-                                        <th class="ps-3 text-nowrap">T.Gian hoàn thành</th>
+                                        <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
+                                        <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
                                         <th class="ps-3 text-nowrap">Nơi làm việc</th>
                                         <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
                                         <th class="ps-3 pe-3 text-nowrap"></th>
@@ -187,28 +187,23 @@
                                     {
                                         <tr id="tr-parent-@i" name="@i">
                                             <td valign="middle" class="pe-0 ps-3">
-                                                <div id="tt-@i" class="form-control">
-                                                    @i
-                                                </div>
-                                            </td>
-                                            <td valign="middle" class="pe-0 ps-3">
-                                                <textarea rows="1" type="text" id="mota-@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
+                                                <textarea rows="1" type="text" id="mota-@i" name="@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
                                                 <span class="text-danger" id="valid-mota-@i"></span>
                                             </td>
                                             <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                <input data-type="numbers" type="number" maxlength="3" id="khoiluong-@i" class="form-control" placeholder="giờ" />
+                                                <input type="number" maxlength="3" id="khoiluong-@i" name="@i" class="form-control" placeholder="Số giờ" />
                                                 <span class="text-danger" id="valid-khoiluong-@i"></span>
                                             </td>
                                             <td valign="middle" class="pe-0 ps-3">
-                                                <input type="text" id="thoigian-@i" class="form-control" placeholder="Ngày/buổi/tuần" />
+                                                <input type="date" id="thoigian-@i" name="@i" class="form-control flatpickr" placeholder="Chọn hạn hoàn thành" />
                                                 <span class="text-danger" id="valid-thoigian-@i"></span>
                                             </td>
                                             <td valign="middle" class="pe-0 ps-3">
-                                                <textarea rows="1" type="text" id="noilamviec-@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
+                                                <textarea rows="1" type="text" id="noilamviec-@i" name="@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
                                                 <span class="text-danger" id="valid-noilamviec-@i"></span>
                                             </td>
                                             <td valign="middle" class="pe-0 ps-3">
-                                                <textarea rows="1" type="text" id="ketqua-@i" class="form-control" placeholder="Kết quả công việc"></textarea>
+                                                <textarea rows="1" type="text" id="ketqua-@i" name="@i" class="form-control" placeholder="Kết quả công việc"></textarea>
                                                 <span class="text-danger" id="valid-ketqua-@i"></span>
                                             </td>
                                             <td valign="middle" class="ps-3 pe-3">
@@ -240,5 +235,7 @@
         </div>
     </div>
 </div>
+
 <script src="~/Validation/teachingassistant/load.js"></script>
 <script src="~/Validation/teacher/teachingassistant/viewAddTask.js"></script>
+<script src="~/Validation/teacher/teachingassistant/taskDetail.js"></script>

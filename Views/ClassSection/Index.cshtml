@@ -129,13 +129,22 @@
                                                     <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
                                                 </a>
                                             </span>
-
-                                            <span id="dexuat-@item.ID" name="@item.LopHocPhan.ID" data-bs-target="#dexuattrogiang">
-                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
-                                                    <span><i class="bi bi-bookmark-star me-2"></i></span>
-                                                </a>
-                                            </span>
-
+                                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                                            {
+                                                <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
+                                                        <span><i class="bi bi-bookmark-star me-2"></i></span>
+                                                    </a>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span id="viewTaskList-@item.ID" tieudeForm="Bảng mô tả công việc LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Danh sách công việc" class="text-danger">
+                                                        <span><i class="bi bi-list-task me-2"></i></span>
+                                                    </a>
+                                                </span>
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -152,100 +161,37 @@
         <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="dexuattrogiangTitle">Đề Xuất Trợ Giảng LHP 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
+                    <h5 class="modal-title" id="dexuattrogiangTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="lydo">Lý do đề xuất <span class="text-danger">*</span></label>
-                                <textarea type="text" id="lydo" rows="4" class="form-control" placeholder="Nhập lý do cần đề xuất trợ giảng"></textarea>
-                                <span class="text-danger" id="valid-lydo"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="camket">
-                                <label class="form-check-label fw-bold" for="camket">
-                                    Chọn khi đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.
-                                </label>
-                            </div>
-                            <span class="text-danger" id="valid-camket"></span>
-                        </div>
-                        <div class="col-12">
-                            <hr class="my-4" />
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-4 text-nowrap">
-                               <a class="btn btn-sm btn-primary position-absolute"><i class="bi bi-copy me-2"></i>Đồng bộ công việc từ HP tương tự</a> <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="table-card mt-0">
-                                <table class="table table-hover" data-width="100%">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <input hidden value="" id="dexuatLHPID" />
-                                            <th class="ps-3 text-nowrap">Mô tả công việc</th>
-                                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
-                                            <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
-                                            <th class="ps-3 text-nowrap">Nơi làm việc</th>
-                                            <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
-                                            <th class="ps-3 pe-3 text-nowrap"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (int i = 1; i <= 3; i++)
-                                        {
-                                            <tr id="tr-parent-@i" name="@i">
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <textarea rows="1" type="text" id="mota-@i" name="@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
-                                                    <span class="text-danger" id="valid-mota-@i"></span>
-                                                </td>
-                                                <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                                                    <input type="number" maxlength="3" id="khoiluong-@i" name="@i" class="form-control" placeholder="Số giờ" />
-                                                    <span class="text-danger" id="valid-khoiluong-@i"></span>
-                                                </td>
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <input type="date" id="thoigian-@i" name="@i" class="form-control flatpickr" placeholder="Chọn hạn hoàn thành" />
-                                                    <span class="text-danger" id="valid-thoigian-@i"></span>
-                                                </td>
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <textarea rows="1" type="text" id="noilamviec-@i" name="@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
-                                                    <span class="text-danger" id="valid-noilamviec-@i"></span>
-                                                </td>
-                                                <td valign="middle" class="pe-0 ps-3">
-                                                    <textarea rows="1" type="text" id="ketqua-@i" name="@i" class="form-control" placeholder="Kết quả công việc"></textarea>
-                                                    <span class="text-danger" id="valid-ketqua-@i"></span>
-                                                </td>
-                                                <td valign="middle" class="ps-3 pe-3">
-                                                    <a role="button" id="btnXoa-@i" name="@i" class="text-danger form-control">
-                                                        <i class="bi bi-trash"></i>
-                                                    </a>
-                                                </td>
+                <div class="modal-body" id="loadcontentdexuat">
 
-                                            </tr>
-
-                                        }
-                                        <tr id="row-append">
-                                            <td colspan="7" class="text-center">
-                                                <a id="addRow" data-bs-toggle="tooltip" data-bs-html="true" title="Thêm hàng mới" class="btn btn-sm btn-secondary">
-                                                    <i style="font-size: 18px" class="bi bi-plus-square-dotted"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button id="btnDeXuatClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button disabled id="btnDeXuatSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="viewtasklistmodal" tabindex="-1" role="dialog" aria-labelledby="viewtasklistmodal" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewtasklistmodalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="loadcontentviewtasklistmodal">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnviewtasklistmodalClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -374,6 +320,7 @@
 </section>
 <script src="~/Validation/teacher/classsection/suggestedTA.js"></script>
 <script src="~/Validation/teacher/classsection/DeXuatLHP.js"></script>
+<script src="~/Validation/teacher/classsection/viewTaskList.js"></script>
 <script>
     $(document).ready(function () {
         $("#diemDanhTable").DataTable({

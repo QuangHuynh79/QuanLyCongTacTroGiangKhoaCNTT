@@ -200,6 +200,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return PartialView("_TaskListGV");
         }
 
+
+        [Authorize, TAandGVRole]
+        public ActionResult TaskDetail(int id)
+        {
+            int role = Int32.Parse(Session["user-role-id"].ToString());
+            if (role == 4)
+                return PartialView("_TaskDetailTA");
+            else
+                return PartialView("_TaskDetailGV", model.CongViec.Find(id));
+        }
+
         [Authorize, TARole]
         public ActionResult Evaluation()
         {

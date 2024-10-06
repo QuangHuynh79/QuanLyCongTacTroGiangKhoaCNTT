@@ -91,7 +91,71 @@
 
     $('body').on('click', '[id^="dexuat-"]', function () {
         var id = $(this).attr('name');
-        $('body').find('[id="dexuatLHPID"]').val(id);
-        $('body').find('[id="dexuattrogiang"]').modal('toggle');
+        var tieude = $(this).attr("tieudeForm");
+        $('body').find('[id="dexuattrogiangTitle"]').text(tieude);
+
+        var formData = new FormData();
+        formData.append('id', id);
+
+        $.ajax({
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
+            url: $('#requestPath').val() + "ClassSection/OpenSuggest",
+            data: formData,
+            dataType: 'html',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+        }).done(function (ketqua) {
+            if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
+                Swal.fire({
+                    title: "Đã xảy ra lỗi!",
+                    text: ketqua,
+                    icon: "error"
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+            else {
+                $('body').find('[id="loadcontentdexuat"]').replaceWith(ketqua);
+                $('body').find('[id="dexuatLHPID"]').val(id);
+                $('body').find('[id="dexuattrogiang"]').modal('toggle');
+            }
+        });
+    });
+
+    $('body').on('click', '[id="SyncTaskList"]', function () {
+        var btn = $(this);
+        btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span> Vui lòng chờ...');
+        btn.prop('disabled', true);
+
+        var id = $('body').find('[id="dexuatLHPID"]').val();        
+
+        var formData = new FormData();
+        formData.append('id', id);
+
+        $.ajax({
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
+            url: $('#requestPath').val() + "ClassSection/SyncTaskList",
+            data: formData,
+            dataType: 'html',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+        }).done(function (ketqua) {
+            if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
+                Swal.fire({
+                    title: "Đã xảy ra lỗi!",
+                    text: ketqua,
+                    icon: "error"
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+            else {
+                $('body').find('[id="contentAddTaskList"]').replaceWith(ketqua);
+                btn.html('<i class="bi bi-copy me-2"></i>Đồng bộ công việc từ HP tương tự');
+                btn.prop('disabled', false);
+            }
+        });
     });
 });

@@ -30,6 +30,78 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
+        public ActionResult OpenSuggest(int id)
+        {
+            try
+            {
+                var lhp = model.LopHocPhan.Find(id);
+                if (lhp == null)
+                    return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+                var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+                string name = lhp.TenHP.ToLower();
+                var lstDeXuat = model.DeXuatTroGiang.FirstOrDefault(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma));
+
+                if (lstDeXuat != null)
+                    return PartialView("_AddDeXuat", true); //Có lớp tương đương để đồng bộ công việc
+
+                return PartialView("_AddDeXuat", false); //Không Có lớp tương đương để đồng bộ công việc
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+        
+        [Authorize, GVRole]
+        [HttpPost]
+        public ActionResult SyncTaskList(int id)
+        {
+            try
+            {
+                var lhp = model.LopHocPhan.Find(id);
+                if (lhp == null)
+                    return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+                var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+                string name = lhp.TenHP.ToLower();
+                var lstTask = model.DeXuatTroGiang.OrderByDescending(o => o.ID).FirstOrDefault(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma));
+
+                if (lstTask != null)
+                    return PartialView("_LoadSyncTask", lstTask);
+
+                return Content("Chi tiết lỗi: Không có công việc của lớp học phần tương tự để đồng bộ.");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, GVRole]
+        [HttpPost]
+        public ActionResult OpenTaskList(int id)
+        {
+            try
+            {
+                var lhp = model.LopHocPhan.Find(id);
+                if (lhp == null)
+                    return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                var lstTask = lhp.CongViec.ToList();
+                return PartialView("_TaskList", lstTask);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+        [Authorize, GVRole]
+        [HttpPost]
         public ActionResult AddSuggested(int idLHP, string lydo, string mota, string khoiluong,
             string thoigian, string noilamviec, string ketqua)
         {
@@ -46,7 +118,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 {
                     try
                     {
-                        float test = float.Parse(khoiluongs[0]);
+                        float test = float.Parse(khoiluongs[i].Replace(".", ","));
                     }
                     catch (Exception)
                     {
@@ -68,7 +140,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     {
                         ID_LopHocPhan = idLHP,
                         MoTa = motas[i],
-                        SoGioQuyDoi = float.Parse(khoiluongs[i]),
+                        SoGioQuyDoi = float.Parse(khoiluongs[i].Replace(".", ",")),
                         ThoiHanHoanThanh = Convert.ToDateTime(thoigians[i]),
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],

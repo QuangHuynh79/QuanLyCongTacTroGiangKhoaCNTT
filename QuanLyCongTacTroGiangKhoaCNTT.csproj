@@ -548,6 +548,8 @@
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
     <Content Include="Validation\teacher\classsection\DeXuatLHP.js" />
+    <Content Include="Validation\teacher\classsection\viewTaskList.js" />
+    <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
     <Content Include="Validation\teachingassistant\register\add.js" />
     <Content Include="Validation\teachingassistant\register\delete.js" />
     <Content Include="Validation\teachingassistant\register\edit.js" />
@@ -568,6 +570,10 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Views\TeachingAssistant\_EditRegister.cshtml" />
+    <Content Include="Views\ClassSection\_AddDeXuat.cshtml" />
+    <Content Include="Views\ClassSection\_LoadSyncTask.cshtml" />
+    <Content Include="Views\ClassSection\_TaskList.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskDetailGV.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
