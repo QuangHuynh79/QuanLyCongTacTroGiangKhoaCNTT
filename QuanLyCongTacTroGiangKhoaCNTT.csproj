@@ -547,13 +547,13 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\department\register\add.js" />
+    <Content Include="Validation\department\register\delete.js" />
+    <Content Include="Validation\department\register\edit.js" />
     <Content Include="Validation\department\suggested\accepted.js" />
     <Content Include="Validation\teacher\classsection\DeXuatLHP.js" />
     <Content Include="Validation\teacher\classsection\viewTaskList.js" />
     <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
-    <Content Include="Validation\teachingassistant\register\add.js" />
-    <Content Include="Validation\teachingassistant\register\delete.js" />
-    <Content Include="Validation\teachingassistant\register\edit.js" />
     <Content Include="Views\TermAndMajor\Faculty.cshtml" />
     <Content Include="Views\TermAndMajor\_EditFaculty.cshtml" />
     <EntityDeploy Include="Models\vanlanguniAPI.edmx">
