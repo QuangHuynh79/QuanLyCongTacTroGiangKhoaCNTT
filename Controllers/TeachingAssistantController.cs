@@ -53,6 +53,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 form.ID_HocKy = hocky;
                 form.ID_Nganh = nganh;
                 form.ID_TaiKhoan = Int32.Parse(Session["user-id"].ToString());
+                form.ID_TaiKhoanCapNhat = Int32.Parse(Session["user-id"].ToString());
                 form.ThoiGianMo = thoigianmo;
                 form.ThoiGianDong = thoigiandong;
                 form.NgayTao = DateTime.Now;
