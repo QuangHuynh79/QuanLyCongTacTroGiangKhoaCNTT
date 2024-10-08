@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
 using Microsoft.AspNet.Identity.Owin;
+using System.Text.RegularExpressions;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -65,6 +66,26 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var EmailUser = User.Identity.GetUserName();
             ClaimsIdentity identitys = (ClaimsIdentity)User.Identity;
             string FullName = identitys.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
+
+            string ma = "";
+            string hoten = FullName;
+
+            string pattern = string.Format(@"\b{0}\b", " - ");
+            int counter = Regex.Matches(FullName, pattern).Count;
+
+            if (counter == 2)
+            {
+                FullName = FullName.Replace(" - ", "#");
+                ma = FullName.Split('#')[0].Trim();
+                hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
+            }
+            else if(counter == 1)
+            {
+                FullName = FullName.Replace(" - ", "#");
+                ma = FullName.Split('#')[0];
+                hoten = FullName.Split('#')[1].Trim();
+            }
+           
             string userId = EmailUser.ToLower();
 
             var users = model.AspNetUsers.Find(EmailUser.ToLower());
@@ -89,7 +110,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 aspNetUsers.TwoFactorEnabled = false;
                 aspNetUsers.LockoutEnabled = false;
                 aspNetUsers.AccessFailedCount = 0;
-                aspNetUsers.UserName = FullName;
+                aspNetUsers.UserName = ma;
                 aspNetUsers.AspNetRoles = aspNetRolesSinhVien;
                 model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
@@ -98,7 +119,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (taikhoanExist == null)
                 {
                     TaiKhoan newUser = new TaiKhoan();
-                    newUser.HoTen = FullName;
+                    newUser.HoTen = hoten;
+                    newUser.Ma = ma;
                     newUser.Email = EmailUser;
                     newUser.ID_AspNetUsers = aspNetUsers.ID;
                     newUser.TrangThai = true;

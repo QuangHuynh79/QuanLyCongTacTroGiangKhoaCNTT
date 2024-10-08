@@ -54,7 +54,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
 
         [Authorize, BCNRole]
-        public ActionResult FilterParentData(int hocky, int nganh, string mon, string gv)
+        public ActionResult FilterParentData(int hocky, int nganh)
         {
             var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
             return PartialView("_FilterParentData", tkb);

@@ -9,7 +9,6 @@
     var tksv = models.TaiKhoan.Find(idtk);
 
 }
-<link href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
 <script src="~/ActiveItemMenu/TeachingAssistant/apply.js"></script>
 <section class="container-fluid p-4">
     <div class="row">
@@ -161,18 +160,4 @@
 </div>
 
 <script src="~/Validation/student/load.js"></script>
-<script>
-    $(document).ready(function () {
-        $('body').on('click', '[id="huydangky"]', function () {
-            Swal.fire({
-                title: 'Hủy đăng ký?',
-                text: 'Bạn có chắc muốn hủy đăng ký trợ giảng lớp HP "221_71ITBS10103_0101" không?',
-                icon: "question",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Hủy ngay!",
-                cancelButtonText: "Không hủy"
-            });
-        });
-    });
-</script>
+<script src="~/Validation/SVandTA/filterviewapply.js"></script>

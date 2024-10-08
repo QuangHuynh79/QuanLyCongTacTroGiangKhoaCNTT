@@ -271,7 +271,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var data = model.TaiKhoan.Find(id);
                 data.HoTen = hoten;
                 data.NgaySinh = ngaysinh;
-                data.Ma = ma;
+
+                int roleId = Int32.Parse(Session["user-role-id"].ToString());
+                if (roleId != 4 && roleId != 1)
+                    data.Ma = ma;
+
                 data.GioiTinh = gioitinh;
                 if (quoctich)
                     data.QuocTich = "Việt Nam";

@@ -221,6 +221,43 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, SVandTARole]
+        public ActionResult FilterChildApply(int hocky, int nganh, string mon, string gv, string trangthai)
+        {
+            var lstMon = mon.Split('#').ToList();
+            var lstGv = gv.Split('#').ToList();
+
+            if (trangthai.Equals("tatca"))
+            {
+                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Count > 0).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+                return PartialView("_FilterChildApply", tkb);
+            }
+            else if (trangthai.Equals("dadangky"))
+            {
+                int idTk = Int32.Parse(Session["user-id"].ToString());
+                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Count > 0
+                && w.LopHocPhan.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == idTk).Count() > 0).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+                return PartialView("_FilterChildApply", tkb);
+            }
+            else
+            {
+                int idTk = Int32.Parse(Session["user-id"].ToString());
+                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Count > 0
+                && w.LopHocPhan.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == idTk).Count() < 1).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+                return PartialView("_FilterChildApply", tkb);
+            }
+        }
+
+        [Authorize, SVandTARole]
+        public ActionResult FilterParentApply(int hocky, int nganh)
+        {
+            var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Count > 0).ToList();
+            return PartialView("_FilterParentApply", tkb);
+        }
+
+        [Authorize, SVandTARole]
         public ActionResult LoadContentApply()
         {
             return PartialView("_Apply");

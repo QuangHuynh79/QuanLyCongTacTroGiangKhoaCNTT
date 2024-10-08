@@ -31,51 +31,52 @@
         }
     }
 
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
+    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.DeXuatTroGiang.Count > 0).ToList();
     int idTk = Int32.Parse(Session["user-id"].ToString());
 }
 
 <div class="card" id="pageload">
     <!-- card header  -->
     <div class="card-header border-bottom-0 pb-0">
+        <div class="row">
+            <div class="mb-3 col-md-6 col-12">
+                <label class="form-label">Đợt đăng ký</label>
+                <select id="hocky" class="form-select" data-width="100%">
+                    @foreach (var item in lstHocKy)
+                    {
 
+                        if (id_hkGanNhat == item.ID)
+                        {
+                            <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ID">Học kỳ @item.TenHocKy</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="mb-3 col-md-6 col-12">
+                <label class="form-label">Ngành</label>
+                <select id="nganh" class="form-select" data-width="100%">
+                    @foreach (var item in lstNganh)
+                    {
+                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                        {
+                            <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
     </div>
     <div id="filterParentLoad">
         <div class="card-header border-bottom-0 pt-0">
             <div class="row">
-                <div class="mb-3 col-md-6 col-12">
-                    <label class="form-label">Đợt đăng ký</label>
-                    <select id="hocky" class="form-select" data-width="100%">
-                        @foreach (var item in lstHocKy)
-                        {
-
-                            if (id_hkGanNhat == item.ID)
-                            {
-                                <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
-                            }
-                            else
-                            {
-                                <option value="@item.ID">Học kỳ @item.TenHocKy</option>
-                            }
-                        }
-                    </select>
-                </div>
-                <div class="mb-3 col-md-6 col-12">
-                    <label class="form-label">Ngành</label>
-                    <select id="nganh" class="form-select" data-width="100%">
-                        @foreach (var item in lstNganh)
-                        {
-                            if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
-                            {
-                                <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
-                            }
-                            else
-                            {
-                                <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
-                            }
-                        }
-                    </select>
-                </div>
                 <div class="mb-3 col-md-3 col-12">
                     <label class="form-label">Chú thích</label>
                     <div class="form-control">
@@ -321,3 +322,4 @@
     $('#locgiangvien').multipleSelect({ filter: true });
     $('#locmonhoc').multipleSelect({ filter: true });
 </script>
+
