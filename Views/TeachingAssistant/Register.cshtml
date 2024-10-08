@@ -4,7 +4,7 @@
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
     var lstHk = models.HocKy.ToList();
     var lstNganh = models.Nganh.ToList();
-
+    var lstKhoa = models.Khoa.ToList();
     ViewBag.Title = "Teaching Assistant";
     Layout = Session["layout"].ToString();
     var currentDate = DateTime.Now;
@@ -48,10 +48,35 @@
         <!-- basic table -->
         <div class="col-md-12 col-12 mb-5">
             <div class="card">
+                <div class="card-header border-bottom-0 pt-3">
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <label for="filter-khoa" class="form-label">Khoa</label>
+                            <select id="filter-khoa" class="form-select" data-width="100%">
+                                <option value="">Tất cả</option>
+                                @foreach (var item in lstKhoa)
+                                {
+                                    <option value="@item.ID">@item.TenKhoa</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label for="filter-nganh" class="form-label">Ngành</label>
+                            <select id="filter-nganh" class="form-select" data-width="100%">
+                                <option value="" selected>Tất cả</option>
+                                @foreach (var item in lstNganh)
+                                {
+                                    <option cuaKhoa="@item.ID_Khoa">@item.TenNganh</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr />
                 <!-- table  -->
                 <div class="card-body">
                     <div class="table-card">
-                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                        <table id="tableFormDangKy" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-nowrap">Thời gian</th>
@@ -117,6 +142,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="themmoi" tabindex="-1" role="dialog" aria-labelledby="themmoi" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -217,3 +243,55 @@
 <script src="~/Validation/department/register/add.js"></script>
 <script src="~/Validation/department/register/delete.js"></script>
 <script src="~/Validation/department/register/edit.js"></script>
+
+
+<!-- Lọc form đăng ký -->
+<script>
+    $(document).ready(function () {
+        new DataTable('#tableFormDangKy', {
+            initComplete: function () {
+                this.api()
+                    .columns("4")
+                    .every(function () {
+                        let column = this;
+
+                        let select = $('#filter-nganh');
+
+                        select.on('change', function () {
+                            column.search(select.val(), { exact: true }).draw();
+                        });
+                    });
+            }
+        });
+
+        $('#filter-khoa').on('change', function () {
+            var valu = $('#filter-khoa :selected').val();
+            if (valu.length < 1) {
+                $('#filter-nganh > option').each(function () {
+                    $(this).prop('hidden', false);
+                });
+
+                $('#filter-nganh').val("").change();
+            }
+            else {
+                $('#filter-nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.attr('cuaKhoa') == valu) {
+                        $(this).prop('hidden', false);
+                    }
+                    else {
+                        $(this).prop('hidden', true);
+                    }
+                });
+
+                $('#filter-nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.prop('hidden') == false) {
+                        $('#filter-nganh').val(opt.val()).change();
+                        return false;
+                    }
+                });
+            }
+        });
+    });
+</script>
