@@ -15,7 +15,7 @@
     }
 
     var task = models.LopHocPhan.Where(w => w.MaCBGD.ToLower().Equals(ma) && w.CongViec.Count > 0).ToList();
-    var firstTask = task.First();
+    var firstTask = task.Count > 0 ? task.First() : new LopHocPhan();
 }
 <div class="card" id="pageload">
     <div class="card-header">
@@ -80,43 +80,44 @@
                                         <!-- task kanban -->
                                         <div class="task-kanban" style="height: 100% !important">
                                             <div id="taskcanlam" style="height: 100% !important">
-                                                @foreach (var item in firstTask.CongViec.Where(w => w.TrangThai.Equals("canlam")).ToList())
+                                                @if (firstTask != null)
                                                 {
-                                                    <div class="card">
-                                                        <!-- card body -->
-                                                        <div class="card-body p-3 d-flex flex-column gap-4">
-                                                            <div class="d-flex justify-content-between">
-                                                                <div class="ps-sm-1">
-                                                                    <label id="btnTaskDetail-@item.ID" role="button" tieudeForm="Chi tiết công việc #@(item.ID) - LHP: @item.LopHocPhan.MaLHP" name="@item.ID" class="form-check-label task-name-label">
-                                                                        <i style="font-size: 16px" class="bi bi-bookmark-check-fill text-danger me-2"></i>
-                                                                        <span class="h5">@item.ID. </span>
-                                                                        <span class="text-dark">@item.MoTa</span>
-                                                                    </label>
+                                                    foreach (var item in firstTask.CongViec.Where(w => w.TrangThai.Equals("canlam")).ToList())
+                                                    {
+                                                        <div class="card">
+                                                            <!-- card body -->
+                                                            <div class="card-body p-3 d-flex flex-column gap-4">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="ps-sm-1">
+                                                                        <label id="btnTaskDetail-@item.ID" role="button" tieudeForm="Chi tiết công việc #@(item.ID) - LHP: @item.LopHocPhan.MaLHP" name="@item.ID" class="form-check-label task-name-label">
+                                                                            <i style="font-size: 16px" class="bi bi-bookmark-check-fill text-danger me-2"></i>
+                                                                            <span class="h5">@item.ID. </span>
+                                                                            <span class="text-dark">@item.MoTa</span>
+                                                                        </label>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="d-flex justify-content-between align-items-center ps-sm-1">
-                                                                <!-- img -->
-                                                                <div class="d-flex align-items-center">
-                                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="@item.LopHocPhan.TenHP" class="fs-6">
-                                                                        Thời hạn: @item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")
-                                                                    </span>
-                                                                </div>
-                                                                <!-- message count -->
-                                                                <div>
-                                                                    <span class=" align-middle">
-                                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Ước lượng công việc" class="fs-6">
-                                                                            <i class="fe fe-clock me-1"></i>
-                                                                            @(item.SoGioQuyDoi)h
+                                                                <div class="d-flex justify-content-between align-items-center ps-sm-1">
+                                                                    <!-- img -->
+                                                                    <div class="d-flex align-items-center">
+                                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="@item.LopHocPhan.TenHP" class="fs-6">
+                                                                            Thời hạn: @item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")
                                                                         </span>
+                                                                    </div>
+                                                                    <!-- message count -->
+                                                                    <div>
+                                                                        <span class=" align-middle">
+                                                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Ước lượng công việc" class="fs-6">
+                                                                                <i class="fe fe-clock me-1"></i>
+                                                                                @(item.SoGioQuyDoi)h
+                                                                            </span>
 
-                                                                    </span>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    }
                                                 }
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -141,44 +142,46 @@
                                         <!-- task kanban -->
                                         <div class="task-kanban" style="height: 100% !important">
                                             <div id="taskdangthuchien" style="height: 100% !important">
-                                                @foreach (var item in firstTask.CongViec.Where(w => w.TrangThai.Equals("dangthuchien")).ToList())
+                                                @if (firstTask != null)
                                                 {
-                                                    <div class="card">
-                                                        <!-- card body -->
-                                                        <div class="card-body p-3 d-flex flex-column gap-4">
-                                                            <div class="d-flex justify-content-between">
-                                                                <div class="ps-sm-1">
-                                                                    <label id="btnTaskDetail-@item.ID" role="button" tieudeForm="Chi tiết công việc #@(item.ID) - LHP: @item.LopHocPhan.MaLHP" name="@item.ID" class="form-check-label task-name-label">
-                                                                        <i style="font-size: 16px" class="bi bi-bookmark-check-fill text-danger me-2"></i>
-                                                                        <span class="h5">@item.ID. </span>
-                                                                        <span class="text-dark">@item.MoTa</span>
-                                                                    </label>
-                                                                </div>
+                                                    foreach (var item in firstTask.CongViec.Where(w => w.TrangThai.Equals("dangthuchien")).ToList())
+                                                    {
+                                                        <div class="card">
+                                                            <!-- card body -->
+                                                            <div class="card-body p-3 d-flex flex-column gap-4">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="ps-sm-1">
+                                                                        <label id="btnTaskDetail-@item.ID" role="button" tieudeForm="Chi tiết công việc #@(item.ID) - LHP: @item.LopHocPhan.MaLHP" name="@item.ID" class="form-check-label task-name-label">
+                                                                            <i style="font-size: 16px" class="bi bi-bookmark-check-fill text-danger me-2"></i>
+                                                                            <span class="h5">@item.ID. </span>
+                                                                            <span class="text-dark">@item.MoTa</span>
+                                                                        </label>
+                                                                    </div>
 
-                                                            </div>
-                                                            <div class="d-flex justify-content-between align-items-center ps-sm-1">
-                                                                <!-- img -->
-                                                                <div class="d-flex align-items-center">
-                                                                    <!-- text -->
-                                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="@item.LopHocPhan.TenHP" class="fs-6">
-                                                                        Thời hạn: @item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")
-                                                                    </span>
                                                                 </div>
-                                                                <!-- message count -->
-                                                                <div>
-                                                                    <span class=" align-middle">
-                                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Ước lượng công việc" class="fs-6">
-                                                                            <i class="fe fe-clock me-1"></i>
-                                                                            @(item.SoGioQuyDoi)h
+                                                                <div class="d-flex justify-content-between align-items-center ps-sm-1">
+                                                                    <!-- img -->
+                                                                    <div class="d-flex align-items-center">
+                                                                        <!-- text -->
+                                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="@item.LopHocPhan.TenHP" class="fs-6">
+                                                                            Thời hạn: @item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")
                                                                         </span>
+                                                                    </div>
+                                                                    <!-- message count -->
+                                                                    <div>
+                                                                        <span class=" align-middle">
+                                                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Ước lượng công việc" class="fs-6">
+                                                                                <i class="fe fe-clock me-1"></i>
+                                                                                @(item.SoGioQuyDoi)h
+                                                                            </span>
 
-                                                                    </span>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    }
                                                 }
-
                                             </div>
                                         </div>
                                     </div>
@@ -203,60 +206,61 @@
                                         <!-- task kanban -->
                                         <div class="task-kanban" style="height: 100% !important">
                                             <div id="taskhoanthanh" style="height: 100% !important">
-
-                                                @foreach (var item in firstTask.CongViec.Where(w => w.TrangThai.Equals("hoanthanh")).ToList())
+                                                @if (firstTask != null)
                                                 {
-                                                    <div class="card">
-                                                        <!-- card body -->
-                                                        <div class="card-body p-3 d-flex flex-column gap-4">
-                                                            <div class="d-flex justify-content-between">
-                                                                <div class="ps-sm-1">
-                                                                    @if (!string.IsNullOrEmpty(item.KetQuaCongViec))
-                                                                    {
-                                                                        if (item.KetQuaCongViec.Equals("hoanthanh"))
+                                                    foreach (var item in firstTask.CongViec.Where(w => w.TrangThai.Equals("hoanthanh")).ToList())
+                                                    {
+                                                        <div class="card">
+                                                            <!-- card body -->
+                                                            <div class="card-body p-3 d-flex flex-column gap-4">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="ps-sm-1">
+                                                                        @if (!string.IsNullOrEmpty(item.KetQuaCongViec))
                                                                         {
-                                                                            <h5 class="badge bg-success text-center w-100">
-                                                                                <i class="bi bi-x-circle me-2"></i>Được đánh giá đã hoàn thành
-                                                                            </h5>
+                                                                            if (item.KetQuaCongViec.Equals("hoanthanh"))
+                                                                            {
+                                                                                <h5 class="badge bg-success text-center w-100">
+                                                                                    <i class="bi bi-x-circle me-2"></i>Được đánh giá đã hoàn thành
+                                                                                </h5>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <h5 class="badge bg-danger text-center w-100">
+                                                                                    <i class="bi bi-x-circle me-2"></i>Được đánh giá chưa hoàn thành
+                                                                                </h5>
+                                                                            }
                                                                         }
-                                                                        else
-                                                                        {
-                                                                            <h5 class="badge bg-danger text-center w-100">
-                                                                                <i class="bi bi-x-circle me-2"></i>Được đánh giá chưa hoàn thành
-                                                                            </h5>
-                                                                        }
-                                                                    }
 
-                                                                    <label id="btnTaskDetail-@item.ID" role="button"  tieudeForm="Chi tiết công việc #@(item.ID) - LHP: @item.LopHocPhan.MaLHP" name="@item.ID"  class="form-check-label task-name-label">
-                                                                        <i style="font-size: 16px" class="bi bi-bookmark-check-fill text-danger me-2"></i>
-                                                                        <span class="h5">@item.ID. </span>
-                                                                        <span class="text-dark">@item.MoTa</span>
-                                                                    </label>
-                                                                </div>
+                                                                        <label id="btnTaskDetail-@item.ID" role="button" tieudeForm="Chi tiết công việc #@(item.ID) - LHP: @item.LopHocPhan.MaLHP" name="@item.ID" class="form-check-label task-name-label">
+                                                                            <i style="font-size: 16px" class="bi bi-bookmark-check-fill text-danger me-2"></i>
+                                                                            <span class="h5">@item.ID. </span>
+                                                                            <span class="text-dark">@item.MoTa</span>
+                                                                        </label>
+                                                                    </div>
 
-                                                            </div>
-                                                            <div class="d-flex justify-content-between align-items-center ps-sm-1">
-                                                                <!-- img -->
-                                                                <div class="d-flex align-items-center">
-                                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="@item.LopHocPhan.TenHP" class="fs-6">
-                                                                        Thời hạn: @item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")
-                                                                    </span>
                                                                 </div>
-                                                                <!-- message count -->
-                                                                <div>
-                                                                    <span class=" align-middle">
-                                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Ước lượng công việc" class="fs-6">
-                                                                            <i class="fe fe-clock me-1"></i>
-                                                                            @(item.SoGioQuyDoi)h
+                                                                <div class="d-flex justify-content-between align-items-center ps-sm-1">
+                                                                    <!-- img -->
+                                                                    <div class="d-flex align-items-center">
+                                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="@item.LopHocPhan.TenHP" class="fs-6">
+                                                                            Thời hạn: @item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")
                                                                         </span>
+                                                                    </div>
+                                                                    <!-- message count -->
+                                                                    <div>
+                                                                        <span class=" align-middle">
+                                                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Ước lượng công việc" class="fs-6">
+                                                                                <i class="fe fe-clock me-1"></i>
+                                                                                @(item.SoGioQuyDoi)h
+                                                                            </span>
 
-                                                                    </span>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    }
                                                 }
-
                                             </div>
                                         </div>
                                     </div>

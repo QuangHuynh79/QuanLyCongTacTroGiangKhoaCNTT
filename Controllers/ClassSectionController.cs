@@ -61,6 +61,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
+                model = new CongTacTroGiangKhoaCNTTEntities();
                 var lhp = model.LopHocPhan.Find(id);
                 if (lhp == null)
                     return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
@@ -107,6 +108,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
+                model = new CongTacTroGiangKhoaCNTTEntities();
                 var motas = mota.Split('~').ToList();
                 var khoiluongs = khoiluong.Split('~').ToList();
                 var thoigians = thoigian.Split('~').ToList();
