@@ -9,6 +9,7 @@
     Layout = Session["layout"].ToString();
     var currentDate = DateTime.Now;
     int first = 0;
+    int i = 0;
 }
 
 
@@ -68,6 +69,7 @@
                                 {
                                     <option cuaKhoa="@item.ID_Khoa">@item.TenNganh</option>
                                 }
+                                <option hidden id="opNganhNull" value="opNull">Không có ngành nào</option>
                             </select>
                         </div>
                     </div>
@@ -79,6 +81,7 @@
                         <table id="tableFormDangKy" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
+                                    <th hidden></th>
                                     <th class="text-nowrap">Thời gian</th>
                                     <th class="text-nowrap">Học Kỳ</th>
                                     <th class="text-nowrap">Ngày mở</th>
@@ -92,7 +95,9 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
+                                    i++;
                                     <tr>
+                                        <td class="sorting" hidden>@i</td>
                                         <td valign="middle">
                                             <span data-bs-toggle="tooltip" data-bs-html="true" title="Tạo bởi: @item.TaiKhoan.Email">Ngày tạo: @item.NgayTao.ToString("HH:mm dd/MM/yyyy")</span>
                                             @if (item.NgayTao != item.NgayCapNhat)
@@ -251,7 +256,7 @@
         new DataTable('#tableFormDangKy', {
             initComplete: function () {
                 this.api()
-                    .columns("4")
+                    .columns("5")
                     .every(function () {
                         let column = this;
 
@@ -268,7 +273,12 @@
             var valu = $('#filter-khoa :selected').val();
             if (valu.length < 1) {
                 $('#filter-nganh > option').each(function () {
-                    $(this).prop('hidden', false);
+                    if ($(this).val() == "opNull") {
+                        $(this).prop('hidden', true);
+                    }
+                    else {
+                        $(this).prop('hidden', false);
+                    }
                 });
 
                 $('#filter-nganh').val("").change();
@@ -284,13 +294,28 @@
                     }
                 });
 
+                var countOp = 0;
                 $('#filter-nganh > option').each(function () {
                     var opt = $(this);
                     if (opt.prop('hidden') == false) {
-                        $('#filter-nganh').val(opt.val()).change();
-                        return false;
+                        countOp++;
                     }
                 });
+                
+                if (countOp == 0) {
+                    $('#filter-nganh').val("opNull").change();
+                    $('#filter-nganh > [id="opNganhNull"]').prop('hidden', false);
+                }
+                else {
+
+                    $('#filter-nganh > option').each(function () {
+                        var opt = $(this);
+                        if (opt.prop('hidden') == false) {
+                            $('#filter-nganh').val(opt.val()).change();
+                            return false;
+                        }
+                    });
+                }
             }
         });
     });

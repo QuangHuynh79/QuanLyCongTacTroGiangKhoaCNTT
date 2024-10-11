@@ -34,6 +34,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public decimal DiemTKMH { get; set; }
         public string HinhAnhMinhChung { get; set; }
         public bool TrangThai { get; set; }
+        public string SoDienThoai { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DanhGiaPhongVan> DanhGiaPhongVan { get; set; }

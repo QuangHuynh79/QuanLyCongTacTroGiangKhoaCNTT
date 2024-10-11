@@ -66,7 +66,7 @@
             btn.prop('disabled', false);
             $('body').find('[id="btnInfoClose"]').prop('disabled', false);
 
-            validma.text(" Chỉ được nhập số-chữ không dấu và không có khoảng trắng!");
+            validma.text("Chỉ được nhập số-chữ không dấu và không có khoảng trắng!");
             $('body').find('[id="infoma"]').focus();
         }
         else if (ma.match(specialChars)) {

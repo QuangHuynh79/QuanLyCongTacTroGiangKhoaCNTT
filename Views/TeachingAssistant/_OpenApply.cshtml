@@ -1,0 +1,143 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan
+@{
+    var tksv = Session["TaiKhoan"] as QuanLyCongTacTroGiangKhoaCNTT.Models.TaiKhoan;
+    int idtk = tksv.ID;
+
+    string diemtb = "";
+    string diemrl = "";
+    string diemtk = "";
+    string lsthinhanh = "";
+    if (Model.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk) != null)
+    {
+        var ut = Model.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk);
+        diemtb = ut.DiemTBTL.ToString().Replace(",", ".");
+        diemrl = ut.DiemRL.ToString().Replace(",", ".");
+        diemtk = ut.DiemTKMH.ToString().Replace(",", ".");
+        lsthinhanh = ut.HinhAnhMinhChung;
+    }
+}
+<div class="modal-body" id="contentApply">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="hoten">Họ & Tên <span class="text-danger">*</span></label>
+                <input hidden id="idFORMDKY" value="" />
+                <input hidden id="idLHPApply" value="@Model.ID" />
+                <input hidden id="idtkApply" value="@tksv.ID" />
+                <input disabled value="@tksv.HoTen" type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên">
+                <span class="text-danger" id="valid-hoten"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                <input disabled value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
+                <span class="text-danger" id="valid-email"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="ma">MSSV <span class="text-danger">*</span></label>
+                <input disabled value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
+                <span class="text-danger" id="valid-ma"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="dienthoai">Số điện thoại <span class="text-danger">*</span></label>
+                <input value="@tksv.SDT" maxlength="10" data-type="numbers" type="tel" id="dienthoai" class="form-control" placeholder="09xxxxxxxx">
+                <span class="text-danger" id="valid-dienthoai"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="ngaysinh">Ngày sinh <span class="text-danger">*</span></label>
+                <input name="@tksv.ID" value="@(tksv.NgaySinh == null ? "" : tksv.NgaySinh.Value.ToString("yyyy-MM-dd"))" type="text" id="ngaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                <span class="text-danger" id="valid-ngaysinh"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="gioitinh">
+                    Giới tính <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="gioitinh">
+                    @if (string.IsNullOrEmpty(tksv.GioiTinh))
+                    {
+                        <option selected value="">---- Chọn giới tính ----</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    }
+                    else if (tksv.GioiTinh.Equals("Nam"))
+                    {
+                        <option value="">---- Chọn giới tính ----</option>
+                        <option selected value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    }
+                    else
+                    {
+                        <option value="">---- Chọn giới tính ----</option>
+                        <option value="Nam">Nam</option>
+                        <option selected value="Nữ">Nữ</option>
+                    }
+
+                </select>
+                <span class="text-danger" id="valid-gioitinh"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="tbctl">Điểm trung bình chung tích lũy HK gần nhất <span class="text-danger">*</span></label>
+                <input value="@diemtb" type="number" id="tbctl" class="form-control" placeholder="Nhập điểm trung bình chung">
+                <span class="text-danger" id="valid-tbctl"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="drl">Điểm rèn luyện HK gần nhất <span class="text-danger">*</span></label>
+                <input value="@diemrl" type="number" id="drl" class="form-control" placeholder="Nhập điểm rèn luyện">
+                <span class="text-danger" id="valid-drl"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="dtk">Điểm tổng kết (thi lần 1) của học phần đăng ký làm TA <span class="text-danger">*</span></label>
+                <input value="@diemtk" type="number" id="dtk" class="form-control" placeholder="Nhập điểm tổng kết môn (thi lần 1)">
+                <span class="text-danger" id="valid-dtk"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn tối đa 3 hình ảnh < 50MB. JPG, JPEG, PNG)</i></small></small> <span class="text-danger">*</span></label>
+            <div class="mb-3">
+                @if (!string.IsNullOrEmpty(lsthinhanh))
+                {
+                    <div class="row">
+                        @foreach (var item in lsthinhanh.Split('#'))
+                        {
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <!-- Gallery -->
+                                    <a href="@Url.Content(item)" class="glightbox" data-gallery="gallery1">
+                                        <img src="@Url.Content(item)" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                <input type="file" class="form-control form-control-file" id="hinhanhmc" accept="image/png, image/jpg, image/jpeg" multiple>
+                <span class="text-danger" id="valid-hinhanhmc"></span>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.flatpickr').flatpickr({
+            locale: 'vn',
+        });
+
+        const lightbox = GLightbox({ touchNavigation: !0, loop: !0, autoplayVideos: !0 });
+    });
+</script>

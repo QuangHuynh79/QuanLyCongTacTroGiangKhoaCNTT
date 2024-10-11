@@ -12,7 +12,6 @@
         validtenkhoa.text('');
 
         var check = true;
-
        
         if (tenkhoa.length < 1) {
             check = false;

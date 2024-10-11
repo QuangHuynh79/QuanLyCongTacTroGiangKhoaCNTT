@@ -1,0 +1,49 @@
+﻿$(document).ready(function () {
+    $('body').on('click', '[id^="applyLHP-"]', function () {
+        var btn = $(this);
+        var id = btn.attr('name');
+        var idForm = btn.attr('IdFormDangKy');
+        var typeLHP = btn.attr('typeLHP');
+
+        var formData = new FormData();
+        formData.append('id', id);
+
+        $.ajax({
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
+            url: $('#requestPath').val() + "TeachingAssistant/OpenApply",
+            data: formData,
+            dataType: 'html',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+        }).done(function (ketqua) {
+            if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
+                Swal.fire({
+                    title: "Đã xảy ra lỗi!",
+                    text: ketqua,
+                    icon: "error"
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+            else {
+                $('body').find('[id="applyTitle"]').text(btn.attr('titleForm'));
+                if (typeLHP == "dadk") {
+                    $('body').find('[id="huydangky"]').prop('hidden', false);
+                    $('body').find('[id="btnSubmit"]').prop('hidden', true);
+                    $('body').find('[id="btnEditSubmit"]').prop('hidden', false);
+                }
+                else {
+                    $('body').find('[id="huydangky"]').prop('hidden', true);
+                    $('body').find('[id="btnSubmit"]').prop('hidden', false);
+                    $('body').find('[id="btnEditSubmit"]').prop('hidden', true);
+                }
+
+                $('body').find('[id="contentApply"]').replaceWith(ketqua);
+                $('body').find('[id="idFORMDKY"]').val(idForm);
+                $('body').find('[id="apply"]').modal('toggle');
+            }
+        });
+
+    });
+});

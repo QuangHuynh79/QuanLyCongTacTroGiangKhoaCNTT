@@ -22,22 +22,22 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
-        private ApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager; //Tạo biến user
 
-        public ApplicationUserManager UserManager
+        public ApplicationUserManager UserManager //hàm gọi user sau khi login
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); //lấy dữ liệu user sau khi login
             }
             private set
             {
-                _userManager = value;
+                _userManager = value; //cập nhật dữ liệu user vào biến hiện tại
             }
         }
 
         [AllowAnonymous, Loginverification]
-        public void SignIn()
+        public void SignIn() //đăng nhập vào hệ thống
         {
             // Send an OpenID Connect sign-in request.
             if (!Request.IsAuthenticated)
@@ -47,7 +47,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        public ActionResult SignOut()
+        public ActionResult SignOut() //đăng xuất vào hệ thống
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
@@ -61,7 +61,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         // GET: /Account/SignInCallBack
-        public ActionResult SignInCallBack()
+        public ActionResult SignInCallBack() //tạo hoặc đăng nhập tài khoản hiện có và chuyển hướng sau khi đăng nhập
         {
             var EmailUser = User.Identity.GetUserName();
             ClaimsIdentity identitys = (ClaimsIdentity)User.Identity;
