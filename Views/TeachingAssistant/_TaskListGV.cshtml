@@ -20,7 +20,7 @@
 <div class="card" id="pageload">
     <div class="card-header">
         <div class="row">
-            <div class="mb-3 col-md-4 col-12">
+            <div class="mb-3 col-md-6 col-12">
                 <label for="hocky" class="form-label">Học kỳ</label>
                 <select id="hocky" class="form-select" data-width="100%">
                     @foreach (var item in lstHocKy)
@@ -47,13 +47,6 @@
                         <option value="@item.ID">@item.MaLHP - @item.TenHP</option>
                     }
                 </select>
-            </div>
-            <div class="mb-3 col-md-2 col-12" style="display: flex; flex-direction: row; align-items: end">
-                <div class="w-100 text-end">
-                    <a role="button" data-bs-toggle="modal" data-bs-target="#themcongviecmoi" class="btn btn-primary w-100">
-                        Thêm công việc
-                    </a>
-                </div>
             </div>
         </div>
     </div>

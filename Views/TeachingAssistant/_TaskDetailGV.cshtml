@@ -13,10 +13,8 @@
                     <div class="mb-3">
                         <label class="form-label" for="hoten">
                             Mô tả công việc
-                            @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
-                            {<span class="text-danger">*</span>}
                         </label>
-                        <textarea class="form-control text-dark" style="height: 126px !important;" @(role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "")>@Model.MoTa</textarea>
+                        <textarea class="form-control text-dark" style="height: 126px !important;" disabled>@Model.MoTa</textarea>
                         <span class="text-danger" id="valid-hoten"></span>
                     </div>
                 </div>
@@ -24,10 +22,8 @@
                     <div class="mb-3">
                         <label class="form-label" for="hoten">
                             Kết quả mong đợi
-                            @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
-                            {<span class="text-danger">*</span>}
                         </label>
-                        <textarea class="form-control text-dark" style="height: 126px !important;" @(role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "")>@Model.KetQuaMongDoi</textarea>
+                        <textarea class="form-control text-dark" style="height: 126px !important;" disabled>@Model.KetQuaMongDoi</textarea>
                         <span class="text-danger" id="valid-hoten"></span>
                     </div>
                 </div>
@@ -37,27 +33,27 @@
             <div class="row">
                 <div class="col-12">
                     <div class="mb-3">
-                        <label class="form-label" for="gioitinh">
-                            Trạng thái <span class="text-danger">*</span>
-                        </label>
                         @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
                         {
-                            <select class="form-select text-dark" id="ketqua">
+                            <label class="form-label" for="gioitinh">
+                                Tình trạng <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="ketqua">
                                 @if (string.IsNullOrEmpty(Model.KetQuaCongViec))
                                 {
-                                    <option selected value="">---- Chọn trạng thái ----</option>
+                                    <option selected value="">---- Chọn tình trạng ----</option>
                                     <option value="chuahoanthanh">Chưa hoàn thành</option>
                                     <option value="hoanthanh">Hoàn thành</option>
                                 }
                                 else if (Model.KetQuaCongViec.Equals("hoanthanh"))
                                 {
-                                    <option value="">---- Chọn kết quả công việc ----</option>
+                                    <option value="">---- Chọn tình trạng ----</option>
                                     <option value="chuahoanthanh">Chưa hoàn thành</option>
                                     <option selected value="dahoanthanh">Hoàn thành</option>
                                 }
                                 else
                                 {
-                                    <option value="">---- Chọn kết quả công việc ----</option>
+                                    <option value="">---- Chọn tình trạng ----</option>
                                     <option selected value="chuahoanthanh">Chưa hoàn thành</option>
                                     <option value="dahoanthanh">Hoàn thành</option>
                                 }
@@ -65,7 +61,10 @@
                         }
                         else
                         {
-                            <select class="form-select text-dark" id="trangthai">
+                            <label class="form-label" for="gioitinh">
+                                Trạng thái <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="trangthai">
                                 @if (Model.TrangThai.Equals("canlam"))
                                 {
                                     <option selected value="Cần làm">Cần làm</option>
@@ -93,30 +92,24 @@
                     <div class="mb-3">
                         <label class="form-label" for="hoten">
                             Số giờ quy đổi @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
-                            @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
-                            {<span class="text-danger">*</span>}
                         </label>
-                        <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" @(role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "") />
+                        <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label" for="hoten">
                             Thời hạn hoàn thành
-                            @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
-                            {<span class="text-danger">*</span>}
                         </label>
-                        <input id="editHanHoanThanh" value="@Model.ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr text-dark" @(role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "") />
+                        <input id="editHanHoanThanh" value="@Model.ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="text" class="form-control text-dark" disabled />
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label" for="hoten">
                             Nơi làm việc
-                            @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
-                            {<span class="text-danger">*</span>}
                         </label>
-                        <input value="@Model.NoiLamViec" type="text" class="form-control text-dark" @(role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "") />
+                        <input value="@Model.NoiLamViec" type="text" class="form-control text-dark" disabled />
                     </div>
                 </div>
             </div>

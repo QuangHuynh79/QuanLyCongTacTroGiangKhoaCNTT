@@ -5,7 +5,7 @@
         btn.prop('disabled', true);
         $('body').find('[id="btnDeXuatClose"]').prop('disabled', true);
 
-        var idLHP = $('body').find('[id="dexuatLHPID"]').val();
+        var idLHP = $('body').find('[id="idLHPDX"]').val();
         var lydo = $('body').find('[id="lydo"]').val().trim();
 
         var mota = "";

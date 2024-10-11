@@ -1,31 +1,46 @@
-﻿@model bool
+﻿@model int?
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lhp = models.LopHocPhan.Find(Model);
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
+    string name = lhp.TenHP.ToLower();
+    var lstDeXuat = models.DeXuatTroGiang.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+
+}
 <div class="modal-body" id="loadcontentdexuat">
     <div class="row">
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="lydo">Lý do đề xuất <span class="text-danger">*</span></label>
+                <input hidden id="idLHPDX" value="" />
                 <textarea type="text" id="lydo" rows="4" class="form-control" placeholder="Nhập lý do cần đề xuất trợ giảng"></textarea>
                 <span class="text-danger" id="valid-lydo"></span>
             </div>
         </div>
         <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="camket">
-                <label class="form-check-label fw-bold" for="camket">
-                    Chọn khi đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.
-                </label>
-            </div>
-            <span class="text-danger" id="valid-camket"></span>
-        </div>
-        <div class="col-12">
             <hr class="my-4" />
         </div>
-        @if (Model == true)
+        @if (lstDeXuat.Count > 0)
         {
             <div class="col-12">
                 <div class="mb-4 text-nowrap">
-                    <a id="SyncTaskList" class="btn btn-sm btn-primary position-absolute"><i class="bi bi-copy me-2"></i>Đồng bộ công việc từ HP tương tự</a> <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
+                    <div class="position-absolute">
+                        <div class="input-group">
+                            <select class="form-select form-select-sm" id="dexuatLHPID">
+                                <option selected="selected" value="">---- Chọn LHP ----</option>
+                                @foreach (var item in lstDeXuat)
+                                {
+                                    <option value="@item.LopHocPhan.ID">@item.LopHocPhan.MaLHP</option>
+                                }
+                            </select>
+                            <button id="SyncTaskList" class="btn btn-primary btn-sm" type="button">Sao chép</button>
+                        </div>
+                        <label id="valid-dexuatLHPID" class="text-danger"></label>
+                    </div>
+                    <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
                 </div>
             </div>
         }

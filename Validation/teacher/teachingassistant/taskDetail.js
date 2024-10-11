@@ -27,7 +27,6 @@
             }
             else {
                 $('body').find('[id="contentTaskDetail"]').replaceWith(ketqua);
-                $('body').find('[id="editHanHoanThanh"]').flatpickr({ locale: "vn" });
                 $('body').find('[id="chitietmodal"]').modal('toggle');
             }
         });

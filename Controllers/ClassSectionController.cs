@@ -44,10 +44,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 string name = lhp.TenHP.ToLower();
                 var lstDeXuat = model.DeXuatTroGiang.FirstOrDefault(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma));
 
-                if (lstDeXuat != null)
-                    return PartialView("_AddDeXuat", true); //Có lớp tương đương để đồng bộ công việc
-
-                return PartialView("_AddDeXuat", false); //Không Có lớp tương đương để đồng bộ công việc
+                return PartialView("_AddDeXuat", id); //Không Có lớp tương đương để đồng bộ công việc
             }
             catch (Exception Ex)
             {
