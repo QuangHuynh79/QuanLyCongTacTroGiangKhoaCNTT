@@ -45,7 +45,7 @@
                     <span class="text-danger" id="valid-mota-`+ count + `"></span>
                 </td>
                 <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
-                    <input data-type="numbers" type="number" maxlength="3" id="khoiluong-`+ count + `" name="` + count + `" class="form-control" placeholder="Số giờ" />
+                    <input type="number" maxlength="3" id="khoiluong-`+ count + `" name="` + count + `" class="form-control" placeholder="Số giờ" />
                     <span class="text-danger" id="valid-khoiluong-`+ count + `"></span>
                 </td>
                 <td valign="middle" class="pe-0 ps-3">

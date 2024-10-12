@@ -51,7 +51,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-        
+
         [Authorize, GVRole]
         [HttpPost]
         public ActionResult SyncTaskList(int id)
@@ -91,13 +91,73 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
 
                 var lstTask = lhp.CongViec.ToList();
-                return PartialView("_TaskList", lstTask);
+                if (lhp.DeXuatTroGiang.First().TrangThai == false) //Lớp học phần chưa duyệt được phép chỉnh sửa
+                    return PartialView("_TaskListViewEdit", lstTask);
+                else //Lớp học phần đã duyệt chỉ được phép xem
+                    return PartialView("_TaskListOnlyView", lstTask);
             }
             catch (Exception Ex)
             {
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
+
+        [Authorize, GVRole]
+        [HttpPost]
+        public ActionResult EditTaskList(int idLHP, string mota, string khoiluong,
+           string thoigian, string noilamviec, string ketqua)
+        {
+            try
+            {
+                model = new CongTacTroGiangKhoaCNTTEntities();
+                var motas = mota.Split('~').ToList();
+                var khoiluongs = khoiluong.Split('~').ToList();
+                var thoigians = thoigian.Split('~').ToList();
+                var noilamviecs = noilamviec.Split('~').ToList();
+                var ketquas = ketqua.Split('~').ToList();
+
+                //Check int
+                for (int i = 1; i <= khoiluongs.Count; i++)
+                {
+                    try
+                    {
+                        float test = float.Parse(khoiluongs[i - 1].Replace(".", ","));
+                    }
+                    catch (Exception)
+                    {
+                        return Content("Sai định dạng-" + i);
+                    }
+                }
+
+                var lhp = model.LopHocPhan.Find(idLHP);
+                model.CongViec.RemoveRange(lhp.CongViec.ToList());
+                model.SaveChanges();
+
+                for (int i = 0; i < motas.Count; i++)
+                {
+                    CongViec cv = new CongViec()
+                    {
+                        ID_LopHocPhan = idLHP,
+                        MoTa = motas[i],
+                        SoGioQuyDoi = float.Parse(khoiluongs[i].Replace(".", ",")),
+                        ThoiHanHoanThanh = Convert.ToDateTime(thoigians[i]),
+                        NoiLamViec = noilamviecs[i],
+                        KetQuaMongDoi = ketquas[i],
+                        TrangThai = "canlam",
+                    }; model.CongViec.Add(cv);
+                }
+                model.SaveChanges();
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+
         [Authorize, GVRole]
         [HttpPost]
         public ActionResult AddSuggested(int idLHP, string lydo, string mota, string khoiluong,
@@ -113,11 +173,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var ketquas = ketqua.Split('~').ToList();
 
                 //Check int
-                for (int i = 0; i < khoiluongs.Count; i++)
+                for (int i = 1; i <= khoiluongs.Count; i++)
                 {
                     try
                     {
-                        float test = float.Parse(khoiluongs[i].Replace(".", ","));
+                        float test = float.Parse(khoiluongs[i - 1].Replace(".", ","));
                     }
                     catch (Exception)
                     {

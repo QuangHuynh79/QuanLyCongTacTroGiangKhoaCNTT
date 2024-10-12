@@ -153,10 +153,21 @@
                         window.location.reload();
                     });
                 }
+                else if (ketqua.indexOf("Sai định dạng") !== -1) {
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="btnDeXuatClose"]').prop('disabled', false);
+
+                    Swal.fire({
+                        title: "Sai định dạng!",
+                        text: "Ô khối lượng công việc dòng số " + ketqua.split('-')[1] + " nhập sai định dạng.",
+                        icon: "error"
+                    });
+                }
                 else if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
-                    $('body').find('[id="btnClose"]').prop('disabled', false);
+                    $('body').find('[id="btnDeXuatClose"]').prop('disabled', false);
 
                     Swal.fire({
                         title: "Đã xảy ra lỗi!",
