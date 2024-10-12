@@ -210,11 +210,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, GVandBCNRole]
         public ActionResult Registered() //GV xem danh sách các SV ứng tuyển trợ giảng đã được BCN duyệt, BCN xem ds sinh viên đã ứng tuyển làm trợ giảng
         {
-            int role = Int32.Parse(Session["user-role-id"].ToString());
-            if (role == 3)
-                return PartialView("Registered"); //BCN
-            else
-                return PartialView("Registereds"); //GV
+            try
+            {
+                int role = Int32.Parse(Session["user-role-id"].ToString());
+                if (role == 3)
+                    return PartialView("Registered"); //BCN
+                else
+                    return PartialView("Registereds"); //GV
+            }
+            catch (Exception Ex)
+            {
+                return Content("Đã xảy ra lỗi! Vui lòng thử lại sau.");
+            }
         }
 
         [Authorize, SVandTARole]
@@ -308,7 +315,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-        
+
         [Authorize, SVandTARole]
         [HttpPost]
         public ActionResult SubmitApply(int idFORM, int idLHP, int idTK, string dienthoai, DateTime ngaysinh,
