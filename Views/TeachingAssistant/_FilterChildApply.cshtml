@@ -47,8 +47,17 @@
                                             <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
-                                               id="applyLHP-@items.LopHocPhan.ID">Cập nhật ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                               id="applyLHP-@items.LopHocPhan.ID">
+                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                {
+                                                    <span>Cập nhật ứng tuyển</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Chi tiết ứng tuyển</span>
+                                                }
+                                            </a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                     else
@@ -60,7 +69,7 @@
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
                                                id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                 }
@@ -88,8 +97,17 @@
                                             <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
-                                               id="applyLHP-@items.LopHocPhan.ID">Cập nhật ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                               id="applyLHP-@items.LopHocPhan.ID">
+                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                {
+                                                    <span>Cập nhật ứng tuyển</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Chi tiết ứng tuyển</span>
+                                                }
+                                            </a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                     else
@@ -101,7 +119,7 @@
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
                                                id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                 }
@@ -129,8 +147,17 @@
                                             <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
-                                               id="applyLHP-@items.LopHocPhan.ID">Cập nhật ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                               id="applyLHP-@items.LopHocPhan.ID">
+                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                {
+                                                    <span>Cập nhật ứng tuyển</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Chi tiết ứng tuyển</span>
+                                                }
+                                            </a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                     else
@@ -142,7 +169,7 @@
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
                                                id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                 }
@@ -170,8 +197,17 @@
                                             <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
-                                               id="applyLHP-@items.LopHocPhan.ID">Cập nhật ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                               id="applyLHP-@items.LopHocPhan.ID">
+                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                {
+                                                    <span>Cập nhật ứng tuyển</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Chi tiết ứng tuyển</span>
+                                                }
+                                            </a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                     else
@@ -183,7 +219,7 @@
                                                name="@items.LopHocPhan.ID"
                                                class="btn btn-sm btn-light me-2"
                                                id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                            <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                            <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                         </p>
                                     }
                                 }
@@ -214,8 +250,17 @@
                                                 <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
                                                    name="@items.LopHocPhan.ID"
                                                    class="btn btn-sm btn-light me-2"
-                                                   id="applyLHP-@items.LopHocPhan.ID">Cập nhật ứng tuyển</a>
-                                                <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                                   id="applyLHP-@items.LopHocPhan.ID">
+                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                    {
+                                                        <span>Cập nhật ứng tuyển</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Chi tiết ứng tuyển</span>
+                                                    }
+                                                </a>
+                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                             </p>
                                         }
                                         else
@@ -227,7 +272,7 @@
                                                    name="@items.LopHocPhan.ID"
                                                    class="btn btn-sm btn-light me-2"
                                                    id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                             </p>
                                         }
                                     }
@@ -254,8 +299,17 @@
                                                 <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
                                                    name="@items.LopHocPhan.ID"
                                                    class="btn btn-sm btn-light me-2"
-                                                   id="applyLHP-@items.LopHocPhan.ID">Cập nhật ứng tuyển</a>
-                                                <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                                   id="applyLHP-@items.LopHocPhan.ID">
+                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                    {
+                                                        <span>Cập nhật ứng tuyển</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Chi tiết ứng tuyển</span>
+                                                    }
+                                                </a>
+                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                             </p>
                                         }
                                         else
@@ -267,7 +321,7 @@
                                                    name="@items.LopHocPhan.ID"
                                                    class="btn btn-sm btn-light me-2"
                                                    id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                <a class="btn btn-sm btn-light">Chi tiết công việc</a>
+                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
                                             </p>
                                         }
                                     }

@@ -103,7 +103,7 @@
                                             @if (item.NgayTao != item.NgayCapNhat)
                                             {
                                                 <br />
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật bởi: @item.TaiKhoan1.Email">Cập nhật cuối: @item.NgayCapNhat.ToString("HH:mm dd/MM/yyyy")</span>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật bởi: @item.TaiKhoan1.Email">Cập nhật: @item.NgayCapNhat.ToString("HH:mm dd/MM/yyyy")</span>
                                             }
                                         </td>
                                         <td valign="middle">@item.HocKy.TenHocKy</td>
@@ -128,11 +128,11 @@
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" id="openSua-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-success">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
-                                            </a>
                                             @if (item.ThoiGianDong > currentDate)
                                             {
+                                                <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" id="openSua-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-success">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
+                                                </a>
                                                 <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-danger">
                                                     <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                                 </a>
@@ -301,7 +301,7 @@
                         countOp++;
                     }
                 });
-                
+
                 if (countOp == 0) {
                     $('#filter-nganh').val("opNull").change();
                     $('#filter-nganh > [id="opNganhNull"]').prop('hidden', false);

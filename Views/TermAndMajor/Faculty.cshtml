@@ -57,12 +57,12 @@
                                         <td>@item.TenKhoa</td>
                                         <td class="text-nowrap">
                                             <a style="font-size: 20px" role="button" id="openSua-@item.ID" name="@item.ID" class="text-success">
-                                                <i class="bi bi-pencil-square me-2"></i>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                             </a>
                                             @if (item.Nganh.Count < 1)
                                             {
                                                 <a style="font-size: 20px" role="button" id="openXoa-@item.ID" name="@item.ID" fullname="@item.TenKhoa" class="text-danger">
-                                                    <i class="bi bi-trash"></i>
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
                                                 </a>
                                             }
                                         </td>
