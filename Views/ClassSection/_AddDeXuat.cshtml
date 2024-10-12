@@ -13,7 +13,7 @@
 <div class="modal-body" id="loadcontentdexuat">
     <div class="row">
         <div class="col-12">
-            <div class="mb-3">
+            <div>
                 <label class="form-label" for="lydo">Lý do đề xuất <span class="text-danger">*</span></label>
                 <input hidden id="idLHPDX" value="" />
                 <textarea type="text" id="lydo" rows="4" class="form-control" placeholder="Nhập lý do cần đề xuất trợ giảng"></textarea>
@@ -25,6 +25,9 @@
         </div>
         @if (lstDeXuat.Count > 0)
         {
+            <div class="col-12 mb-3" style="margin-top: -10px">
+                <small class="small"><i><i class="bi bi-info-circle-fill me-1"></i>Chọn [Lớp học phần] và ấn nút [Sao chép] bên dưới để sao chép danh sách công việc của Lớp học phần được chọn lên bảng mô tả công việc.</i></small>
+            </div>
             <div class="col-12">
                 <div class="mb-4 text-nowrap">
                     <div class="position-absolute">
@@ -38,7 +41,7 @@
                             </select>
                             <button id="SyncTaskList" class="btn btn-primary btn-sm" type="button">Sao chép</button>
                         </div>
-                        <label id="valid-dexuatLHPID" class="text-danger"></label>
+                        <label id="valid-dexuatLHPID" class="text-danger small"></label>
                     </div>
                     <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
                 </div>
