@@ -220,9 +220,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 string idRole = aspNetUsers.AspNetRoles.First().ID;
                 UserManager.RemoveFromRoles(userId, idRole);
 
+                var lhp = data.LopHocPhan.ToList();
+                foreach (var item in lhp)
+                {
+                    item.ID_TaiKhoan = null;
+                    model.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
+                model.SaveChanges();
+
                 model.TaiKhoan.Remove(data);
                 model.AspNetUsers.Remove(aspUser);
                 model.SaveChanges();
+
+                model = new CongTacTroGiangKhoaCNTTEntities();
 
                 return Content("SUCCESS");
             }

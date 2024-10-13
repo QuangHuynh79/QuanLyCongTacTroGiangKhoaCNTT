@@ -89,10 +89,10 @@
             $(document).ready(function () {
                 Swal.fire({
                     title: "Đăng nhập thất bại!",
-                    text: "Tài khoản của bạn đã bị ngưng hoạt động, vui lòng liên hệ BCN Khoa để được mở lại.",
+                    text: "Tài khoản của bạn đã bị ngưng hoạt động, vui lòng liên hệ Quản trị viên để được mở lại.",
                     icon: "error"
                 }).then(() => {
-                    window.location.reload();
+                    window.location.href = "@Url.Content("~")";
                 });
             });
         </script>

@@ -47,7 +47,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        public ActionResult SignOut() //đăng xuất vào hệ thống
+        public ActionResult SignOut(string enbLock) //đăng xuất vào hệ thống
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
@@ -57,7 +57,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
             HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
 
-            return RedirectToAction("index", "home");
+            return RedirectToAction("index", "home", new { enbLock = enbLock });
         }
 
         // GET: /Account/SignInCallBack
@@ -66,26 +66,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var EmailUser = User.Identity.GetUserName();
             ClaimsIdentity identitys = (ClaimsIdentity)User.Identity;
             string FullName = identitys.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
-
-            string ma = "";
-            string hoten = FullName;
-
-            string pattern = string.Format(@"\b{0}\b", " - ");
-            int counter = Regex.Matches(FullName, pattern).Count;
-
-            if (counter == 2)
-            {
-                FullName = FullName.Replace(" - ", "#");
-                ma = FullName.Split('#')[0].Trim();
-                hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
-            }
-            else if(counter == 1)
-            {
-                FullName = FullName.Replace(" - ", "#");
-                ma = FullName.Split('#')[0];
-                hoten = FullName.Split('#')[1].Trim();
-            }
-           
             string userId = EmailUser.ToLower();
 
             var users = model.AspNetUsers.Find(EmailUser.ToLower());
@@ -93,13 +73,31 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 if (users.LockoutEnabled == true)
                 {
-                    Session["Locked"] = true;
-                    return RedirectToAction("SignOut", "Account");
+                    return RedirectToAction("SignOut", "Account", new { enbLock = "lock" });
                 }
                 return RedirectToAction("Index", "DashBoard");
             }
             else
             {
+                string ma = "";
+                string hoten = FullName;
+
+                string pattern = string.Format(@"\b{0}\b", " - ");
+                int counter = Regex.Matches(FullName, pattern).Count;
+
+                if (counter == 2)
+                {
+                    FullName = FullName.Replace(" - ", "#");
+                    ma = FullName.Split('#')[0].Trim();
+                    hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
+                }
+                else if (counter == 1)
+                {
+                    FullName = FullName.Replace(" - ", "#");
+                    ma = FullName.Split('#')[0];
+                    hoten = FullName.Split('#')[1].Trim();
+                }
+
                 var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
 
                 AspNetUsers aspNetUsers = new AspNetUsers();

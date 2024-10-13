@@ -69,7 +69,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
                         <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("3")).Count())</h2>
-                        <span>Chủ nhiệm khoa</span>
+                        <span>Quản trị viên</span>
                     </div>
                     <div>
                         <span class="bg-light-info icon-shape icon-xl rounded-3 text-dark-info">
@@ -120,7 +120,7 @@
                 <div class="card-body">
                     <!-- table  -->
                     <div class="table-card">
-                        <table class="table table-hover" style="width:100%">
+                        <table class="table table-hover" id="dataTableBasic" style="width:100%">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-nowrap"></th>
@@ -152,7 +152,7 @@
                                             @if (idUs != item.ID)
                                             {
                                                 <div class="form-check form-switch  mb-2">
-                                                    <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
+                                                    <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@(item.AspNetUsers.LockoutEnabled ? false : true)">
                                                 </div>
                                             }
                                         </td>

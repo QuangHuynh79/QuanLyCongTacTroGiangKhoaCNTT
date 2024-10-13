@@ -41,7 +41,7 @@
                                 @if (idUs != item.ID)
                                 {
                                     <div class="form-check form-switch  mb-2">
-                                        <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
+                                        <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@(item.AspNetUsers.LockoutEnabled ? false : true)">
                                     </div>
                                 }
                             </td>

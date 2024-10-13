@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Semester";
     Layout = Session["layout"].ToString();
+    int j = 0;
 }
 <script src="~/ActiveItemMenu/SemesterAndMajor/hocky.js"></script>
 <section class="container-fluid p-4">
@@ -45,6 +46,7 @@
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
+                                    <th></th>
                                     <th>Học Kỳ</th>
                                     <th>Năm bắt đầu</th>
                                     <th>Năm kết thúc</th>
@@ -54,9 +56,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.OrderByDescending(o => o.ID))
                                 {
+                                    j++;
                                     <tr>
+                                        <td>@j</td>
                                         <td>@item.TenHocKy</td>
                                         <td>@item.NamBatDau</td>
                                         <td>@item.NamKetThuc</td>
