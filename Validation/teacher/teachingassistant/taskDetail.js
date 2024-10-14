@@ -17,13 +17,13 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
+               
             }
             else {
                 $('body').find('[id="contentTaskDetail"]').replaceWith(ketqua);

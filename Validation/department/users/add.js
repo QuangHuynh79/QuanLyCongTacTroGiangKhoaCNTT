@@ -154,36 +154,35 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã thêm một người dùng mới.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã thêm một người dùng mới."
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else if (ketqua == "Exist") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thất bại!",
-                        text: "Người dùng đã tồn tại hoặc Email/Mã người dùng đã được sử dụng.",
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: "Người dùng đã tồn tại hoặc Email/Mã người dùng đã được sử dụng."
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });

@@ -22,27 +22,17 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua == "SUCCESS") {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
                 Toast.fire({
                     icon: "success",
                     title: "Đã cập nhật trạng thái học kỳ: " + fullName
+                }).then(() => {
+                    window.location.reload();
                 });
             }
             else {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
@@ -64,10 +54,9 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Học kỳ không tồn tại") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
@@ -134,13 +123,13 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã lưu thông tin học kỳ",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã lưu thông tin học kỳ"
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else if (ketqua == "INVALIDYEAR") {
                     btn.html('Lưu thông tin');
@@ -155,10 +144,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });

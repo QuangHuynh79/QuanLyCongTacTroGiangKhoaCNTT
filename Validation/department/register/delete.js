@@ -23,10 +23,10 @@
                     processData: false,
                     contentType: false,
                 }).done(function (ketqua) {
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Xóa thành công form đăng ký trợ giảng.",
-                        icon: "success"
+
+                    Toast.fire({
+                        icon: "success",
+                        title: "Xóa thành công form đăng ký trợ giảng."
                     }).then(() => {
                         window.location.reload();
                     });

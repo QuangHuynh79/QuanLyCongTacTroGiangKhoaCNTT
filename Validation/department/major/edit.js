@@ -103,26 +103,26 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã lưu thông tin ngành " + manganh,
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã lưu thông tin ngành " + manganh,
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });
+                   
                 }
             });
 

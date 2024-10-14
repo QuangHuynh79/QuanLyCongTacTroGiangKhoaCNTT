@@ -94,7 +94,7 @@
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validdtk.text("Điểm TK phải đạt từ 7.0 > 10.0 điểm");
+            validdtk.text("Điểm TK phải đạt từ 7.0 - 10.0 điểm");
             $('body').find('[id="dtk"]').focus();
         }
 
@@ -125,7 +125,7 @@
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validdrl.text("Điểm rèn luyện phải đạt từ 65 > 100 điểm");
+            validdrl.text("Điểm rèn luyện phải đạt từ 65 - 100 điểm");
             $('body').find('[id="drl"]').focus();
         }
 
@@ -156,7 +156,7 @@
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validtbctl.text("Điểm TB tích lũy phải đạt từ 7.0 > 10.0 điểm");
+            validtbctl.text("Điểm TB tích lũy phải đạt từ 7.0 - 10.0 điểm");
             $('body').find('[id="tbctl"]').focus();
         }
 
@@ -237,10 +237,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });
@@ -250,10 +249,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Ứng tuyển thành công.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "error",
+                        title: "Ứng tuyển thành công."
                     }).then(() => {
                         window.location.reload();
                     });

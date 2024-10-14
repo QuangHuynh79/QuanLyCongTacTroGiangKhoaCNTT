@@ -73,10 +73,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã lưu thông tin khoa " + tenkhoa,
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã lưu thông tin khoa " + tenkhoa,
                     }).then(() => {
                         window.location.reload();
                     });
@@ -86,10 +85,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });

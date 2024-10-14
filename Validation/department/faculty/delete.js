@@ -22,10 +22,10 @@
                     processData: false,
                     contentType: false,
                 }).done(function (ketqua) {
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã xóa thông tin khoa " + fullname,
-                        icon: "success"
+
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã xóa thông tin khoa " + fullname
                     }).then(() => {
                         window.location.reload();
                     });

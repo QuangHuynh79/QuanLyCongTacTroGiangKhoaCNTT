@@ -72,10 +72,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã lưu thông tin học kỳ mới.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã lưu thông tin học kỳ mới."
                     }).then(() => {
                         window.location.reload();
                     });
@@ -85,10 +84,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thất bại!",
-                        text: "Học kỳ  " + tenhocky + "  đã tồn tại trên hệ thống.",
-                        icon: "warning"
+                    Toast.fire({
+                        icon: "warning",
+                        title: "Học kỳ  " + tenhocky + "  đã tồn tại trên hệ thống."
                     });
                 }
                 else if (ketqua == "INVALIDYEAR") {
@@ -104,10 +102,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });

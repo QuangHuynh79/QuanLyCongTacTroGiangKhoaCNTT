@@ -18,13 +18,13 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
+                
             }
             else {
                 $('body').find('[id="contentChiTietDeXuat"]').replaceWith(ketqua);
@@ -61,10 +61,9 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
@@ -74,13 +73,13 @@
                 btn.prop('disabled', false);
                 $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                Swal.fire({
-                    title: "Thành công!",
-                    text: "Đã phê duyệt trợ giảng.",
-                    icon: "success"
+                Toast.fire({
+                    icon: "success",
+                    title: "Đã phê duyệt trợ giảng."
                 }).then(() => {
                     window.location.reload();
                 });
+               
             }
         });
     });

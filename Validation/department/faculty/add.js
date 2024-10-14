@@ -42,10 +42,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã lưu thông tin khoa mới.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã lưu thông tin khoa mới."
                     }).then(() => {
                         window.location.reload();
                     });
@@ -55,10 +54,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thất bại!",
-                        text: "Khoa " + tenkhoa + " đã tồn tại trên hệ thống.",
-                        icon: "warning"
+                    Toast.fire({
+                        icon: "warning",
+                        title: "Khoa " + tenkhoa + " đã tồn tại trên hệ thống."
                     });
                 }
                 else {
@@ -66,10 +64,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });

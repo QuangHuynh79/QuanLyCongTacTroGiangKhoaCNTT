@@ -79,16 +79,6 @@
         $('body').find('[id="thoigian-' + count + '"]').flatpickr({ locale: 'vn' });
     });
 
-    $('body').on('change', '[id="camket"]', function () {
-        var inp = $(this);
-        if (inp.prop('checked')) {
-            $('body').find('[id="btnDeXuatSubmit"]').prop('disabled', false);
-        }
-        else {
-            $('body').find('[id="btnDeXuatSubmit"]').prop('disabled', true);
-        }
-    });
-
     $('body').on('click', '[id^="dexuat-"]', function () {
         var id = $(this).attr('name');
         var tieude = $(this).attr("tieudeForm");
@@ -107,10 +97,9 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
@@ -156,13 +145,13 @@
                 contentType: false,
             }).done(function (ketqua) {
                 if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else {
                     $('body').find('[id="contentAddTaskList"]').replaceWith(ketqua);

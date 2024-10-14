@@ -15,30 +15,19 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua == "SUCCESS") {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
                 Toast.fire({
                     icon: "success",
                     title: "Đã cập nhật trạng thái người dùng: " + fullName
                 });
             }
             else {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
+                
             }
         });
     });
@@ -60,10 +49,9 @@
         }).done(function (ketqua) {
 
             if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Người dùng không tồn tại") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });

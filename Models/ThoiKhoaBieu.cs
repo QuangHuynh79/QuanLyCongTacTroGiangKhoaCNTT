@@ -19,7 +19,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID_Nganh { get; set; }
         public Nullable<int> ID_LopHocPhan { get; set; }
         public Nullable<int> SoTietDaXep { get; set; }
-        public string Thu { get; set; }
         public Nullable<int> TietBD { get; set; }
         public Nullable<int> SoTiet { get; set; }
         public string TietHoc { get; set; }
@@ -30,6 +29,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public Nullable<int> TuanBD { get; set; }
         public Nullable<int> TuanKT { get; set; }
         public string TenNganh { get; set; }
+        public string Thu { get; set; }
     
         public virtual HocKy HocKy { get; set; }
         public virtual LopHocPhan LopHocPhan { get; set; }

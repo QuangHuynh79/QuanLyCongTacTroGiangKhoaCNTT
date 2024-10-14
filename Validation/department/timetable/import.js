@@ -55,9 +55,9 @@
         if (hocky.length < 1) {
             checks = false;
 
-            Swal.fire({
-                title: "Bạn chưa chọn học kỳ!",
-                icon: "warning"
+            Toast.fire({
+                icon: "warning",
+                title: "Chưa chọn học kỳ!"
             });
 
             return false;
@@ -66,9 +66,9 @@
         if (nganh.length < 1) {
             checks = false;
 
-            Swal.fire({
-                title: "Bạn chưa chọn ngành!",
-                icon: "warning"
+            Toast.fire({
+                icon: "warning",
+                title: "Chưa chọn ngành!"
             });
 
             return false;
@@ -99,55 +99,60 @@
                     if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: ketqua,
-                            icon: "error"
+                        Toast.fire({
+                            icon: "error",
+                            title: ketqua
+                        }).then(() => {
+                            window.location.reload();
                         });
                     }
                     else if (ketqua == "NOTEXISTNGANH") {
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: "Ngành đã bị xóa bỏ khỏi hệ thống!",
-                            icon: "warning"
+                        Toast.fire({
+                            icon: "error",
+                            title: "Ngành đã bị xóa bỏ khỏi hệ thống!"
+                        }).then(() => {
+                            window.location.reload();
                         });
                     }
                     else if (ketqua == "NOTEXISTHOCKY") {
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: "Học kỳ đã bị xóa bỏ khỏi hệ thống!",
-                            icon: "warning"
+                        Toast.fire({
+                            icon: "error",
+                            title: "Học kỳ đã bị xóa bỏ khỏi hệ thống!"
+                        }).then(() => {
+                            window.location.reload();
                         });
                     }
                     else if (ketqua == "Close") {
                         btn.html('Import');
-
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: "Học kỳ đã đóng, không thể cập nhật thời khóa biểu.",
-                            icon: "warning"
+                        
+                        Toast.fire({
+                            icon: "error",
+                            title: "Học kỳ đã đóng, không thể cập nhật thời khóa biểu."
+                        }).then(() => {
+                            window.location.reload();
                         });
                     }
                     else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: ketqua,
-                            icon: "warning"
+                        Toast.fire({
+                            icon: "error",
+                            title: ketqua
                         });
+                        
                     }
                     else if (ketqua.indexOf("Đã có lỗi") != -1) {
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: ketqua,
-                            icon: "warning"
+                        Toast.fire({
+                            icon: "error",
+                            title: ketqua
+                        }).then(() => {
+                            window.location.reload();
                         });
                     }
                     else if (ketqua == "Exist") {
@@ -182,80 +187,79 @@
                                     if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: ketqua,
-                                            icon: "error"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: ketqua
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
                                     }
                                     else if (ketqua.indexOf("Đã có lỗi") != -1) {
                                         btn.html('Import');
-
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: ketqua,
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: ketqua
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
+                                        
                                     }
                                     else if (ketqua == "NOTEXISTNGANH") {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: "Ngành đã bị xóa bỏ khỏi hệ thống!",
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: "Ngành đã bị xóa bỏ khỏi hệ thống!"
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
                                     }
                                     else if (ketqua == "NOTEXISTHOCKY") {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: "Học kỳ đã bị xóa bỏ khỏi hệ thống!",
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: "Học kỳ đã bị xóa bỏ khỏi hệ thống!"
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
                                     }
                                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.',
-                                            icon: "warning"
-                                        }).then(() => {
-                                            window.location.reload();
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.'
                                         });
+                                        
                                     }
                                     else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: ketqua,
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: ketqua
                                         });
                                     }
                                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.',
-                                            icon: "error"
-                                        }).then(() => {
-                                            window.location.reload();
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.'
                                         });
+                                        
                                     }
                                     else {
                                         btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
 
-                                        Swal.fire({
-                                            title: "Thành công!",
-                                            text: 'Đã cập nhật thông tin thời khóa biểu!',
-                                            icon: "success"
+                                        Toast.fire({
+                                            icon: "success",
+                                            title: 'Đã cập nhật thông tin thời khóa biểu!'
                                         }).then(() => {
                                             window.location.reload();
                                         });
+                                       
                                     }
                                 });
                             }
@@ -289,68 +293,64 @@
                                     else if (ketqua.indexOf("Đã có lỗi") != -1) {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: ketqua,
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: ketqua
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
                                     }
                                     else if (ketqua == "NOTEXISTNGANH") {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: "Ngành đã bị xóa bỏ khỏi hệ thống!",
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: "Ngành đã bị xóa bỏ khỏi hệ thống!"
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
                                     }
                                     else if (ketqua == "NOTEXISTHOCKY") {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: "Học kỳ đã bị xóa bỏ khỏi hệ thống!",
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: "Học kỳ đã bị xóa bỏ khỏi hệ thống!"
+                                        }).then(() => {
+                                            window.location.reload();
                                         });
+                                        
                                     }
                                     else if (ketqua.indexOf("Có vẻ như bạn đã sai") != -1) {
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: ketqua,
-                                            icon: "warning"
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: ketqua
                                         });
                                     }
                                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.',
-                                            icon: "warning"
-                                        }).then(() => {
-                                            window.location.reload();
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.'
                                         });
                                     }
                                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
                                         btn.html('Import');
 
-                                        Swal.fire({
-                                            title: "Thất bại!",
-                                            text: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.',
-                                            icon: "error"
-                                        }).then(() => {
-                                            window.location.reload();
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.'
                                         });
                                     }
                                     else {
                                         btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
 
-                                        Swal.fire({
-                                            title: "Thành công!",
-                                            text: 'Đã thay thế thông tin thời khóa biểu!',
-                                            icon: "success"
+                                        Toast.fire({
+                                            icon: "success",
+                                            title: 'Đã thay thế thông tin thời khóa biểu!'
                                         }).then(() => {
                                             window.location.reload();
                                         });
@@ -362,31 +362,30 @@
                     else if (ketqua == "more50mb") { //File quá lớn không thể upload
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.',
-                            icon: "warning"
+                        Toast.fire({
+                            icon: "error",
+                            title: 'Kích thước file vượt quá 50MB vui lòng import file <= 50MB.'
                         });
+                        
                     }
                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
                         btn.html('Import');
 
-                        Swal.fire({
-                            title: "Thất bại!",
-                            text: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.',
-                            icon: "error"
+                        Toast.fire({
+                            icon: "error",
+                            title: 'Mẫu file import không hợp lệ vui lòng kiểm tra lại.'
                         });
                     }
                     else {
                         btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
 
-                        Swal.fire({
-                            title: "Thành công!",
-                            text: 'Đã import thời khóa biểu mới!',
-                            icon: "success"
+                        Toast.fire({
+                            icon: "success",
+                            title: 'Đã import thời khóa biểu mới!'
                         }).then(() => {
                             window.location.reload();
                         });
+                        
                     }
                 });
             } else {

@@ -41,11 +41,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 || (f.ThoiGianMo <= thoigiandong && f.ThoiGianDong >= thoigiandong)));
                 if (check != null)
                     return Content("Exist");
-
-                var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
-                if (thoigianmo <= currentDate)
-                    return Content("NhoHonHienTai");
-
+               
                 if (thoigianmo >= thoigiandong)
                     return Content("LonHonDangKy");
 
@@ -102,10 +98,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                 var form = model.FormDangKyTroGiang.Find(id);
-
-                if (form.ThoiGianMo != thoigianmo)
-                    if (thoigianmo <= currentDate)
-                        return Content("NhoHonHienTai");
 
                 if (thoigianmo >= thoigiandong)
                     return Content("LonHonDangKy");
@@ -397,6 +389,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 ut.TrangThai = false;
 
                 model.UngTuyenTroGiang.Add(ut);
+                model.SaveChanges();
+
+                var thongbao = new ThongBao()
+                {
+                    TieuDe = "Ứng tuyển trợ giảng.",
+                    NoiDung = tk.HoTen + " - " + tk.Ma + " đã ứng tuyển vào Lớp " + lhp.MaLHP + ".",
+                    ThoiGian = DateTime.Now,
+                    DaDoc = false, 
+                    ForRole = "3",
+                    ID_TaiKhoan = tk.ID
+                };
+                model.ThongBao.Add(thongbao);
                 model.SaveChanges();
 
                 model = new CongTacTroGiangKhoaCNTTEntities();

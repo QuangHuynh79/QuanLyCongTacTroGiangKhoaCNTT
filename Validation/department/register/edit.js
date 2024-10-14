@@ -45,10 +45,9 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Form đăng ký không tồn tại") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
@@ -150,32 +149,24 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="EditbtnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Cập nhật đăng ký trợ giảng thành công.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Cập nhật đăng ký trợ giảng thành công."
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else if (ketqua == "Exist") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="EditbtnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Thời gian đăng ký " + hocky + " bị trùng.",
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: "Thời gian đăng ký " + hocky + " bị trùng."
                     });
-                }
-                else if (ketqua == "NhoHonHienTai") {
-                    btn.html('Lưu thông tin');
-                    btn.prop('disabled', false);
-                    $('body').find('[id="EditbtnClose"]').prop('disabled', false);
-
-                    validthoigianmo.text("Ngày đăng ký phải sau ngày hiện tại.");
-                    $('body').find('[id="editthoigianmo"]').focus();
+                   
                 }
                 else if (ketqua == "LonHonDangKy") {
                     btn.html('Lưu thông tin');
@@ -190,13 +181,13 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="EditbtnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
             });
         }

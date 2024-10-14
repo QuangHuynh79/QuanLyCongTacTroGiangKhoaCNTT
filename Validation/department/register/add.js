@@ -119,32 +119,24 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Mở đăng ký thành công.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Mở đăng ký thành công."
                     }).then(() => {
                         window.location.reload();
                     });
+                    
                 }
                 else if (ketqua == "Exist") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Thời gian đăng ký " + hocky + " bị trùng.",
-                        icon: "warning"
+                    Toast.fire({
+                        icon: "error",
+                        title: "Thời gian đăng ký " + hocky + " bị trùng."
                     });
-                }
-                else if (ketqua == "NhoHonHienTai") {
-                    btn.html('Lưu thông tin');
-                    btn.prop('disabled', false);
-                    $('body').find('[id="btnClose"]').prop('disabled', false);
-
-                    validthoigianmo.text("Ngày đăng ký phải sau ngày hiện tại.");
-                    $('body').find('[id="thoigianmo"]').focus();
+                   
                 }
                 else if (ketqua == "LonHonDangKy") {
                     btn.html('Lưu thông tin');
@@ -159,10 +151,9 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
                     });

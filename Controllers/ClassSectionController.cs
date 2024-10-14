@@ -160,7 +160,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult AddSuggested(int idLHP, string lydo, string mota, string khoiluong,
+        public ActionResult AddSuggested(int idLHP, string lydo, bool trangthai, string mota, string khoiluong,
             string thoigian, string noilamviec, string ketqua)
         {
             try
@@ -184,14 +184,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         return Content("Sai định dạng-" + i);
                     }
                 }
-
+                var lhp = model.LopHocPhan.Find(idLHP);
                 DeXuatTroGiang dx = new DeXuatTroGiang()
                 {
                     ID_LopHocPhan = idLHP,
                     LyDoDeXuat = lydo,
-                    TrangThai = false
+                    TrangThai = trangthai
                 }; model.DeXuatTroGiang.Add(dx);
-
 
                 for (int i = 0; i < motas.Count; i++)
                 {
@@ -206,6 +205,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         TrangThai = "canlam",
                     }; model.CongViec.Add(cv);
                 }
+                model.SaveChanges();
+
+                var thongbao = new ThongBao()
+                {
+                    TieuDe = "Ứng tuyển trợ giảng.",
+                    NoiDung = "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".",
+                    ThoiGian = DateTime.Now,
+                    DaDoc = false,
+                    ForRole = "3",
+                    ID_TaiKhoan = Int32.Parse(Session["user-id"].ToString())
+                };
+                model.ThongBao.Add(thongbao);
                 model.SaveChanges();
 
                 return Content("SUCCESS");

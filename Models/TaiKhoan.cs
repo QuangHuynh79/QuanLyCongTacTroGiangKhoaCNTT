@@ -18,12 +18,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public TaiKhoan()
         {
             this.CongViec = new HashSet<CongViec>();
+            this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
+            this.FormDangKyTroGiang1 = new HashSet<FormDangKyTroGiang>();
             this.LopHocPhan = new HashSet<LopHocPhan>();
             this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
             this.ThongBao = new HashSet<ThongBao>();
             this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
-            this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
-            this.FormDangKyTroGiang1 = new HashSet<FormDangKyTroGiang>();
         }
     
         public int ID { get; set; }
@@ -42,6 +42,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CongViec> CongViec { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LopHocPhan> LopHocPhan { get; set; }
         public virtual Nganh Nganh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -50,9 +54,5 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual ICollection<ThongBao> ThongBao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang1 { get; set; }
     }
 }
