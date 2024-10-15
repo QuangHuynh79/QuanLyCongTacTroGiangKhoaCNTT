@@ -1,0 +1,73 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@{
+    int i = 0;
+}
+
+<div class="card-body mt-3" id="filterLoad">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>Sinh viên</th>
+                    <th>Liên hệ</th>
+                    <th>Lớp HP</th>
+                    <th>Điểm số</th>
+                    <th>Trạng Thái</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
+                {
+                    i++;
+                    <tr>
+                        <td valign="middle">@i</td>
+                        <td valign="middle">
+                            MSSV: @item.MSSV
+                            <br />
+                            Họ & Tên: @item.HoTen
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            @item.Email
+                            <br />
+                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.TaiKhoan.ID_Nganh != null ? item.TaiKhoan.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            Mã LHP: @item.LopHocPhan.MaLHP
+                            <br />
+                            Tên HP: @item.LopHocPhan.TenHP
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            TB Chung: @item.DiemTBTL
+                            <br />
+                            Rèn luyện: @item.DiemRL
+                            <br />
+                            TK môn: @item.DiemTKMH
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            @if (!item.TrangThai)
+                            {
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
+                            }
+                            else
+                            {
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                            }
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTableBasic').DataTable();
+    });
+</script>

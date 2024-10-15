@@ -547,6 +547,8 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\department\registered\accepted.js" />
+    <Content Include="Validation\department\registered\filter.js" />
     <Content Include="Validation\department\register\add.js" />
     <Content Include="Validation\department\register\delete.js" />
     <Content Include="Validation\department\register\edit.js" />
@@ -585,6 +587,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\TeachingAssistant\_DetailRegistered.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterRegistered.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
