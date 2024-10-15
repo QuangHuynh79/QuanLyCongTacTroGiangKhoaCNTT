@@ -59,7 +59,7 @@
 
     function SubmitAcceptApply(trangthai) {
         var btn = $('body').find('[id="btnSubmit"]');
-        var htmlBtn = "Lưu thông tin";
+        var htmlBtn = "Duyệt ứng tuyển";
         var titleNotify = "Đã phê duyệt trợ giảng.";
 
         if (trangthai == "false") {
