@@ -16,7 +16,6 @@
     });
 
     function FilterParentData() {
-        $('body').find('[id="load-fill-page"]').prop('hidden', false);
 
         $('body').find('[id="filterParentLoad"]').html('<h3 class="text-center mt-4 mb-3"><span class="spinner-border spinner-border-sm me-2" style="width: 18px; height: 18px" role="status" aria-hidden="true"></span>Đang tải...</h3>');
 
@@ -37,12 +36,10 @@
             contentType: false
         }).done(function (ketqua) {
             $('body').find('[id="filterParentLoad"]').replaceWith(ketqua);
-            $('body').find('[id="load-fill-page"]').prop('hidden', true);
         });
     }
 
     function FilterData() {
-        $('body').find('[id="load-fill-page"]').prop('hidden', false);
 
         var hocky = $('body').find('[id="hocky"] :selected').val();
         var nganh = $('body').find('[id="nganh"] :selected').val();
@@ -73,7 +70,6 @@
             contentType: false
         }).done(function (ketqua) {
             $('body').find('[id="filterLoad"]').replaceWith(ketqua);
-            $('body').find('[id="load-fill-page"]').prop('hidden', true);
 
         });
     }

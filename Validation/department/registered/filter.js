@@ -10,7 +10,6 @@
     });
 
     function FilterData() {
-        $('body').find('[id="load-fill-page"]').prop('hidden', false);
 
         $('body').find('[id="filterLoad"]').html('<h3 class="text-center mb-3"><span class="spinner-border spinner-border-sm me-2" style="width: 18px; height: 18px" role="status" aria-hidden="true"></span>Đang tải...</h3>');
 
@@ -33,7 +32,6 @@
             contentType: false
         }).done(function (ketqua) {
             $('body').find('[id="filterLoad"]').replaceWith(ketqua);
-            $('body').find('[id="load-fill-page"]').prop('hidden', true);
         });
     }
 });
