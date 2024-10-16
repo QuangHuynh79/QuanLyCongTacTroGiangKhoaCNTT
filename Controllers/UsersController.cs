@@ -120,7 +120,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("Người dùng không tồn tại trên hệ thống.");
 
                 var aspUser = data.AspNetUsers;
-                aspUser.LockoutEnabled = trangthai;
+                aspUser.LockoutEnabled = !trangthai;
 
                 model.Entry(aspUser).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
