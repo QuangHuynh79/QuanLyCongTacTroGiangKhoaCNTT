@@ -252,7 +252,7 @@
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
                     Toast.fire({
-                        icon: "error",
+                        icon: "success",
                         title: "Ứng tuyển thành công."
                     }).then(() => {
                         window.location.reload();

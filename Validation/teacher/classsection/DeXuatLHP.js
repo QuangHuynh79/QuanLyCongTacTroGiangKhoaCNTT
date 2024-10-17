@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+
     $('body').on('click', '[id="btnDeXuatSubmit"]', function () {
         var btn = $(this);
         btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span> Vui lòng chờ...');
@@ -180,4 +181,150 @@
             });
         }
     });
+
+    $('body').on('click', '[id="btnviewtasklistmodalClose"]', function () {
+        confirmTaskCloseForm();
+    });
+    $('body').on('click', '[id="btnviewtasklistmodalClose2"]', function () {
+        confirmTaskCloseForm();
+    });
+
+    $('body').on('click', '[id="btnDeXuatClose"]', function () {
+        confirmCloseForm();
+    });
+
+    $('body').on('click', '[id="btnDeXuatClose2"]', function () {
+        confirmCloseForm();
+    });
+    function confirmCloseForm() {
+
+        var check = true;
+        var lydo = $('body').find('[id="lydo"]').val().trim();
+
+        if (lydo.length > 0) {
+            check = false;
+        }
+
+        $('body').find('[id^="mota-"]').each(function () {
+            var inp = $(this);
+            var val = inp.val().trim();
+            if (val.length > 0) {
+                check = false;
+            }
+        });
+        $('body').find('[id^="khoiluong-"]').each(function () {
+            var inp = $(this);
+            var val = inp.val().trim();
+            if (val.length > 0) {
+                check = false;
+            }
+        });
+        $('body').find('[id^="thoigian-"]').each(function () {
+            var inp = $(this);
+            var val = inp.val().trim();
+            if (val.length > 0) {
+                check = false;
+            }
+        });
+        $('body').find('[id^="noilamviec-"]').each(function () {
+            var inp = $(this);
+            var val = inp.val().trim();
+            if (val.length > 0) {
+                check = false;
+            }
+        });
+        $('body').find('[id^="ketqua-"]').each(function () {
+            var inp = $(this);
+            var val = inp.val().trim();
+            if (val.length > 0) {
+                check = false;
+            }
+        });
+
+        if (check == false) {
+            Swal.fire({
+                title: 'Đóng form đề xuất trợ giảng?',
+                text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đóng ngay!",
+                cancelButtonText: "Không đóng"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#dexuattrogiang').modal('toggle');
+                }
+            });
+        }
+        else {
+            $('#dexuattrogiang').modal('toggle');
+        }
+    }
+
+    function confirmTaskCloseForm() {
+        var checkViewOnlySeen = $('body').find('[id="viewchixem"]').val();
+
+        if (checkViewOnlySeen == "true") {
+            $('#viewtasklistmodal').modal('toggle');
+        }
+        else {
+
+            var check = true;
+
+            $('body').find('[id^="edit-mota-"]').each(function () {
+                var inp = $(this);
+                var val = inp.val().trim();
+                if (val.length > 0) {
+                    check = false;
+                }
+            });
+            $('body').find('[id^="edit-khoiluong-"]').each(function () {
+                var inp = $(this);
+                var val = inp.val().trim();
+                if (val.length > 0) {
+                    check = false;
+                }
+            });
+            $('body').find('[id^="edit-thoigian-"]').each(function () {
+                var inp = $(this);
+                var val = inp.val().trim();
+                if (val.length > 0) {
+                    check = false;
+                }
+            });
+            $('body').find('[id^="edit-noilamviec-"]').each(function () {
+                var inp = $(this);
+                var val = inp.val().trim();
+                if (val.length > 0) {
+                    check = false;
+                }
+            });
+            $('body').find('[id^="edit-ketqua-"]').each(function () {
+                var inp = $(this);
+                var val = inp.val().trim();
+                if (val.length > 0) {
+                    check = false;
+                }
+            });
+
+            if (check == false) {
+                Swal.fire({
+                    title: 'Đóng cập nhật mô tả công việc?',
+                    text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
+                    icon: "question",
+                    showCancelButton: true,
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đóng ngay!",
+                    cancelButtonText: "Không đóng"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#viewtasklistmodal').modal('toggle');
+                    }
+                });
+            }
+            else {
+                $('#viewtasklistmodal').modal('toggle');
+            }
+        }
+    }
 });

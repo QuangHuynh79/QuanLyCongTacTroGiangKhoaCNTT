@@ -292,7 +292,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
-        public ActionResult DetailRegistered(int id)
+        public ActionResult DetailRegistered(int id) //GV xem chi tiết các SV ứng tuyển trợ giảng đã được BCN duyệt, BCN xem chi tiết sinh viên đã ứng tuyển làm trợ giảng
         {
             try
             {
