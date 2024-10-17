@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="ID" />
@@ -118,6 +118,7 @@
           <Property Name="ID_LopHocPhan" Type="int" Nullable="false" />
           <Property Name="LyDoDeXuat" Type="nvarchar(max)" />
           <Property Name="TrangThai" Type="bit" Nullable="false" />
+          <Property Name="MoCapNhat" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DiemDanh">
           <Key>
@@ -771,8 +772,7 @@
             <End Role="UngTuyenTroGiang" EntitySet="UngTuyenTroGiang" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CongTacTroGiangKhoaCNTTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -894,6 +894,7 @@
           <Property Name="LyDoDeXuat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TrangThai" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="LopHocPhan" Relationship="Self.FK_DeXuatTroGiang_LopHocPhan" FromRole="DeXuatTroGiang" ToRole="LopHocPhan" />
+          <Property Name="MoCapNhat" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DiemDanh">
           <Key>
@@ -1672,6 +1673,7 @@
           <EntitySetMapping Name="DeXuatTroGiang">
             <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.DeXuatTroGiang">
               <MappingFragment StoreEntitySet="DeXuatTroGiang">
+                <ScalarProperty Name="MoCapNhat" ColumnName="MoCapNhat" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_LopHocPhan" ColumnName="ID_LopHocPhan" />
                 <ScalarProperty Name="LyDoDeXuat" ColumnName="LyDoDeXuat" />

@@ -87,6 +87,7 @@
             processData: false,
             contentType: false,
         }).done(function (ketqua) {
+            $('body').find('[id="apply"]').modal('toggle');
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                 Toast.fire({
                     icon: "error",

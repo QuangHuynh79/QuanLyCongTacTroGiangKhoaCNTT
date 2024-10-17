@@ -20,12 +20,29 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class ClassSectionController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-        // GET: ClassSection
+        // GET: ClassSection 
 
         [Authorize, GVRole]
         public ActionResult Index()
         {
             return View("Index");
+        }
+
+        [Authorize, GVRole]
+        public ActionResult FilterSection(int hocky)
+        {
+            try
+            {
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+                var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+
+                return PartialView("_FilterSection", lstTkb);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
         }
 
         [Authorize, GVRole]
@@ -95,7 +112,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
 
                 var lstTask = lhp.CongViec.ToList();
-                if (lhp.DeXuatTroGiang.First().TrangThai == false) //Lớp học phần chưa duyệt được phép chỉnh sửa
+                if (lhp.DeXuatTroGiang.First().MoCapNhat == true) //Lớp học phần chưa duyệt được phép chỉnh sửa
                     return PartialView("_TaskListViewEdit", lstTask);
                 else //Lớp học phần đã duyệt chỉ được phép xem
                     return PartialView("_TaskListOnlyView", lstTask);
@@ -153,6 +170,20 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.SaveChanges();
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
+                var tk = Session["TaiKhoan"] as TaiKhoan;
+                var thongbao = new ThongBao()
+                {
+                    TieuDe = "Chi tiết công việc được cập nhật.",
+                    NoiDung = "Lớp " + lhp.MaLHP + " đã được cập nhật mô tả chi tiết công việc trợ giảng bởi " + tk.Ma + ".",
+                    ThoiGian = DateTime.Now,
+                    DaDoc = false,
+                    ForRole = "3",
+                };
+                model.ThongBao.Add(thongbao);
+                model.SaveChanges();
+
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
                 return Content("SUCCESS");
             }
             catch (Exception Ex)
@@ -193,7 +224,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 {
                     ID_LopHocPhan = idLHP,
                     LyDoDeXuat = lydo,
-                    TrangThai = trangthai
+                    TrangThai = trangthai,
+                    MoCapNhat = !trangthai
                 }; model.DeXuatTroGiang.Add(dx);
 
                 for (int i = 0; i < motas.Count; i++)
@@ -213,12 +245,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var thongbao = new ThongBao()
                 {
-                    TieuDe = "Ứng tuyển trợ giảng.",
+                    TieuDe = "Đề xuất trợ giảng.",
                     NoiDung = "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".",
                     ThoiGian = DateTime.Now,
                     DaDoc = false,
                     ForRole = "3",
-                    ID_TaiKhoan = Int32.Parse(Session["user-id"].ToString())
                 };
                 model.ThongBao.Add(thongbao);
                 model.SaveChanges();

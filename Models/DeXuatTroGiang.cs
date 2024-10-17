@@ -18,6 +18,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID_LopHocPhan { get; set; }
         public string LyDoDeXuat { get; set; }
         public bool TrangThai { get; set; }
+        public bool MoCapNhat { get; set; }
     
         public virtual LopHocPhan LopHocPhan { get; set; }
     }

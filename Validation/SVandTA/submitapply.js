@@ -232,6 +232,8 @@
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
+                $('body').find('[id="apply"]').modal('toggle');
+
                 if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);

@@ -28,7 +28,7 @@
     <!-- card header  -->
     <div class="card-header border-bottom-0 pb-0">
         <div class="row">
-            <div class="mb-3 col-md-6 col-12">
+            <div class="mb-3 col-md-4 col-12">
                 <label class="form-label">Đợt đăng ký</label>
                 <select id="hocky" class="form-select" data-width="100%">
                     @foreach (var item in lstHocKy)
@@ -45,7 +45,7 @@
                     }
                 </select>
             </div>
-            <div class="mb-3 col-md-6 col-12">
+            <div class="mb-3 col-md-4 col-12">
                 <label class="form-label">Ngành</label>
                 <select id="nganh" class="form-select" data-width="100%">
                     @foreach (var item in lstNganh)
@@ -61,6 +61,12 @@
                     }
                 </select>
             </div>
+            <div class="mb-3 col-md-4 col-12">
+                <label class="form-label">Chú thích</label>
+                <div class="form-control">
+                    <span class="badge bg-warning me-2">Thực hành</span><span class="badge bg-success me-2">Lý thuyết</span><span class="badge bg-danger">Đã đăng ký</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -75,13 +81,7 @@
         {
             <div class="card-header border-bottom-0 pt-0">
                 <div class="row">
-                    <div class="mb-3 col-md-3 col-12">
-                        <label class="form-label">Chú thích</label>
-                        <div class="form-control">
-                            <span class="badge bg-warning me-2">Chưa đăng ký</span><span class="badge bg-success">Đã đăng ký</span>
-                        </div>
-                    </div>
-                    <div class="mb-3 col-md-3 col-12">
+                    <div class="mb-3 col-md-4 col-12">
                         <label class="form-label">Lọc môn học</label>
                         <select class="form-select" id="locmonhoc" placeholder="Lọc giảng viên" multiple="multiple">
                             @foreach (var item in lstTkb.GroupBy(o => o.LopHocPhan.MaMH).ToList())
@@ -91,7 +91,7 @@
                             }
                         </select>
                     </div>
-                    <div class="mb-3 col-md-3 col-12">
+                    <div class="mb-3 col-md-4 col-12">
                         <label class="form-label">Lọc giảng viên</label>
                         <select class="form-select" id="locgiangvien" placeholder="Lọc giảng viên" multiple="multiple" filter="true">
                             @foreach (var item in lstTkb.GroupBy(o => o.LopHocPhan.TenCBGD).ToList())
@@ -101,7 +101,7 @@
                             }
                         </select>
                     </div>
-                    <div class="mb-3 col-md-3 col-12">
+                    <div class="mb-3 col-md-4 col-12">
                         <label class="form-label">Lọc trạng thái</label>
                         <select class="form-select" id="loctrangthai">
                             <option value="tatca">Chọn tất cả</option>
@@ -114,8 +114,8 @@
             <!-- table  -->
             <div class="table-responsive" style="max-height: 72vh">
                 <table class="table table-bordered border-secondary text-nowrap mb-0">
-                    <thead style="position: sticky; top: 0; z-index: 2">
-                        <tr text-white">
+                    <thead style="position: sticky; top: 0; z-index: 1023">
+                        <tr class="bg-secondary text-white">
                             <th class="bg-secondary text-white" style="position: sticky; left: 0; box-shadow: inset -1px -1px 0 #ffffff; text-align: center; padding: 5px 10px 5px 10px;">Thứ</th>
                             <th class="bg-secondary text-white" align="center" colspan="5" style="box-shadow: inset -3px -1px 0 #ffffff; text-align: center; padding: 5px 10px 5px 10px;">Thứ 2</th>
                             <th class="bg-secondary text-white" align="center" colspan="5" style="box-shadow: inset -3px -1px 0 #ffffff; text-align: center; padding: 5px 10px 5px 10px;">Thứ 3</th>
@@ -148,7 +148,7 @@
                         @foreach (var item in lstTkb.GroupBy(g => g.LopHocPhan.MaMH))
                         {
                             <tr>
-                                <td class="bg-secondary text-white" style="box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
+                                <td class="bg-secondary text-white" style="z-index: 1022; box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
                                 @for (int i = 0; i < 7; i++)
                                 {
                                     for (int j = 0; j < 5; j++)
@@ -163,36 +163,57 @@
                                                     {
                                                         if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-success p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">
-                                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
-                                                                    {
-                                                                        <span>Cập nhật ứng tuyển</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span>Chi tiết ứng tuyển</span>
-                                                                    }
-                                                                </a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-danger"
+                                                                          type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">
+                                                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                                                {
+                                                                                    <span>Cập nhật ứng tuyển</span>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <span>Chi tiết ứng tuyển</span>
+                                                                                }
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID"
+                                                                               titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+
+                                                            </div>
                                                         }
                                                         else
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-warning p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-@(items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành") ? "warning" : "success")"
+                                                                          type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         }
                                                     }
                                                 </td>
@@ -213,36 +234,57 @@
                                                     {
                                                         if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-success p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">
-                                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
-                                                                    {
-                                                                        <span>Cập nhật ứng tuyển</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span>Chi tiết ứng tuyển</span>
-                                                                    }
-                                                                </a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-danger"
+                                                                          type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">
+                                                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                                                {
+                                                                                    <span>Cập nhật ứng tuyển</span>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <span>Chi tiết ứng tuyển</span>
+                                                                                }
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID"
+                                                                               titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+
+                                                            </div>
                                                         }
                                                         else
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-warning p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-@(items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành") ? "warning" : "success")"
+                                                                          type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         }
                                                     }
                                                 </td>
@@ -263,36 +305,57 @@
                                                     {
                                                         if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-success p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">
-                                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
-                                                                    {
-                                                                        <span>Cập nhật ứng tuyển</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span>Chi tiết ứng tuyển</span>
-                                                                    }
-                                                                </a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-danger"
+                                                                          type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">
+                                                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                                                {
+                                                                                    <span>Cập nhật ứng tuyển</span>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <span>Chi tiết ứng tuyển</span>
+                                                                                }
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID"
+                                                                               titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+
+                                                            </div>
                                                         }
                                                         else
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-warning p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-@(items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành") ? "warning" : "success")"
+                                                                          type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         }
                                                     }
                                                 </td>
@@ -313,36 +376,57 @@
                                                     {
                                                         if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-success p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">
-                                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
-                                                                    {
-                                                                        <span>Cập nhật ứng tuyển</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span>Chi tiết ứng tuyển</span>
-                                                                    }
-                                                                </a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-danger"
+                                                                          type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">
+                                                                                @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                                                {
+                                                                                    <span>Cập nhật ứng tuyển</span>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <span>Chi tiết ứng tuyển</span>
+                                                                                }
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID"
+                                                                               titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+
+                                                            </div>
                                                         }
                                                         else
                                                         {
-                                                            <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                               title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                               class="badge bg-warning p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                <a typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                   name="@items.LopHocPhan.ID"
-                                                                   class="btn btn-sm btn-light me-2"
-                                                                   id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                                <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                            </p>
+                                                            <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                 title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                <div class="btn-group dropend">
+                                                                    <span class="dropdown-toggle btn btn-sm btn-@(items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành") ? "warning" : "success")"
+                                                                          type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        GV: @items.LopHocPhan.TenCBGD
+                                                                    </span>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a role="button" typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                               name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="button" id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         }
                                                     }
                                                 </td>
@@ -366,36 +450,57 @@
                                                         {
                                                             if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                             {
-                                                                <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                                   title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                                   class="badge bg-success p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                    <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                       name="@items.LopHocPhan.ID"
-                                                                       class="btn btn-sm btn-light me-2"
-                                                                       id="applyLHP-@items.LopHocPhan.ID">
-                                                                        @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
-                                                                        {
-                                                                            <span>Cập nhật ứng tuyển</span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <span>Chi tiết ứng tuyển</span>
-                                                                        }
-                                                                    </a>
-                                                                    <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                                </p>
+                                                                <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                     title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                    <div class="btn-group dropend">
+                                                                        <span class="dropdown-toggle btn btn-sm btn-danger"
+                                                                              type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            GV: @items.LopHocPhan.TenCBGD
+                                                                        </span>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li>
+                                                                                <a role="button" typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                                   name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">
+                                                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                                                    {
+                                                                                        <span>Cập nhật ứng tuyển</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Chi tiết ứng tuyển</span>
+                                                                                    }
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="button" id="applyTASK-@items.LopHocPhan.ID"
+                                                                                   titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                                   name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </div>
                                                             }
                                                             else
                                                             {
-                                                                <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                                   title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                                   class="badge bg-warning p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                    <a typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                       name="@items.LopHocPhan.ID"
-                                                                       class="btn btn-sm btn-light me-2"
-                                                                       id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                                    <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                                </p>
+                                                                <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                     title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                    <div class="btn-group dropend">
+                                                                        <span class="dropdown-toggle btn btn-sm btn-@(items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành") ? "warning" : "success")"
+                                                                              type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                            GV: @items.LopHocPhan.TenCBGD
+                                                                        </span>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li>
+                                                                                <a role="button" typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                                   name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="button" id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
                                                             }
                                                         }
                                                     </td>
@@ -415,36 +520,57 @@
                                                         {
                                                             if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                                             {
-                                                                <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                                   title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                                   class="badge bg-success p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                    <a typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                       name="@items.LopHocPhan.ID"
-                                                                       class="btn btn-sm btn-light me-2"
-                                                                       id="applyLHP-@items.LopHocPhan.ID">
-                                                                        @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
-                                                                        {
-                                                                            <span>Cập nhật ứng tuyển</span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <span>Chi tiết ứng tuyển</span>
-                                                                        }
-                                                                    </a>
-                                                                    <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                                </p>
+                                                                <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                     title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                    <div class="btn-group dropend">
+                                                                        <span class="dropdown-toggle btn btn-sm btn-danger"
+                                                                              type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            GV: @items.LopHocPhan.TenCBGD
+                                                                        </span>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li>
+                                                                                <a role="button" typeLHP="dadk" IdFormDangKy="@formDky.ID" titleForm="Cập nhật đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                                   name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">
+                                                                                    @if (items.LopHocPhan.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk).TrangThai == false)
+                                                                                    {
+                                                                                        <span>Cập nhật ứng tuyển</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>Chi tiết ứng tuyển</span>
+                                                                                    }
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="button" id="applyTASK-@items.LopHocPhan.ID"
+                                                                                   titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                                   name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </div>
                                                             }
                                                             else
                                                             {
-                                                                <p data-bs-toggle="tooltip" data-bs-html="true"
-                                                                   title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)<br><b>GV:</b> @(items.LopHocPhan.TenCBGD)"
-                                                                   class="badge bg-warning p-3" role="button" style="margin-bottom: 0.5rem;">
-                                                                    <a typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
-                                                                       name="@items.LopHocPhan.ID"
-                                                                       class="btn btn-sm btn-light me-2"
-                                                                       id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
-                                                                    <a id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="btn btn-sm btn-light">Chi tiết công việc</a>
-                                                                </p>
+                                                                <div data-bs-toggle="tooltip" data-bs-html="true" class="mb-2"
+                                                                     title="<b>@items.LopHocPhan.MaLHP</b><br><b>Tuần BĐ/KT:</b> @(items.TuanBD)/@(items.TuanKT)<br> <b>Phòng:</b> @(items.Phong)<br><b>Tiết học:</b> @(items.TietHoc)">
+                                                                    <div class="btn-group dropend">
+                                                                        <span class="dropdown-toggle btn btn-sm btn-@(items.LopHocPhan.LoaiHP.ToLower().Equals("thực hành") ? "warning" : "success")"
+                                                                              type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                            GV: @items.LopHocPhan.TenCBGD
+                                                                        </span>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li>
+                                                                                <a role="button" typeLHP="chuadk" IdFormDangKy="@formDky.ID" titleForm="Đăng ký trợ giảng LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP."
+                                                                                   name="@items.LopHocPhan.ID" class="dropdown-item" id="applyLHP-@items.LopHocPhan.ID">Ứng tuyển</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="button" id="applyTASK-@items.LopHocPhan.ID" titleTaskList="Chi tiết công việc LHP: @items.LopHocPhan.MaLHP - @items.LopHocPhan.TenHP." name="@items.LopHocPhan.ID" class="dropdown-item">Chi tiết công việc</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
                                                             }
                                                         }
                                                     </td>

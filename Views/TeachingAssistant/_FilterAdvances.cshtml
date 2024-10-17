@@ -1,0 +1,75 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan>
+@{
+    var lstDeXuat = Model;
+}
+<div class="card-body mt-3" id="filterLoad">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-nowrap">Lớp học phần</th>
+                    <th class="text-nowrap">Giảng Viên</th>
+                    <th class="text-nowrap">Lịch Học</th>
+                    <th class="text-nowrap">Số tiết</th>
+                    <th class="text-nowrap">Số SV</th>
+                    <th class="text-nowrap">Trạng thái</th>
+                    <th class="text-nowrap">Cập nhật</th>
+                    <th class="text-nowrap"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lstDeXuat.ToList())
+                {
+                    <tr>
+                        <td valign="middle">
+                            Mã: @item.MaLHP
+                            <br />
+                            Tên: @item.TenHP
+                            <br />
+                            Loại: @if (item.LoaiHP.ToLower().Equals("lý thuyết"))
+                            {
+                                <span class="badge bg-success">@item.LoaiHP</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">@item.LoaiHP</span>
+                            }
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            Mã: @item.MaCBGD
+                            <br />
+                            Tên: @item.TenCBGD
+                        </td>
+                        <td valign="middle">@(item.ThoiKhoaBieu.First().Thu); Tiết @(item.ThoiKhoaBieu.First().TietHoc); Tuần @(item.ThoiKhoaBieu.First().TuanBD) - @(item.ThoiKhoaBieu.First().TuanKT); Phòng @(item.ThoiKhoaBieu.First().Phong)</td>
+                        <td valign="middle">@item.ThoiKhoaBieu.First().SoTietDaXep</td>
+                        <td valign="middle">0</td>
+                        <td valign="middle" class="text-nowrap">
+                            @if (item.DeXuatTroGiang.First().TrangThai == false)
+                            {
+                                <span class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
+                            }
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            <div class="form-check form-switch mb-2" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn bật để mở cập nhật mô tả danh sách công việc.">
+                                <input id="mocapnhat-@item.ID" class="form-check-input" type="checkbox" role="switch" name="@item.ID" checked="@item.DeXuatTroGiang.First().MoCapNhat">
+                            </div>
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            <a style="font-size: 20px" id="openChiTietDeXuat-@item.ID" trangthaidexuat="@item.DeXuatTroGiang.First().TrangThai.ToString().ToLower()" name="@item.ID" role="button" class="text-primary">
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & duyệt đề xuất"><i class="bi bi-info-square me-2"></i></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#dataTableBasic').DataTable();
+</script>

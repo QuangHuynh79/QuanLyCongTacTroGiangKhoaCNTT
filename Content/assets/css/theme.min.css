@@ -46538,10 +46538,10 @@ table tr:last-child td {
 .dropdown-toggle:after {
     border: 0;
     content: "\e92e";
-    float: right;
+    /*float: right;*/
     font-family: Feather !important;
     margin-left: .255em;
-    vertical-align: .255em
+    /*vertical-align: .255em*/
 }
 
 .dropup .dropdown-toggle:after {
@@ -46553,7 +46553,7 @@ table tr:last-child td {
     display: inline-block;
     font-family: Feather !important;
     margin-left: .255em;
-    vertical-align: .255em
+    /*vertical-align: .255em*/
 }
 
 .dropend .dropdown-toggle:after {

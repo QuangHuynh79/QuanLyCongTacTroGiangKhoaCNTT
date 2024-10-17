@@ -99,6 +99,8 @@
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
+                $('body').find('[id="thongtincanhanmodal"]').modal('toggle');
+
                 if (ketqua == "SUCCESS") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);

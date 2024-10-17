@@ -1,16 +1,16 @@
 ﻿$(document).ready(function () {
-    $('body').on('click', '[id^="openChiTietDeXuat-"]', function () {
+    $('body').on('change', '[id^="mocapnhat-"]', function () {
         var btn = $(this);
 
         var id = btn.attr('name');
-        var trangthai = btn.attr('trangthaidexuat');
+        var trangthai = btn.prop('checked');
 
         var formData = new FormData();
         formData.append('id', id);
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/OpenSuggest",
+            url: $('#requestPath').val() + "TeachingAssistant/EditStateAdvances",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -21,21 +21,21 @@
                 Toast.fire({
                     icon: "error",
                     title: ketqua
-                }).then(() => {
-                    window.location.reload();
                 });
-                
+                if (trangthai == true) {
+                    btn.prop('checked', false);
+                }
             }
             else {
-                $('body').find('[id="contentChiTietDeXuat"]').replaceWith(ketqua);
-                $('body').find('[id="btnSubmit"]').attr('name', id);
-                if (trangthai == "true") {
-                    $('body').find('[id="btnSubmit"]').prop('hidden', true);
+                var thongbao = "Đã mở cập nhật mô tả công việc.";
+                if (trangthai == false) {
+                    thongbao = "Đã đóng cập nhật mô tả công việc.";
                 }
-                else {
-                    $('body').find('[id="btnSubmit"]').prop('hidden', false);
-                }
-                $('body').find('[id="chiTietDeXuat"]').modal('toggle');
+
+                Toast.fire({
+                    icon: "success",
+                    title: thongbao,
+                });
             }
         });
     });
@@ -60,8 +60,6 @@
             processData: false,
             contentType: false,
         }).done(function (ketqua) {
-            $('body').find('[id="chiTietDeXuat"]').modal('toggle');
-
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                 Toast.fire({
                     icon: "error",

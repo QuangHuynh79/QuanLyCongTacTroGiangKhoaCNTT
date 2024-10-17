@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
 using System;
@@ -22,6 +23,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         // GET: TeachingAssistant
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         [Authorize, BCNRole]
         public ActionResult Register() //Xem danh sách form ứng tuyển
@@ -56,6 +70,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 form.NgayCapNhat = DateTime.Now;
 
                 model.FormDangKyTroGiang.Add(form);
+                model.SaveChanges();
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
+                var thongbao = new ThongBao()
+                {
+                    TieuDe = "Ứng tuyển trợ giảng học kỳ " + form.HocKy.TenHocKy,
+                    NoiDung = "Ứng tuyển trợ giảng học kỳ " + form.HocKy.TenHocKy + " năm học " + form.HocKy.NamBatDau + "-" + form.HocKy.NamKetThuc
+                    + ". Thời gian ứng tuyển từ ngày " + form.ThoiGianMo.ToString("dd/MM/yyyy") + " đến ngày" + form.ThoiGianDong.Value.ToString("dd/MM/yyyy"),
+                    ThoiGian = DateTime.Now,
+                    DaDoc = false,
+                    ForRole = "1#4",
+                };
+                model.ThongBao.Add(thongbao);
                 model.SaveChanges();
 
                 return Content("SUCCESS");
@@ -154,6 +181,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
+        public ActionResult FilterAdvances(int hocky, int nganh) //BCN xem danh sách lớp học phần đã được GV chọn đề xuất học phần
+        {
+            var lstDeXuat = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.DeXuatTroGiang.Count > 0).ToList();
+            return PartialView("_FilterAdvances", lstDeXuat);
+        }
+        [Authorize, BCNRole]
         public ActionResult OpenSuggest(int id) //BCN xem chi tiết mô tả CV của LHP được GV đề xuất
         {
             try
@@ -184,9 +217,51 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 bool trangthai = dx.TrangThai;
 
                 if (trangthai)
+                {
                     dx.TrangThai = false;
+                    dx.MoCapNhat = true;
+                }
                 else
+                {
                     dx.TrangThai = true;
+                    dx.MoCapNhat = false;
+                }
+                model.Entry(dx).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+
+                var thongbao = new ThongBao()
+                {
+                    TieuDe = "Đề xuất trợ giảng.",
+                    NoiDung = "Lớp " + lhp.MaLHP + "đã được duyệt đề xuất trợ giảng.",
+                    ThoiGian = DateTime.Now,
+                    DaDoc = false,
+                    ForRole = "2",
+                    ID_TaiKhoan = lhp.ID_TaiKhoan
+                };
+                model.ThongBao.Add(thongbao);
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult EditStateAdvances(int id) //BCN mở-đóng cập nhật bảng mô tả CV của LHP được đề xuất
+        {
+            try
+            {
+                var lhp = model.LopHocPhan.Find(id);
+                if (lhp == null)
+                    return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                var dx = lhp.DeXuatTroGiang.First();
+                bool trangthai = dx.MoCapNhat;
+                dx.MoCapNhat = !trangthai;
 
                 model.Entry(dx).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
@@ -247,6 +322,34 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.Entry(ut).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
+                if (trangthai)
+                {
+                    var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("4")).ToList();
+
+                    string userId = ut.TaiKhoan.AspNetUsers.ID.ToLower();
+                    var aspNetUsers = model.AspNetUsers.Find(userId);
+
+                    string idRole = aspNetUsers.AspNetRoles.First().ID;
+                    UserManager.RemoveFromRoles(userId, idRole);
+
+                    aspNetUsers.AspNetRoles = aspNetRoles;
+                    model.Entry(aspNetUsers).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+                }
+
+                var thongbao = new ThongBao()
+                {
+                    TieuDe = "Duyệt ứng tuyển.",
+                    NoiDung = "Bạn đã được duyệt ứng tuyển Lớp " + ut.LopHocPhan.MaLHP + ".",
+                    ThoiGian = DateTime.Now,
+                    DaDoc = false,
+                    ForRole = "1#4",
+                    ID_TaiKhoan = ut.ID_TaiKhoan
+                };
+                model.ThongBao.Add(thongbao);
+                model.SaveChanges();
+
+                model = new CongTacTroGiangKhoaCNTTEntities();
                 return Content("SUCCESS");
             }
             catch (Exception Ex)
@@ -254,7 +357,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        //ExportRegistered
         [Authorize, BCNRole]
         public ActionResult FilterRegistered(int hocky, int nganh, string trangthai)
         {
@@ -262,13 +365,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 if (trangthai.Equals("all"))
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky 
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
                     && w.ID_Nganh == nganh);
                     if (ut == null)
                         return PartialView("_FilterRegistered", new List<UngTuyenTroGiang>());
                     return PartialView("_FilterRegistered", ut.UngTuyenTroGiang.ToList());
                 }
-                else if(trangthai.Equals("true"))
+                else if (trangthai.Equals("true"))
                 {
                     var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
                     && w.ID_Nganh == nganh);
@@ -290,6 +393,283 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
+
+        [Authorize, BCNRole]
+        public ActionResult ExportRegistered(int hocky, int nganh, string trangthai)
+        {
+            try
+            {
+                if (trangthai.Equals("all"))
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_ExportRegistered", new List<UngTuyenTroGiang>());
+                    return PartialView("_ExportRegistered", ut.UngTuyenTroGiang.ToList());
+                }
+                else if (trangthai.Equals("true"))
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_ExportRegistered", new List<UngTuyenTroGiang>());
+                    return PartialView("_ExportRegistered", ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == true).ToList());
+                }
+                else
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_ExportRegistered", new List<UngTuyenTroGiang>());
+                    return PartialView("_ExportRegistered", ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == false).ToList());
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, GVRole]
+        public ActionResult DetailRegistereds(int id)
+        {
+            try
+            {
+                var ut = model.UngTuyenTroGiang.Find(id);
+                if (ut == null)
+                    return Content("Chi tiết lỗi: Thông tin ứng tuyển đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                return PartialView("_DetailRegistereds", ut);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, GVRole]
+        public ActionResult FilterRegistereds(int hocky, int nganh, string trangthai)
+        {
+            try
+            {
+                if (trangthai.Equals("all"))
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
+
+                    var uts = ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == true).ToList();
+                    return PartialView("_FilterRegistereds", uts);
+                }
+                else if (trangthai.Equals("true"))
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
+
+                    var uts = ut.UngTuyenTroGiang.Where(w => w.TrangThai == true && w.DanhGiaPhongVan.Where(ws => ws.KetLuanDat == true).Count() > 0).ToList();
+                    return PartialView("_FilterRegistereds", uts);
+                }
+                else
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
+
+                    var uts = ut.UngTuyenTroGiang.Where(w => w.TrangThai == true
+                    && (w.DanhGiaPhongVan.Where(ws => ws.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList();
+                    return PartialView("_FilterRegistereds", uts);
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, GVRole]
+        public ActionResult ExportRegistereds(int hocky, int nganh, string trangthai)
+        {
+            try
+            {
+                if (trangthai.Equals("all"))
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_ExportRegistereds", new List<UngTuyenTroGiang>());
+
+                    var uts = ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == true).ToList();
+                    return PartialView("_ExportRegistereds", uts);
+                }
+                else if (trangthai.Equals("true"))
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_ExportRegistereds", new List<UngTuyenTroGiang>());
+
+                    var uts = ut.UngTuyenTroGiang.Where(w => w.TrangThai == true && w.DanhGiaPhongVan.Where(ws => ws.KetLuanDat == true).Count() > 0).ToList();
+                    return PartialView("_ExportRegistereds", uts);
+                }
+                else
+                {
+                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh);
+                    if (ut == null)
+                        return PartialView("_ExportRegistereds", new List<UngTuyenTroGiang>());
+
+                    var uts = ut.UngTuyenTroGiang.Where(w => w.TrangThai == true
+                    && (w.DanhGiaPhongVan.Where(ws => ws.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList();
+                    return PartialView("_ExportRegistereds", uts);
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, GVRole]
+        public ActionResult OpenPhongVanRegistereds(int id)
+        {
+            try
+            {
+                var ut = model.UngTuyenTroGiang.Find(id);
+                if (ut == null)
+                    return Content("Chi tiết lỗi: Thông tin ứng tuyển đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                return PartialView("_PhongVanTA", ut);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, GVRole]
+        public ActionResult SubmitPhongVanRegistereds(int id, string tieuchi, string tongdiem, string nhanxet, bool ketqua, DateTime ngaypv, DateTime ngayduyetpv)
+        {
+            try
+            {
+                var ut = model.UngTuyenTroGiang.Find(id);
+                if (ut == null)
+                    return Content("Chi tiết lỗi: Thông tin ứng tuyển đã bị xóa hoặc không tồn tại trên hệ thống.");
+
+                var lstTieuChi = tieuchi.Split('#').ToList();
+                var lstDiem = tongdiem.Split('#').ToList();
+                if (ut.DanhGiaPhongVan.Count > 0)
+                {
+                    var pv = ut.DanhGiaPhongVan.First();
+
+                    pv.NgoaiHinhTacPhong = lstTieuChi[0];
+                    pv.KienThuc = lstTieuChi[1];
+                    pv.HieuBietCongViec = lstTieuChi[2];
+                    pv.ThaIDoTichCuc = lstTieuChi[3];
+                    pv.KyNangTrinhBay = lstTieuChi[4];
+                    pv.KyNangGiaoTiep = lstTieuChi[5];
+                    pv.GiaiQuyetVanDe = lstTieuChi[6];
+                    pv.KhaNangSuPham = lstTieuChi[7];
+                    pv.KyNangCNTT = lstTieuChi[8];
+                    pv.YeuToKhac = lstTieuChi[9];
+
+                    pv.TongSoDiemChuaDat = int.Parse(lstDiem[0]);
+                    pv.TongSoDiemPhanVan = int.Parse(lstDiem[1]);
+                    pv.TongSoDiemDat = int.Parse(lstDiem[2]);
+
+                    pv.NhanXet = nhanxet;
+                    pv.KetLuanDat = ketqua;
+                    pv.NgayPhongVan = ngaypv;
+                    pv.NgayDuyet = ngayduyetpv;
+
+                    model.Entry(pv).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+                }
+                else
+                {
+                    var pv = new DanhGiaPhongVan();
+
+                    pv.ID_UngTuyenTroGiang = id;
+                    pv.NgoaiHinhTacPhong = lstTieuChi[0];
+                    pv.KienThuc = lstTieuChi[1];
+                    pv.HieuBietCongViec = lstTieuChi[2];
+                    pv.ThaIDoTichCuc = lstTieuChi[3];
+                    pv.KyNangTrinhBay = lstTieuChi[4];
+                    pv.KyNangGiaoTiep = lstTieuChi[5];
+                    pv.GiaiQuyetVanDe = lstTieuChi[6];
+                    pv.KhaNangSuPham = lstTieuChi[7];
+                    pv.KyNangCNTT = lstTieuChi[8];
+                    pv.YeuToKhac = lstTieuChi[9];
+
+                    pv.TongSoDiemChuaDat = int.Parse(lstDiem[0]);
+                    pv.TongSoDiemPhanVan = int.Parse(lstDiem[1]);
+                    pv.TongSoDiemDat = int.Parse(lstDiem[2]);
+
+                    pv.NhanXet = nhanxet;
+                    pv.KetLuanDat = ketqua;
+                    pv.NgayPhongVan = ngaypv;
+                    pv.NgayDuyet = ngayduyetpv;
+
+                    model.DanhGiaPhongVan.Add(pv);
+                    model.SaveChanges();
+                }
+
+                if (ketqua)
+                {
+                    int idlhp = ut.ID_LopHocPhan;
+                    int idtk = ut.ID_TaiKhoan;
+
+                    var pc = new PhanCongTroGiang();
+                    pc.ID_LopHocPhan = idlhp;
+                    pc.ID_TaiKhoan = idtk;
+                    pc.DaNghiViec = false;
+                    pc.SoGioThucTe = 0;
+                    pc.TrangThai = false;
+                    pc.GhiChu = "";
+
+                    model.PhanCongTroGiang.Add(pc);
+                    model.SaveChanges();
+
+                    var thongbao = new ThongBao()
+                    {
+                        TieuDe = "Kết quả phỏng vấn.",
+                        NoiDung = ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " đã đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".",
+                        ThoiGian = DateTime.Now,
+                        DaDoc = false,
+                        ForRole = "1#4",
+                        ID_TaiKhoan = ut.ID_TaiKhoan,
+                    };
+                    model.ThongBao.Add(thongbao);
+                    model.SaveChanges();
+                }
+                else
+                {
+                    var thongbao = new ThongBao()
+                    {
+                        TieuDe = "Kết quả phỏng vấn.",
+                        NoiDung = ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " không đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".",
+                        ThoiGian = DateTime.Now,
+                        DaDoc = false,
+                        ForRole = "1#4",
+                        ID_TaiKhoan = ut.ID_TaiKhoan,
+                    };
+                    model.ThongBao.Add(thongbao);
+                    model.SaveChanges();
+                }
+
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
         [Authorize, SVandTARole]
         public ActionResult Apply()
         {
@@ -472,7 +852,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     ThoiGian = DateTime.Now,
                     DaDoc = false,
                     ForRole = "3",
-                    ID_TaiKhoan = tk.ID
                 };
                 model.ThongBao.Add(thongbao);
                 model.SaveChanges();

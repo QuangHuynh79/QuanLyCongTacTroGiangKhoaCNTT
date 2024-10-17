@@ -74,11 +74,11 @@
                                 {
                                     if (id_hkGanNhat == item.ID)
                                     {
-                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                        <option name="@item.TenHocKy" selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                     }
                                     else
                                     {
-                                        <option value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                        <option name="@item.TenHocKy" value="@item.ID">Học kỳ @item.TenHocKy</option>
                                     }
                                 }
                             </select>
@@ -90,11 +90,11 @@
                                 {
                                     if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
                                     {
-                                        <option selected value="@item.ID">@item.TenNganh</option>
+                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                     }
                                     else
                                     {
-                                        <option value="@item.ID">@item.TenNganh</option>
+                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
                                     }
                                 }
                             </select>
@@ -109,7 +109,7 @@
                         </div>
                         <div class="mb-3 col-md-3 col-12" style="display: flex; flex-direction: row; align-items: end">
                             <div style="width: 100%; text-align: end">
-                                <a id="btnExportTkb" class="btn btn-outline-secondary">
+                                <a id="btnExport" class="btn btn-outline-secondary">
                                     <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
                                 </a>
                             </div>
@@ -203,5 +203,10 @@
         </div>
     </div>
 </section>
-<script src="~/Validation/department/registered/accepted.js"></script>
+
+<section style="display: none" id="table-export-data">
+</section>
+
+<script src="~/Validation/department/registered/detailAndAccepted.js"></script>
 <script src="~/Validation/department/registered/filter.js"></script>
+<script src="~/Validation/department/registered/exportfile.js"></script>

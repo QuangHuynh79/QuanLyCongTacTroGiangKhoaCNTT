@@ -141,6 +141,8 @@
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
+                $('body').find('[id="dexuattrogiang"]').modal('toggle');
+
                 if (ketqua == "SUCCESS") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);

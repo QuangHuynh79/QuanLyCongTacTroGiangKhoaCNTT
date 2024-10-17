@@ -92,7 +92,7 @@
                         </div>
                         <div class="mb-3 col-md-6 col-12 ">
                             <label class="form-label">Ngành</label>
-                            <select id="hocky" class="form-select" data-width="100%">
+                            <select id="nganh" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
                                     if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <!-- table  -->
-                <div class="card-body mt-3">
+                <div class="card-body mt-3" id="filterLoad">
                     <div class="table-card">
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
@@ -119,6 +119,7 @@
                                     <th class="text-nowrap">Số tiết</th>
                                     <th class="text-nowrap">Số SV</th>
                                     <th class="text-nowrap">Trạng thái</th>
+                                    <th class="text-nowrap">Cập nhật</th>
                                     <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
@@ -159,6 +160,11 @@
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
+                                            <div class="form-check form-switch mb-2" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn bật để mở cập nhật mô tả danh sách công việc.">
+                                                <input id="mocapnhat-@item.ID" class="form-check-input" type="checkbox" role="switch" name="@item.ID" checked="@item.DeXuatTroGiang.First().MoCapNhat">
+                                            </div>
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
                                             <a style="font-size: 20px" id="openChiTietDeXuat-@item.ID" trangthaidexuat="@item.DeXuatTroGiang.First().TrangThai.ToString().ToLower()" name="@item.ID" role="button" class="text-primary">
                                                 <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & duyệt đề xuất"><i class="bi bi-info-square me-2"></i></span>
                                             </a>
@@ -194,4 +200,5 @@
     </div>
 </section>
 <script src="~/Validation/department/suggested/accepted.js"></script>
-
+<script src="~/Validation/department/suggested/editstateupdate.js"></script>
+<script src="~/Validation/department/suggested/filter.js"></script>
