@@ -293,14 +293,14 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="infoma">Mã giảng viên <span class="text-danger">*</span></label>
-                                <input value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã giảng viên">
+                                <input disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã giảng viên">
                                 <span class="text-danger" id="valid-infoma"></span>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="infohoten">Họ & Tên <span class="text-danger">*</span></label>
-                                <input value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
+                                <input disabled value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
                                 <span class="text-danger" id="valid-infohoten"></span>
                             </div>
                         </div>
@@ -440,7 +440,7 @@
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 3000,
             timerProgressBar: true,
             didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;

@@ -320,6 +320,7 @@
                     if (result.isConfirmed) {
                         $('#viewtasklistmodal').modal('toggle');
                     }
+                    
                 });
             }
             else {

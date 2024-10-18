@@ -113,7 +113,7 @@
     display: none;
     padding: 0;
     position: absolute;
-    z-index: 1000;
+    z-index: 1030;
     background-color: var(--geeks-input-bg);
     color: #94a3b8;
     left: 0;

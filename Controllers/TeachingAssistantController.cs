@@ -866,6 +866,28 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult CancelApply(int idFORM, int idTK) //Mở hộp xem chi tiết công việc LHP cần đăng ký trợ giảng
+        {
+            try
+            {
+                model = new CongTacTroGiangKhoaCNTTEntities();
+                var ut = model.UngTuyenTroGiang.FirstOrDefault(f => f.ID_FormDangKyTroGiang == idFORM && f.ID_TaiKhoan == idTK);
+                if (ut == null)
+                    return Content("Chi tiết lỗi: " + "Không tìm thấy thông tin ứng tuyển trợ giảng.");
+
+                model.UngTuyenTroGiang.Remove(ut);
+                model.SaveChanges();
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
         [Authorize, TAandGVRole]
         public ActionResult TaskList()
         {

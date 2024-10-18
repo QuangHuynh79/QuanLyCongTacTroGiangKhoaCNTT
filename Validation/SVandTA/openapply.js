@@ -18,10 +18,9 @@
             contentType: false,
         }).done(function (ketqua) {
             if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
-                Swal.fire({
-                    title: "Đã xảy ra lỗi!",
-                    text: ketqua,
-                    icon: "error"
+                Toast.fire({
+                    icon: "error",
+                    title: ketqua
                 }).then(() => {
                     window.location.reload();
                 });
@@ -32,7 +31,7 @@
 
                 if ($('body').find('[id="daduocduyet"]').val() == "1") {
                     if (typeLHP == "dadk") {
-                        $('body').find('[id="huydangky"]').prop('hidden', false);
+                        $('body').find('[id="btnHuydangky"]').prop('hidden', false);
                         $('body').find('[id="btnSubmit"]').prop('hidden', true);
                         $('body').find('[id="btnEditSubmit"]').prop('hidden', false);
                     }
@@ -43,7 +42,7 @@
                     }
                 }
                 else {
-                    $('body').find('[id="huydangky"]').prop('hidden', true);
+                    $('body').find('[id="btnHuydangky"]').prop('hidden', true);
                     $('body').find('[id="btnSubmit"]').prop('hidden', true);
                     $('body').find('[id="btnEditSubmit"]').prop('hidden', true);
                 }

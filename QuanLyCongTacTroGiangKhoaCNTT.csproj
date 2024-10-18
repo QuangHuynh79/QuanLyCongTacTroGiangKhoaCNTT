@@ -547,6 +547,7 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\SVandTA\cancelapply.js" />
     <Content Include="Validation\teacher\registereds\phongvan.js" />
     <Content Include="Validation\teacher\registereds\detail.js" />
     <Content Include="Validation\teacher\registereds\filter.js" />
