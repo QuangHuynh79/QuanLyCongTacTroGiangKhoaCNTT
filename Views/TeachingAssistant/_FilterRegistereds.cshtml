@@ -44,26 +44,41 @@
                             TK môn: @item.DiemTKMH
                         </td>
                         <td valign="middle">
-                            @if (item.DanhGiaPhongVan.Count > 0)
+                            @if (item.LopHocPhan.PhanCongTroGiang.Where(w => w.ID_TaiKhoan != idtk).Count() > 0)
                             {
-                                if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                if (item.DanhGiaPhongVan.Count > 0)
                                 {
-                                    <span>
-                                        <a data-bs-toggle="tooltip" data-bs-html="true" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
-                                    </span>
+                                    if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                    {
+                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                    }
+                                    else
+                                    {
+                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt</a>
+                                    }
                                 }
                                 else
                                 {
-                                    <span>
-                                        <a data-bs-toggle="tooltip" data-bs-html="true" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Được đạt</a>
-                                    </span>
+                                    <a data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="LHP đã có TA không cần phỏng vấn" class="btn btn-warning btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>LHP đã có TA</a>
                                 }
                             }
                             else
                             {
-                                <span data-bs-toggle="modal" data-bs-target="#phongvan">
-                                    <a data-bs-toggle="tooltip" data-bs-html="true" title="Chọn để cập nhật kết quả phỏng vấn" class="btn btn-warning btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa phỏng vấn</a>
-                                </span>
+                                if (item.DanhGiaPhongVan.Count > 0)
+                                {
+                                    if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                    {
+                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                    }
+                                    else
+                                    {
+                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt</a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="true" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Cập nhật kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để cập nhật kết quả phỏng vấn" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa PV</a>
+                                }
                             }
                         </td>
                         <td valign="middle" class="text-nowrap">

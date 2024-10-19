@@ -1,33 +1,33 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstHk = models.HocKy.ToList();
     var lstNganh = models.Nganh.ToList();
 
-    ViewBag.Title = "Teaching Assistant";
+    ViewBag.Title = "Trợ giảng";
     Layout = Session["layout"].ToString();
 
     var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
     var currentYear = DateTime.Now.Year;
 
-    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ThoiGianMo <= currentDate
-    && w.ThoiGianDong >= currentDate && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
-
+    var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
     int id_hkGanNhat = 0;
+    if (lstHk.Count > 0)
+    {
+        id_hkGanNhat = lstHk.First().ID;
+    }
+
+    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ThoiGianMo <= currentDate && w.ThoiGianDong >= currentDate && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
+
     int id_nganhCNTT = 0;
     int idForm = 0;
     if (formDky != null)
     {
-        id_hkGanNhat = formDky.ID_HocKy;
         id_nganhCNTT = formDky.ID_Nganh;
         idForm = formDky.ID;
     }
 
     var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
     int i = 0;
-
-    int idtk = Int32.Parse(Session["user-id"].ToString());
-    var tksv = models.TaiKhoan.Find(idtk);
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
 <section class="container-fluid p-4">
@@ -158,20 +158,41 @@
                                             TK môn: @item.DiemTKMH
                                         </td>
                                         <td valign="middle">
-                                            @if (item.DanhGiaPhongVan.Count > 0)
+                                            @if (item.LopHocPhan.PhanCongTroGiang.Where(w => w.ID_TaiKhoan != idtks).Count() > 0)
                                             {
-                                                if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                                if (item.DanhGiaPhongVan.Count > 0)
                                                 {
-                                                    <a id="ketquapv-@item.ID" name="@item.ID" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                                    if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                                    {
+                                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt</a>
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    <a id="ketquapv-@item.ID" name="@item.ID" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Được đạt</a>
+                                                    <a data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="LHP đã có TA không cần phỏng vấn" class="btn btn-warning btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>LHP đã có TA</a>
                                                 }
                                             }
                                             else
                                             {
-                                                <a id="ketquapv-@item.ID" name="@item.ID" editState="true" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Cập nhật kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để cập nhật kết quả phỏng vấn" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa phỏng vấn</a>
+                                                if (item.DanhGiaPhongVan.Count > 0)
+                                                {
+                                                    if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                                    {
+                                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="true" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Cập nhật kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để cập nhật kết quả phỏng vấn" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa PV</a>
+                                                }
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">

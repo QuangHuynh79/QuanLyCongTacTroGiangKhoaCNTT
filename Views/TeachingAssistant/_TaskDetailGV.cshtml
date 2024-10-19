@@ -33,12 +33,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="mb-3">
+                        <input hidden id="roletask" value="gv" />
+                        <input hidden id="idtask" value="@Model.ID" />
+
                         @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
                         {
-                            <label class="form-label" for="gioitinh">
+                            <label class="form-label" for="tinhtrang">
                                 Tình trạng <span class="text-danger">*</span>
                             </label>
-                            <select class="form-select" id="ketqua">
+                            <select class="form-select" id="tinhtrang">
                                 @if (string.IsNullOrEmpty(Model.KetQuaCongViec))
                                 {
                                     <option selected value="">---- Chọn tình trạng ----</option>
@@ -49,19 +52,19 @@
                                 {
                                     <option value="">---- Chọn tình trạng ----</option>
                                     <option value="chuahoanthanh">Chưa hoàn thành</option>
-                                    <option selected value="dahoanthanh">Hoàn thành</option>
+                                    <option selected value="hoanthanh">Hoàn thành</option>
                                 }
                                 else
                                 {
                                     <option value="">---- Chọn tình trạng ----</option>
                                     <option selected value="chuahoanthanh">Chưa hoàn thành</option>
-                                    <option value="dahoanthanh">Hoàn thành</option>
+                                    <option value="hoanthanh">Hoàn thành</option>
                                 }
                             </select>
                         }
                         else
                         {
-                            <label class="form-label" for="gioitinh">
+                            <label class="form-label" for="trangthai">
                                 Trạng thái <span class="text-danger">*</span>
                             </label>
                             <select class="form-select" id="trangthai">
@@ -73,15 +76,15 @@
                                 }
                                 else if (Model.KetQuaCongViec.Equals("hoanthanh"))
                                 {
-                                    <option value="Cần làm">Cần làm</option>
-                                    <option value="Đang thực hiện">Đang thực hiện</option>
-                                    <option selected value="Hoàn thành">Hoàn thành</option>
+                                    <option value="canlam">Cần làm</option>
+                                    <option value="dangthuchien">Đang thực hiện</option>
+                                    <option selected value="hoanthanh">Hoàn thành</option>
                                 }
                                 else
                                 {
-                                    <option value="Cần làm">Cần làm</option>
-                                    <option selected value="Đang thực hiện">Đang thực hiện</option>
-                                    <option value="Hoàn thành">Hoàn thành</option>
+                                    <option value="canlam">Cần làm</option>
+                                    <option selected value="dangthuchien">Đang thực hiện</option>
+                                    <option value="hoanthanh">Hoàn thành</option>
                                 }
                             </select>
                         }
@@ -90,7 +93,7 @@
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
-                        <label class="form-label" for="hoten">
+                        <label class="form-label" for="">
                             Số giờ quy đổi @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
                         </label>
                         <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
@@ -98,7 +101,7 @@
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
-                        <label class="form-label" for="hoten">
+                        <label class="form-label" for="">
                             Thời hạn hoàn thành
                         </label>
                         <input id="editHanHoanThanh" value="@Model.ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="text" class="form-control text-dark" disabled />
@@ -106,7 +109,7 @@
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
-                        <label class="form-label" for="hoten">
+                        <label class="form-label" for="">
                             Nơi làm việc
                         </label>
                         <input value="@Model.NoiLamViec" type="text" class="form-control text-dark" disabled />
@@ -116,8 +119,8 @@
         </div>
         <div class="col-12">
             <div class="mb-3">
-                <label class="form-label" for="hoten">Ghi chú</label>
-                <textarea maxlength="300" placeholder="Nhập tối đa 300 ký tự" rows="4" class="form-control text-dark" autofocus>@Model.GhiChu</textarea>
+                <label class="form-label" for="ghichu">Ghi chú</label>
+                <textarea id="ghichu" maxlength="300" placeholder="Nhập tối đa 300 ký tự" rows="4" class="form-control text-dark" autofocus>@Model.GhiChu</textarea>
             </div>
         </div>
     </div>

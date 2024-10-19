@@ -906,6 +906,76 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, TAandGVRole]
         [HttpPost]
+        public ActionResult FilterTaskList(int lophocphan)
+        {
+            int role = Int32.Parse(Session["user-role-id"].ToString());
+            var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+            var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+            var task = model.LopHocPhan.FirstOrDefault(f => f.ID == lophocphan);
+
+            if (role == 4)
+                return PartialView("_FilterTaskListTA", task);
+            else
+                return PartialView("_FilterTaskListGV", task);
+        }
+
+        [Authorize, TAandGVRole]
+        [HttpPost]
+        public ActionResult FilterHocKyTaskList(int hocky)
+        {
+            int role = Int32.Parse(Session["user-role-id"].ToString());
+            var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+            var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+            var tasks = model.LopHocPhan.Where(w => w.MaCBGD.ToLower().Equals(ma) && w.CongViec.Count > 0 && w.ID_HocKy == hocky).ToList();
+            var task = tasks.Where(w => w.DeXuatTroGiang.First().TrangThai == true).ToList();
+
+            if (role == 4)
+                return PartialView("_FilterHocKyTaskListTA", task);
+            else
+                return PartialView("_FilterHocKyTaskListGV", task);
+        }
+
+        [Authorize, TAandGVRole]
+        [HttpPost]
+        public ActionResult SubmitEditTaskDetail(int id, string role, string trangthai, string ghichu)
+        {
+            try
+            {
+                var cv = model.CongViec.Find(id);
+                if (cv == null)
+                    return Content("Chi tiết lỗi: Không tìm thấy công việc tương ứng.");
+
+                if (role.Equals("gv"))
+                {
+                    if (trangthai.Equals("hoanthanh") || trangthai.Equals("chuahoanthanh"))
+                    {
+                        cv.TrangThai = "hoanthanh";
+                    }
+                    cv.KetQuaCongViec = trangthai;
+                    cv.GhiChu = ghichu;
+                }
+                else
+                {
+                    cv.TrangThai = trangthai;
+                    cv.GhiChu = ghichu;
+                }
+
+                model.Entry(cv).State = System.Data.Entity.EntityState.Modified;
+                model.SaveChanges();
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, TAandGVRole]
+        [HttpPost]
         public ActionResult TaskDetail(int id)
         {
             int role = Int32.Parse(Session["user-role-id"].ToString());

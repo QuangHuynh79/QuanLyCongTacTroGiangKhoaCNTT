@@ -2,8 +2,10 @@
     $('body').on('change', '[id="hocky"]', function () {
         FilterData();
     });
-
     $('body').on('change', '[id="nganh"]', function () {
+        FilterData();
+    });
+    $('body').on('change', '[id="trangthaidg"]', function () {
         FilterData();
     });
 
@@ -13,14 +15,16 @@
 
         var hocky = $('body').find('[id="hocky"] :selected').val();
         var nganh = $('body').find('[id="nganh"] :selected').val();
+        var trangthai = $('body').find('[id="trangthaidg"] :selected').val();
 
         var formData = new FormData();
         formData.append('hocky', hocky);
         formData.append('nganh', nganh);
+        formData.append('trangthai', trangthai);
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "ClassSection/FilterSection",
+            url: $('#requestPath').val() + "ReviewTask/FilterData",
             dataType: 'html',
             data: formData,
             type: 'POST',

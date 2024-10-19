@@ -274,7 +274,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
-    <Compile Include="Controllers\TaskListController.cs" />
+    <Compile Include="Controllers\ReviewTaskController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
     <Compile Include="Controllers\TermAndMajorController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
@@ -393,6 +393,7 @@
     <Content Include="ActiveItemMenu\Dashboard\index.js" />
     <Content Include="ActiveItemMenu\ClassSection\index.js" />
     <Content Include="ActiveItemMenu\Notifications\index.js" />
+    <Content Include="ActiveItemMenu\ReviewTask\index.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\khoa.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
@@ -548,6 +549,8 @@
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
     <Content Include="Validation\SVandTA\cancelapply.js" />
+    <Content Include="Validation\teacher\reviewtask\danhgia.js" />
+    <Content Include="Validation\teacher\reviewtask\filter.js" />
     <Content Include="Validation\teacher\registereds\phongvan.js" />
     <Content Include="Validation\teacher\registereds\detail.js" />
     <Content Include="Validation\teacher\registereds\filter.js" />
@@ -568,6 +571,7 @@
     <Content Include="Validation\teacher\classsection\filter.js" />
     <Content Include="Validation\teacher\classsection\updatetask.js" />
     <Content Include="Validation\teacher\classsection\viewTaskList.js" />
+    <Content Include="Validation\teacher\teachingassistant\filterTask.js" />
     <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
     <Content Include="Views\TermAndMajor\Faculty.cshtml" />
     <Content Include="Views\TermAndMajor\_EditFaculty.cshtml" />
@@ -605,6 +609,12 @@
     <Content Include="Views\ClassSection\_FilterSection.cshtml" />
     <Content Include="Views\TeachingAssistant\_ExportRegistered.cshtml" />
     <Content Include="Views\TeachingAssistant\_ExportRegistereds.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterTaskListGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterHocKyTaskListGV.cshtml" />
+    <Content Include="Views\ReviewTask\Index.cshtml" />
+    <Content Include="Views\ReviewTask\_FilterCongViec.cshtml" />
+    <Content Include="Views\ReviewTask\_OpenEditReviewTask.cshtml" />
+    <Content Include="Views\ReviewTask\_OpenViewReviewTask.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -710,7 +720,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Notifications\" />
-    <Folder Include="Views\TaskList\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

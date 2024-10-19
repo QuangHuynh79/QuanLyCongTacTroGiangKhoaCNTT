@@ -16,7 +16,7 @@
         id_hkGanNhat = lstHk.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ThoiGianMo <= currentDate && w.ThoiGianDong >= currentDate && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
+    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
 
     int id_nganhCNTT = 0;
     int idForm = 0;
@@ -29,14 +29,14 @@
     var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
     int i = 0;
 }
-<script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
+<script src="~/ActiveItemMenu/ReviewTask/index.js"></script>
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Danh Sách Sinh Viên Đăng Ký Trợ Giảng</h1>
+                    <h1 class="mb-0 h2 fw-bold">Đánh giá công việc trợ giảng</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -47,7 +47,7 @@
                                 <a>Trợ Giảng</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Đã Đăng Ký
+                                Đánh Giá Công Việc
                             </li>
                         </ol>
                     </nav>
@@ -101,18 +101,11 @@
                         </div>
                         <div class="mb-3 col-md-3 col-12 ">
                             <label class="form-label">Lọc trạng thái</label>
-                            <select id="trangthaiut" class="form-select" data-width="100%">
+                            <select id="trangthaidg" class="form-select" data-width="100%">
                                 <option value="all">Chọn tất cả</option>
-                                <option value="true">Đã được duỵệt</option>
-                                <option value="false">Chưa được duyệt</option>
+                                <option value="true">Đã đánh giá</option>
+                                <option value="false">Chưa đánh giá</option>
                             </select>
-                        </div>
-                        <div class="mb-3 col-md-3 col-12" style="display: flex; flex-direction: row; align-items: end">
-                            <div style="width: 100%; text-align: end">
-                                <a id="btnExport" class="btn btn-outline-secondary">
-                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,30 +115,27 @@
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
-                                    <th></th>
-                                    <th>Sinh viên</th>
-                                    <th>Liên hệ</th>
-                                    <th>Lớp HP</th>
-                                    <th>Điểm số</th>
-                                    <th>Trạng Thái</th>
-                                    <th></th>
+                                    <th class="text-nowrap">Trợ giảng</th>
+                                    <th class="text-nowrap">Lớp HP</th>
+                                    <th class="text-nowrap">Điểm số</th>
+                                    <th class="text-nowrap">Khối lượng</th>
+                                    <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in lstUs)
+                                @foreach (var item in lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList())
                                 {
+                                    var idtks = item.ID_TaiKhoan;
                                     i++;
                                     <tr>
-                                        <td valign="middle">@i</td>
                                         <td valign="middle">
                                             MSSV: @item.MSSV
                                             <br />
                                             Họ & Tên: @item.HoTen
-                                        </td>
-                                        <td valign="middle" class="text-nowrap">
-                                            @item.Email
                                             <br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.TaiKhoan.ID_Nganh != null ? item.TaiKhoan.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span class="text-nowrap">Email: @item.Email</span>
+                                            <br />
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
                                         <td valign="middle" class="text-nowrap">
                                             Mã LHP: @item.LopHocPhan.MaLHP
@@ -160,19 +150,18 @@
                                             TK môn: @item.DiemTKMH
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            @if (!item.TrangThai)
+                                            @item.LopHocPhan.CongViec.Count() Công việc
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @if (item.LopHocPhan.PhanCongTroGiang.First().TrangThai == false)
                                             {
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
+                                                <a titleForm="Đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnDanhgia-@item.ID" name="@item.LopHocPhan.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Thực hiện đánh giá công việc trợ giảng cho LHP" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-bookmark-check me-2"></i>Đánh giá</a>
                                             }
                                             else
                                             {
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                                                <a titleForm="Xem thông tin đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnDanhgia-@item.ID" name="@item.LopHocPhan.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin & cập nhật đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xem đánh giá</a>
+                                                @*<a titleForm="Xem Đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnXemDanhgia-@item.ID" name="@item.LopHocPhan.ID"  data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xen đánh giá</a>*@
                                             }
-                                        </td>
-                                        <td valign="middle" class="text-nowrap">
-                                            <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
-                                            </a>
                                         </td>
                                     </tr>
                                 }
@@ -183,11 +172,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+
+    <div class="modal fade" id="danhgiachung" tabindex="-1" role="dialog" aria-labelledby="danhgiachung" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="applyTitle"></h5>
+                    <h5 class="modal-title" id="danhgiachungTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -196,17 +186,12 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Duyệt ứng tuyển</button>
-                    <button id="btnCancel" type="button" class="btn btn-danger">Bỏ duyệt ứng tuyển</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section style="display: none" id="table-export-data">
-</section>
-
-<script src="~/Validation/department/registered/detailAndAccepted.js"></script>
-<script src="~/Validation/department/registered/filter.js"></script>
-<script src="~/Validation/department/registered/exportfile.js"></script>
+<script src="~/Validation/teacher/reviewtask/danhgia.js"></script>
+<script src="~/Validation/teacher/reviewtask/filter.js"></script>

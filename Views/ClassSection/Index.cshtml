@@ -61,7 +61,7 @@
             <div class="card">
                 <div class="card-header border-bottom-1 pt-3">
                     <div class="row">
-                        <div class="mb-3 col-md-4 col-12">
+                        <div class="mb-3 col-md-3 col-12">
                             <label class="form-label">Học kỳ</label>
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstHocKy)
@@ -74,6 +74,22 @@
                                     else
                                     {
                                         <option value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-3 col-12 ">
+                            <label class="form-label">Ngành</label>
+                            <select id="nganh" class="form-select" data-width="100%">
+                                @foreach (var item in lstNganh)
+                                {
+                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    {
+                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                    }
+                                    else
+                                    {
+                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
                                     }
                                 }
                             </select>

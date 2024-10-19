@@ -36,7 +36,7 @@
                         $('body').find('[id="btnEditSubmit"]').prop('hidden', false);
                     }
                     else {
-                        $('body').find('[id="huydangky"]').prop('hidden', true);
+                        $('body').find('[id="btnHuydangky"]').prop('hidden', true);
                         $('body').find('[id="btnSubmit"]').prop('hidden', false);
                         $('body').find('[id="btnEditSubmit"]').prop('hidden', true);
                     }

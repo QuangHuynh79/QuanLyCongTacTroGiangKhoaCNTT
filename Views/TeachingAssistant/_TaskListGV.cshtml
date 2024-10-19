@@ -5,7 +5,8 @@
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
     var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
-    var lstHocKy = models.HocKy.ToList();
+    var lstHocKy = models.HocKy.Where(w => w.LopHocPhan.Where(wl => wl.MaCBGD.ToLower().Equals(ma) && wl.CongViec.Count() > 0
+    && wl.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).Count() > 0).ToList();
 
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
@@ -14,7 +15,8 @@
         id_hkGanNhat = hkGanNhat.ID;
     }
 
-    var task = models.LopHocPhan.Where(w => w.MaCBGD.ToLower().Equals(ma) && w.CongViec.Count > 0).ToList();
+    var tasks = models.LopHocPhan.Where(w => w.MaCBGD.ToLower().Equals(ma) && w.CongViec.Count > 0 && w.ID_HocKy == id_hkGanNhat).ToList();
+    var task = tasks.Where(w => w.DeXuatTroGiang.First().TrangThai == true).ToList();
     var firstTask = task.Count > 0 ? task.First() : new LopHocPhan();
 }
 <div class="card" id="pageload">
@@ -50,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="content-filterLHP">
         <div class="row">
             <div class="col-12">
                 <div class="task-kanban-container">
@@ -213,7 +215,7 @@
                                                                             if (item.KetQuaCongViec.Equals("hoanthanh"))
                                                                             {
                                                                                 <h5 class="badge bg-success text-center w-100">
-                                                                                    <i class="bi bi-x-circle me-2"></i>Được đánh giá đã hoàn thành
+                                                                                    <i class="bi bi-check-circle me-2"></i>Được đánh giá đã hoàn thành
                                                                                 </h5>
                                                                             }
                                                                             else
