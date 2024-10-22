@@ -16,7 +16,7 @@
         id_hkGanNhat = lstHk.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ThoiGianMo <= currentDate && w.ThoiGianDong >= currentDate && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
+    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
 
     int id_nganhCNTT = 0;
     int idForm = 0;
@@ -26,7 +26,7 @@
         idForm = formDky.ID;
     }
 
-    var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
+    var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm).ToList().OrderByDescending(o => o.ID);
     int i = 0;
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
@@ -88,7 +88,7 @@
                             <select id="nganh" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    if (item.ID == id_nganhCNTT)
                                     {
                                         <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                     }
