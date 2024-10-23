@@ -79,7 +79,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
             else
             {
-                string ma = "";
+                string ma = null;
                 string hoten = FullName;
 
                 string pattern = string.Format(@"\b{0}\b", " - ");
@@ -90,12 +90,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     FullName = FullName.Replace(" - ", "#");
                     ma = FullName.Split('#')[0].Trim();
                     hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
-                }
-                else if (counter == 1)
-                {
-                    FullName = FullName.Replace(" - ", "#");
-                    ma = FullName.Split('#')[0];
-                    hoten = FullName.Split('#')[1].Trim();
                 }
 
                 var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
@@ -108,7 +102,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 aspNetUsers.TwoFactorEnabled = false;
                 aspNetUsers.LockoutEnabled = false;
                 aspNetUsers.AccessFailedCount = 0;
-                aspNetUsers.UserName = ma;
+                aspNetUsers.UserName = ma != null ? ma : hoten;
                 aspNetUsers.AspNetRoles = aspNetRolesSinhVien;
                 model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
