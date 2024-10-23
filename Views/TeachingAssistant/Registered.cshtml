@@ -26,7 +26,7 @@
         idForm = formDky.ID;
     }
 
-    var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm).ToList().OrderByDescending(o => o.ID);
+    var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm).ToList().OrderBy(o => o.ID);
     int i = 0;
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
