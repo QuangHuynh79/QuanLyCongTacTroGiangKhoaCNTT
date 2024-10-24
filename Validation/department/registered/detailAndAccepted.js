@@ -36,10 +36,13 @@
                 if (trangthai == "true") {
                     $('body').find('[id="btnSubmit"]').prop('hidden', true);
                     $('body').find('[id="btnCancel"]').prop('hidden', false);
-
+                }
+                else if (trangthai == "false") {
+                    $('body').find('[id="btnSubmit"]').prop('hidden', false);
+                    $('body').find('[id="btnCancel"]').prop('hidden', true);
                 }
                 else {
-                    $('body').find('[id="btnSubmit"]').prop('hidden', false);
+                    $('body').find('[id="btnSubmit"]').prop('hidden', true);
                     $('body').find('[id="btnCancel"]').prop('hidden', true);
                 }
                 $('body').find('[id="apply"]').modal('toggle');

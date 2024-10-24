@@ -108,12 +108,12 @@
                             </select>
                         </div>
                         @*<div class="mb-3 col-md-3 col-12" style="display: flex; flex-direction: row; align-items: end">
-                            <div style="width: 100%; text-align: end">
-                                <a id="btnExport" class="btn btn-outline-secondary">
-                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
-                                </a>
-                            </div>
-                        </div>*@
+                                <div style="width: 100%; text-align: end">
+                                    <a id="btnExport" class="btn btn-outline-secondary">
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                    </a>
+                                </div>
+                            </div>*@
                     </div>
                 </div>
                 <!-- table  -->
@@ -135,6 +135,9 @@
                                 @foreach (var item in lstUs)
                                 {
                                     i++;
+                                    int idtk = item.ID_TaiKhoan;
+                                    int idlhp = item.ID_LopHocPhan;
+
                                     <tr>
                                         <td valign="middle">@i</td>
                                         <td valign="middle">
@@ -160,7 +163,11 @@
                                             TK môn: @item.DiemTKMH
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            @if (!item.TrangThai)
+                                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
+                                            {
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-primary">Đã phân công</span>
+                                            }
+                                            else if (!item.TrangThai)
                                             {
                                                 <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
                                             }
@@ -170,9 +177,18 @@
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
-                                            </a>
+                                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) == null)
+                                            {
+                                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
+                                                </a>
+                                            }
                                         </td>
                                     </tr>
                                 }
