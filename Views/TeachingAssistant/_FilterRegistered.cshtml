@@ -23,6 +23,7 @@
                 @foreach (var item in Model.ToList().OrderBy(o => o.ID))
                 {
                     i++;
+                    int idut = item.ID;
                     int idtk = item.ID_TaiKhoan;
                     int idlhp = item.ID_LopHocPhan;
 
@@ -53,7 +54,11 @@
                         <td valign="middle" class="text-nowrap">
                             @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
                             {
-                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã phân công</span>
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-primary">Đã phân công</span>
+                            }
+                            else if (models.DanhGiaPhongVan.FirstOrDefault(f => f.ID_UngTuyenTroGiang == idut) != null)
+                            {
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-danger">Phỏng vấn trượt</span>
                             }
                             else if (!item.TrangThai)
                             {
@@ -65,16 +70,22 @@
                             }
                         </td>
                         <td valign="middle" class="text-nowrap">
-                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) == null)
+                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
                             {
-                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
+                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
+                                </a>
+                            }
+                            else if (models.DanhGiaPhongVan.FirstOrDefault(f => f.ID_UngTuyenTroGiang == idut) != null)
+                            {
+                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
                                 </a>
                             }
                             else
                             {
-                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
+                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
                                 </a>
                             }
                         </td>
