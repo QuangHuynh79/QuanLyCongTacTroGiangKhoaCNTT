@@ -593,13 +593,6 @@
     <Content Include="Views\TeachingAssistant\_OpenApply.cshtml" />
     <Content Include="Views\ClassSection\_TaskListViewEdit.cshtml" />
     <Content Include="Views\TeachingAssistant\_OpenTaskDetailApply.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\TeachingAssistant\_DetailRegistered.cshtml" />
     <Content Include="Views\TeachingAssistant\_FilterRegistered.cshtml" />
     <Content Include="Views\TeachingAssistant\_FilterRegistereds.cshtml" />
@@ -614,6 +607,13 @@
     <Content Include="Views\ReviewTask\Index.cshtml" />
     <Content Include="Views\ReviewTask\_FilterCongViec.cshtml" />
     <Content Include="Views\ReviewTask\_OpenEditReviewTask.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -702,7 +702,6 @@
     <Content Include="Views\TeachingAssistant\_Apply.cshtml" />
     <Content Include="Views\Shared\_TALayout.cshtml" />
     <Content Include="Views\TeachingAssistant\_TaskListTA.cshtml" />
-    <Content Include="Views\TeachingAssistant\ListTA.cshtml" />
     <Content Include="Views\TeachingAssistant\Advances.cshtml" />
     <Content Include="Views\TeachingAssistant\Registered.cshtml" />
     <Content Include="Views\TimeTable\_IndexTA.cshtml" />

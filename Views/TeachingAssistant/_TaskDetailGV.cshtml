@@ -7,121 +7,171 @@
 }
 <div class="modal-body" id="contentTaskDetail">
     <div class="row">
-        <div class="col-8">
+        <div class="col-12">
             <div class="row">
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label class="form-label" for="hoten">
-                            Mô tả công việc
-                        </label>
-                        <textarea class="form-control text-dark" style="height: 126px !important;" disabled>@Model.MoTa</textarea>
-                        <span class="text-danger" id="valid-hoten"></span>
+                <div class="col-8">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="hoten">
+                                    Mô tả công việc
+                                </label>
+                                <textarea class="form-control text-dark" style="min-height: 197px !important;" disabled>@Model.MoTa</textarea>
+                                <span class="text-danger" id="valid-hoten"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label class="form-label" for="hoten">
-                            Kết quả mong đợi
-                        </label>
-                        <textarea class="form-control text-dark" style="height: 126px !important;" disabled>@Model.KetQuaMongDoi</textarea>
-                        <span class="text-danger" id="valid-hoten"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="mb-3">
-                        <input hidden id="roletask" value="gv" />
-                        <input hidden id="idtask" value="@Model.ID" />
+                <div class="col-4">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <input hidden id="roletask" value="gv" />
+                                <input hidden id="idtask" value="@Model.ID" />
+                                <input hidden id="hideBtnSubmit" value="@(!Model.TrangThai.Equals("hoanthanh") ? "true" : "false")" />
 
-                        @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
-                        {
-                            <label class="form-label" for="tinhtrang">
-                                Tình trạng <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-select" id="tinhtrang">
-                                @if (string.IsNullOrEmpty(Model.KetQuaCongViec))
+                                @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
                                 {
-                                    <option selected value="">---- Chọn tình trạng ----</option>
-                                    <option value="chuahoanthanh">Chưa hoàn thành</option>
-                                    <option value="hoanthanh">Hoàn thành</option>
-                                }
-                                else if (Model.KetQuaCongViec.Equals("hoanthanh"))
-                                {
-                                    <option value="">---- Chọn tình trạng ----</option>
-                                    <option value="chuahoanthanh">Chưa hoàn thành</option>
-                                    <option selected value="hoanthanh">Hoàn thành</option>
+                                    <label class="form-label" for="tinhtrang">
+                                        Tình trạng <span class="text-danger">*</span>
+                                    </label>
+                                    <select @(!Model.TrangThai.Equals("hoanthanh") ? "disabled" : "") class="form-select text-dark" id="tinhtrang">
+                                        @if (string.IsNullOrEmpty(Model.KetQuaCongViec))
+                                        {
+                                            <option selected value="">---- Chọn tình trạng ----</option>
+                                            <option value="chuahoanthanh">Chưa hoàn thành</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else if (Model.KetQuaCongViec.Equals("hoanthanh"))
+                                        {
+                                            <option value="">---- Chọn tình trạng ----</option>
+                                            <option value="chuahoanthanh">Chưa hoàn thành</option>
+                                            <option selected value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">---- Chọn tình trạng ----</option>
+                                            <option selected value="chuahoanthanh">Chưa hoàn thành</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                    </select>
                                 }
                                 else
                                 {
-                                    <option value="">---- Chọn tình trạng ----</option>
-                                    <option selected value="chuahoanthanh">Chưa hoàn thành</option>
-                                    <option value="hoanthanh">Hoàn thành</option>
+                                    <label class="form-label" for="trangthai">
+                                        Trạng thái <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="trangthai">
+                                        @if (Model.TrangThai.Equals("canlam"))
+                                        {
+                                            <option selected value="Cần làm">Cần làm</option>
+                                            <option value="Đang thực hiện">Đang thực hiện</option>
+                                            <option value="Hoàn thành">Hoàn thành</option>
+                                        }
+                                        else if (Model.KetQuaCongViec.Equals("hoanthanh"))
+                                        {
+                                            <option value="canlam">Cần làm</option>
+                                            <option value="dangthuchien">Đang thực hiện</option>
+                                            <option selected value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="canlam">Cần làm</option>
+                                            <option selected value="dangthuchien">Đang thực hiện</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                    </select>
                                 }
-                            </select>
-                        }
-                        else
-                        {
-                            <label class="form-label" for="trangthai">
-                                Trạng thái <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-select" id="trangthai">
-                                @if (Model.TrangThai.Equals("canlam"))
-                                {
-                                    <option selected value="Cần làm">Cần làm</option>
-                                    <option value="Đang thực hiện">Đang thực hiện</option>
-                                    <option value="Hoàn thành">Hoàn thành</option>
-                                }
-                                else if (Model.KetQuaCongViec.Equals("hoanthanh"))
-                                {
-                                    <option value="canlam">Cần làm</option>
-                                    <option value="dangthuchien">Đang thực hiện</option>
-                                    <option selected value="hoanthanh">Hoàn thành</option>
-                                }
-                                else
-                                {
-                                    <option value="canlam">Cần làm</option>
-                                    <option selected value="dangthuchien">Đang thực hiện</option>
-                                    <option value="hoanthanh">Hoàn thành</option>
-                                }
-                            </select>
-                        }
 
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label class="form-label" for="">
-                            Số giờ quy đổi @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
-                        </label>
-                        <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label class="form-label" for="">
-                            Thời hạn hoàn thành
-                        </label>
-                        <input id="editHanHoanThanh" value="@Model.ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="text" class="form-control text-dark" disabled />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label class="form-label" for="">
-                            Nơi làm việc
-                        </label>
-                        <input value="@Model.NoiLamViec" type="text" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Số giờ quy đổi @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
+                                </label>
+                                <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Số giờ thực tế @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
+                                </label>
+                                <input value="@Model.SoGioThucTe.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12">
-            <div class="mb-3">
-                <label class="form-label" for="ghichu">Ghi chú</label>
-                <textarea id="ghichu" maxlength="300" placeholder="Nhập tối đa 300 ký tự" rows="4" class="form-control text-dark" autofocus>@Model.GhiChu</textarea>
+            <div class="row">
+                <div class="col-8">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="hoten">
+                                    Kết quả mong đợi
+                                </label>
+                                <textarea class="form-control text-dark" style="min-height: 118px !important;" disabled>@Model.KetQuaMongDoi</textarea>
+                                <span class="text-danger" id="valid-hoten"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Thời hạn hoàn thành
+                                </label>
+                                <input id="editHanHoanThanh" value="@Model.ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="text" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Nơi làm việc
+                                </label>
+                                <input value="@Model.NoiLamViec" type="text" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="col-12">
+            <div class="mb-2">
+                <label class="form-label" for="ghichu">Ghi chú</label>
+                <textarea @(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "") id="ghichu" maxlength="300" placeholder="Nhập tối đa 300 ký tự" rows="4" class="form-control text-dark" autofocus>@Model.GhiChu</textarea>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.HinhAnhMinhChung))
+        {
+            <div class="col-12">
+                <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng</label>
+                <div class="row">
+                    @foreach (var item in Model.HinhAnhMinhChung.Split('#').ToList())
+                    {
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <!-- Gallery -->
+                                <a href="@Url.Content(item)" class="glightbox" data-gallery="gallery1">
+                                    <img src="@Url.Content(item)" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        const lightbox = GLightbox({ touchNavigation: !0, loop: !0, autoplayVideos: !0 });
+    });
+</script>

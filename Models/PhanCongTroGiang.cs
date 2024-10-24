@@ -18,7 +18,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID_LopHocPhan { get; set; }
         public int ID_TaiKhoan { get; set; }
         public bool DaNghiViec { get; set; }
-        public double SoGioThucTe { get; set; }
         public Nullable<bool> TrangThai { get; set; }
         public string GhiChu { get; set; }
     

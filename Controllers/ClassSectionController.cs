@@ -165,6 +165,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],
                         TrangThai = "canlam",
+                        SoGioThucTe = 0,
                     }; model.CongViec.Add(cv);
                 }
                 model.SaveChanges();
@@ -239,6 +240,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],
                         TrangThai = "canlam",
+                        SoGioThucTe = 0,
                     }; model.CongViec.Add(cv);
                 }
                 model.SaveChanges();

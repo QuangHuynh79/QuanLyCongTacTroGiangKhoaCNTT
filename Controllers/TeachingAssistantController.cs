@@ -168,12 +168,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize, GVandBCNRole]
-        public ActionResult ListTA() //GV và BCN Xem danh sách trợ giảng đã được chọn làm TA
-        {
-            return View("ListTA");
-        }
-
         [Authorize, BCNRole]
         public ActionResult Advances() //BCN xem danh sách lớp học phần đã được GV chọn đề xuất học phần
         {
@@ -626,7 +620,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     pc.ID_LopHocPhan = idlhp;
                     pc.ID_TaiKhoan = idtk;
                     pc.DaNghiViec = false;
-                    pc.SoGioThucTe = 0;
                     pc.TrangThai = false;
                     pc.GhiChu = "";
 
@@ -867,15 +860,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelApply(int idFORM, int idTK) //Mở hộp xem chi tiết công việc LHP cần đăng ký trợ giảng
+        public ActionResult CancelApply(int idFORM, int idTK, int idLHP) //Mở hộp xem chi tiết công việc LHP cần đăng ký trợ giảng
         {
             try
             {
                 model = new CongTacTroGiangKhoaCNTTEntities();
-                var ut = model.UngTuyenTroGiang.FirstOrDefault(f => f.ID_FormDangKyTroGiang == idFORM && f.ID_TaiKhoan == idTK);
+                var ut = model.UngTuyenTroGiang.FirstOrDefault(f => f.ID_FormDangKyTroGiang == idFORM && f.ID_TaiKhoan == idTK && f.ID_LopHocPhan == idLHP);
                 if (ut == null)
                     return Content("Chi tiết lỗi: " + "Không tìm thấy thông tin ứng tuyển trợ giảng.");
 
+                model.DanhGiaPhongVan.RemoveRange(ut.DanhGiaPhongVan);
                 model.UngTuyenTroGiang.Remove(ut);
                 model.SaveChanges();
                 model = new CongTacTroGiangKhoaCNTTEntities();

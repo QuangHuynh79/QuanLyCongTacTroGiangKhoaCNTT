@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="443764e84f75489e87f814031af81af5" Name="Diagram1">
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="18.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
+      <Diagram DiagramId="3f5221e4a4514e02b32b4cca7a99596c" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUsers" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUsers" Width="1.5" PointX="3" PointY="17.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.CongViec" Width="1.5" PointX="10.5" PointY="17.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.DanhGiaPhongVan" Width="1.5" PointX="21" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.DanhGiaPhongVan" Width="1.5" PointX="21" PointY="15.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.DanhSachSinhVien" Width="1.5" PointX="12.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.DeXuatTroGiang" Width="1.5" PointX="12.75" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.DeXuatTroGiang" Width="1.5" PointX="12.75" PointY="22.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.DiemDanh" Width="1.5" PointX="15" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.FormDangKyTroGiang" Width="1.5" PointX="13.5" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.HocKy" Width="1.5" PointX="8.25" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.Khoa" Width="1.5" PointX="3.75" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.LopHocPhan" Width="1.5" PointX="10.5" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.Nganh" Width="1.5" PointX="6" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.PhanCongTroGiang" Width="1.5" PointX="15.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.FormDangKyTroGiang" Width="1.5" PointX="13.5" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.HocKy" Width="1.5" PointX="8.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.Khoa" Width="1.5" PointX="3.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.LopHocPhan" Width="1.5" PointX="10.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.Nganh" Width="1.5" PointX="6" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.PhanCongTroGiang" Width="1.5" PointX="15.75" PointY="15.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Width="1.5" PointX="8.25" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThoiKhoaBieu" Width="1.5" PointX="17.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThongBao" Width="1.5" PointX="10.5" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Width="1.5" PointX="8.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThoiKhoaBieu" Width="1.5" PointX="17.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThongBao" Width="1.5" PointX="10.5" PointY="33.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.UngTuyenTroGiang" Width="1.5" PointX="18.75" PointY="15.375" IsExpanded="true" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserID" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserID" ManuallyRouted="false" />

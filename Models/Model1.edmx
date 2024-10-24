@@ -71,6 +71,8 @@
           <Property Name="GhiChu" Type="nvarchar(max)" />
           <Property Name="KetQuaCongViec" Type="nvarchar" MaxLength="20" />
           <Property Name="ID_TaiKhoan" Type="int" />
+          <Property Name="SoGioThucTe" Type="float" Nullable="false" />
+          <Property Name="HinhAnhMinhChung" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DanhGiaPhongVan">
           <Key>
@@ -194,7 +196,6 @@
           <Property Name="ID_LopHocPhan" Type="int" Nullable="false" />
           <Property Name="ID_TaiKhoan" Type="int" Nullable="false" />
           <Property Name="DaNghiViec" Type="bit" Nullable="false" />
-          <Property Name="SoGioThucTe" Type="float" Nullable="false" />
           <Property Name="TrangThai" Type="bit" />
           <Property Name="GhiChu" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -841,8 +842,10 @@
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="KetQuaCongViec" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ID_TaiKhoan" Type="Int32" />
+          <Property Name="SoGioThucTe" Type="Double" Nullable="false" />
           <NavigationProperty Name="LopHocPhan" Relationship="Self.FK_CongViec_LopHocPhan" FromRole="CongViec" ToRole="LopHocPhan" />
           <NavigationProperty Name="TaiKhoan" Relationship="Self.FK_CongViec_TaiKhoan" FromRole="CongViec" ToRole="TaiKhoan" />
+          <Property Name="HinhAnhMinhChung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DanhGiaPhongVan">
           <Key>
@@ -893,8 +896,8 @@
           <Property Name="ID_LopHocPhan" Type="Int32" Nullable="false" />
           <Property Name="LyDoDeXuat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TrangThai" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="LopHocPhan" Relationship="Self.FK_DeXuatTroGiang_LopHocPhan" FromRole="DeXuatTroGiang" ToRole="LopHocPhan" />
           <Property Name="MoCapNhat" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="LopHocPhan" Relationship="Self.FK_DeXuatTroGiang_LopHocPhan" FromRole="DeXuatTroGiang" ToRole="LopHocPhan" />
         </EntityType>
         <EntityType Name="DiemDanh">
           <Key>
@@ -994,7 +997,6 @@
           <Property Name="ID_LopHocPhan" Type="Int32" Nullable="false" />
           <Property Name="ID_TaiKhoan" Type="Int32" Nullable="false" />
           <Property Name="DaNghiViec" Type="Boolean" Nullable="false" />
-          <Property Name="SoGioThucTe" Type="Double" Nullable="false" />
           <Property Name="TrangThai" Type="Boolean" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="LopHocPhan" Relationship="Self.FK_PhanCongTroGiang_LopHocPhan" FromRole="PhanCongTroGiang" ToRole="LopHocPhan" />
@@ -1616,6 +1618,7 @@
           <EntitySetMapping Name="CongViec">
             <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.CongViec">
               <MappingFragment StoreEntitySet="CongViec">
+                <ScalarProperty Name="HinhAnhMinhChung" ColumnName="HinhAnhMinhChung" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_LopHocPhan" ColumnName="ID_LopHocPhan" />
                 <ScalarProperty Name="MoTa" ColumnName="MoTa" />
@@ -1627,6 +1630,7 @@
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
                 <ScalarProperty Name="KetQuaCongViec" ColumnName="KetQuaCongViec" />
                 <ScalarProperty Name="ID_TaiKhoan" ColumnName="ID_TaiKhoan" />
+                <ScalarProperty Name="SoGioThucTe" ColumnName="SoGioThucTe" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1673,11 +1677,11 @@
           <EntitySetMapping Name="DeXuatTroGiang">
             <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.DeXuatTroGiang">
               <MappingFragment StoreEntitySet="DeXuatTroGiang">
-                <ScalarProperty Name="MoCapNhat" ColumnName="MoCapNhat" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_LopHocPhan" ColumnName="ID_LopHocPhan" />
                 <ScalarProperty Name="LyDoDeXuat" ColumnName="LyDoDeXuat" />
                 <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="MoCapNhat" ColumnName="MoCapNhat" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1760,7 +1764,6 @@
                 <ScalarProperty Name="ID_LopHocPhan" ColumnName="ID_LopHocPhan" />
                 <ScalarProperty Name="ID_TaiKhoan" ColumnName="ID_TaiKhoan" />
                 <ScalarProperty Name="DaNghiViec" ColumnName="DaNghiViec" />
-                <ScalarProperty Name="SoGioThucTe" ColumnName="SoGioThucTe" />
                 <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
               </MappingFragment>

@@ -27,7 +27,13 @@ $(document).ready(function () {
 
             }
             else {
-                $('body').find('[id="contentTaskDetail"]').replaceWith(ketqua);
+                $('body').find('[id="contentTaskDetail"]').replaceWith(ketqua); 
+                if ($('body').find('[id="hideBtnSubmit"]').val() == "true") {
+                    $('body').find('[id="btnSubmit"]').prop('hidden', true);
+                }
+                else {
+                    $('body').find('[id="btnSubmit"]').prop('hidden', false);
+                }
                 $('body').find('[id="chitietmodal"]').modal('toggle');
             }
         });
