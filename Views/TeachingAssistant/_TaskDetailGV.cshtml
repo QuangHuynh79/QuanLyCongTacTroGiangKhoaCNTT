@@ -16,7 +16,7 @@
                                 <label class="form-label" for="hoten">
                                     Mô tả công việc
                                 </label>
-                                <textarea class="form-control text-dark" style="min-height: 197px !important;" disabled>@Model.MoTa</textarea>
+                                <textarea class="form-control text-dark" style="min-height: 118px !important;" disabled>@Model.MoTa</textarea>
                                 <span class="text-danger" id="valid-hoten"></span>
                             </div>
                         </div>
@@ -91,14 +91,6 @@
                                     Số giờ quy đổi @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
                                 </label>
                                 <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-2">
-                                <label class="form-label" for="">
-                                    Số giờ thực tế @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
-                                </label>
-                                <input value="@Model.SoGioThucTe.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
                             </div>
                         </div>
                     </div>

@@ -24,19 +24,41 @@
 
         var lsttrangthai = "";
         var lstid = "";
+        var lstthucte = "";
+        var check = true;
+
+        $('body').find('[id^="thucte-"]').each(function () {
+            var thucte = $(this);
+            if (thucte.val().trim().length < 1) {
+                check = false;
+
+                btn.html('Lưu thông tin');
+                btn.prop('disabled', false);
+                $('body').find('[id="btnClose"]').prop('disabled', false);
+                thucte.focus();
+                $('body').find('[id="valid-thucte-' + thucte.attr('name') + '"]').text('Vui lòng nhập');
+            }
+            else {
+                lstthucte += thucte.val() + "#";
+                $('body').find('[id="valid-thucte-' + thucte.attr('name') + '"]').text('');
+            }
+        });
 
         $('body').find('[id^="select-danhgia-"]').each(function () {
             lstid += $(this).attr('name') + "#";
             lsttrangthai += $(this).prop("checked") + "#";
         });
 
-        if (lstid.length > 0) {
+        if (check == true && lstid.length > 0) {
             lstid = lstid.substring(0, lstid.length - 1);
             lsttrangthai = lsttrangthai.substring(0, lsttrangthai.length - 1);
+            lstthucte = lstthucte.substring(0, lstthucte.length - 1);
 
             var formData = new FormData();
             formData.append('lstid', lstid);
             formData.append('lsttrangthai', lsttrangthai);
+            formData.append('lstthucte', lstthucte);
+
             formData.append('ghichu', $('body').find('[id="ghichu"]').val());
 
             $.ajax({
@@ -73,18 +95,6 @@
                         window.location.reload();
                     });
                 }
-            });
-        }
-        else {
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnClose"]').prop('disabled', false);
-
-            Toast.fire({
-                icon: "error",
-                title: "Đã có lỗi xảy ra, vui lòng thử lại sau!"
-            }).then(() => {
-                window.location.reload();
             });
         }
     });
