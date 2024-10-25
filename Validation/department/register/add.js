@@ -86,6 +86,16 @@
             validthoigianmo.text("Vui lòng không bỏ trống Thời gian mở.");
             $('body').find('[id="thoigianmo"]').focus();
         }
+        else if (thoigianmo.length > 10) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnClose"]').prop('disabled', false);
+
+            validthoigianmo.text("Thời gian mở chưa đúng định dạng.");
+            $('body').find('[id="thoigianmo"]').focus();
+        }
 
         if (thoigiandong.length < 1) {
             check = false;
@@ -95,6 +105,16 @@
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
             validthoigiandong.text("Vui lòng không bỏ trống Thời gian đóng.");
+            $('body').find('[id="thoigiandong"]').focus();
+        }
+        else if (thoigiandong.length > 10) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnClose"]').prop('disabled', false);
+
+            validthoigiandong.text("Thời gian đóng chưa đúng định dạng.");
             $('body').find('[id="thoigiandong"]').focus();
         }
 
@@ -114,8 +134,9 @@
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
-                $('body').find('[id="themmoi"]').modal('toggle');
                 if (ketqua == "SUCCESS") {
+                    $('body').find('[id="themmoi"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
@@ -126,7 +147,6 @@
                     }).then(() => {
                         window.location.reload();
                     });
-                    
                 }
                 else if (ketqua == "Exist") {
                     btn.html('Lưu thông tin');
@@ -135,9 +155,17 @@
 
                     Toast.fire({
                         icon: "error",
-                        title: "Thời gian đăng ký " + hocky + " bị trùng."
+                        title: "Thời gian đăng ký bị trùng."
                     });
                    
+                }
+                else if (ketqua == "NhoHonHienTai") {
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                    validthoigianmo.text("Ngày đăng ký phải sau ngày hiện tại.");
+                    $('body').find('[id="thoigianmo"]').focus();
                 }
                 else if (ketqua == "LonHonDangKy") {
                     btn.html('Lưu thông tin');
@@ -148,6 +176,8 @@
                     $('body').find('[id="thoigiandong"]').focus();
                 }
                 else {
+                    $('body').find('[id="themmoi"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
@@ -160,7 +190,6 @@
                     });
                 }
             });
-
         }
     });
 });

@@ -52,12 +52,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
                         else if (roleId == 2)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TeacherLayout.cshtml";
-                        else if (roleId == 3)
+                        else if (roleId == 3 || roleId == 5)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_DepartmentLayout.cshtml";
                         else if (roleId == 4)
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TALayout.cshtml";
-                        else if (roleId == 5)
-                            filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_OfficeOfTrainingLayout.cshtml";
                         else
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
 

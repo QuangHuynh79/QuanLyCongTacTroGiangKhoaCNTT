@@ -50,9 +50,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
+                var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                 var check = model.FormDangKyTroGiang.FirstOrDefault(f => f.ID_Nganh == nganh && f.ID_HocKy == hocky
                 && ((f.ThoiGianMo <= thoigianmo && f.ThoiGianDong >= thoigianmo)
                 || (f.ThoiGianMo <= thoigiandong && f.ThoiGianDong >= thoigiandong)));
+
+                if (thoigianmo <= currentDate)
+                    return Content("NhoHonHienTai");
+
                 if (check != null)
                     return Content("Exist");
 
@@ -73,15 +78,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.SaveChanges();
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
-                var thongbao = new ThongBao()
-                {
-                    TieuDe = "Ứng tuyển trợ giảng học kỳ " + form.HocKy.TenHocKy,
-                    NoiDung = "Ứng tuyển trợ giảng học kỳ " + form.HocKy.TenHocKy + " năm học " + form.HocKy.NamBatDau + "-" + form.HocKy.NamKetThuc
-                    + ". Thời gian ứng tuyển từ ngày " + form.ThoiGianMo.ToString("dd/MM/yyyy") + " đến ngày" + form.ThoiGianDong.Value.ToString("dd/MM/yyyy"),
-                    ThoiGian = DateTime.Now,
-                    DaDoc = false,
-                    ForRole = "1#4",
-                };
+                var hockyDb = model.HocKy.Find(hocky);
+                var thongbao = new ThongBao();
+
+                thongbao.TieuDe = "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy;
+                thongbao.NoiDung = "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + " năm học " + hockyDb.NamBatDau + "-" + hockyDb.NamKetThuc
+                + ". Thời gian ứng tuyển từ ngày " + thoigianmo.ToString("dd/MM/yyyy") + " đến ngày" + thoigiandong.ToString("dd/MM/yyyy");
+                thongbao.ThoiGian = DateTime.Now;
+                thongbao.DaDoc = false;
+                thongbao.ForRole = "1#4";
+
                 model.ThongBao.Add(thongbao);
                 model.SaveChanges();
 
