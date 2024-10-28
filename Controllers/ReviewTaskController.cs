@@ -72,17 +72,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult SubmitReviewTask(string lstid, string lsttrangthai, string lstthucte, string ghichu)
+        public ActionResult SubmitReviewTask(string lstid, string lsttrangthai, string ghichu, string giothucte)
         {
             try
             {
                 var id = lstid.Split('#');
                 var trangthai = lsttrangthai.Split('#');
-                var thucte = lstthucte.Split('#');
 
                 int idPc = Convert.ToInt32(id[0]); 
                 var pc = model.CongViec.Find(idPc).LopHocPhan.PhanCongTroGiang.First();
                 pc.TrangThai = true;
+                pc.SoGioThucTe = float.Parse(giothucte.Replace(".", ","));
                 pc.GhiChu = ghichu;
                 model.Entry(pc).State = System.Data.Entity.EntityState.Modified;
 
@@ -93,12 +93,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     if(Convert.ToBoolean(trangthai[i]))
                     {
                         congviec.KetQuaCongViec = "hoanthanh";
-                        congviec.SoGioThucTe = float.Parse(thucte[i].Replace(".", ","));
                     }
                     else
                     {
                         congviec.KetQuaCongViec = "chuahoanthanh";
-                        congviec.SoGioThucTe = float.Parse(thucte[i].Replace(".", ","));
                     }
                     model.Entry(congviec).State = System.Data.Entity.EntityState.Modified;
                 }

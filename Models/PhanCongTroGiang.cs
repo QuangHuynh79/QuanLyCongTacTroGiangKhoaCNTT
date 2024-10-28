@@ -20,6 +20,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public bool DaNghiViec { get; set; }
         public Nullable<bool> TrangThai { get; set; }
         public string GhiChu { get; set; }
+        public double SoGioThucTe { get; set; }
     
         public virtual LopHocPhan LopHocPhan { get; set; }
         public virtual TaiKhoan TaiKhoan { get; set; }

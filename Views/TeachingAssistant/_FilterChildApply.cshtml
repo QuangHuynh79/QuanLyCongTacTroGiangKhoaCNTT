@@ -26,7 +26,7 @@
     @foreach (var item in lstTkb.GroupBy(g => g.LopHocPhan.MaMH))
     {
         <tr>
-            <td class="bg-secondary text-white" style="box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
+            <td class="bg-secondary text-white" style="z-index: 1022; box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
             @for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 5; j++)

@@ -148,7 +148,7 @@
                                         </td>
                                         <td valign="middle">@(item.ThoiKhoaBieu.First().Thu); Tiết @(item.ThoiKhoaBieu.First().TietHoc); Tuần @(item.ThoiKhoaBieu.First().TuanBD) - @(item.ThoiKhoaBieu.First().TuanKT); Phòng @(item.ThoiKhoaBieu.First().Phong)</td>
                                         <td valign="middle">@item.ThoiKhoaBieu.First().SoTietDaXep</td>
-                                        <td valign="middle">0</td>
+                                        <td valign="middle">@item.UngTuyenTroGiang.Count()</td>
                                         <td valign="middle" class="text-nowrap">
                                             @if (item.DeXuatTroGiang.First().TrangThai == false)
                                             {

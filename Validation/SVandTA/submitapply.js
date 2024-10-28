@@ -3,10 +3,34 @@
         var img = $(this);
         $('body').find('[id="valid-hinhanhmc"]').text('');
 
-        if (img[0].files.length > 3) {
-            $('body').find('[id="valid-hinhanhmc"]').text('Vui lòng chọn tối đa 3 hình ảnh.');
+        var anhcuCount = 0;
+        $('body').find('[id^="anhcu-"]').each(function () {
+            anhcuCount++;
+        });
+
+        if (img[0].files.length + anhcuCount > 3) {
+            $('body').find('[id="valid-hinhanhmc"]').text('Vui lòng chọn tối đa ' + (3 - anhcuCount) + ' hình ảnh.');
             img.val(null);
         }
+    });
+
+    $('body').on('click', '[id^="delete-anhcu-"]', function () {
+        var img = $(this);
+        var index = img.attr('name');
+
+        var urlImg = $('body').find('[id="anhcu-' + index + '"]').val();
+        var lstDelete = $('body').find('[id="file-delete-list"]').val();
+
+        if (lstDelete.length < 1) {
+            $('body').find('[id="file-delete-list"]').val(urlImg);
+        }
+        else {
+            $('body').find('[id="file-delete-list"]').val(lstDelete + "#" + urlImg);
+        }
+
+        $('body').find('[id="parent-anhcu-' + index + '"]').replaceWith(null);
+
+        img.tooltip("hide");
     });
 
     $('body').on('click', '[id="btnSubmit"]', function () {
@@ -45,8 +69,12 @@
         validhamc.text('');
 
         var check = true;
+        var anhcuCount = 0;
+        $('body').find('[id^="anhcu-"]').each(function () {
+            anhcuCount++;
+        });
 
-        if (hamc[0].files.length < 1) {
+        if (hamc[0].files.length + anhcuCount < 1) {
             check = false;
 
             btn.html('Lưu thông tin');
@@ -56,14 +84,14 @@
             validhamc.text("Vui lòng không bỏ trống Hình ảnh minh chứng.");
             $('body').find('[id="hamc"]').focus();
         }
-        else if (hamc[0].files.length > 3) {
+        else if (hamc[0].files.length + anhcuCount > 3) {
             check = false;
 
             btn.html('Lưu thông tin');
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validhamc.text("Vui lòng chọn tối đa 3 hình ảnh.");
+            validhamc.text("Vui lòng gửi tối đa 3 hình ảnh.");
             $('body').find('[id="hamc"]').focus();
         }
 
@@ -204,36 +232,23 @@
         }
 
         if (check == true) {
+            var urlImg = $('body').find('[id="file-delete-list"]').val();
 
             var formData = new FormData();
             formData.append('idFORM', idFORM);
             formData.append('idLHP', idLHP);
             formData.append('idTK', idTK);
-
-            formData.append('dienthoai', dienthoai);
-            formData.append('ngaysinh', ngaysinh);
-            formData.append('gioitinh', gioitinh);
-
-            formData.append('tbctl', tbctl);
-            formData.append('drl', drl);
-            formData.append('dtk', dtk);
-
-            for (var i = 0; i < hamc[0].files.length; i++) {
-                var file = hamc[0].files[i];
-                formData.append('hamc', file);
-            }
+            formData.append('url', urlImg);
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-                url: $('#requestPath').val() + "TeachingAssistant/SubmitApply",
+                url: $('#requestPath').val() + "TeachingAssistant/DeleteImageApply",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
-                $('body').find('[id="apply"]').modal('toggle');
-
                 if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
@@ -247,18 +262,73 @@
                     });
                 }
                 else {
-                    btn.html('Lưu thông tin');
-                    btn.prop('disabled', false);
-                    $('body').find('[id="btnClose"]').prop('disabled', false);
+                    formData = new FormData();
+                    formData.append('idFORM', idFORM);
+                    formData.append('idLHP', idLHP);
+                    formData.append('idTK', idTK);
 
-                    Toast.fire({
-                        icon: "success",
-                        title: "Ứng tuyển thành công."
-                    }).then(() => {
-                        window.location.reload();
+                    formData.append('dienthoai', dienthoai);
+                    formData.append('ngaysinh', ngaysinh);
+                    formData.append('gioitinh', gioitinh);
+
+                    formData.append('tbctl', tbctl);
+                    formData.append('drl', drl);
+                    formData.append('dtk', dtk);
+
+                    for (var i = 0; i < hamc[0].files.length; i++) {
+                        var file = hamc[0].files[i];
+                        formData.append('hamc', file);
+                    }
+                    $.ajax({
+                        error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
+                        url: $('#requestPath').val() + "TeachingAssistant/SubmitApply",
+                        data: formData,
+                        dataType: 'html',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                    }).done(function (ketqua) {
+                        $('body').find('[id="apply"]').modal('toggle');
+
+                        if (ketqua.indexOf("Chi tiết lỗi") !== -1) {
+                            btn.html('Lưu thông tin');
+                            btn.prop('disabled', false);
+                            $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                            Toast.fire({
+                                icon: "error",
+                                title: ketqua
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                        else if (ketqua == "SUCCESS") {
+                            btn.html('Lưu thông tin');
+                            btn.prop('disabled', false);
+                            $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                            Toast.fire({
+                                icon: "success",
+                                title: "Ứng tuyển thành công."
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                        else if (ketqua == "SUCCESS2") {
+                            btn.html('Lưu thông tin');
+                            btn.prop('disabled', false);
+                            $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                            Toast.fire({
+                                icon: "success",
+                                title: "Cập nhật thông tin ứng tuyển thành công."
+                            });
+                        }
                     });
+
                 }
             });
+
         }
     });
 });

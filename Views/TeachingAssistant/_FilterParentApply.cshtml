@@ -65,8 +65,8 @@
         <!-- table  -->
         <div class="table-responsive" style="max-height: 72vh">
             <table class="table table-bordered border-secondary text-nowrap mb-0">
-                <thead style="position: sticky; top: 0; z-index: 2">
-                    <tr text-white">
+                <thead style="position: sticky; top: 0; z-index: 1023">
+                    <tr class="bg-secondary text-white">
                         <th class="bg-secondary text-white" style="position: sticky; left: 0; box-shadow: inset -1px -1px 0 #ffffff; text-align: center; padding: 5px 10px 5px 10px;">Thứ</th>
                         <th class="bg-secondary text-white" align="center" colspan="5" style="box-shadow: inset -3px -1px 0 #ffffff; text-align: center; padding: 5px 10px 5px 10px;">Thứ 2</th>
                         <th class="bg-secondary text-white" align="center" colspan="5" style="box-shadow: inset -3px -1px 0 #ffffff; text-align: center; padding: 5px 10px 5px 10px;">Thứ 3</th>
@@ -99,7 +99,7 @@
                     @foreach (var item in lstTkb.GroupBy(g => g.LopHocPhan.MaMH))
                     {
                         <tr>
-                            <td class="bg-secondary text-white" style="box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
+                            <td class="bg-secondary text-white" style="z-index: 1022; box-shadow: inset -1px -1px 0 #ffffff; padding: 10px; white-space: normal; min-width: 140px !important; max-width: 200px; word-break: break-word; position: sticky; left: 0;" valign="middle">@item.Select(s => new { s.LopHocPhan.TenHP }).First().TenHP</td>
                             @for (int i = 0; i < 7; i++)
                             {
                                 for (int j = 0; j < 5; j++)

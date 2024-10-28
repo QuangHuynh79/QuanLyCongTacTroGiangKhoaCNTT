@@ -165,7 +165,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],
                         TrangThai = "canlam",
-                        SoGioThucTe = 0,
                     }; model.CongViec.Add(cv);
                 }
                 model.SaveChanges();
@@ -196,7 +195,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult AddSuggested(int idLHP, string lydo, bool trangthai, string mota, string khoiluong,
+        public ActionResult AddSuggested(int idLHP, string lydo, string giothucte, bool trangthai, string mota, string khoiluong,
             string thoigian, string noilamviec, string ketqua)
         {
             try
@@ -220,13 +219,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         return Content("Sai định dạng-" + i);
                     }
                 }
+
                 var lhp = model.LopHocPhan.Find(idLHP);
                 DeXuatTroGiang dx = new DeXuatTroGiang()
                 {
                     ID_LopHocPhan = idLHP,
                     LyDoDeXuat = lydo,
                     TrangThai = trangthai,
-                    MoCapNhat = !trangthai
+                    MoCapNhat = !trangthai,
                 }; model.DeXuatTroGiang.Add(dx);
 
                 for (int i = 0; i < motas.Count; i++)
@@ -240,7 +240,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],
                         TrangThai = "canlam",
-                        SoGioThucTe = 0,
                     }; model.CongViec.Add(cv);
                 }
                 model.SaveChanges();

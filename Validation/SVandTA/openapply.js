@@ -32,19 +32,16 @@
                 if ($('body').find('[id="daduocduyet"]').val() == "1") {
                     if (typeLHP == "dadk") {
                         $('body').find('[id="btnHuydangky"]').prop('hidden', false);
-                        $('body').find('[id="btnSubmit"]').prop('hidden', true);
-                        $('body').find('[id="btnEditSubmit"]').prop('hidden', false);
+                        $('body').find('[id="btnSubmit"]').prop('hidden', false);
                     }
                     else {
                         $('body').find('[id="btnHuydangky"]').prop('hidden', true);
                         $('body').find('[id="btnSubmit"]').prop('hidden', false);
-                        $('body').find('[id="btnEditSubmit"]').prop('hidden', true);
                     }
                 }
                 else {
                     $('body').find('[id="btnHuydangky"]').prop('hidden', true);
                     $('body').find('[id="btnSubmit"]').prop('hidden', true);
-                    $('body').find('[id="btnEditSubmit"]').prop('hidden', true);
                 }
 
                 $('body').find('[id="idFORMDKY"]').val(idForm);

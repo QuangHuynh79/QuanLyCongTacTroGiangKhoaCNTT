@@ -24,25 +24,13 @@
 
         var lsttrangthai = "";
         var lstid = "";
-        var lstthucte = "";
         var check = true;
 
-        $('body').find('[id^="thucte-"]').each(function () {
-            var thucte = $(this);
-            if (thucte.val().trim().length < 1) {
-                check = false;
-
-                btn.html('Lưu thông tin');
-                btn.prop('disabled', false);
-                $('body').find('[id="btnClose"]').prop('disabled', false);
-                thucte.focus();
-                $('body').find('[id="valid-thucte-' + thucte.attr('name') + '"]').text('Vui lòng nhập');
-            }
-            else {
-                lstthucte += thucte.val() + "#";
-                $('body').find('[id="valid-thucte-' + thucte.attr('name') + '"]').text('');
-            }
-        });
+        var giothucte = $('body').find('[id^="thucte"]').val().trim();
+        if (giothucte.length < 1) {
+            $('body').find('[id^="thucte-"]').val("0");
+            giothucte = 0;
+        }
 
         $('body').find('[id^="select-danhgia-"]').each(function () {
             lstid += $(this).attr('name') + "#";
@@ -52,12 +40,11 @@
         if (check == true && lstid.length > 0) {
             lstid = lstid.substring(0, lstid.length - 1);
             lsttrangthai = lsttrangthai.substring(0, lsttrangthai.length - 1);
-            lstthucte = lstthucte.substring(0, lstthucte.length - 1);
 
             var formData = new FormData();
             formData.append('lstid', lstid);
             formData.append('lsttrangthai', lsttrangthai);
-            formData.append('lstthucte', lstthucte);
+            formData.append('giothucte', giothucte);
 
             formData.append('ghichu', $('body').find('[id="ghichu"]').val());
 

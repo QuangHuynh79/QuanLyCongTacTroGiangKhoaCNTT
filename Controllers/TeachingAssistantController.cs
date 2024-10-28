@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -627,6 +628,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     pc.ID_TaiKhoan = idtk;
                     pc.DaNghiViec = false;
                     pc.TrangThai = false;
+                    pc.SoGioThucTe = 0;
                     pc.GhiChu = "";
 
                     model.PhanCongTroGiang.Add(pc);
@@ -793,71 +795,148 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     model.Entry(tk).State = System.Data.Entity.EntityState.Modified;
                     model.SaveChanges();
                 }
-
-                var ut = new UngTuyenTroGiang();
-                ut.ID_FormDangKyTroGiang = idFORM;
-                ut.ID_LopHocPhan = idLHP;
-                ut.ID_TaiKhoan = idTK;
-                ut.MSSV = tk.Ma;
-                ut.Email = tk.Email;
-                ut.HoTen = tk.HoTen;
-                ut.SoDienThoai = dienthoai;
-                ut.NgaySinh = ngaysinh;
-                ut.GioiTinh = gioitinh;
-                ut.DiemRL = drl;
-                ut.DiemTBTL = tbctl;
-                ut.DiemTKMH = dtk;
-
-                string path = "";
-                string pathDirectory = "";
-                string strListImages = "";
-                int i = 0;
-                if (hamc != null)
+                //Chưa ứng tuyển lưu mới
+                if (lhp.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTK) == null)
                 {
-                    foreach (var item in hamc)
-                    {
-                        if (item != null)
-                        {
-                            if (item.ContentLength > 0)
-                            {
-                                i++;
-                                string fileName = item.FileName;
-                                int indexTypeFile = fileName.LastIndexOf(".");
-                                string fileType = fileName.Substring(indexTypeFile, item.FileName.Length - indexTypeFile);
+                    var ut = new UngTuyenTroGiang();
+                    ut.ID_FormDangKyTroGiang = idFORM;
+                    ut.ID_LopHocPhan = idLHP;
+                    ut.ID_TaiKhoan = idTK;
+                    ut.MSSV = tk.Ma;
+                    ut.Email = tk.Email;
+                    ut.HoTen = tk.HoTen;
+                    ut.SoDienThoai = dienthoai;
+                    ut.NgaySinh = ngaysinh;
+                    ut.GioiTinh = gioitinh;
+                    ut.DiemRL = drl;
+                    ut.DiemTBTL = tbctl;
+                    ut.DiemTKMH = dtk;
 
-                                pathDirectory = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP));
-                                if (!Directory.Exists(pathDirectory))
+                    string path = "";
+                    string pathDirectory = "";
+                    string strListImages = "";
+                    int i = 0;
+                    if (hamc != null)
+                    {
+                        foreach (var item in hamc)
+                        {
+                            if (item != null)
+                            {
+                                if (item.ContentLength > 0)
                                 {
-                                    Directory.CreateDirectory(pathDirectory);
+                                    i++;
+                                    string fileName = item.FileName;
+                                    int indexTypeFile = fileName.LastIndexOf(".");
+                                    string fileType = fileName.Substring(indexTypeFile, item.FileName.Length - indexTypeFile);
+
+                                    pathDirectory = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP));
+                                    if (!Directory.Exists(pathDirectory))
+                                    {
+                                        Directory.CreateDirectory(pathDirectory);
+                                    }
+                                    path = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP), tk.Ma + "-MC" + i + fileType);
+                                    item.SaveAs(path);
+                                    strListImages += "~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP + "/" + tk.Ma + "-MC" + i + fileType + "#";
                                 }
-                                path = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP), tk.Ma + "-MC" + i + fileType);
-                                item.SaveAs(path);
-                                strListImages += "~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP + "/" + tk.Ma + "-MC" + i + fileType + "#";
                             }
                         }
                     }
+
+                    ut.HinhAnhMinhChung = strListImages.Substring(0, strListImages.Length - 1); ;
+                    ut.TrangThai = false;
+
+                    model.UngTuyenTroGiang.Add(ut);
+                    model.SaveChanges();
+
+                    var thongbao = new ThongBao()
+                    {
+                        TieuDe = "Ứng tuyển trợ giảng.",
+                        NoiDung = tk.HoTen + " - " + tk.Ma + " đã ứng tuyển vào Lớp " + lhp.MaLHP + ".",
+                        ThoiGian = DateTime.Now,
+                        DaDoc = false,
+                        ForRole = "3",
+                    };
+                    model.ThongBao.Add(thongbao);
+                    model.SaveChanges();
+
+                    model = new CongTacTroGiangKhoaCNTTEntities();
+                    return Content("SUCCESS");
                 }
-
-                ut.HinhAnhMinhChung = strListImages.Substring(0, strListImages.Length - 1); ;
-                ut.TrangThai = false;
-
-                model.UngTuyenTroGiang.Add(ut);
-                model.SaveChanges();
-
-                var thongbao = new ThongBao()
+                else //Đã ứng tuyển - cập nhật lại tt ut
                 {
-                    TieuDe = "Ứng tuyển trợ giảng.",
-                    NoiDung = tk.HoTen + " - " + tk.Ma + " đã ứng tuyển vào Lớp " + lhp.MaLHP + ".",
-                    ThoiGian = DateTime.Now,
-                    DaDoc = false,
-                    ForRole = "3",
-                };
-                model.ThongBao.Add(thongbao);
-                model.SaveChanges();
+                    var ut = lhp.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTK);
+                    ut.MSSV = tk.Ma;
+                    ut.Email = tk.Email;
+                    ut.HoTen = tk.HoTen;
+                    ut.SoDienThoai = dienthoai;
+                    ut.NgaySinh = ngaysinh;
+                    ut.GioiTinh = gioitinh;
+                    ut.DiemRL = drl;
+                    ut.DiemTBTL = tbctl;
+                    ut.DiemTKMH = dtk;
 
-                model = new CongTacTroGiangKhoaCNTTEntities();
+                    string path = "";
+                    string pathDirectory = "";
+                    string strListImages = "";
+                    string lstAnhCu = ut.HinhAnhMinhChung;
 
-                return Content("SUCCESS");
+                    int i = 0;
+                    if (hamc != null)
+                    {
+                        foreach (var item in hamc)
+                        {
+                            if (item != null)
+                            {
+                                if (item.ContentLength > 0)
+                                {
+                                    string fileName = item.FileName;
+                                    int indexTypeFile = fileName.LastIndexOf(".");
+                                    string fileType = fileName.Substring(indexTypeFile, item.FileName.Length - indexTypeFile);
+
+                                    i++;
+                                    if (!string.IsNullOrEmpty(lstAnhCu))
+                                    {
+                                        for (int j = 0; j < lstAnhCu.Split('#').Count(); j++)
+                                        {
+                                            var check = false;
+                                            foreach (var items in lstAnhCu.Split('#').ToList())
+                                            {
+                                                var url = "~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP + "/" + tk.Ma + "-MC" + i;
+                                                var nUrl = items.Substring(0, url.Length);
+
+                                                if (url.Equals(nUrl))
+                                                {
+                                                    i++;
+                                                    check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (check == false)
+                                                break;
+                                        }
+                                    }
+                                    pathDirectory = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP));
+                                    if (!Directory.Exists(pathDirectory))
+                                    {
+                                        Directory.CreateDirectory(pathDirectory);
+                                    }
+                                    path = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP), tk.Ma + "-MC" + i + fileType);
+                                    item.SaveAs(path);
+                                    strListImages += "~/Content/HinhAnhMinhChung/HK" + form.HocKy.TenHocKy + "/LHP" + hp.MaLHP + "/" + tk.Ma + "-MC" + i + fileType + "#";
+                                }
+                            }
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(strListImages))
+                        ut.HinhAnhMinhChung = (string.IsNullOrEmpty(lstAnhCu) ? "" : lstAnhCu + "#") + strListImages.Substring(0, strListImages.Length - 1);
+
+                    model.Entry(ut).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+
+                    model = new CongTacTroGiangKhoaCNTTEntities();
+                    return Content("SUCCESS2");
+                }
             }
             catch (Exception Ex)
             {
@@ -865,6 +944,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
+        [Authorize, SVandTARole]
         [HttpPost]
         public ActionResult CancelApply(int idFORM, int idTK, int idLHP) //Mở hộp xem chi tiết công việc LHP cần đăng ký trợ giảng
         {
@@ -877,6 +957,52 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 model.DanhGiaPhongVan.RemoveRange(ut.DanhGiaPhongVan);
                 model.UngTuyenTroGiang.Remove(ut);
+                model.SaveChanges();
+                model = new CongTacTroGiangKhoaCNTTEntities();
+
+                return Content("SUCCESS");
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
+        [Authorize, SVandTARole]
+        [HttpPost]
+        public ActionResult DeleteImageApply(int idFORM, int idTK, int idLHP, string url) //Xóa hình ảnh minh chứng apply hiện có
+        {
+            try
+            {
+                model = new CongTacTroGiangKhoaCNTTEntities();
+                var ut = model.UngTuyenTroGiang.FirstOrDefault(f => f.ID_FormDangKyTroGiang == idFORM && f.ID_TaiKhoan == idTK && f.ID_LopHocPhan == idLHP);
+                if (ut == null)
+                    return Content("Chi tiết lỗi: " + "Không tìm thấy thông tin ứng tuyển trợ giảng.");
+
+                if (System.IO.File.Exists(Path.Combine(Server.MapPath(url))))
+                {
+                    System.IO.File.Delete(Path.Combine(Server.MapPath(url)));
+                }
+
+                var lstImgCu = ut.HinhAnhMinhChung.Split('#').ToList();
+                var lstUrlDelete = url.Split('#').ToList();
+
+                string sortImg = "";
+                if (lstImgCu.Count > 0)
+                {
+                    if (lstUrlDelete.Count > 0)
+                        foreach (var imgDelete in lstUrlDelete)
+                            lstImgCu.Remove(imgDelete);
+
+                    foreach (var f in lstImgCu)
+                        sortImg += f.ToString() + "#";
+
+                    if (sortImg.Length > 0)
+                        sortImg = sortImg.Substring(0, sortImg.Length - 1);
+                }
+                ut.HinhAnhMinhChung = sortImg;
+
+                model.Entry(ut).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
                 model = new CongTacTroGiangKhoaCNTTEntities();
 

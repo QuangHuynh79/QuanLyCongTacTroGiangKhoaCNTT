@@ -164,7 +164,7 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    validthoigianmo.text("Ngày đăng ký phải sau ngày hiện tại.");
+                    validthoigianmo.text("Ngày mở đăng ký phải sau ngày hiện tại.");
                     $('body').find('[id="thoigianmo"]').focus();
                 }
                 else if (ketqua == "LonHonDangKy") {

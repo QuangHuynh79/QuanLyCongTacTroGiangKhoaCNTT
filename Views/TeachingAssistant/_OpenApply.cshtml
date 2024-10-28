@@ -118,15 +118,22 @@
                 </div>
             </div>
             <div class="col-12">
-                <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn tối đa 3 hình ảnh < 50MB. JPG, JPEG, PNG)</i></small></small> <span class="text-danger">*</span></label>
+                <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn và gửi tối đa 3 hình ảnh < 50MB. JPG, JPEG, PNG)</i></small></small> <span class="text-danger">*</span></label>
+                <input hidden id="file-delete-list" value="" />
                 <div class="mb-3">
                     @if (!string.IsNullOrEmpty(lsthinhanh))
                     {
+                        int i = 0;
                         <div class="row">
                             @foreach (var item in lsthinhanh.Split('#'))
                             {
-                                <div class="col-4">
+                                i++;
+                                <div class="col-4 position-relative" id="parent-anhcu-@i" name="@i">
+                                    <a id="delete-anhcu-@i" name="@i" data-bs-toggle="tooltip" data-bs-html="true" title="Xóa hình ảnh minh chứng" class="position-absolute text-danger" style="right:23px; top: 3px" role="button">
+                                        <i style="font-size: 20px" class="bi bi-x-circle-fill"></i>
+                                    </a>
                                     <div class="mb-3">
+                                        <input hidden id="anhcu-@i" value="@item" />
                                         <!-- Gallery -->
                                         <a href="@Url.Content(item)" class="glightbox" data-gallery="gallery1">
                                             <img src="@Url.Content(item)" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
@@ -247,7 +254,7 @@ else
                 </div>
             </div>
             <div class="col-12">
-                <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn tối đa 3 hình ảnh < 50MB. JPG, JPEG, PNG)</i></small></small> <span class="text-danger">*</span></label>
+                <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn và gửi tối đa 3 hình ảnh < 50MB. JPG, JPEG, PNG)</i></small></small> <span class="text-danger">*</span></label>
                 <div>
                     @if (!string.IsNullOrEmpty(lsthinhanh))
                     {

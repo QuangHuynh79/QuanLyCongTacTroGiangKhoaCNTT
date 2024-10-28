@@ -8,10 +8,17 @@
 
     <div class="row">
         <div class="col-12">
-            <div>
+            <div class="mb-2">
                 <label class="form-label" for="ghichu">Ghi chú</label>
                 <textarea disabled="@(Model.PhanCongTroGiang.First().TrangThai == true ? true : false)" type="text" maxlength="300" id="ghichu" rows="4" class="form-control" placeholder="Nhập ghi chú đánh giá trợ giảng LHP">@Model.PhanCongTroGiang.First().GhiChu</textarea>
                 <span class="text-danger" id="valid-ghichu"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div>
+                <label class="form-label" for="thucte">Số giờ thực tế</label>
+                <input disabled="@(Model.PhanCongTroGiang.First().TrangThai == true ? true : false)" type="number" id="thucte" class="form-control" placeholder="Nhập số giờ thực tế hoàn thành tổng công việc" value="@Model.PhanCongTroGiang.First().SoGioThucTe" />
+                <span class="text-danger" id="valid-thucte"></span>
             </div>
         </div>
         <div class="col-12">
@@ -33,7 +40,6 @@
                             <th class="ps-3 text-nowrap">T.Hạn hoàn thành</th>
                             <th class="ps-3 text-nowrap">Nơi làm việc</th>
                             <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
-                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ thực tế</th>
                             <th class="ps-0 pe-0 text-nowrap"></th>
                         </tr>
                     </thead>
@@ -57,19 +63,6 @@
                                 <td valign="middle" class="pe-0 ps-3">
                                     <div class="form-control">@item.KetQuaMongDoi</div>
                                 </td>
-                                @if (Model.PhanCongTroGiang.First().TrangThai == true)
-                                {
-                                    <td valign="middle" class="pe-0 ps-3">
-                                        <div class="form-control">@(item.SoGioThucTe)h</div>
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td valign="middle" class="pe-0 ps-3">
-                                        <input type="number" maxlength="3" id="thucte-@item.ID" name="@item.ID" class="form-control" placeholder="Số giờ" />
-                                        <span class="text-danger" id="valid-thucte-@item.ID"></span>
-                                    </td>
-                                }
                                 @if (Model.PhanCongTroGiang.First().TrangThai == true)
                                 {
                                     if (item.KetQuaCongViec.Equals("chuahoanthanh"))

@@ -26,8 +26,7 @@
                     title: ketqua
                 }).then(() => {
                     window.location.reload();
-                });
-                
+                }); 
             }
         });
     });
@@ -54,7 +53,7 @@
                     title: ketqua
                 }).then(() => {
                     window.location.reload();
-                });
+                }); 
             }
             else {
                 $('body').find('[id="btnEditSubmit"]').attr('name', id);
@@ -217,49 +216,48 @@
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
-                $('body').find('[id="capnhat"]').modal('toggle');
 
                 if (ketqua == "SUCCESS") {
+                    $('body').find('[id="capnhat"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Đã cập nhật thông tin người dùng.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Đã cập nhật thông tin người dùng."
                     }).then(() => {
                         window.location.reload();
-                    });
+                    }); 
+                    
                 }
                 else if (ketqua == "Exist") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Thất bại!",
-                        text: "Người dùng đã tồn tại hoặc Email/Mã người dùng đã được sử dụng.",
-                        icon: "error"
-                    }).then(() => {
-                        window.location.reload();
-                    });
+                    Toast.fire({
+                        icon: "error",
+                        title: "Người dùng đã tồn tại hoặc Email/Mã người dùng đã được sử dụng."
+                    }); 
                 }
                 else {
+                    $('body').find('[id="capnhat"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    Swal.fire({
-                        title: "Đã xảy ra lỗi!",
-                        text: ketqua,
-                        icon: "error"
+                    Toast.fire({
+                        icon: "error",
+                        title: ketqua
                     }).then(() => {
                         window.location.reload();
-                    });
+                    }); 
+                    
                 }
             });
-
         }
     });
 });
