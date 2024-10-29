@@ -22,13 +22,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TaskList
-        [Authorize, GVRole]
+        [Authorize, GVandBCNRole]
         public ActionResult Index()
         {
             return View("Index");
         }
 
-        [Authorize, GVRole]
+        [Authorize, GVandBCNRole]
         [HttpPost]
         public ActionResult FilterData(int hocky, int nganh, string trangthai)
         {
@@ -56,7 +56,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize, GVRole]
+        [Authorize, GVandBCNRole]
         [HttpPost]
         public ActionResult OpenReviewTask(int id, string type)
         {

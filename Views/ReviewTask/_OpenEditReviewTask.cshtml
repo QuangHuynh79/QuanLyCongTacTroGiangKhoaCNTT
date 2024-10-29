@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-12">
             <div class="mb-2">
-                <label class="form-label" for="ghichu">Ghi chú</label>
+                <label class="form-label" for="ghichu">Nhận xét</label>
                 <textarea disabled="@(Model.PhanCongTroGiang.First().TrangThai == true ? true : false)" type="text" maxlength="300" id="ghichu" rows="4" class="form-control" placeholder="Nhập ghi chú đánh giá trợ giảng LHP">@Model.PhanCongTroGiang.First().GhiChu</textarea>
                 <span class="text-danger" id="valid-ghichu"></span>
             </div>

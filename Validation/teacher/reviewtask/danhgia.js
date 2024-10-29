@@ -7,6 +7,7 @@
 
         OpenDanhGia(id, urls, types, titleForm);
     }); 
+
     $('body').on('click', '[id^="btnXemDanhgia-"]', function () {
         var id = $(this).attr('name');
         var urls = $('#requestPath').val() + "ReviewTask/OpenReviewTask";

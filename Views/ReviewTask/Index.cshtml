@@ -9,6 +9,8 @@
     var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
     var currentYear = DateTime.Now.Year;
 
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
     var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
     int id_hkGanNhat = 0;
     if (lstHk.Count > 0)
@@ -28,6 +30,16 @@
 
     var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
     int i = 0;
+
+    var dgcv = new List<UngTuyenTroGiang>();
+    if (roleId == 2)
+    {
+        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
+    }
+    else
+    {
+        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.First().TrangThai == true).ToList();
+    }
 }
 <script src="~/ActiveItemMenu/ReviewTask/index.js"></script>
 <section class="container-fluid p-4">
@@ -99,14 +111,28 @@
                                 }
                             </select>
                         </div>
-                        <div class="mb-3 col-md-3 col-12 ">
-                            <label class="form-label">Lọc trạng thái</label>
-                            <select id="trangthaidg" class="form-select" data-width="100%">
-                                <option value="all">Chọn tất cả</option>
-                                <option value="true">Đã đánh giá</option>
-                                <option value="false">Chưa đánh giá</option>
-                            </select>
-                        </div>
+                        @if (roleId == 2)
+                        {
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Lọc trạng thái</label>
+                                <select id="trangthaidg" class="form-select" data-width="100%">
+                                    <option value="all">Chọn tất cả</option>
+                                    <option value="true">Đã đánh giá</option>
+                                    <option value="false">Chưa đánh giá</option>
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div hidden class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Lọc trạng thái</label>
+                                <select id="trangthaidg" class="form-select" data-width="100%">
+                                    <option value="all">Chọn tất cả</option>
+                                    <option selected value="true">Đã đánh giá</option>
+                                    <option value="false">Chưa đánh giá</option>
+                                </select>
+                            </div>
+                        }
                     </div>
                 </div>
                 <!-- table  -->
@@ -122,7 +148,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList())
+                                @foreach (var item in dgcv)
                                 {
                                     var idtks = item.ID_TaiKhoan;
                                     i++;

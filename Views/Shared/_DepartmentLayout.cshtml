@@ -1,4 +1,4 @@
-﻿ @using QuanLyCongTacTroGiangKhoaCNTT.Models;
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 <!doctype html>
 <html lang="vi">
 <head>
@@ -95,6 +95,12 @@
                                     <a id="child-trogiang-dadangky" class="child-nav-link nav-link "
                                        href="@Url.Action("Registered", "TeachingAssistant")">
                                         Thông tin trợ giảng
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-reviewtask" class="child-nav-link nav-link "
+                                       href="@Url.Action("Index", "ReviewTask")">
+                                        Đánh giá công việc
                                     </a>
                                 </li>
                             </ul>
@@ -279,7 +285,7 @@
                                 <h5 style="margin-top: 3px !important; margin-bottom: -5px !important " class="m-0">@Session["user-name"]</h5>
                                 <span class="mb-0 small">@Session["user-role-name"]</span>
                             </li>
-                                <!-- List -->
+                            <!-- List -->
                             <li class="dropdown ms-2">
                                 <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="avatar avatar-md avatar-indicators avatar-online">
