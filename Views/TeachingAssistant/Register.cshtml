@@ -55,7 +55,7 @@
                             <label for="filter-khoa" class="form-label">Khoa</label>
                             <select id="filter-khoa" class="form-select" data-width="100%">
                                 <option value="">Tất cả</option>
-                                @foreach (var item in lstKhoa)
+                                @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
                                 {
                                     <option value="@item.ID">@item.TenKhoa</option>
                                 }
@@ -319,4 +319,4 @@
             }
         });
     });
-</script>
+</script> 

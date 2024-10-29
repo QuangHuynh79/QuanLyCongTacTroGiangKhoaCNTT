@@ -1,6 +1,22 @@
 ﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
+    var models = new CongTacTroGiangKhoaCNTTEntities();
     var lstUs = Model.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+    int tkId = Int32.Parse(Session["user-id"].ToString());
+    var tk = models.TaiKhoan.Find(tkId).Ma;
+
+    var dgcv = new List<UngTuyenTroGiang>();
+    if (roleId == 2)
+    {
+        dgcv = lstUs.Where(w => w.LopHocPhan.MaCBGD.Equals(tk)).ToList();
+    }
+    else
+    {
+        dgcv = lstUs;
+    }
 }
 
 <div class="card-body mt-3" id="filterLoad">
@@ -15,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in lstUs)
+                @foreach (var item in dgcv)
                 {
                     var idtks = item.ID_TaiKhoan;
                     <tr>

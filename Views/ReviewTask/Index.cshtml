@@ -2,6 +2,7 @@
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
     var lstNganh = models.Nganh.ToList();
+    var lstKhoa = models.Khoa.ToList();
 
     ViewBag.Title = "Trợ giảng";
     Layout = Session["layout"].ToString();
@@ -10,6 +11,8 @@
     var currentYear = DateTime.Now.Year;
 
     int roleId = Int32.Parse(Session["user-role-id"].ToString());
+    int tkId = Int32.Parse(Session["user-id"].ToString());
+    var tk = models.TaiKhoan.Find(tkId).Ma;
 
     var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
     int id_hkGanNhat = 0;
@@ -34,7 +37,7 @@
     var dgcv = new List<UngTuyenTroGiang>();
     if (roleId == 2)
     {
-        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
+        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.MaCBGD.Equals(tk)).ToList();
     }
     else
     {
@@ -95,24 +98,25 @@
                                 }
                             </select>
                         </div>
-                        <div class="mb-3 col-md-3 col-12 ">
-                            <label class="form-label">Ngành</label>
-                            <select id="nganh" class="form-select" data-width="100%">
-                                @foreach (var item in lstNganh)
-                                {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
-                                    {
-                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
-                                    }
-                                    else
-                                    {
-                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
-                                    }
-                                }
-                            </select>
-                        </div>
+
                         @if (roleId == 2)
                         {
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var item in lstNganh)
+                                    {
+                                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                        {
+                                            <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
                             <div class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Lọc trạng thái</label>
                                 <select id="trangthaidg" class="form-select" data-width="100%">
@@ -124,6 +128,39 @@
                         }
                         else
                         {
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Khoa</label>
+                                <select id="khoa" class="form-select" data-width="100%">
+                                    @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        if (item.TenKhoa.ToLower().Equals("công nghệ thông tin"))
+                                        {
+                                            <option name="@item.TenKhoa" selected value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenKhoa" value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var item in lstNganh)
+                                    {
+                                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                        {
+                                            <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    }
+                                    <option hidden id="opNganhNull" value="opNull">Không có ngành nào</option>
+                                </select>
+                            </div>
                             <div hidden class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Lọc trạng thái</label>
                                 <select id="trangthaidg" class="form-select" data-width="100%">
@@ -138,7 +175,7 @@
                 <!-- table  -->
                 <div class="card-body mt-3" id="filterLoad">
                     <div class="table-card">
-                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                        <table id="dataTableReviewTask" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-nowrap">Trợ giảng</th>
@@ -213,3 +250,73 @@
 
 <script src="~/Validation/teacher/reviewtask/danhgia.js"></script>
 <script src="~/Validation/teacher/reviewtask/filter.js"></script>
+
+<script>
+    $(document).ready(function () {
+        new DataTable('#dataTableReviewTask', {
+            initComplete: function () {
+                this.api()
+                    .columns("5")
+                    .every(function () {
+                        let column = this;
+
+                        let select = $('#nganh');
+
+                        select.on('change', function () {
+                            column.search(select.val(), { exact: true }).draw();
+                        });
+                    });
+            }
+        });
+
+        $('#khoa').on('change', function () {
+            var valu = $('#khoa :selected').val();
+            if (valu.length < 1) {
+                $('#nganh > option').each(function () {
+                    if ($(this).val() == "opNull") {
+                        $(this).prop('hidden', true);
+                    }
+                    else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+
+                $('#nganh').val("").change();
+            }
+            else {
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.attr('cuaKhoa') == valu) {
+                        $(this).prop('hidden', false);
+                    }
+                    else {
+                        $(this).prop('hidden', true);
+                    }
+                });
+
+                var countOp = 0;
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.prop('hidden') == false) {
+                        countOp++;
+                    }
+                });
+
+                if (countOp == 0) {
+                    $('#nganh').val("opNull").change();
+                    $('#nganh > [id="opNganhNull"]').prop('hidden', false);
+                }
+                else {
+
+                    $('#nganh > option').each(function () {
+                        var opt = $(this);
+                        if (opt.prop('hidden') == false) {
+                            $('#nganh').val(opt.val()).change();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script> 
