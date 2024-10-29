@@ -10,9 +10,8 @@
                 <tr>
                     <th class="text-nowrap">Trợ giảng</th>
                     <th class="text-nowrap">Lớp HP</th>
-                    <th class="text-nowrap">Điểm số</th>
                     <th class="text-nowrap">Khối lượng</th>
-                    <th class="text-nowrap"></th>
+                    <th class="text-nowrap">Đánh giá</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,23 +34,17 @@
                             Tên HP: @item.LopHocPhan.TenHP
                         </td>
                         <td valign="middle" class="text-nowrap">
-                            TB Chung: @item.DiemTBTL
-                            <br />
-                            Rèn luyện: @item.DiemRL
-                            <br />
-                            TK môn: @item.DiemTKMH
-                        </td>
-                        <td valign="middle" class="text-nowrap">
                             @item.LopHocPhan.CongViec.Count() Công việc
                         </td>
                         <td valign="middle" class="text-nowrap">
                             @if (item.LopHocPhan.PhanCongTroGiang.First().TrangThai == false)
                             {
-                                <a id="btnDanhgia" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Thực hiện đánh giá công việc trợ giảng cho LHP" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-bookmark-check me-2"></i>Đánh giá</a>
+                                <a titleForm="Đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnDanhgia-@item.ID" name="@item.LopHocPhan.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Thực hiện đánh giá công việc trợ giảng cho LHP" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-bookmark-check me-2"></i>Đánh giá</a>
                             }
                             else
                             {
-                                <a id="btnXemDanhgia" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xen đánh giá</a>
+                                <a titleForm="Xem thông tin đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnDanhgia-@item.ID" name="@item.LopHocPhan.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin & cập nhật đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xem đánh giá</a>
+                                @*<a titleForm="Xem Đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnXemDanhgia-@item.ID" name="@item.LopHocPhan.ID"  data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xen đánh giá</a>*@
                             }
                         </td>
                     </tr>
