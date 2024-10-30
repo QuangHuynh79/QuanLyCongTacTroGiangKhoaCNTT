@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
     $('body').on('click', '[id="btnHuydangky"]', function () {
         Swal.fire({
-            title: 'Hủy đăng ký trợ giảng?',
             text: 'Bạn có chắc muốn hủy đăng ký trợ giảng không?',
             icon: "question",
             showCancelButton: true,

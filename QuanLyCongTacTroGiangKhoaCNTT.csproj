@@ -503,6 +503,7 @@
     <Content Include="Content\assets\libs\tiny-slider\dist\min\tiny-slider.js" />
     <Content Include="Content\assets\libs\tiny-slider\dist\tiny-slider.css" />
     <Content Include="Content\assets\libs\tippy.js\dist\tippy-bundle.umd.min.js" />
+    <Content Include="Content\Christams\christams_01.gif" />
     <Content Include="Content\img\icon-vlu.png" />
     <Content Include="Content\img\img_login_background.jpg" />
     <Content Include="Content\img\img_sidebar_background.jpg" />
