@@ -12,7 +12,7 @@
 
     int roleId = Int32.Parse(Session["user-role-id"].ToString());
     int tkId = Int32.Parse(Session["user-id"].ToString());
-    var tk = models.TaiKhoan.Find(tkId).Ma;
+    var tk = models.TaiKhoan.Find(tkId);
 
     var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
     int id_hkGanNhat = 0;
@@ -37,11 +37,15 @@
     var dgcv = new List<UngTuyenTroGiang>();
     if (roleId == 2)
     {
-        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.MaCBGD.Equals(tk)).ToList();
+        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList();
     }
-    else
+    else if (roleId == 3)
     {
         dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.First().TrangThai == true).ToList();
+    }
+    else if (roleId == 4)
+    {
+        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == tk.ID).Count() > 0).ToList();
     }
 }
 <script src="~/ActiveItemMenu/ReviewTask/index.js"></script>
@@ -51,7 +55,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Kết Quả Đánh Giá Công Việc Trợ Giảng</h1>
+                    <h1 class="mb-0 h2 fw-bold">Kết Quả Đánh Giá Công Việc @(roleId == 4 ? "Của Tôi" : "Trợ Giảng")</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -62,7 +66,7 @@
                                 <a>Trợ Giảng</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Kết Quả Đánh Giá Công Việc Trợ Giảng
+                                Kết Quả Đánh Giá
                             </li>
                         </ol>
                     </nav>
@@ -126,7 +130,7 @@
                                 </select>
                             </div>
                         }
-                        else
+                        else if (roleId == 3)
                         {
                             <div class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Khoa</label>
@@ -159,6 +163,33 @@
                                         }
                                     }
                                     <option hidden id="opNganhNull" value="opNull">Không có ngành nào</option>
+                                </select>
+                            </div>
+                            <div hidden class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Lọc trạng thái</label>
+                                <select id="trangthaidg" class="form-select" data-width="100%">
+                                    <option value="all">Chọn tất cả</option>
+                                    <option selected value="true">Đã đánh giá</option>
+                                    <option value="false">Chưa đánh giá</option>
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var item in lstNganh)
+                                    {
+                                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                        {
+                                            <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                             <div hidden class="mb-3 col-md-3 col-12 ">

@@ -1034,16 +1034,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [HttpPost]
         public ActionResult FilterTaskList(int lophocphan)
         {
-            int role = Int32.Parse(Session["user-role-id"].ToString());
             var taikhoan = Session["TaiKhoan"] as TaiKhoan;
             var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
             var task = model.LopHocPhan.FirstOrDefault(f => f.ID == lophocphan);
 
-            if (role == 4)
-                return PartialView("_FilterTaskListTA", task);
-            else
-                return PartialView("_FilterTaskListGV", task);
+            return PartialView("_FilterTaskList", task);
         }
 
         [Authorize, TAandGVRole]
@@ -1084,8 +1080,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 }
                 else
                 {
-                    cv.TrangThai = trangthai;
-                    cv.GhiChu = ghichu;
+                    if (trangthai.IndexOf("task") == -1)
+                        cv.GhiChu = ghichu;
+                    cv.TrangThai = trangthai.Replace("task", "");
                 }
 
                 model.Entry(cv).State = System.Data.Entity.EntityState.Modified;
@@ -1104,17 +1101,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [HttpPost]
         public ActionResult TaskDetail(int id)
         {
-            int role = Int32.Parse(Session["user-role-id"].ToString());
-            if (role == 4)
-                return PartialView("_TaskDetailTA");
-            else
-                return PartialView("_TaskDetailGV", model.CongViec.Find(id));
-        }
-
-        [Authorize, TARole]
-        public ActionResult Evaluation()
-        {
-            return PartialView("Evaluation");
+            return PartialView("_TaskDetail", model.CongViec.Find(id));
         }
 
         [Authorize, GVRole]

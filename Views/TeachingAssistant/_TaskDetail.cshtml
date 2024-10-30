@@ -26,12 +26,11 @@
                     <div class="row p-0">
                         <div class="col-12">
                             <div class="mb-2">
-                                <input hidden id="roletask" value="gv" />
-                                <input hidden id="idtask" value="@Model.ID" />
-                                <input hidden id="hideBtnSubmit" value="@(!Model.TrangThai.Equals("hoanthanh") ? "true" : "false")" />
-
                                 @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
                                 {
+                                    <input hidden id="roletask" value="gv" />
+                                    <input hidden id="idtask" value="@Model.ID" />
+                                    <input hidden id="hideBtnSubmit" value="@(!Model.TrangThai.Equals("hoanthanh") ? "true" : "false")" />
                                     <label class="form-label" for="tinhtrang">
                                         Tình trạng <span class="text-danger">*</span>
                                     </label>
@@ -58,17 +57,20 @@
                                 }
                                 else
                                 {
+                                    <input hidden id="roletask" value="ta" />
+                                    <input hidden id="idtask" value="@Model.ID" />
+                                    <input hidden id="hideBtnSubmit" value="@(string.IsNullOrEmpty(Model.KetQuaCongViec) ? "true" : "false")" />
                                     <label class="form-label" for="trangthai">
                                         Trạng thái <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" id="trangthai">
                                         @if (Model.TrangThai.Equals("canlam"))
                                         {
-                                            <option selected value="Cần làm">Cần làm</option>
-                                            <option value="Đang thực hiện">Đang thực hiện</option>
-                                            <option value="Hoàn thành">Hoàn thành</option>
+                                            <option selected value="canlam">Cần làm</option>
+                                            <option value="dangthuchien">Đang thực hiện</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
                                         }
-                                        else if (Model.KetQuaCongViec.Equals("hoanthanh"))
+                                        else if (Model.TrangThai.Equals("hoanthanh"))
                                         {
                                             <option value="canlam">Cần làm</option>
                                             <option value="dangthuchien">Đang thực hiện</option>

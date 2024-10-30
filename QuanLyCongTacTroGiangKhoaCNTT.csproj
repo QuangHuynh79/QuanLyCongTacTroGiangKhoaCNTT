@@ -586,7 +586,7 @@
     <Content Include="Views\ClassSection\_AddDeXuat.cshtml" />
     <Content Include="Views\ClassSection\_LoadSyncTask.cshtml" />
     <Content Include="Views\ClassSection\_TaskListOnlyView.cshtml" />
-    <Content Include="Views\TeachingAssistant\_TaskDetailGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskDetail.cshtml" />
     <Content Include="Views\TeachingAssistant\_DetailAdvances.cshtml" />
     <Content Include="Views\TeachingAssistant\_FilterParentApply.cshtml" />
     <Content Include="Views\TeachingAssistant\_FilterChildApply.cshtml" />
@@ -602,7 +602,7 @@
     <Content Include="Views\ClassSection\_FilterSection.cshtml" />
     <Content Include="Views\TeachingAssistant\_ExportRegistered.cshtml" />
     <Content Include="Views\TeachingAssistant\_ExportRegistereds.cshtml" />
-    <Content Include="Views\TeachingAssistant\_FilterTaskListGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterTaskList.cshtml" />
     <Content Include="Views\TeachingAssistant\_FilterHocKyTaskListGV.cshtml" />
     <Content Include="Views\ReviewTask\Index.cshtml" />
     <Content Include="Views\ReviewTask\_FilterCongViec.cshtml" />
@@ -708,7 +708,6 @@
     <Content Include="Views\TimeTable\_IndexGV.cshtml" />
     <Content Include="Views\TeachingAssistant\ResultApply.cshtml" />
     <Content Include="Views\ClassSection\QuanLyLopHoc.cshtml" />
-    <Content Include="Views\TeachingAssistant\Evaluation.cshtml" />
     <Content Include="Views\TeachingAssistant\_TaskListGV.cshtml" />
     <Content Include="Views\TeachingAssistant\Assgined.cshtml" />
     <Content Include="Views\TeachingAssistant\Registereds.cshtml" />

@@ -6,16 +6,20 @@
 
     int roleId = Int32.Parse(Session["user-role-id"].ToString());
     int tkId = Int32.Parse(Session["user-id"].ToString());
-    var tk = models.TaiKhoan.Find(tkId).Ma;
+    var tk = models.TaiKhoan.Find(tkId);
 
     var dgcv = new List<UngTuyenTroGiang>();
     if (roleId == 2)
     {
-        dgcv = lstUs.Where(w => w.LopHocPhan.MaCBGD.Equals(tk)).ToList();
+        dgcv = lstUs.Where(w => w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList();
     }
-    else
+    else if(roleId == 3)
     {
         dgcv = lstUs;
+    }
+    else if (roleId == 4)
+    {
+        dgcv = lstUs.Where(w => w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == tk.ID).Count() > 0).ToList();
     }
 }
 
