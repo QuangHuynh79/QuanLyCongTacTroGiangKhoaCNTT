@@ -5,33 +5,30 @@
         var thoigianmo = $('body').find('[id="thoigianmo"]').val();
         var thoigiandong = $('body').find('[id="thoigiandong"]').val();
 
-        if (nganh.length > 0 || thoigiandong.length > 0) {
-            var defaultHocky = $('body').find('[id="hocky"] :selected').attr('data-default');
-            var defaultThoigianmo = $('body').find('[id="thoigianmo"]').attr('data-default');
+        var defaultHocky = $('body').find('[id="hocky"] :selected').attr('data-default');
+        var defaultThoigianmo = $('body').find('[id="thoigianmo"]').attr('data-default');
 
-            if (hocky != defaultHocky || thoigianmo != defaultThoigianmo) {
-                Swal.fire({
-                    title: 'Đóng form đăng ký?',
-                    text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
-                    icon: "question",
-                    showCancelButton: true,
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Đóng ngay!",
-                    cancelButtonText: "Không đóng"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#themmoi').modal('toggle');
+        if (nganh.length > 0 || thoigiandong.length > 0 || hocky != defaultHocky || thoigianmo != defaultThoigianmo) {
+            Swal.fire({
+                text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đóng ngay!",
+                cancelButtonText: "Không đóng"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#themmoi').modal('toggle');
 
-                        $('body').find('[id="hocky"]').val(defaultHocky).change;
+                    $('body').find('[id="hocky"]').val(defaultHocky).change;
 
-                        $('body').find('[id="nganh"]').val("").change;
+                    $('body').find('[id="nganh"]').val("").change;
 
-                        $('body').find('[id="thoigianmo"]').val(defaultThoigianmo);
+                    $('body').find('[id="thoigianmo"]').val(defaultThoigianmo);
 
-                        $('body').find('[id="thoigiandong"]').val("");
-                    }
-                });
-            }
+                    $('body').find('[id="thoigiandong"]').val("");
+                }
+            });
         }
         else {
             $('#themmoi').modal('toggle');

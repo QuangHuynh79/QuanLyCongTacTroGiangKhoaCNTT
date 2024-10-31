@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+
+
     $('body').on('change', '[id="hinhanhmc"]', function () {
         var img = $(this);
         $('body').find('[id="valid-hinhanhmc"]').text('');
@@ -31,6 +33,120 @@
         $('body').find('[id="parent-anhcu-' + index + '"]').replaceWith(null);
 
         img.tooltip("hide");
+    });
+
+    $('body').on('input', '[id="dienthoai"]', function () {
+        var dienthoai = $(this).val().trim();
+        var validdienthoai = $('body').find('[id="valid-dienthoai"]');
+        validdienthoai.text('');
+
+        if (dienthoai.length < 1) {
+            validdienthoai.text("Vui lòng không bỏ trống Số điện thoại.");
+            $('body').find('[id="dienthoai"]').focus();
+        }
+        else if (dienthoai.length != 10 || dienthoai.indexOf("-") != -1 || dienthoai.indexOf(".") != -1) {
+            validdienthoai.text("Số điện thoại chưa đúng định dạng.");
+            $('body').find('[id="dienthoai"]').focus();
+        }
+    });
+
+    $('body').on('input', '[id="ngaysinh"]', function () {
+        var gioitinh = $('body').find('[id="ngaysinh"] :selected').val();
+        var validngaysinh = $('body').find('[id="valid-ngaysinh"]');
+        validngaysinh.text('');
+
+        if (ngaysinh.length < 1) {
+            validngaysinh.text("Vui lòng chọn Ngày sinh.");
+            $('body').find('[id="ngaysinh"]').focus();
+        }
+    });
+
+    $('body').on('change', '[id="gioitinh"]', function () {
+        var gioitinh = $(this).val().trim();
+        var validgioitinh = $('body').find('[id="valid-gioitinh"]');
+        validgioitinh.text('');
+
+        if (gioitinh.length < 1) {
+            validgioitinh.text("Vui lòng chọn Giới tính.");
+            $('body').find('[id="gioitinh"]').focus();
+        }
+    });
+
+    $('body').on('input', '[id="tbctl"]', function () {
+        var tbctl = $('body').find('[id="tbctl"]').val().trim().replace(".", ",");
+        var validtbctl = $('body').find('[id="valid-tbctl"]');
+        validtbctl.text('');
+
+        if (tbctl.length < 1) {
+            validtbctl.text("Vui lòng không bỏ trống Điểm TB tích lũy.");
+            $('body').find('[id="tbctl"]').focus();
+        }
+        else if (tbctl.indexOf("-") != -1) {
+            validtbctl.text("Điểm TB tích lũy chưa đúng định dạng");
+            $('body').find('[id="tbctl"]').focus();
+        }
+        else if (tbctl < 7.0 || tbctl > 10.0) {
+            validtbctl.text("Điểm TB tích lũy phải đạt từ 7.0 - 10.0 điểm");
+            $('body').find('[id="tbctl"]').focus();
+        }
+    });
+
+    $('body').on('input', '[id="drl"]', function () {
+        var drl = $('body').find('[id="drl"]').val().trim().replace(".", ",");
+        var validdrl = $('body').find('[id="valid-drl"]');
+        validdrl.text('');
+
+        if (drl.length < 1) {
+            validdrl.text("Vui lòng không bỏ trống Điểm rèn luyện.");
+            $('body').find('[id="drl"]').focus();
+        }
+        else if (drl.indexOf("-") != -1) {
+            validdrl.text("Điểm rèn luyện chưa đúng định dạng");
+            $('body').find('[id="drl"]').focus();
+        }
+        else if (drl < 65 || drl > 100) {
+            validdrl.text("Điểm rèn luyện phải đạt từ 65 - 100 điểm");
+            $('body').find('[id="drl"]').focus();
+        }
+    });
+
+    $('body').on('input', '[id="dtk"]', function () {
+        var dtk = $('body').find('[id="dtk"]').val().trim().replace(".", ",");
+        var validdtk = $('body').find('[id="valid-dtk"]');
+        validdtk.text('');
+
+        if (dtk.length < 1) {
+            validdtk.text("Vui lòng không bỏ trống Điểm tổng kết môn.");
+            $('body').find('[id="dtk"]').focus();
+        }
+        else if (dtk.indexOf("-") != -1) {
+            validdtk.text("Điểm tổng kết môn chưa đúng định dạng");
+            $('body').find('[id="dtk"]').focus();
+        }
+        else if (dtk < 7.0 || dtk > 10.0) {
+            validdtk.text("Điểm TK phải đạt từ 7.0 - 10.0 điểm");
+            $('body').find('[id="dtk"]').focus();
+        }
+    });
+
+    $('body').on('change', '[id="hinhanhmc"]', function () {
+        var hamc = $('body').find('[id="hinhanhmc"]');
+        var validhamc = $('body').find('[id="valid-hinhanhmc"]');
+        validhamc.text('');
+
+        var anhcuCount = 0;
+        $('body').find('[id^="anhcu-"]').each(function () {
+            anhcuCount++;
+        });
+
+        if (hamc[0].files.length + anhcuCount < 1) {
+            validhamc.text("Vui lòng không bỏ trống Hình ảnh minh chứng.");
+            $('body').find('[id="hamc"]').focus();
+        }
+        else if (hamc[0].files.length + anhcuCount > 3) {
+            validhamc.text("Vui lòng gửi tối đa 3 hình ảnh.");
+            $('body').find('[id="hamc"]').focus();
+        }
     });
 
     $('body').on('click', '[id="btnSubmit"]', function () {
