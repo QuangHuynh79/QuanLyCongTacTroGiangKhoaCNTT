@@ -725,7 +725,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, SVandTARole]
         public ActionResult ResultApply() //Xem kết quả đăng ký trợ giảng
         {
-            return View("ResultApply");
+            var idtk = Int32.Parse(Session["user-id"].ToString());
+            var ut = model.UngTuyenTroGiang.Where(w => w.ID_TaiKhoan == idtk).ToList();
+            return View("ResultApply", ut);
         }
 
         [Authorize, SVandTARole]

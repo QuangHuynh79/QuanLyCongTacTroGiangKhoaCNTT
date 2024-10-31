@@ -1,40 +1,31 @@
-﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
     ViewBag.Title = "Kết quả đăng ký";
     Layout = Session["layout"].ToString();
 
-    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstNganh = models.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
 
-    int id_hkGanNhat = 0;
-    if (lstHocKy.Count > 0)
+    var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+    var currentYear = DateTime.Now.Year;
+
+    var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
+    int idhkGanNhat = 0;
+    if (lstHk.Count > 0)
     {
-        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
-        if (hkGanNhat == null)
-        {
-            id_hkGanNhat = lstHocKy.First().ID;
-        }
-        else
-        {
-            id_hkGanNhat = hkGanNhat.ID;
-        }
+        idhkGanNhat = lstHk.First().ID;
     }
 
-    int id_nganhCNTT = 0;
-    if (lstNganh.Count > 0)
+    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == idhkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
+
+    int idForm = 0;
+    if (formDky != null)
     {
-        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
-        if (nganhcntt != null)
-        {
-            id_nganhCNTT = nganhcntt.ID;
-        }
+        idForm = formDky.ID;
     }
-
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
-
-    int idtk = Int32.Parse(Session["user-id"].ToString());
-    var tksv = model.TaiKhoan.Find(idtk);
+    var lstUt = Model.ToList().Where(w => w.ID_FormDangKyTroGiang == idForm).ToList();
 }
 
 <script src="~/ActiveItemMenu/TeachingAssistant/resultApply.js"></script>
@@ -79,13 +70,29 @@
                                 @foreach (var item in lstHocKy)
                                 {
 
-                                    if (id_hkGanNhat == item.ID)
+                                    if (idhkGanNhat == item.ID)
                                     {
                                         <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
                                     }
                                     else
                                     {
                                         <option value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-4 col-12">
+                            <label class="form-label">Ngành</label>
+                            <select id="nganh" class="form-select" data-width="100%">
+                                @foreach (var item in lstNganh)
+                                {
+                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    {
+                                        <option selected value="@item.ID">@item.TenNganh</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.TenNganh</option>
                                     }
                                 }
                             </select>
@@ -107,23 +114,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in lstTkb.ToList())
+                                @foreach (var item in lstUt.ToList())
                                 {
                                     <tr>
                                         <td valign="middle">@item.LopHocPhan.MaLHP</td>
                                         <td valign="middle">@item.LopHocPhan.TenHP</td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
-                                        <td valign="middle">@item.SoTietDaXep</td>
+                                        <td valign="middle">@(item.LopHocPhan.ThoiKhoaBieu.First().Thu); Tiết @(item.LopHocPhan.ThoiKhoaBieu.First().TietHoc); Tuần @(item.LopHocPhan.ThoiKhoaBieu.First().TuanBD) - @(item.LopHocPhan.ThoiKhoaBieu.First().TuanKT); Phòng @(item.LopHocPhan.ThoiKhoaBieu.First().Phong)</td>
+                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTietDaXep</td>
                                         <td valign="middle" class="text-nowrap">
-                                            <span class="badge bg-warning"><i class="bi bi-ban me-2"></i>Chưa duyệt</span>
+                                            @if (item.DanhGiaPhongVan.Count < 1)
+                                            {
+                                                <span class="badge bg-warning"><i class="bi bi-ban me-2"></i>Chưa phân công</span>
+                                            }
+                                            else
+                                            {
+                                                if (item.DanhGiaPhongVan.First().KetLuanDat == true)
+                                                {
+                                                    <span class="badge bg-success"><i class="bi bi-ban me-2"></i>Đã phân công</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning"><i class="bi bi-ban me-2"></i>Chưa phân công</span>
+                                                }
+                                            }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
                                             <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#apply" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-primary">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square me-2"></i></span>
-                                            </a>
-
-                                            <a style="font-size: 20px" id="huydangky" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Hủy đăng ký"><i class="bi bi-x-square"></i></span>
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem danh sách công việc"><i class="bi bi-info-square me-2"></i></span>
                                             </a>
                                         </td>
                                     </tr>
@@ -137,162 +154,4 @@
         </div>
     </div>
 
-    <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="applyTitle">Thông tin đăng ký trợ giảng LHP: 221_71ITBS10103_0101 - Nhập môn công nghệ thông tin.</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="hoten">Họ & Tên <span class="text-danger">*</span></label>
-                                <input disabled value="@tksv.HoTen" type="text" id="hoten" class="form-control" placeholder="Nhập Họ & Tên">
-                                <span class="text-danger" id="valid-hoten"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="ma">MSSV <span class="text-danger">*</span></label>
-                                <input disabled value="@tksv.Ma" name="@tksv.ID" type="text" id="ma" class="form-control" placeholder="Nhập mã số sinh viên">
-                                <span class="text-danger" id="valid-ma"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="dienthoai">Số điện thoại <span class="text-danger">*</span></label>
-                                <input value="@tksv.SDT" maxlength="10" data-type="numbers" type="tel" id="dienthoai" class="form-control" placeholder="09xxxxxxxx">
-                                <span class="text-danger" id="valid-dienthoai"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                                <input disabled value="@tksv.Email" type="text" id="email" class="form-control" placeholder="Nhập địa chỉ Email">
-                                <span class="text-danger" id="valid-email"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="ngaysinh">Ngày sinh <span class="text-danger">*</span></label>
-                                <input name="@tksv.ID" value="@(tksv.NgaySinh == null ? "" : tksv.NgaySinh.Value.ToString("yyyy-MM-dd"))" type="text" id="ngaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
-                                <span class="text-danger" id="valid-ngaysinh"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="gioitinh">
-                                    Giới tính <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="gioitinh">
-                                    @if (string.IsNullOrEmpty(tksv.GioiTinh))
-                                    {
-                                        <option selected value="">---- Chọn giới tính ----</option>
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    }
-                                    else if (tksv.GioiTinh.Equals("Nam"))
-                                    {
-                                        <option value="">---- Chọn giới tính ----</option>
-                                        <option selected value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="">---- Chọn giới tính ----</option>
-                                        <option value="Nam">Nam</option>
-                                        <option selected value="Nữ">Nữ</option>
-                                    }
-
-                                </select>
-                                <span class="text-danger" id="valid-gioitinh"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="tbctl">Điểm trung bình chung tích lũy HK gần nhất <span class="text-danger">*</span></label>
-                                <input type="number" id="tbctl" class="form-control" placeholder="Nhập điểm trung bình chung">
-                                <span class="text-danger" id="valid-tbctl"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="drl">Điểm rèn luyện HK gần nhất <span class="text-danger">*</span></label>
-                                <input type="number" id="drl" class="form-control" placeholder="Nhập điểm rèn luyện">
-                                <span class="text-danger" id="valid-drl"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="dtk">Điểm tổng kết (thi lần 1) của học phần đăng ký làm TA <span class="text-danger">*</span></label>
-                                <input type="number" id="dtk" class="form-control" placeholder="Nhập điểm tổng kết môn (thi lần 1)">
-                                <span class="text-danger" id="valid-dtk"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn tối đa 3 hình ảnh < 50MB. JPG, JPEG, PNG)</i></small></small> <span class="text-danger">*</span></label>
-                            <div class="mb-3">
-                                <input type="file" class="form-control form-control-file" id="hinhanhmc" accept="image/png, image/jpg, image/jpeg" multiple>
-                                <span class="text-danger" id="valid-hinhanhmc"></span>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <!-- Gallery -->
-                                        <a href="~/Content/img/logo-vlu.png" class="glightbox" data-gallery="gallery1">
-                                            <img src="~/Content/img/logo-vlu.png" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <!-- Gallery -->
-                                        <a href="~/Content/img/img_login_background.jpg" class="glightbox bg-secondary" data-gallery="gallery1">
-                                            <img src="~/Content/img/img_login_background.jpg" alt="image" class="img-fluid rounded-3 w-100" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <!-- Gallery -->
-                                        <a href="~/Content/img/img_login_background.jpg" class="glightbox bg-secondary" data-gallery="gallery1">
-                                            <img src="~/Content/img/img_login_background.jpg" alt="image" class="img-fluid rounded-3 w-100" />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="huydangky" type="button" class="btn btn-danger">Hủy đăng ký</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </section>
-<script>
-    $(document).ready(function () {
-        $('body').on('click', '[id="huydangky"]', function () {
-            
-            Swal.fire({
-                title: 'Hủy đăng ký?',
-                text: 'Bạn có chắc muốn hủy đăng ký trợ giảng lớp HP "221_71ITBS10103_0101" không?',
-                icon: "question",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Hủy ngay!",
-                cancelButtonText: "Đóng"
-            });
-        });
-    });
-</script>
