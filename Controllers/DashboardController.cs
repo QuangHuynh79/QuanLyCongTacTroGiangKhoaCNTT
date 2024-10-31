@@ -15,7 +15,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         // GET: Dashboard
 
         [Authorize, AllRole]
-        public ActionResult Index()
+        public ActionResult Index() //Trang chủ
         {
             return View("index");
         }

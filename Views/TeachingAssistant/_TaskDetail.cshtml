@@ -59,7 +59,7 @@
                                 {
                                     <input hidden id="roletask" value="ta" />
                                     <input hidden id="idtask" value="@Model.ID" />
-                                    <input hidden id="hideBtnSubmit" value="@(string.IsNullOrEmpty(Model.KetQuaCongViec) ? "true" : "false")" />
+                                    <input hidden id="hideBtnSubmit" value="@(!string.IsNullOrEmpty(Model.KetQuaCongViec) ? "true" : "false")" />
                                     <label class="form-label" for="trangthai">
                                         Trạng thái <span class="text-danger">*</span>
                                     </label>

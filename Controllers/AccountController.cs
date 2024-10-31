@@ -68,7 +68,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             string FullName = identitys.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
             string userId = EmailUser.ToLower();
 
-            var users = model.AspNetUsers.Find(EmailUser.ToLower());
+            var users = model.AspNetUsers.Find(EmailUser.ToLower()); //Tài khoản đã tồn tại - load thông tin tài khoản đó
             if (users != null)
             {
                 if (users.LockoutEnabled == true)
@@ -77,8 +77,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 }
                 return RedirectToAction("Index", "DashBoard");
             }
-            else
+            else //Tài khoản chưa tồn tại, tạo tài khoản mới
             {
+
+                //Lấy thông tin họ tên email của tài khoản VLU
                 string ma = null;
                 string hoten = FullName;
 
@@ -94,6 +96,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
 
+                //Tạo aspnet user
                 AspNetUsers aspNetUsers = new AspNetUsers();
                 aspNetUsers.ID = userId;
                 aspNetUsers.Email = EmailUser;
@@ -107,6 +110,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
 
+                //Kiểm tra tài khoản đã được thêm trc chưa, nếu chưa thì tạo mới
                 var taikhoanExist = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(userId));
                 if (taikhoanExist == null)
                 {

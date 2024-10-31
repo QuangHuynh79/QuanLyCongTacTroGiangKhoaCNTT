@@ -310,7 +310,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
-        public ActionResult AcceptedRegistered(int id, bool trangthai)
+        public ActionResult AcceptedRegistered(int id, bool trangthai) //Duyệt ứng tuyển trợ giảng
         {
             try
             {
@@ -360,7 +360,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
         //ExportRegistered
         [Authorize, BCNRole]
-        public ActionResult FilterRegistered(int hocky, int nganh, string trangthai)
+        public ActionResult FilterRegistered(int hocky, int nganh, string trangthai) //Lọc danh sách ứng tuyển
         {
             try
             {
@@ -396,7 +396,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
-        public ActionResult ExportRegistered(int hocky, int nganh, string trangthai)
+        public ActionResult ExportRegistered(int hocky, int nganh, string trangthai) //Xuất danh sách ứng tuyển
         {
             try
             {
@@ -432,7 +432,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, GVRole]
-        public ActionResult DetailRegistereds(int id)
+        public ActionResult DetailRegistereds(int id) //TT Chi tiết ứng tuyển
         {
             try
             {
@@ -449,7 +449,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, GVRole]
-        public ActionResult FilterRegistereds(int hocky, int nganh, string trangthai)
+        public ActionResult FilterRegistereds(int hocky, int nganh, string trangthai) //Lọc danh sáhc ứng tuyển Role GV
         {
             try
             {
@@ -535,7 +535,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, GVRole]
-        public ActionResult OpenPhongVanRegistereds(int id)
+        public ActionResult OpenPhongVanRegistereds(int id) //Mở form đánh giá phỏng vấn
         {
             try
             {
@@ -551,7 +551,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize, GVRole]
+        [Authorize, GVRole] //Lưu thông tin phỏng vấn TA
         public ActionResult SubmitPhongVanRegistereds(int id, string tieuchi, string tongdiem, string nhanxet, bool ketqua, DateTime ngaypv, DateTime ngayduyetpv)
         {
             try
@@ -672,13 +672,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, SVandTARole]
-        public ActionResult Apply()
+        public ActionResult Apply() //Mở trang đăng ký TA role TA
         {
             return View("Apply");
         }
 
         [Authorize, SVandTARole]
-        [HttpPost]
+        [HttpPost] //Filer LHP, GV, Trạng thái trang đăng ký TA
         public ActionResult FilterChildApply(int hocky, int nganh, string mon, string gv, string trangthai) //Lọc thời khóa biểu để đky TA
         {
             var lstMon = mon.Split('#').ToList();
@@ -1029,23 +1029,23 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, TAandGVRole]
-        public ActionResult TaskList()
+        public ActionResult TaskList() //Quản lý công việc
         {
             return View("TaskList");
         }
 
         [Authorize, TAandGVRole]
-        public ActionResult LoadContentTaskList()
+        public ActionResult LoadContentTaskList() //Load dữ liệu quản lý công việc
         {
             int role = Int32.Parse(Session["user-role-id"].ToString());
             if (role == 4)
-                return PartialView("_TaskListTA");
+                return PartialView("_TaskListTA"); //Role TA
             else
-                return PartialView("_TaskListGV");
+                return PartialView("_TaskListGV"); //Role GV
         }
 
         [Authorize, TAandGVRole]
-        [HttpPost]
+        [HttpPost] //Lọc danh sách công việc
         public ActionResult FilterTaskList(int lophocphan)
         {
             var taikhoan = Session["TaiKhoan"] as TaiKhoan;
@@ -1057,8 +1057,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, TAandGVRole]
-        [HttpPost]
-        public ActionResult FilterHocKyTaskList(int hocky)
+        [HttpPost] 
+        public ActionResult FilterHocKyTaskList(int hocky) //lọc danh sách lớp học phần trong quản lý công việc theo học kỳ
         {
             int role = Int32.Parse(Session["user-role-id"].ToString());
             var taikhoan = Session["TaiKhoan"] as TaiKhoan;
@@ -1068,14 +1068,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var task = tasks.Where(w => w.DeXuatTroGiang.First().TrangThai == true).ToList();
 
             if (role == 4)
-                return PartialView("_FilterHocKyTaskListTA", task);
+                return PartialView("_FilterHocKyTaskListTA", task); //Role TA
             else
-                return PartialView("_FilterHocKyTaskListGV", task);
+                return PartialView("_FilterHocKyTaskListGV", task); //Role GV
         }
 
         [Authorize, TAandGVRole]
-        [HttpPost]
-        public ActionResult SubmitEditTaskDetail(int id, string role, string trangthai, string ghichu)
+        [HttpPost] //Lưu cập nhật trạng thái công việc
+        public ActionResult SubmitEditTaskDetail(int id, string role, string trangthai, string ghichu) 
         {
             try
             {
@@ -1083,7 +1083,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (cv == null)
                     return Content("Chi tiết lỗi: Không tìm thấy công việc tương ứng.");
 
-                if (role.Equals("gv"))
+                if (role.Equals("gv")) //Là giảng viên thì lưu tình trạng
                 {
                     if (trangthai.Equals("hoanthanh") || trangthai.Equals("chuahoanthanh"))
                     {
@@ -1092,11 +1092,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     cv.KetQuaCongViec = trangthai;
                     cv.GhiChu = ghichu;
                 }
-                else
+                else // Là sinh viên thì lưu trạng thái
                 {
-                    if (trangthai.IndexOf("task") == -1)
+                    if (trangthai.IndexOf("task") == -1) //Dạng kéo thả task sẽ kèm chữ task phía trước để phân biệt
                         cv.GhiChu = ghichu;
-                    cv.TrangThai = trangthai.Replace("task", "");
+                    cv.TrangThai = trangthai.Replace("task", ""); //Xóa chữ task phía trước trạng thái để lưu trạng thái
                 }
 
                 model.Entry(cv).State = System.Data.Entity.EntityState.Modified;
@@ -1113,7 +1113,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, TAandGVRole]
         [HttpPost]
-        public ActionResult TaskDetail(int id)
+        public ActionResult TaskDetail(int id) //Mở form chi tiết công việc
         {
             return PartialView("_TaskDetail", model.CongViec.Find(id));
         }

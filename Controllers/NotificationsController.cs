@@ -23,14 +23,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         // GET: Notifications
 
         [Authorize, BCNRole]
-        public ActionResult Index()
+        public ActionResult Index() //Load thông báo
         {
             var lstNotify = model.ThongBao.ToList();
             return View("Index", lstNotify);
         }
 
         [Authorize, BCNRole]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id) //Xóa thông báo
         {
             var tb = model.ThongBao.Find(id);
             if (tb == null)

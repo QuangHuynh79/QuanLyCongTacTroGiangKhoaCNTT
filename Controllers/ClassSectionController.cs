@@ -23,13 +23,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         // GET: ClassSection 
 
         [Authorize, GVRole]
-        public ActionResult Index()
+        public ActionResult Index() //Load danh sách lớp học phần
         {
             return View("Index");
         }
 
         [Authorize, GVRole]
-        public ActionResult FilterSection(int hocky, int nganh)
+        public ActionResult FilterSection(int hocky, int nganh) //Lọc lớp học phần
         {
             try
             {
@@ -47,7 +47,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult OpenSuggest(int id)
+        public ActionResult OpenSuggest(int id) //Mở form đề xuất trợ giảng và mô tả công việc
         {
             try
             {
@@ -73,7 +73,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult SyncTaskList(int id)
+        public ActionResult SyncTaskList(int id) //Coppy danh sách công việc học phần tương đương khi đề xuất lhp
         {
             try
             {
@@ -101,7 +101,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult OpenTaskList(int id)
+        public ActionResult OpenTaskList(int id) //Mở danh sách công việc
         {
             try
             {
@@ -113,9 +113,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var lstTask = lhp.CongViec.ToList();
                 if (lhp.DeXuatTroGiang.First().MoCapNhat == true) //Lớp học phần chưa duyệt được phép chỉnh sửa
-                    return PartialView("_TaskListViewEdit", lstTask);
+                    return PartialView("_TaskListViewEdit", lstTask); //Được phép chỉnh sửa
                 else //Lớp học phần đã duyệt chỉ được phép xem
-                    return PartialView("_TaskListOnlyView", lstTask);
+                    return PartialView("_TaskListOnlyView", lstTask); //Không dược chỉnh sửa
             }
             catch (Exception Ex)
             {
@@ -126,7 +126,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, GVRole]
         [HttpPost]
         public ActionResult EditTaskList(int idLHP, string mota, string khoiluong,
-           string thoigian, string noilamviec, string ketqua)
+           string thoigian, string noilamviec, string ketqua) // Lưu cập nhật mô tả công việc lhp
         {
             try
             {
@@ -196,7 +196,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, GVRole]
         [HttpPost]
         public ActionResult AddSuggested(int idLHP, string lydo, string giothucte, bool trangthai, string mota, string khoiluong,
-            string thoigian, string noilamviec, string ketqua)
+            string thoigian, string noilamviec, string ketqua) // Lưu thông tin đề xuất lhp
         {
             try
             {

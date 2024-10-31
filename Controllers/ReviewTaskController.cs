@@ -23,14 +23,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         // GET: TaskList
         [Authorize, GVandBCNandTARole]
-        public ActionResult Index()
+        public ActionResult Index() // Xem danh sách đánh giá công việc lớp học phần
         {
             return View("Index");
         }
 
         [Authorize, GVandBCNandTARole]
         [HttpPost]
-        public ActionResult FilterData(int hocky, int nganh, string trangthai)
+        public ActionResult FilterData(int hocky, int nganh, string trangthai) //Lọc danh sách đánh giá lhp
         {
             int idForm = 0;
             var form = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh);
@@ -58,7 +58,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVandBCNandTARole]
         [HttpPost]
-        public ActionResult OpenReviewTask(int id, string type)
+        public ActionResult OpenReviewTask(int id, string type) //Mở chi tiết đánh giá lớp học phần
         {
             if (type.Equals("edit"))
             {
@@ -72,7 +72,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult SubmitReviewTask(string lstid, string lsttrangthai, string ghichu, string giothucte)
+        public ActionResult SubmitReviewTask(string lstid, string lsttrangthai, string ghichu, string giothucte) //Lưu thông tin đánh giá lhp
         {
             try
             {

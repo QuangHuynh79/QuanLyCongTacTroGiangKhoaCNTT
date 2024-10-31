@@ -168,13 +168,14 @@
                                     <option value="">---- Chọn học kỳ ----</option>
                                     @foreach (var item in lstHk.OrderByDescending(o => o.ID))
                                     {
+                                        int idDf = lstHk.OrderByDescending(o => o.ID).First().ID;
                                         if (first == 0)
                                         {
                                             first++;
-                                            <option selected value="@item.ID">@item.TenHocKy</option>
+                                            <option data-default="@idDf" selected value="@item.ID">@item.TenHocKy</option>
                                             continue;
                                         }
-                                        <option value="@item.ID">@item.TenHocKy</option>
+                                        <option data-default="@idDf" value="@item.ID">@item.TenHocKy</option>
                                     }
                                 </select>
                                 <span class="text-danger" id="valid-hocky"></span>
@@ -200,7 +201,7 @@
                                 <label class="form-label" for="thoigianmo">
                                     Ngày mở <span class="text-danger">*</span>
                                 </label>
-                                <input type="date" value="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" id="thoigianmo" class="form-control flatpickr" placeholder="Chọn thời gian mở">
+                                <input type="date" data-default="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" value="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" id="thoigianmo" class="form-control flatpickr" placeholder="Chọn thời gian mở">
                                 <span class="text-danger" id="valid-thoigianmo"></span>
                             </div>
                         </div>

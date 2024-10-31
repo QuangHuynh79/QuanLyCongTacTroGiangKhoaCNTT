@@ -11,7 +11,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class HomeController : Controller
     {
         [AllowAnonymous, Loginverification]
-        public ActionResult Index(string enbLock)
+        public ActionResult Index(string enbLock) //Trang đăng nhập
         {
             if (!string.IsNullOrWhiteSpace(enbLock))
                 Session["Locked"] = true;
