@@ -1,0 +1,59 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@{
+    var lstUt = Model.ToList();
+}
+
+<div class="card-body" id="load-content-filter">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-nowrap">Mã LHP</th>
+                    <th class="text-nowrap">Tên HP</th>
+                    <th class="text-nowrap">Lịch Học</th>
+                    <th class="text-nowrap">Số tiết</th>
+                    <th class="text-nowrap">Trạng thái</th>
+                    <th class="text-nowrap"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lstUt.ToList())
+                {
+                    <tr>
+                        <td valign="middle">@item.LopHocPhan.MaLHP</td>
+                        <td valign="middle">@item.LopHocPhan.TenHP</td>
+                        <td valign="middle">@(item.LopHocPhan.ThoiKhoaBieu.First().Thu); Tiết @(item.LopHocPhan.ThoiKhoaBieu.First().TietHoc); Tuần @(item.LopHocPhan.ThoiKhoaBieu.First().TuanBD) - @(item.LopHocPhan.ThoiKhoaBieu.First().TuanKT); Phòng @(item.LopHocPhan.ThoiKhoaBieu.First().Phong)</td>
+                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTietDaXep</td>
+                        <td valign="middle" class="text-nowrap">
+                            @if (item.DanhGiaPhongVan.Count < 1)
+                            {
+                                <span class="badge bg-warning"><i class="bi bi-ban me-2"></i>Chưa phân công</span>
+                            }
+                            else
+                            {
+                                if (item.DanhGiaPhongVan.First().KetLuanDat == true)
+                                {
+                                    <span class="badge bg-success"><i class="bi bi-check-circle me-2"></i>Đã phân công</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning"><i class="bi bi-ban me-2"></i>Chưa phân công</span>
+                                }
+                            }
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            <a style="font-size: 20px" data-bs-toggle="modal" id="Opentasklist-@item.LopHocPhan.ID" role="button" titleTaskList="Chi tiết công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP." name="@item.LopHocPhan.ID" class="text-primary">
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết công việc"><i class="bi bi-info-square me-2"></i></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#dataTableBasic').DataTable();
+</script>

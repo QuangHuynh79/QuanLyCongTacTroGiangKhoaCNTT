@@ -731,6 +731,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, SVandTARole]
+        public ActionResult FilterResultApply(int hocky, int nganh) //Xem kết quả đăng ký trợ giảng
+        {
+            var idtk = Int32.Parse(Session["user-id"].ToString());
+            var formDky = model.FormDangKyTroGiang.FirstOrDefault(f => f.ID_HocKy == hocky && f.ID_Nganh == nganh);
+            int idform = 0;
+            if (formDky != null)
+                idform = formDky.ID;
+            var ut = model.UngTuyenTroGiang.Where(w => w.ID_TaiKhoan == idtk && w.ID_FormDangKyTroGiang == idform).ToList();
+            return PartialView("_FilterResultApply", ut);
+        }
+
+        [Authorize, SVandTARole]
         [HttpPost]
         public ActionResult OpenApply(int id) //Mở hộp điền thông đăng ký trợ giảng cho LHP được chọn
         {

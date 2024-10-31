@@ -550,6 +550,7 @@
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
     <Content Include="Validation\SVandTA\cancelapply.js" />
+    <Content Include="Validation\SVandTA\resultApply\opentask.js" />
     <Content Include="Validation\teacher\reviewtask\danhgia.js" />
     <Content Include="Validation\teacher\reviewtask\filter.js" />
     <Content Include="Validation\teacher\registereds\phongvan.js" />
@@ -615,6 +616,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\TeachingAssistant\_FilterResultApply.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
