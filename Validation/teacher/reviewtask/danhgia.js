@@ -27,7 +27,7 @@
         var lstid = "";
         var check = true;
 
-        var giothucte = $('body').find('[id^="thucte"]').val().trim();
+        var giothucte = $('body').find('[id^="thucte"]').val().trim().replace(",", ".");
         if (giothucte.length < 1) {
             $('body').find('[id^="thucte-"]').val("0");
             giothucte = 0;

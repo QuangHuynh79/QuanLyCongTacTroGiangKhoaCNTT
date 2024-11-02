@@ -120,7 +120,7 @@
         $('body').find('[id^="edit-khoiluong-"]').each(function () {
             var inp = $(this);
             var idInp = inp.attr('name');
-            var val = inp.val().trim();
+            var val = inp.val().trim().replace(",", ".");
             if (val.length < 1) {
                 check = false;
 

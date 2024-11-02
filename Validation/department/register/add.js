@@ -1,5 +1,15 @@
 ﻿$(document).ready(function () {
     function confirmCloseForm() {
+        var validhocky = $('body').find('[id="valid-hocky"]');
+        var validnganh = $('body').find('[id="valid-nganh"]');
+        var validthoigianmo = $('body').find('[id="valid-thoigianmo"]');
+        var validthoigiandong = $('body').find('[id="valid-thoigiandong"]');
+
+        validhocky.text('');
+        validnganh.text('');
+        validthoigianmo.text('');
+        validthoigiandong.text('');
+
         var hocky = $('body').find('[id="hocky"] :selected').val();
         var nganh = $('body').find('[id="nganh"] :selected').val();
         var thoigianmo = $('body').find('[id="thoigianmo"]').val();

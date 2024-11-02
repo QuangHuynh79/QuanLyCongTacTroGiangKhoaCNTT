@@ -82,7 +82,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 int idPc = Convert.ToInt32(id[0]); 
                 var pc = model.CongViec.Find(idPc).LopHocPhan.PhanCongTroGiang.First();
                 pc.TrangThai = true;
-                pc.SoGioThucTe = float.Parse(giothucte.Replace(".", ","));
+                pc.SoGioThucTe = float.Parse(giothucte);
                 pc.GhiChu = ghichu;
                 model.Entry(pc).State = System.Data.Entity.EntityState.Modified;
 

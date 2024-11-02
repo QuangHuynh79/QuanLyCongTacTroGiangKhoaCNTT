@@ -5,6 +5,21 @@
         var thoigianmo = $('body').find('[id="editthoigianmo"]').val();
         var thoigiandong = $('body').find('[id="editthoigiandong"]').val();
 
+        var validhocky = $('body').find('[id="valid-edithocky"]');
+        var validnganh = $('body').find('[id="valid-editnganh"]');
+        var validthoigianmo = $('body').find('[id="valid-editthoigianmo"]');
+        var validthoigiandong = $('body').find('[id="valid-editthoigiandong"]');
+
+        validhocky.text('');
+        validnganh.text('');
+        validthoigianmo.text('');
+        validthoigiandong.text('');
+
+        var hocky = $('body').find('[id="edithocky"] :selected').val();
+        var nganh = $('body').find('[id="editnganh"] :selected').val();
+        var thoigianmo = $('body').find('[id="editthoigianmo"]').val();
+        var thoigiandong = $('body').find('[id="editthoigiandong"]').val();
+
         if (hocky.length > 0 || nganh.length > 0 || thoigianmo.length > 0 || thoigiandong.length > 0) {
             Swal.fire({
                 title: 'Đóng form cập nhật đăng ký?',

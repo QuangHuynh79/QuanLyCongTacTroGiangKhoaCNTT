@@ -142,7 +142,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 {
                     try
                     {
-                        float test = float.Parse(khoiluongs[i - 1].Replace(".", ","));
+                        float test = float.Parse(khoiluongs[i - 1]);
                     }
                     catch (Exception)
                     {
@@ -160,7 +160,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     {
                         ID_LopHocPhan = idLHP,
                         MoTa = motas[i],
-                        SoGioQuyDoi = float.Parse(khoiluongs[i].Replace(".", ",")),
+                        SoGioQuyDoi = float.Parse(khoiluongs[i]),
                         ThoiHanHoanThanh = Convert.ToDateTime(thoigians[i]),
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],
@@ -212,7 +212,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 {
                     try
                     {
-                        float test = float.Parse(khoiluongs[i - 1].Replace(".", ","));
+                        float test = float.Parse(khoiluongs[i - 1]);
                     }
                     catch (Exception)
                     {
@@ -235,7 +235,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     {
                         ID_LopHocPhan = idLHP,
                         MoTa = motas[i],
-                        SoGioQuyDoi = float.Parse(khoiluongs[i].Replace(".", ",")),
+                        SoGioQuyDoi = float.Parse(khoiluongs[i]),
                         ThoiHanHoanThanh = Convert.ToDateTime(thoigians[i]),
                         NoiLamViec = noilamviecs[i],
                         KetQuaMongDoi = ketquas[i],
