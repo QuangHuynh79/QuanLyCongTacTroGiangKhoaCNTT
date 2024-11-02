@@ -45,7 +45,7 @@
     }
     else if (roleId == 4)
     {
-        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == tk.ID).Count() > 0).ToList();
+        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == tk.ID && wp.TrangThai == true).Count() > 0).ToList();
     }
 }
 <script src="~/ActiveItemMenu/ReviewTask/index.js"></script>

@@ -142,26 +142,32 @@
                 <textarea @(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "") id="ghichu" maxlength="300" placeholder="Nhập tối đa 300 ký tự" rows="4" class="form-control text-dark" autofocus>@Model.GhiChu</textarea>
             </div>
         </div>
+        <div class="col-12">
 
-        @if (!string.IsNullOrEmpty(Model.HinhAnhMinhChung))
-        {
-            <div class="col-12">
-                <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng</label>
-                <div class="row">
-                    @foreach (var item in Model.HinhAnhMinhChung.Split('#').ToList())
-                    {
-                        <div class="col-4">
-                            <div class="mb-3">
-                                <!-- Gallery -->
-                                <a href="@Url.Content(item)" class="glightbox" data-gallery="gallery1">
-                                    <img src="@Url.Content(item)" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
-                                </a>
-                            </div>
+            <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn và gửi tối đa 1 hình ảnh < 10MB. JPG, JPEG, PNG)</i></small></small></label>
+            <input hidden id="file-delete-list" value="" />
+            <input hidden="@(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? true : false)" type="file" class="form-control form-control-file" id="hinhanhmc" accept="image/png, image/jpg, image/jpeg">
+            <span class="text-danger" id="valid-hinhanhmc"></span>
+            <div class="row mt-3">
+                @if (!string.IsNullOrEmpty(Model.HinhAnhMinhChung))
+                {
+                    var item = Model.HinhAnhMinhChung;
+                    <div class="col-4 position-relative" id="parent-anhcu">
+                        <a hidden="@(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? true : false)" id="delete-anhcu" data-bs-toggle="tooltip" data-bs-html="true" title="Xóa hình ảnh minh chứng" class="position-absolute text-danger" style="right:23px; top: 3px" role="button">
+                            <i style="font-size: 20px" class="bi bi-x-circle-fill"></i>
+                        </a>
+                        <div class="mb-3">
+                            <input hidden id="anhcu" value="@item" />
+                            <!-- Gallery -->
+                            <a href="@Url.Content(item)" class="glightbox" data-gallery="gallery1">
+                                <img src="@Url.Content(item)" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
+                            </a>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
+
             </div>
-        }
+        </div>
     </div>
 </div>
 <script>

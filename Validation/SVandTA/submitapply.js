@@ -1,21 +1,4 @@
 ﻿$(document).ready(function () {
-
-
-    $('body').on('change', '[id="hinhanhmc"]', function () {
-        var img = $(this);
-        $('body').find('[id="valid-hinhanhmc"]').text('');
-
-        var anhcuCount = 0;
-        $('body').find('[id^="anhcu-"]').each(function () {
-            anhcuCount++;
-        });
-
-        if (img[0].files.length + anhcuCount > 3) {
-            $('body').find('[id="valid-hinhanhmc"]').text('Vui lòng chọn tối đa ' + (3 - anhcuCount) + ' hình ảnh.');
-            img.val(null);
-        }
-    });
-
     $('body').on('click', '[id^="delete-anhcu-"]', function () {
         var img = $(this);
         var index = img.attr('name');
@@ -146,6 +129,18 @@
         else if (hamc[0].files.length + anhcuCount > 3) {
             validhamc.text("Vui lòng gửi tối đa 3 hình ảnh.");
             $('body').find('[id="hamc"]').focus();
+            hamc.val(null);
+        }
+        else {
+            var sizes = 0;
+            for (var i = 0; i < hamc[0].files.length; i++) {
+                sizes += (hamc[0].files[i].size / 1024).toFixed(1);
+            }
+            if (sizes > (50 * 1024)) {
+                validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
+                $('body').find('[id="hamc"]').focus();
+                hamc.val(null);
+            }
         }
     });
 
@@ -207,8 +202,24 @@
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validhamc.text("Vui lòng gửi tối đa 3 hình ảnh.");
+            validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
             $('body').find('[id="hamc"]').focus();
+        }
+        else {
+            var sizes = 0;
+            for (var i = 0; i < hamc[0].files.length; i++) {
+                sizes += (hamc[0].files[i].size / 1024).toFixed(1);
+            }
+            if (sizes > (50 * 1024)) {
+                check = false;
+
+                btn.html('Lưu thông tin');
+                btn.prop('disabled', false);
+                $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
+                $('body').find('[id="hamc"]').focus();
+            }
         }
 
         if (dtk.length < 1) {

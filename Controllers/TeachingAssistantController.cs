@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Threading;
 using System.Web;
@@ -1057,7 +1058,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, TAandGVRole]
-        [HttpPost] 
+        [HttpPost]
         public ActionResult FilterHocKyTaskList(int hocky) //lọc danh sách lớp học phần trong quản lý công việc theo học kỳ
         {
             int role = Int32.Parse(Session["user-role-id"].ToString());
@@ -1075,10 +1076,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, TAandGVRole]
         [HttpPost] //Lưu cập nhật trạng thái công việc
-        public ActionResult SubmitEditTaskDetail(int id, string role, string trangthai, string ghichu) 
+        public ActionResult SubmitEditTaskDetail(int id, string role, string trangthai, string ghichu, HttpPostedFileBase hamc, string deleteImg)
         {
             try
             {
+                var tk = Session["Taikhoan"] as TaiKhoan;
                 var cv = model.CongViec.Find(id);
                 if (cv == null)
                     return Content("Chi tiết lỗi: Không tìm thấy công việc tương ứng.");
@@ -1097,6 +1099,45 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     if (trangthai.IndexOf("task") == -1) //Dạng kéo thả task sẽ kèm chữ task phía trước để phân biệt
                         cv.GhiChu = ghichu;
                     cv.TrangThai = trangthai.Replace("task", ""); //Xóa chữ task phía trước trạng thái để lưu trạng thái
+
+                    if (!string.IsNullOrEmpty(deleteImg)) //Check xóa img cũ k
+                    {
+                        bool deleteImgs = Convert.ToBoolean(deleteImg); // Convert string to bool
+                        if (deleteImgs)
+                        {
+                            string url = cv.HinhAnhMinhChung;
+                            cv.HinhAnhMinhChung = null;
+                            if (System.IO.File.Exists(Path.Combine(Server.MapPath(url))))
+                            {
+                                System.IO.File.Delete(Path.Combine(Server.MapPath(url)));
+                            }
+                        }
+
+                        //Lưu hình ảnh minh chứng path Content/HinhAnhMinhChungCongViec/LHP/MSSV-MC1
+                        string path = "";
+                        string pathDirectory = "";
+                        int i = 0;
+                        if (hamc != null)
+                        {
+                            if (hamc.ContentLength > 0)
+                            {
+                                i++;
+                                string fileName = hamc.FileName;
+                                int indexTypeFile = fileName.LastIndexOf(".");
+                                string fileType = fileName.Substring(indexTypeFile, hamc.FileName.Length - indexTypeFile);
+
+                                pathDirectory = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChungCongViec/LHP" + cv.LopHocPhan.MaLHP));
+                                if (!Directory.Exists(pathDirectory))
+                                {
+                                    Directory.CreateDirectory(pathDirectory);
+                                }
+                                path = Path.Combine(Server.MapPath("~/Content/HinhAnhMinhChungCongViec/LHP" + cv.LopHocPhan.MaLHP), tk.Ma + "-MC" + i + fileType);
+                                hamc.SaveAs(path);
+
+                                cv.HinhAnhMinhChung = "~/Content/HinhAnhMinhChungCongViec/LHP" + cv.LopHocPhan.MaLHP + "/" + tk.Ma + "-MC" + i + fileType;
+                            }
+                        }
+                    }
                 }
 
                 model.Entry(cv).State = System.Data.Entity.EntityState.Modified;
