@@ -56,7 +56,7 @@
     });
 
     $('body').on('input', '[id="tbctl"]', function () {
-        var tbctl = $('body').find('[id="tbctl"]').val().trim().replace(".", ",");
+        var tbctl = $('body').find('[id="tbctl"]').val().trim().replace(",", ".");
         var validtbctl = $('body').find('[id="valid-tbctl"]');
         validtbctl.text('');
 
@@ -75,7 +75,7 @@
     });
 
     $('body').on('input', '[id="drl"]', function () {
-        var drl = $('body').find('[id="drl"]').val().trim().replace(".", ",");
+        var drl = $('body').find('[id="drl"]').val().trim().replace(",", ".");
         var validdrl = $('body').find('[id="valid-drl"]');
         validdrl.text('');
 
@@ -94,7 +94,7 @@
     });
 
     $('body').on('input', '[id="dtk"]', function () {
-        var dtk = $('body').find('[id="dtk"]').val().trim().replace(".", ",");
+        var dtk = $('body').find('[id="dtk"]').val().trim().replace(",", ".");
         var validdtk = $('body').find('[id="valid-dtk"]');
         validdtk.text('');
 
@@ -158,9 +158,9 @@
         var ngaysinh = $('body').find('[id="ngaysinh"]').val().trim();
         var gioitinh = $('body').find('[id="gioitinh"] :selected').val();
 
-        var tbctl = $('body').find('[id="tbctl"]').val().trim().replace(".", ",");
-        var drl = $('body').find('[id="drl"]').val().trim().replace(".", ",");
-        var dtk = $('body').find('[id="dtk"]').val().trim().replace(".", ",");
+        var tbctl = $('body').find('[id="tbctl"]').val().trim().replace(",", ".");
+        var drl = $('body').find('[id="drl"]').val().trim().replace(",", ".");
+        var dtk = $('body').find('[id="dtk"]').val().trim().replace(",", ".");
         var hamc = $('body').find('[id="hinhanhmc"]');
 
         var validdienthoai = $('body').find('[id="valid-dienthoai"]');
@@ -371,9 +371,9 @@
                 formData.append('ngaysinh', ngaysinh);
                 formData.append('gioitinh', gioitinh);
 
-                formData.append('tbctl', tbctl);
-                formData.append('drl', drl);
-                formData.append('dtk', dtk);
+                formData.append('tbctl', tbctl.replace(".", ","));
+                formData.append('drl', drl.replace(".", ","));
+                formData.append('dtk', dtk.replace(".", ","));
 
                 for (var i = 0; i < hamc[0].files.length; i++) {
                     var file = hamc[0].files[i];
