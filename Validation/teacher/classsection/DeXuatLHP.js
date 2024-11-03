@@ -243,7 +243,6 @@
 
         if (check == false) {
             Swal.fire({
-                title: 'Đóng form đề xuất trợ giảng?',
                 text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
                 icon: "question",
                 showCancelButton: true,
@@ -309,7 +308,6 @@
 
             if (check == false) {
                 Swal.fire({
-                    title: 'Đóng cập nhật mô tả công việc?',
                     text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
                     icon: "question",
                     showCancelButton: true,

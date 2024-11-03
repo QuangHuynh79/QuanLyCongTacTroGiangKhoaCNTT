@@ -1,13 +1,16 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+
     ViewBag.Title = "Lớp học phần";
     Layout = Session["layout"].ToString();
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
     var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh;
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
 
-    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
+    var lstNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
 
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
@@ -19,14 +22,14 @@
     int id_nganhCNTT = 0;
     if (lstNganh.Count > 0)
     {
-        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
+        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals(userTennganh));
         if (nganhcntt != null)
         {
             id_nganhCNTT = nganhcntt.ID;
         }
     }
 
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
 }
 <script src="~/ActiveItemMenu/ClassSection/index.js"></script>
 <section class="container-fluid p-4">

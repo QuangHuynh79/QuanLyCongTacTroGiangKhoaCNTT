@@ -135,8 +135,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                 var form = model.FormDangKyTroGiang.Find(id);
 
-                if (thoigianmo != form.ThoiGianMo) 
-                    if(thoigiandong < currentDate)
+                if (thoigianmo != form.ThoiGianMo)
+                    if (thoigiandong < currentDate)
                         return Content("NhoHonHienTai");
 
                 if (thoigianmo >= thoigiandong)
@@ -287,7 +287,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             try
             {
                 int role = Int32.Parse(Session["user-role-id"].ToString());
-                if (role == 3)
+                if (role == 3 || role == 5)
                     return PartialView("Registered"); //BCN
                 else
                     return PartialView("Registereds"); //GV
@@ -494,10 +494,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     foreach (var t in ut)
                         idF.Add(t.ID);
                     var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
-                    && (w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList(); 
+                    && (w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
-            } 
+            }
             catch (Exception Ex)
             {
                 return Content("Chi tiết lỗi: " + Ex.Message);
@@ -660,7 +660,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     model.SaveChanges();
 
                     var lstCv = ut.LopHocPhan.CongViec.ToList();
-                    foreach ( var c in lstCv)
+                    foreach (var c in lstCv)
                     {
                         c.ID_TaiKhoan = idtk;
                     }
@@ -767,11 +767,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult FilterResultApply(int hocky, int nganh) //Xem kết quả đăng ký trợ giảng
         {
             var idtk = Int32.Parse(Session["user-id"].ToString());
-            var formDky = model.FormDangKyTroGiang.FirstOrDefault(f => f.ID_HocKy == hocky && f.ID_Nganh == nganh);
-            int idform = 0;
-            if (formDky != null)
-                idform = formDky.ID;
-            var ut = model.UngTuyenTroGiang.Where(w => w.ID_TaiKhoan == idtk && w.ID_FormDangKyTroGiang == idform).ToList();
+            var formDky = model.FormDangKyTroGiang.Where(f => f.ID_HocKy == hocky && f.ID_Nganh == nganh).ToList();
+            List<int> idForm = new List<int>();
+            foreach (var item in formDky)
+                idForm.Add(item.ID);
+
+            var ut = model.UngTuyenTroGiang.Where(w => w.ID_TaiKhoan == idtk && idForm.Contains(w.ID_FormDangKyTroGiang)).ToList();
             return PartialView("_FilterResultApply", ut);
         }
 
@@ -1097,13 +1098,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var taikhoan = Session["TaiKhoan"] as TaiKhoan;
             var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
-            var tasks = model.LopHocPhan.Where(w => w.MaCBGD.ToLower().Equals(ma) && w.CongViec.Count > 0 && w.ID_HocKy == hocky).ToList();
-            var task = tasks.Where(w => w.DeXuatTroGiang.First().TrangThai == true).ToList();
-
             if (role == 4)
+            {
+                int idTk = taikhoan.ID;
+                var tasks = model.LopHocPhan.Where(w => w.CongViec.Where(wt => wt.ID_TaiKhoan == idTk).Count() > 0 && w.ID_HocKy == hocky).ToList();
+                var task = tasks.Where(w => w.DeXuatTroGiang.First().TrangThai == true).ToList();
                 return PartialView("_FilterHocKyTaskListTA", task); //Role TA
+            }
             else
+            {
+                var tasks = model.LopHocPhan.Where(w => w.MaCBGD.ToLower().Equals(ma) && w.CongViec.Count > 0 && w.ID_HocKy == hocky).ToList();
+                var task = tasks.Where(w => w.DeXuatTroGiang.First().TrangThai == true).ToList();
                 return PartialView("_FilterHocKyTaskListGV", task); //Role GV
+            }
         }
 
         [Authorize, TAandGVRole]

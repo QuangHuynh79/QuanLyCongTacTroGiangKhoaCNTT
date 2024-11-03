@@ -5,7 +5,7 @@
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
     var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
-    var lstHocKy = models.HocKy.Where(w => w.LopHocPhan.Where(wl => wl.MaCBGD.ToLower().Equals(ma) && wl.CongViec.Count() > 0
+    var lstHocKy = models.HocKy.Where(w => w.LopHocPhan.Where(wl => wl.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == taikhoan.ID).Count() > 0 && wl.CongViec.Count() > 0
     && wl.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).Count() > 0).ToList();
 
     int id_hkGanNhat = 0;

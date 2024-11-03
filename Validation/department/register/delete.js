@@ -5,7 +5,6 @@
         var formData = new FormData();
         formData.append('id', $(this).attr('name'));
         Swal.fire({
-            title: 'Xóa bỏ?',
             text: 'Bạn có muốn xóa form đăng ký "' + fullname + '" không?',
             icon: "question",
             showCancelButton: true,

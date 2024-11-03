@@ -1,8 +1,4 @@
-﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
-@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.AspNetRoles>
-@{
-    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = models.Nganh.ToList();
+﻿@{
     ViewBag.Title = "Người dùng";
     Layout = Session["layout"].ToString();
 }
@@ -27,9 +23,9 @@
                     </nav>
                 </div>
                 <!-- button -->
-                <div>
+                @*<div>
                     <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm mới</a>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -43,7 +39,7 @@
     </div>
 
 
-    <div class="modal fade" id="themmoi" tabindex="-1" role="dialog" aria-labelledby="themmoi" aria-hidden="true">
+    @*<div class="modal fade" id="themmoi" tabindex="-1" role="dialog" aria-labelledby="themmoi" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -148,7 +144,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
+
     <!-- CẬP NHẬT -->
     <div class="modal fade" id="capnhat" tabindex="-1" role="dialog" aria-labelledby="capnhat" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">

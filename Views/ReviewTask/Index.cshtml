@@ -1,18 +1,23 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = models.Nganh.ToList();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
     var lstKhoa = models.Khoa.ToList();
+    var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+    int tkId = Int32.Parse(Session["user-id"].ToString());
 
     ViewBag.Title = "Trợ giảng";
     Layout = Session["layout"].ToString();
 
     var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
     var currentYear = DateTime.Now.Year;
-
-    int roleId = Int32.Parse(Session["user-role-id"].ToString());
-    int tkId = Int32.Parse(Session["user-id"].ToString());
-    var tk = models.TaiKhoan.Find(tkId);
 
     var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
     int id_hkGanNhat = 0;
@@ -21,29 +26,20 @@
         id_hkGanNhat = lstHk.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin")).ToList().OrderByDescending(o => o.ID);
-
-    List<int> idForm = new List<int>();
-    foreach (var item in formDky)
-    {
-        idForm.Add(item.ID);
-    }
-
-    var lstUs = models.UngTuyenTroGiang.Where(w => idForm.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
     int i = 0;
 
-    var dgcv = new List<UngTuyenTroGiang>();
+    var dgcv = new List<LopHocPhan>();
     if (roleId == 2)
     {
-        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList();
+        dgcv = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh) && w.PhanCongTroGiang.Count() > 0 && w.MaCBGD.ToLower().Equals(taikhoan.Ma.ToLower())).ToList();
     }
-    else if (roleId == 3)
+    else if (roleId == 3 || roleId == 5)
     {
-        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.First().TrangThai == true).ToList();
+        dgcv = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh) && w.PhanCongTroGiang.Where(wp => wp.TrangThai == true).Count() > 0).ToList();
     }
     else if (roleId == 4)
     {
-        dgcv = lstUs.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0 && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == tk.ID && wp.TrangThai == true).Count() > 0).ToList();
+        dgcv = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh) && w.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == taikhoan.ID && wp.TrangThai == true).Count() > 0).ToList();
     }
 }
 <script src="~/ActiveItemMenu/ReviewTask/index.js"></script>
@@ -106,9 +102,9 @@
                             <div class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Ngành</label>
                                 <select id="nganh" class="form-select" data-width="100%">
-                                    @foreach (var item in lstNganh)
+                                    @foreach (var item in userNganh)
                                     {
-                                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                        if (item.TenNganh.ToLower().Equals(userTennganh))
                                         {
                                             <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                         }
@@ -131,11 +127,38 @@
                         else if (roleId == 3)
                         {
                             <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var item in userNganh)
+                                    {
+                                        if (item.TenNganh.ToLower().Equals(userTennganh))
+                                        {
+                                            <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div hidden class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Lọc trạng thái</label>
+                                <select id="trangthaidg" class="form-select" data-width="100%">
+                                    <option value="all">Chọn tất cả</option>
+                                    <option selected value="true">Đã đánh giá</option>
+                                    <option value="false">Chưa đánh giá</option>
+                                </select>
+                            </div>
+                        }
+                        else if (roleId == 5)
+                        {
+                            <div class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Khoa</label>
                                 <select id="khoa" class="form-select" data-width="100%">
                                     @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
                                     {
-                                        if (item.TenKhoa.ToLower().Equals("công nghệ thông tin"))
+                                        if (userKhoa.TenKhoa.Equals(item.TenKhoa))
                                         {
                                             <option name="@item.TenKhoa" selected value="@item.ID">@item.TenKhoa</option>
                                         }
@@ -149,18 +172,20 @@
                             <div class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Ngành</label>
                                 <select id="nganh" class="form-select" data-width="100%">
-                                    @foreach (var item in lstNganh)
+                                    @foreach (var items in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
                                     {
-                                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                        foreach (var item in items.Nganh.ToList())
                                         {
-                                            <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
-                                        }
-                                        else
-                                        {
-                                            <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                            if (item.TenNganh.ToLower().Equals(userTennganh))
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                            }
+                                            else
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                            }
                                         }
                                     }
-                                    <option hidden id="opNganhNull" value="opNull">Không có ngành nào</option>
                                 </select>
                             </div>
                             <div hidden class="mb-3 col-md-3 col-12 ">
@@ -177,9 +202,9 @@
                             <div class="mb-3 col-md-3 col-12 ">
                                 <label class="form-label">Ngành</label>
                                 <select id="nganh" class="form-select" data-width="100%">
-                                    @foreach (var item in lstNganh)
+                                    @foreach (var item in userNganh)
                                     {
-                                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                        if (item.TenNganh.ToLower().Equals(userTennganh))
                                         {
                                             <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                         }
@@ -216,34 +241,34 @@
                             <tbody>
                                 @foreach (var item in dgcv)
                                 {
-                                    var idtks = item.ID_TaiKhoan;
+                                    var idtks = item.PhanCongTroGiang.First().ID_TaiKhoan;
                                     i++;
                                     <tr>
                                         <td valign="middle">
-                                            MSSV: @item.MSSV
+                                            MSSV: @item.UngTuyenTroGiang.First().MSSV
                                             <br />
-                                            Họ & Tên: @item.HoTen
+                                            Họ & Tên: @item.UngTuyenTroGiang.First().HoTen
                                             <br />
-                                            <span class="text-nowrap">Email: @item.Email</span>
+                                            <span class="text-nowrap">Email: @item.UngTuyenTroGiang.First().Email</span>
                                             <br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.UngTuyenTroGiang.First().SoDienThoai<br/>Ngày sinh: @(item.UngTuyenTroGiang.First().NgaySinh != null ? item.UngTuyenTroGiang.First().NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.UngTuyenTroGiang.First().GioiTinh" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            Mã LHP: @item.LopHocPhan.MaLHP
+                                            Mã LHP: @item.MaLHP
                                             <br />
-                                            Tên HP: @item.LopHocPhan.TenHP
+                                            Tên HP: @item.TenHP
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            @item.LopHocPhan.CongViec.Count() Công việc
+                                            @item.CongViec.Count() Công việc
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            @if (item.LopHocPhan.PhanCongTroGiang.First().TrangThai == false)
+                                            @if (item.PhanCongTroGiang.First().TrangThai == false)
                                             {
-                                                <a titleForm="Đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnDanhgia-@item.ID" name="@item.LopHocPhan.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Thực hiện đánh giá công việc trợ giảng cho LHP" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-bookmark-check me-2"></i>Đánh giá</a>
+                                                <a titleForm="Đánh giá công việc LHP: @item.MaLHP - @item.TenHP" id="btnDanhgia-@item.ID" name="@item.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Thực hiện đánh giá công việc trợ giảng cho LHP" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-bookmark-check me-2"></i>Đánh giá</a>
                                             }
                                             else
                                             {
-                                                <a titleForm="Xem thông tin đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnDanhgia-@item.ID" name="@item.LopHocPhan.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin & cập nhật đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xem đánh giá</a>
+                                                <a titleForm="Xem thông tin đánh giá công việc LHP: @item.MaLHP - @item.TenHP" id="btnDanhgia-@item.ID" name="@item.ID" data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin & cập nhật đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xem đánh giá</a>
                                                 @*<a titleForm="Xem Đánh giá công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" id="btnXemDanhgia-@item.ID" name="@item.LopHocPhan.ID"  data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="Xem thông tin đánh giá công việc trợ giảng cho LHP" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Xen đánh giá</a>*@
                                             }
                                         </td>

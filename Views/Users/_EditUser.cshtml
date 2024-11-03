@@ -2,7 +2,17 @@
 @model QuanLyCongTacTroGiangKhoaCNTT.Models.TaiKhoan
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstKhoa = models.Khoa.ToList();
     var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
     var lstQuyen = models.AspNetRoles.ToList();
 }
 <div class="modal-body" id="capnhat-partial">
@@ -37,14 +47,14 @@
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="edithoten">Họ & Tên <span class="text-danger">*</span></label>
-                <input value="@Model.HoTen" type="text" id="edithoten" class="form-control" placeholder="Nhập Họ & Tên người dùng">
+                <input disabled="true" value="@Model.HoTen" type="text" id="edithoten" class="form-control" placeholder="Nhập Họ & Tên người dùng">
                 <span class="text-danger" id="valid-edithoten"></span>
             </div>
         </div>
         <div class="col-12">
             <div class="mb-3">
                 <label class="form-label" for="editemail">Email <span class="text-danger">*</span></label>
-                <input value="@Model.Email" type="text" id="editemail" class="form-control" placeholder="Nhập địa chỉ Email người dùng">
+                <input disabled="true" value="@Model.Email" type="text" id="editemail" class="form-control" placeholder="Nhập địa chỉ Email người dùng">
                 <span class="text-danger" id="valid-editemail"></span>
             </div>
         </div>
@@ -104,30 +114,58 @@
                 <label class="form-label" for="editnganh">
                     Ngành
                 </label>
-                <select class="form-select" id="editnganh">
-                    @if (Model.ID_Nganh == null)
-                    {
-                        <option selected value="">---- Chọn ngành ----</option>
-                        foreach (var item in lstNganh)
+                @if (roleId == 5)
+                {
+                    <select class="form-select" id="editnganh">
+                        @if (Model.ID_Nganh == null)
                         {
-                            <option value="@item.ID">@item.TenNganh</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="">---- Chọn ngành ----</option>
-                        foreach (var item in lstNganh)
-                        {
-                            if (item.ID == Model.ID_Nganh)
+                            <option selected value="">---- Chọn ngành ----</option>
+                            foreach (var item in lstNganh)
                             {
-                                <option selected value="@item.ID">@item.TenNganh</option>
-                                continue;
+                                <option value="@item.ID">@item.TenNganh</option>
                             }
-                            <option value="@item.ID">@item.TenNganh</option>
                         }
-                    }
+                        else
+                        {
+                            foreach (var item in lstNganh)
+                            {
+                                if (item.ID == Model.ID_Nganh)
+                                {
+                                    <option selected value="@item.ID">@item.TenNganh</option>
+                                    continue;
+                                }
+                                <option value="@item.ID">@item.TenNganh</option>
+                            }
+                        }
 
-                </select>
+                    </select>
+                }
+                else
+                {
+                    <select class="form-select" id="editnganh">
+                        @if (Model.ID_Nganh == null)
+                        {
+                            <option selected value="">---- Chọn ngành ----</option>
+                            foreach (var item in userKhoa.Nganh.ToList())
+                            {
+                                <option value="@item.ID">@item.TenNganh</option>
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in userKhoa.Nganh.ToList())
+                            {
+                                if (item.ID == Model.ID_Nganh)
+                                {
+                                    <option selected value="@item.ID">@item.TenNganh</option>
+                                    continue;
+                                }
+                                <option value="@item.ID">@item.TenNganh</option>
+                            }
+                        }
+
+                    </select>
+                }
                 <span class="text-danger" id="valid-editnganh"></span>
             </div>
         </div>

@@ -5,27 +5,34 @@
     Layout = Session["layout"].ToString();
 
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = models.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
     var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
 
     var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
     var currentYear = DateTime.Now.Year;
 
-    var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
     int idhkGanNhat = 0;
-    if (lstHk.Count > 0)
+    if (lstHocKy.Count > 0)
     {
-        idhkGanNhat = lstHk.First().ID;
+        idhkGanNhat = lstHocKy.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == idhkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
+    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == idhkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh));
 
-    int idForm = 0;
-    if (formDky != null)
+    List<int> idForm = new List<int>();
+    foreach (var item in formDky)
     {
-        idForm = formDky.ID;
+        idForm.Add(item.ID);
     }
-    var lstUt = Model.ToList().Where(w => w.ID_FormDangKyTroGiang == idForm).ToList();
+
+    var lstUt = Model.ToList().Where(w => idForm.Contains(w.ID_FormDangKyTroGiang)).ToList();
 }
 
 <script src="~/ActiveItemMenu/TeachingAssistant/resultApply.js"></script>
@@ -84,9 +91,9 @@
                         <div class="mb-3 col-md-4 col-12">
                             <label class="form-label">Ngành</label>
                             <select id="nganh" class="form-select" data-width="100%">
-                                @foreach (var item in lstNganh)
+                                @foreach (var item in userNganh)
                                 {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    if (item.TenNganh.ToLower().Equals(userTennganh))
                                     {
                                         <option selected value="@item.ID">@item.TenNganh</option>
                                     }
@@ -139,7 +146,7 @@
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            <a style="font-size: 20px" data-bs-toggle="modal" id="Opentasklist-@item.LopHocPhan.ID" role="button" titleTaskList="Chi tiết công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP."name="@item.LopHocPhan.ID" class="text-primary">
+                                            <a style="font-size: 20px" data-bs-toggle="modal" id="Opentasklist-@item.LopHocPhan.ID" role="button" titleTaskList="Chi tiết công việc LHP: @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP." name="@item.LopHocPhan.ID" class="text-primary">
                                                 <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết công việc"><i class="bi bi-info-square me-2"></i></span>
                                             </a>
                                         </td>

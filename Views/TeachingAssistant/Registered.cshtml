@@ -1,8 +1,15 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = models.Nganh.ToList();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
 
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstNganh = models.Nganh.ToList();
+    var lstKhoa = models.Khoa.ToList();
     ViewBag.Title = "Trợ giảng";
     Layout = Session["layout"].ToString();
 
@@ -16,7 +23,7 @@
         id_hkGanNhat = lstHk.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin")).ToList().OrderByDescending(o => o.ID);
+    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList().OrderByDescending(o => o.ID);
     int i = 0;
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
@@ -73,22 +80,63 @@
                                 }
                             </select>
                         </div>
-                        <div class="mb-3 col-md-3 col-12 ">
-                            <label class="form-label">Ngành</label>
-                            <select id="nganh" class="form-select" data-width="100%">
-                                @foreach (var item in lstNganh)
-                                {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                        @if (roleId == 3)
+                        {
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var item in userKhoa.Nganh.ToList())
                                     {
-                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        if (item.TenNganh.ToLower().Equals(userTennganh))
+                                        {
+                                            <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
                                     }
-                                    else
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Khoa</label>
+                                <select id="khoa" class="form-select" data-width="100%">
+                                    @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
                                     {
-                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        if (userKhoa.TenKhoa.Equals(item.TenKhoa))
+                                        {
+                                            <option name="@item.TenKhoa" selected value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenKhoa" value="@item.ID">@item.TenKhoa</option>
+                                        }
                                     }
-                                }
-                            </select>
-                        </div>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-3 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var items in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        foreach (var item in items.Nganh.ToList())
+                                        {
+                                            if (item.TenNganh.ToLower().Equals(userTennganh))
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                            }
+                                            else
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
                         <div class="mb-3 col-md-3 col-12 ">
                             <label class="form-label">Lọc trạng thái</label>
                             <select id="trangthaiut" class="form-select" data-width="100%">
@@ -226,7 +274,59 @@
 
 <section style="display: none" id="table-export-data">
 </section>
+<script>
+    $(document).ready(function () {
+        $('#khoa').on('change', function () {
+            var valu = $('#khoa :selected').val();
+            if (valu.length < 1) {
+                $('#nganh > option').each(function () {
+                    if ($(this).val() == "opNull") {
+                        $(this).prop('hidden', true);
+                    }
+                    else {
+                        $(this).prop('hidden', false);
+                    }
+                });
 
+                $('#nganh').val("").change();
+            }
+            else {
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.attr('cuaKhoa') == valu) {
+                        $(this).prop('hidden', false);
+                    }
+                    else {
+                        $(this).prop('hidden', true);
+                    }
+                });
+
+                var countOp = 0;
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.prop('hidden') == false) {
+                        countOp++;
+                    }
+                });
+
+                if (countOp == 0) {
+                    $('#nganh').val("opNull").change();
+                    $('#nganh > [id="opNganhNull"]').prop('hidden', false);
+                }
+                else {
+
+                    $('#nganh > option').each(function () {
+                        var opt = $(this);
+                        if (opt.prop('hidden') == false) {
+                            $('#nganh').val(opt.val()).change();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
 <script src="~/Validation/department/registered/detailAndAccepted.js"></script>
 <script src="~/Validation/department/registered/filter.js"></script>
 <script src="~/Validation/department/registered/exportfile.js"></script>

@@ -1,8 +1,30 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstKhoa = models.Khoa.ToList();
+    var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
     var lstRole = models.AspNetRoles.ToList();
     var lstUser = models.TaiKhoan.OrderByDescending(o => o.ID).ToList();
+    if (roleId == 3)
+    {
+        List<int> idNganh = new List<int>();
+        foreach (var item in userKhoa.Nganh.ToList())
+        {
+            idNganh.Add(item.ID);
+        }
+        //lstUser = lstUser.Where(w => w.ID_Nganh != null).ToList();
+        lstUser = lstUser.Where(w => w.ID_Nganh != null && idNganh.Contains(w.ID_Nganh.Value)).ToList();
+    }
+
     int i = 0;
     int idUs = Int32.Parse(Session["user-id"].ToString());
 }
@@ -149,7 +171,7 @@
                                         <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
                                         <td valign="middle">@item.QuocTich</td>
                                         <td valign="middle">
-                                            @if (idUs != item.ID)
+                                            @if (idUs != item.ID && item.AspNetUsers.AspNetRoles.Where(w => !w.ID.Equals("5") && !w.ID.Equals("3")).Count() > 0)
                                             {
                                                 <div class="form-check form-switch  mb-2">
                                                     <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@(item.AspNetUsers.LockoutEnabled ? false : true)">
@@ -157,15 +179,15 @@
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            @if (idUs != item.ID)
+                                            @if (idUs != item.ID && item.AspNetUsers.AspNetRoles.Where(w => !w.ID.Equals("5") && !w.ID.Equals("3")).Count() > 0)
                                             {
                                                 <a style="font-size: 20px" role="button" id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-success">
                                                     <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                                 </a>
 
-                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-danger">
+                                                @*<a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-danger">
                                                     <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                                </a>
+                                                </a>*@
                                             }
                                         </td>
                                     </tr>

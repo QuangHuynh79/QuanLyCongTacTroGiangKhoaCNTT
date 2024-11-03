@@ -157,7 +157,6 @@
                     }
                     else if (ketqua == "Exist") {
                         Swal.fire({
-                            title: 'Thông báo',
                             text: 'Học kỳ và ngành này đã có dữ liệu trong hệ thống, bạn muốn cập nhật hay thay thế thời khoá biểu?',
                             icon: "question",
                             showCancelButton: true,

@@ -54,59 +54,59 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             return PartialView("_Index");
         }
 
-        [Authorize]
-        [BCNRole]
-        [HttpPost]
-        public ActionResult AddNew(string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
-        {
-            try
-            {
-                var checks = model.TaiKhoan.FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower()) || u.Ma.ToLower().Equals(ma.ToLower()));
-                if (checks != null)
-                    return Content("Exist");
+        //[Authorize]
+        //[BCNRole]
+        //[HttpPost]
+        //public ActionResult AddNew(string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        //{
+        //    try
+        //    {
+        //        var checks = model.TaiKhoan.FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower()) || u.Ma.ToLower().Equals(ma.ToLower()));
+        //        if (checks != null)
+        //            return Content("Exist");
 
-                string userId = email.ToLower();
-                var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals(chucdanh)).ToList();
+        //        string userId = email.ToLower();
+        //        var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals(chucdanh)).ToList();
 
-                AspNetUsers aspNetUsers = new AspNetUsers();
-                aspNetUsers.ID = userId;
-                aspNetUsers.Email = email;
-                aspNetUsers.EmailConfirmed = false;
-                aspNetUsers.PhoneNumberConfirmed = false;
-                aspNetUsers.TwoFactorEnabled = false;
-                aspNetUsers.LockoutEnabled = false;
-                aspNetUsers.AccessFailedCount = 0;
-                aspNetUsers.UserName = hoten;
-                aspNetUsers.AspNetRoles = aspNetRoles;
-                model.AspNetUsers.Add(aspNetUsers);
-                model.SaveChanges();
+        //        AspNetUsers aspNetUsers = new AspNetUsers();
+        //        aspNetUsers.ID = userId;
+        //        aspNetUsers.Email = email;
+        //        aspNetUsers.EmailConfirmed = false;
+        //        aspNetUsers.PhoneNumberConfirmed = false;
+        //        aspNetUsers.TwoFactorEnabled = false;
+        //        aspNetUsers.LockoutEnabled = false;
+        //        aspNetUsers.AccessFailedCount = 0;
+        //        aspNetUsers.UserName = hoten;
+        //        aspNetUsers.AspNetRoles = aspNetRoles;
+        //        model.AspNetUsers.Add(aspNetUsers);
+        //        model.SaveChanges();
 
-                var data = new TaiKhoan();
-                data.Email = email;
-                data.HoTen = hoten;
-                data.ID_AspNetUsers = aspNetUsers.ID;
-                data.TrangThai = true;
-                data.NgaySinh = ngaysinh;
-                data.Ma = ma;
-                data.GioiTinh = gioitinh;
-                if (quoctich)
-                    data.QuocTich = "Việt Nam";
-                else
-                    data.QuocTich = "Nước ngoài";
-                data.SDT = dienthoai;
-                if (!string.IsNullOrEmpty(nganh))
-                    data.ID_Nganh = Int32.Parse(nganh);
+        //        var data = new TaiKhoan();
+        //        data.Email = email;
+        //        data.HoTen = hoten;
+        //        data.ID_AspNetUsers = aspNetUsers.ID;
+        //        data.TrangThai = true;
+        //        data.NgaySinh = ngaysinh;
+        //        data.Ma = ma;
+        //        data.GioiTinh = gioitinh;
+        //        if (quoctich)
+        //            data.QuocTich = "Việt Nam";
+        //        else
+        //            data.QuocTich = "Nước ngoài";
+        //        data.SDT = dienthoai;
+        //        if (!string.IsNullOrEmpty(nganh))
+        //            data.ID_Nganh = Int32.Parse(nganh);
 
-                model.TaiKhoan.Add(data);
-                model.SaveChanges();
+        //        model.TaiKhoan.Add(data);
+        //        model.SaveChanges();
 
-                return Content("SUCCESS");
-            }
-            catch (Exception Ex)
-            {
-                return Content("Chi tiết lỗi: " + Ex.Message);
-            }
-        }
+        //        return Content("SUCCESS");
+        //    }
+        //    catch (Exception Ex)
+        //    {
+        //        return Content("Chi tiết lỗi: " + Ex.Message);
+        //    }
+        //}
 
         [Authorize]
         [BCNRole]
@@ -201,46 +201,46 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        [Authorize]
-        [BCNRole]
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                var data = model.TaiKhoan.Find(id);
-                if (data == null)
-                    return Content("SUCCESS");
+        //[Authorize]
+        //[BCNRole]
+        //[HttpPost]
+        //public ActionResult Delete(int id)
+        //{
+        //    try
+        //    {
+        //        var data = model.TaiKhoan.Find(id);
+        //        if (data == null)
+        //            return Content("SUCCESS");
 
-                var aspUser = data.AspNetUsers;
+        //        var aspUser = data.AspNetUsers;
 
-                string userId = data.Email.ToLower();
-                var aspNetUsers = model.AspNetUsers.Find(userId);
+        //        string userId = data.Email.ToLower();
+        //        var aspNetUsers = model.AspNetUsers.Find(userId);
 
-                string idRole = aspNetUsers.AspNetRoles.First().ID;
-                UserManager.RemoveFromRoles(userId, idRole);
+        //        string idRole = aspNetUsers.AspNetRoles.First().ID;
+        //        UserManager.RemoveFromRoles(userId, idRole);
 
-                var lhp = data.LopHocPhan.ToList();
-                foreach (var item in lhp)
-                {
-                    item.ID_TaiKhoan = null;
-                    model.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                }
-                model.SaveChanges();
+        //        var lhp = data.LopHocPhan.ToList();
+        //        foreach (var item in lhp)
+        //        {
+        //            item.ID_TaiKhoan = null;
+        //            model.Entry(item).State = System.Data.Entity.EntityState.Modified;
+        //        }
+        //        model.SaveChanges();
 
-                model.TaiKhoan.Remove(data);
-                model.AspNetUsers.Remove(aspUser);
-                model.SaveChanges();
+        //        model.TaiKhoan.Remove(data);
+        //        model.AspNetUsers.Remove(aspUser);
+        //        model.SaveChanges();
 
-                model = new CongTacTroGiangKhoaCNTTEntities();
+        //        model = new CongTacTroGiangKhoaCNTTEntities();
 
-                return Content("SUCCESS");
-            }
-            catch (Exception Ex)
-            {
-                return Content("Chi tiết lỗi: " + Ex.Message);
-            }
-        }
+        //        return Content("SUCCESS");
+        //    }
+        //    catch (Exception Ex)
+        //    {
+        //        return Content("Chi tiết lỗi: " + Ex.Message);
+        //    }
+        //}
 
         [Authorize]
         [BCNRole]
@@ -249,15 +249,54 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+                string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+                var userKhoa = model.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+                var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+                var lstKhoa = model.Khoa.ToList();
+                var lstNganh = model.Nganh.ToList();
+
+                int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
                 if (string.IsNullOrEmpty(id) || id.Equals("0"))
                 {
-                    var data = model.AspNetUsers.ToList().OrderByDescending(o => o.ID);
-                    return PartialView("_Filter", data);
+                    if (roleId == 3)
+                    {
+                        List<int> idNganh = new List<int>();
+                        foreach (var item in userKhoa.Nganh.ToList())
+                        {
+                            idNganh.Add(item.ID);
+                        }
+                        var data = model.AspNetUsers.Where(w => w.TaiKhoan.Where(wt => wt.ID_Nganh != null).Count() > 0 && w.TaiKhoan.Where(wt => idNganh.Contains(wt.ID_Nganh.Value)).Count() > 0).ToList().OrderByDescending(o => o.ID);
+                        return PartialView("_Filter", data);
+                    }
+                    else
+                    {
+                        var data = model.AspNetUsers.ToList().OrderByDescending(o => o.ID);
+                        return PartialView("_Filter", data);
+                    }
                 }
                 else
                 {
-                    var data = model.AspNetUsers.Where(w => w.AspNetRoles.Where(wh => wh.ID.Equals(id)).Count() > 0).ToList().OrderByDescending(o => o.ID);
-                    return PartialView("_Filter", data);
+                    if (roleId == 3)
+                    {
+                        List<int> idNganh = new List<int>();
+                        foreach (var item in userKhoa.Nganh.ToList())
+                        {
+                            idNganh.Add(item.ID);
+                        }
+                        var data = model.AspNetUsers.Where(w => w.TaiKhoan.Where(wt => wt.ID_Nganh != null).Count() > 0 && w.TaiKhoan.Where(wt => idNganh.Contains(wt.ID_Nganh.Value)).Count() > 0
+                        && w.AspNetRoles.Where(wr => wr.ID.Equals(id)).Count() > 0).ToList().OrderByDescending(o => o.ID);
+                        return PartialView("_Filter", data);
+                    }
+                    else
+                    {
+                        var data = model.AspNetUsers.Where(w => w.AspNetRoles.Where(wr => wr.ID.Equals(id)).Count() > 0).ToList().OrderByDescending(o => o.ID);
+                        return PartialView("_Filter", data);
+
+                    }
                 }
             }
             catch (Exception Ex)

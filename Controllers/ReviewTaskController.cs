@@ -32,30 +32,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [HttpPost]
         public ActionResult FilterData(int hocky, int nganh, string trangthai) //Lọc danh sách đánh giá lhp
         {
-            var form = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
-
-            List<int> idForm = new List<int>();
-            foreach (var item in form)
-            {
-                idForm.Add(item.ID);
-            }
+            var lhp = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.PhanCongTroGiang.Count() > 0).ToList().OrderByDescending(o => o.ID).ToList();
 
             if (trangthai.Equals("all"))
             {
-                var uts1 = model.UngTuyenTroGiang.Where(w => idForm.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
-                var ut = uts1.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
-
-                return PartialView("_FilterCongViec", ut);
+                return PartialView("_FilterCongViec", lhp);
             }
             else
             {
                 var blTrangthai = Convert.ToBoolean(trangthai);
 
-                var uts1 = model.UngTuyenTroGiang.Where(w => idForm.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
-                var uts2 = uts1.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
-                var ut = uts2.Where(w => w.LopHocPhan.PhanCongTroGiang.Where(wS => wS.TrangThai == blTrangthai).Count() > 0).ToList();
-
-                return PartialView("_FilterCongViec", ut);
+                var lhps = lhp.Where(w => w.PhanCongTroGiang.Where(wp => wp.TrangThai == blTrangthai).Count() > 0).ToList().OrderByDescending(o => o.ID).ToList();
+                return PartialView("_FilterCongViec", lhps);
             }
         }
 
@@ -82,18 +70,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var id = lstid.Split('#');
                 var trangthai = lsttrangthai.Split('#');
 
-                int idPc = Convert.ToInt32(id[0]); 
+                int idPc = Convert.ToInt32(id[0]);
                 var pc = model.CongViec.Find(idPc).LopHocPhan.PhanCongTroGiang.First();
                 pc.TrangThai = true;
                 pc.SoGioThucTe = float.Parse(giothucte);
                 pc.GhiChu = ghichu;
                 model.Entry(pc).State = System.Data.Entity.EntityState.Modified;
 
-                for (int i = 0; i < id.Length; i++) { 
+                for (int i = 0; i < id.Length; i++)
+                {
                     int idCv = Convert.ToInt32(id[i]);
                     var congviec = model.CongViec.Find(idCv);
 
-                    if(Convert.ToBoolean(trangthai[i]))
+                    if (Convert.ToBoolean(trangthai[i]))
                     {
                         congviec.KetQuaCongViec = "hoanthanh";
                     }

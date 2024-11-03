@@ -1,7 +1,12 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = models.Nganh.ToList();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
 
     ViewBag.Title = "Trợ giảng";
     Layout = Session["layout"].ToString();
@@ -16,10 +21,8 @@
         id_hkGanNhat = lstHk.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin")).ToList().OrderByDescending(o => o.ID);
+    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList().OrderByDescending(o => o.ID);
     int i = 0;
-
-    var tk = Session["Taikhoan"] as TaiKhoan;
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
 <section class="container-fluid p-4">
@@ -78,9 +81,9 @@
                         <div class="mb-3 col-md-3 col-12 ">
                             <label class="form-label">Ngành</label>
                             <select id="nganh" class="form-select" data-width="100%">
-                                @foreach (var item in lstNganh)
+                                @foreach (var item in userNganh)
                                 {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    if (item.TenNganh.ToLower().Equals(userTennganh))
                                     {
                                         <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                     }
@@ -125,7 +128,7 @@
                             <tbody>
                                 @foreach (var items in formDky.ToList())
                                 {
-                                    foreach (var item in items.UngTuyenTroGiang.Where(w => w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList().OrderByDescending(o => o.ID))
+                                    foreach (var item in items.UngTuyenTroGiang.Where(w => w.LopHocPhan.MaCBGD.Equals(taikhoan.Ma)).ToList().OrderByDescending(o => o.ID))
                                     {
                                         var idtks = item.ID_TaiKhoan;
                                         i++;

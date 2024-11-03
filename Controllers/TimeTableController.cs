@@ -34,7 +34,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             int role = Int32.Parse(Session["user-role-id"].ToString());
             if (role == 2)
                 return PartialView("_IndexGV");
-            else if (role == 3)
+            else if (role == 3 || role == 5)
                 return PartialView("_IndexBCN");
             else if (role == 4)
                 return PartialView("_IndexTA");

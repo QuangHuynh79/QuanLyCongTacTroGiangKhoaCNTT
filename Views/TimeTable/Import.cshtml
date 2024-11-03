@@ -1,9 +1,16 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
 
-    var lstHk = models.HocKy.ToList();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
     var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
 
     ViewBag.Title = "Student Affairs | Import Thời Khóa Biểu";
     Layout = Session["layout"].ToString();
@@ -194,7 +201,7 @@
                             </label>
                             <select class="form-select" id="importhocky">
                                 <option selected value="">---- Chọn học kỳ ----</option>
-                                @foreach (var item in lstHk.OrderByDescending(o => o.NgayBatDau).ToList())
+                                @foreach (var item in lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList())
                                 {
                                     <option value="@item.ID">@item.TenHocKy</option>
                                 }
@@ -206,13 +213,27 @@
                             <label class="form-label" for="importnganh">
                                 Ngành
                             </label>
-                            <select class="form-select" id="importnganh">
-                                <option selected value="">---- Chọn ngành ----</option>
-                                @foreach (var item in lstNganh.OrderByDescending(o => o.ID).ToList())
-                                {
-                                    <option value="@item.ID">@item.TenNganh</option>
-                                }
-                            </select>
+                            @if (roleId == 3)
+                            {
+                                <select class="form-select" id="importnganh">
+                                    <option selected value="">---- Chọn ngành ----</option>
+                                    @foreach (var item in userKhoa.Nganh.ToList().OrderByDescending(o => o.ID).ToList())
+                                    {
+                                        <option value="@item.ID">@item.TenNganh</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            { 
+                                <select class="form-select" id="importnganh">
+                                    <option selected value="">---- Chọn ngành ----</option>
+                                    @foreach (var item in lstNganh.OrderByDescending(o => o.ID).ToList())
+                                    {
+                                        <option value="@item.ID">@item.TenNganh</option>
+                                    }
+
+                                </select>
+                            }
                         </div>
                     </div>
                     <div class="col-12">

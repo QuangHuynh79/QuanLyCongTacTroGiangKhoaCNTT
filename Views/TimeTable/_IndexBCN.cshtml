@@ -1,8 +1,16 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
-    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstNganh = models.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
 
     var currentDate = DateTime.Now;
     var currentYear = DateTime.Now.Year;
@@ -14,17 +22,7 @@
         id_hkGanNhat = hkGanNhat.ID;
     }
 
-    int id_nganhCNTT = 0;
-    if (lstNganh.Count > 0)
-    {
-        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
-        if (nganhcntt != null)
-        {
-            id_nganhCNTT = nganhcntt.ID;
-        }
-    }
-
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
+    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList();
 }
 
 <div class="card" id="pageload">
@@ -48,22 +46,45 @@
                     }
                 </select>
             </div>
-            <div class="mb-3 col-md-6 col-12">
-                <label class="form-label">Ngành</label>
-                <select id="nganh" class="form-select" data-width="100%">
-                    @foreach (var item in lstNganh)
-                    {
-                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+            @if (roleId == 5)
+            {
+                <div class="mb-3 col-md-6 col-12">
+                    <label class="form-label">Ngành</label>
+                    <select id="nganh" class="form-select" data-width="100%">
+                        @foreach (var item in lstNganh)
                         {
-                            <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                            if (item.TenNganh.ToLower().Equals(userTennganh))
+                            {
+                                <option selected value="@item.ID">@item.TenNganh</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.TenNganh</option>
+                            }
                         }
-                        else
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="mb-3 col-md-6 col-12">
+                    <label class="form-label">Ngành</label>
+                    <select id="nganh" class="form-select" data-width="100%">
+                        @foreach (var item in userKhoa.Nganh.ToList())
                         {
-                            <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                            if (item.TenNganh.ToLower().Equals(userTennganh))
+                            {
+                                <option selected value="@item.ID">@item.TenNganh</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.TenNganh</option>
+                            }
                         }
-                    }
-                </select>
-            </div>
+                    </select>
+                </div>
+            }
+
         </div>
     </div>
     <div id="filterParentLoad">

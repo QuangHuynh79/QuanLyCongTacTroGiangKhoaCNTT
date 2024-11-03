@@ -22,7 +22,6 @@
 
         if (hocky.length > 0 || nganh.length > 0 || thoigianmo.length > 0 || thoigiandong.length > 0) {
             Swal.fire({
-                title: 'Đóng form cập nhật đăng ký?',
                 text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
                 icon: "question",
                 showCancelButton: true,

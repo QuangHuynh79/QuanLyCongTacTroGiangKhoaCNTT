@@ -1,25 +1,27 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
-    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
 
     var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
     var currentYear = DateTime.Now.Year;
 
-    var formDky = model.FormDangKyTroGiang.FirstOrDefault(w => w.ThoiGianMo <= currentDate
+    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ThoiGianMo <= currentDate
     && w.ThoiGianDong >= currentDate && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
 
     int id_hkGanNhat = 0;
-    int id_nganhCNTT = 0;
-
     if (formDky != null)
     {
         id_hkGanNhat = formDky.ID_HocKy;
-        id_nganhCNTT = formDky.ID_Nganh;
     }
 
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.DeXuatTroGiang.Where(ws => ws.TrangThai == true).Count() > 0).ToList();
+    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh) && w.LopHocPhan.DeXuatTroGiang.Where(ws => ws.TrangThai == true).Count() > 0).ToList();
     int idTk = Int32.Parse(Session["user-id"].ToString());
 
 }
@@ -48,9 +50,9 @@
             <div class="mb-3 col-md-4 col-12">
                 <label class="form-label">Ngành</label>
                 <select id="nganh" class="form-select" data-width="100%">
-                    @foreach (var item in lstNganh)
+                    @foreach (var item in userKhoa.Nganh.ToList())
                     {
-                        if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                        if (item.TenNganh.ToLower().Equals(userTennganh))
                         {
                             <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
                         }
