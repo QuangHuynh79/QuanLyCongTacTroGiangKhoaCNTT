@@ -329,21 +329,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.Entry(ut).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
-                if (trangthai)
-                {
-                    var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("4")).ToList();
-
-                    string userId = ut.TaiKhoan.AspNetUsers.ID.ToLower();
-                    var aspNetUsers = model.AspNetUsers.Find(userId);
-
-                    string idRole = aspNetUsers.AspNetRoles.First().ID;
-                    UserManager.RemoveFromRoles(userId, idRole);
-
-                    aspNetUsers.AspNetRoles = aspNetRoles;
-                    model.Entry(aspNetUsers).State = System.Data.Entity.EntityState.Modified;
-                    model.SaveChanges();
-                }
-
                 var thongbao = new ThongBao()
                 {
                     TieuDe = "Duyệt ứng tuyển.",
@@ -648,6 +633,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 if (ketqua)
                 {
+                    var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("4")).ToList();
+
+                    string userId = ut.TaiKhoan.AspNetUsers.ID.ToLower();
+                    var aspNetUsers = model.AspNetUsers.Find(userId);
+
+                    string idRole = aspNetUsers.AspNetRoles.First().ID;
+                    UserManager.RemoveFromRoles(userId, idRole);
+
+                    aspNetUsers.AspNetRoles = aspNetRoles;
+                    model.Entry(aspNetUsers).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+
                     int idlhp = ut.ID_LopHocPhan;
                     int idtk = ut.ID_TaiKhoan;
 
