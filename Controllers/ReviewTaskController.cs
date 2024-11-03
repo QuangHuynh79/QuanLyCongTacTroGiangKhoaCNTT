@@ -32,14 +32,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [HttpPost]
         public ActionResult FilterData(int hocky, int nganh, string trangthai) //Lọc danh sách đánh giá lhp
         {
-            int idForm = 0;
-            var form = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh);
-            if (form != null)
-                idForm = form.ID;
+            var form = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
+
+            List<int> idForm = new List<int>();
+            foreach (var item in form)
+            {
+                idForm.Add(item.ID);
+            }
 
             if (trangthai.Equals("all"))
             {
-                var uts1 = model.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
+                var uts1 = model.UngTuyenTroGiang.Where(w => idForm.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
                 var ut = uts1.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
 
                 return PartialView("_FilterCongViec", ut);
@@ -48,7 +51,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 var blTrangthai = Convert.ToBoolean(trangthai);
 
-                var uts1 = model.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
+                var uts1 = model.UngTuyenTroGiang.Where(w => idForm.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
                 var uts2 = uts1.Where(w => w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
                 var ut = uts2.Where(w => w.LopHocPhan.PhanCongTroGiang.Where(wS => wS.TrangThai == blTrangthai).Count() > 0).ToList();
 

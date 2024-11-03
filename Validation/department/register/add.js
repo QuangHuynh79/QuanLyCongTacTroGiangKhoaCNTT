@@ -84,6 +84,16 @@
             validhocky.text("Vui lòng không bỏ trống Học Kỳ.");
             $('body').find('[id="hocky"]').focus();
         }
+        else if (hocky.length > 3) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnClose"]').prop('disabled', false);
+
+            validhocky.text("Vui lòng nhập tối đa 3 ký tự số.");
+            $('body').find('[id="hocky"]').focus();
+        }
 
         if (nganh.length < 1) {
             check = false;
@@ -184,7 +194,7 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    validthoigianmo.text("Ngày mở đăng ký phải sau ngày hiện tại.");
+                    validthoigianmo.text("Ngày mở đăng ký phải từ ngày hiện tại.");
                     $('body').find('[id="thoigianmo"]').focus();
                 }
                 else if (ketqua == "LonHonDangKy") {

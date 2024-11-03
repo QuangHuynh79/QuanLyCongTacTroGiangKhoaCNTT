@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.OrderBy(o => o.ID))
+                @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
                 {
                     var idtk = item.ID_TaiKhoan;
                     i++;

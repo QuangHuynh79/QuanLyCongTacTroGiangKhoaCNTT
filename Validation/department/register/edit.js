@@ -174,6 +174,14 @@
                     });
                     
                 }
+                else if (ketqua == "NhoHonHienTai") {
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="EditbtnClose"]').prop('disabled', false);
+
+                    validthoigianmo.text("Ngày mở đăng ký phải từ ngày hiện tại.");
+                    $('body').find('[id="editthoigianmo"]').focus();
+                }
                 else if (ketqua == "Exist") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);

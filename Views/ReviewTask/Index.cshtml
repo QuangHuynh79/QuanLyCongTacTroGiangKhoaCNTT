@@ -21,17 +21,15 @@
         id_hkGanNhat = lstHk.First().ID;
     }
 
-    var formDky = models.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin"));
+    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals("công nghệ thông tin")).ToList().OrderByDescending(o => o.ID);
 
-    int id_nganhCNTT = 0;
-    int idForm = 0;
-    if (formDky != null)
+    List<int> idForm = new List<int>();
+    foreach (var item in formDky)
     {
-        id_nganhCNTT = formDky.ID_Nganh;
-        idForm = formDky.ID;
+        idForm.Add(item.ID);
     }
 
-    var lstUs = models.UngTuyenTroGiang.Where(w => w.ID_FormDangKyTroGiang == idForm && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
+    var lstUs = models.UngTuyenTroGiang.Where(w => idForm.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList().OrderByDescending(o => o.ID);
     int i = 0;
 
     var dgcv = new List<UngTuyenTroGiang>();
@@ -93,11 +91,11 @@
                                 {
                                     if (id_hkGanNhat == item.ID)
                                     {
-                                        <option name="@item.TenHocKy" selected value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                        <option name="@item.TenHocKy" selected value="@item.ID">@item.TenHocKy</option>
                                     }
                                     else
                                     {
-                                        <option name="@item.TenHocKy" value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                        <option name="@item.TenHocKy" value="@item.ID">@item.TenHocKy</option>
                                     }
                                 }
                             </select>

@@ -77,16 +77,16 @@
                 <div class="card-header border-bottom-1 pt-3">
                     <div class="row">
                         <div class="mb-3 col-md-6 col-12 ">
-                            <label class="form-label">Đợt đăng ký</label>
+                            <label class="form-label">Học kỳ</label>
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstHk)
                                 {
                                     if (item.TenHocKy.Equals("242"))
                                     {
-                                        <option selected value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                        <option selected value="@item.ID">@item.TenHocKy</option>
                                         continue;
                                     }
-                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">@item.TenHocKy</option>
                                 }
                             </select>
                         </div>

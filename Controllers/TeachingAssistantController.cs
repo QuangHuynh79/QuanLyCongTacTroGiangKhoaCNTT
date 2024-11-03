@@ -58,7 +58,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 && ((f.ThoiGianMo <= thoigianmo && f.ThoiGianDong >= thoigianmo)
                 || (f.ThoiGianMo <= thoigiandong && f.ThoiGianDong >= thoigiandong)));
 
-                if (thoigianmo <= currentDate)
+                if (thoigianmo < currentDate)
                     return Content("NhoHonHienTai");
 
                 if (check != null)
@@ -134,6 +134,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                 var form = model.FormDangKyTroGiang.Find(id);
+
+                if (thoigianmo != form.ThoiGianMo) 
+                    if(thoigiandong < currentDate)
+                        return Content("NhoHonHienTai");
 
                 if (thoigianmo >= thoigiandong)
                     return Content("LonHonDangKy");
@@ -368,27 +372,42 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 if (trangthai.Equals("all"))
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
-                    && w.ID_Nganh == nganh);
+                    var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
                     if (ut == null)
                         return PartialView("_FilterRegistered", new List<UngTuyenTroGiang>());
-                    return PartialView("_FilterRegistered", ut.UngTuyenTroGiang.ToList());
+
+                    List<int> idF = new List<int>();
+                    foreach (var t in ut)
+                        idF.Add(t.ID);
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang)).ToList();
+                    return PartialView("_FilterRegistered", uts);
                 }
                 else if (trangthai.Equals("true"))
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
-                    && w.ID_Nganh == nganh);
+                    var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
                     if (ut == null)
                         return PartialView("_FilterRegistered", new List<UngTuyenTroGiang>());
-                    return PartialView("_FilterRegistered", ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == true).ToList());
+
+                    List<int> idF = new List<int>();
+                    foreach (var t in ut)
+                        idF.Add(t.ID);
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == true).ToList();
+                    return PartialView("_FilterRegistered", uts);
                 }
                 else
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
-                    && w.ID_Nganh == nganh);
+                    var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
+                    && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
                     if (ut == null)
                         return PartialView("_FilterRegistered", new List<UngTuyenTroGiang>());
-                    return PartialView("_FilterRegistered", ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == false).ToList());
+
+                    List<int> idF = new List<int>();
+                    foreach (var t in ut)
+                        idF.Add(t.ID);
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.TrangThai == false).ToList();
+                    return PartialView("_FilterRegistered", uts);
                 }
             }
             catch (Exception Ex)
@@ -455,38 +474,45 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
+                var tk = Session["Taikhoan"] as TaiKhoan;
+                var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
+                && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
                 if (trangthai.Equals("all"))
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
-                    && w.ID_Nganh == nganh);
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
 
-                    var uts = ut.UngTuyenTroGiang.Where(ws => ws.TrangThai == true).ToList();
+                    List<int> idF = new List<int>();
+                    foreach (var t in ut)
+                        idF.Add(t.ID);
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
                 else if (trangthai.Equals("true"))
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
-                    && w.ID_Nganh == nganh);
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
 
-                    var uts = ut.UngTuyenTroGiang.Where(w => w.TrangThai == true && w.DanhGiaPhongVan.Where(ws => ws.KetLuanDat == true).Count() > 0).ToList();
+                    List<int> idF = new List<int>();
+                    foreach (var t in ut)
+                        idF.Add(t.ID);
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
+                    && w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
                 else
                 {
-                    var ut = model.FormDangKyTroGiang.FirstOrDefault(w => w.ID_HocKy == hocky
-                    && w.ID_Nganh == nganh);
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
 
-                    var uts = ut.UngTuyenTroGiang.Where(w => w.TrangThai == true
-                    && (w.DanhGiaPhongVan.Where(ws => ws.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList();
+                    List<int> idF = new List<int>();
+                    foreach (var t in ut)
+                        idF.Add(t.ID);
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
+                    && (w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList(); 
                     return PartialView("_FilterRegistereds", uts);
                 }
-            }
+            } 
             catch (Exception Ex)
             {
                 return Content("Chi tiết lỗi: " + Ex.Message);

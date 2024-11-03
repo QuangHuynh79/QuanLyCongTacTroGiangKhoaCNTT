@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.ToList().OrderBy(o => o.ID))
+                @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
                 {
                     i++;
                     int idut = item.ID;

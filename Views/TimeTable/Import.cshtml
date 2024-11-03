@@ -196,7 +196,7 @@
                                 <option selected value="">---- Chọn học kỳ ----</option>
                                 @foreach (var item in lstHk.OrderByDescending(o => o.NgayBatDau).ToList())
                                 {
-                                    <option value="@item.ID">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">@item.TenHocKy</option>
                                 }
                             </select>
                         </div>
