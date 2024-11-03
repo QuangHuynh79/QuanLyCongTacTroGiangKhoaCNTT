@@ -659,6 +659,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     model.PhanCongTroGiang.Add(pc);
                     model.SaveChanges();
 
+                    var lstCv = ut.LopHocPhan.CongViec.ToList();
+                    foreach ( var c in lstCv)
+                    {
+                        c.ID_TaiKhoan = idtk;
+                    }
+                    model.Entry(lstCv).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+
                     var thongbao = new ThongBao()
                     {
                         TieuDe = "Kết quả phỏng vấn.",
