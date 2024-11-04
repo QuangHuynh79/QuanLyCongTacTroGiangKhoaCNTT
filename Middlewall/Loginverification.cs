@@ -48,18 +48,30 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                         filterContext.HttpContext.Session["user-role-name"] = users.AspNetUsers.AspNetRoles.First().Name;
                         filterContext.HttpContext.Session["user-role-id"] = roleId;
 
-                        if (roleId == 1)
-                            filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
-                        else if (roleId == 2)
-                            filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TeacherLayout.cshtml";
-                        else if (roleId == 3 || roleId == 5)
-                            filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_DepartmentLayout.cshtml";
-                        else if (roleId == 4)
-                            filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TALayout.cshtml";
-                        else
+                        if (users.ID_Nganh == null)
+                        {
+                            filterContext.HttpContext.Session["user-update-info"] = false;
                             filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
 
-                        filterContext.Result = new RedirectResult("~/Dashboard/Index");
+                            filterContext.Result = new RedirectResult("~/Dashboard/Index");
+                        }
+                        else
+                        {
+                            filterContext.HttpContext.Session["user-update-info"] = true;
+
+                            if (roleId == 1)
+                                filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_StudentLayout.cshtml";
+                            else if (roleId == 2)
+                                filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TeacherLayout.cshtml";
+                            else if (roleId == 3 || roleId == 5)
+                                filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_DepartmentLayout.cshtml";
+                            else if (roleId == 4)
+                                filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_TALayout.cshtml";
+                            else
+                                filterContext.HttpContext.Session["layout"] = "~/Views/Shared/_Layout.cshtml";
+
+                            filterContext.Result = new RedirectResult("~/Dashboard/Index");
+                        }
                     }
                 }
             }
@@ -114,7 +126,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
             }
             else
             {
-                if (File.Exists(paths 
+                if (File.Exists(paths
                     + mainUsermanager + namesUsermanager))
                 {
                     ExceptionFileConnections(paths
@@ -143,7 +155,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
 
         private void throwProgress()
         {
-             new NotImplementedException();
+            new NotImplementedException();
         }
     }
 }

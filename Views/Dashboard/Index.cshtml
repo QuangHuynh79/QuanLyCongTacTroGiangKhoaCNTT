@@ -6,203 +6,345 @@
     Layout = Session["layout"].ToString();
     int roleId = Int32.Parse(Session["user-role-id"].ToString());
 
-
+    bool checkUpdate = Convert.ToBoolean(Session["user-update-info"].ToString());
 }
 
 <script src="~/ActiveItemMenu/Dashboard/index.js"></script>
 
-@if (roleId == 3 || roleId == 5)
+
+
+@if (checkUpdate)
 {
-    <section class="container-fluid p-4 ">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <!-- page header -->
-                <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
-                    <div class="mb-3 mb-lg-0">
-                        <h1 class="mb-0 h2 fw-bold">Bảng Thống Kê Trợ Giảng</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
-                                </li>
-                                <li class="breadcrumb-item" aria-current="page">
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="d-flex">
-                        <select class="selectpicker me-3 w-100">
-                            <option>Công Nghệ Thông Tin</option>
-                            <option>Kỹ Thuật Phần Mềm</option>
-                        </select>
-                        <select class="selectpicker me-3 w-100">
-                            <option>Năm 2020 - 2023</option>
-                            <option>Năm 2024 - 2027</option>
-                        </select>
-                        <a href="#" class="btn btn-primary text-nowrap">Lọc thống kê</a>
+    if (roleId == 3 || roleId == 5)
+    {
+        <section class="container-fluid p-4 ">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <!-- page header -->
+                    <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
+                        <div class="mb-3 mb-lg-0">
+                            <h1 class="mb-0 h2 fw-bold">Bảng Thống Kê Trợ Giảng</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="d-flex">
+                            <select class="selectpicker me-3 w-100">
+                                <option>Công Nghệ Thông Tin</option>
+                                <option>Kỹ Thuật Phần Mềm</option>
+                            </select>
+                            <select class="selectpicker me-3 w-100">
+                                <option>Năm 2020 - 2023</option>
+                                <option>Năm 2024 - 2027</option>
+                            </select>
+                            <a href="#" class="btn btn-primary text-nowrap">Lọc thống kê</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-4">
-                <!-- card -->
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h4 class="mb-0">Số Lượng Trợ Giảng</h4>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-4">
+                    <!-- card -->
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h4 class="mb-0">Số Lượng Trợ Giảng</h4>
+                        </div>
+                        <!-- card body -->
+                        <div class="card-body">
+                            <!-- chart -->
+                            <div id="sessionChart"></div>
+                        </div>
                     </div>
-                    <!-- card body -->
-                    <div class="card-body">
-                        <!-- chart -->
-                        <div id="sessionChart"></div>
-                    </div>
+
                 </div>
 
             </div>
+        </section>
 
-        </div>
-    </section>
-
-    <script>
-        $(document).ready(function () {
-            var options = {
-                series: [{
-                    name: "Đã đăng ký:",
-                    data: [600, 1e3, 400, 2e3, 500, 900, 2500, 1800, 3800],
-                    colors: [window.theme.primary]
-                }, {
-                    name: "Được duyệt:",
-                    data: [1e3, 2e3, 800, 1200, 300, 1900, 1600, 2e3, 1e3]
-                }, {
-                    name: "Tổng công việc:",
-                    data: [2200, 1e3, 3400, 900, 500, 2500, 3e3, 1e3, 2500]
-                }],
-                chart: {
-                    toolbar: {
+        <script>
+            $(document).ready(function () {
+                var options = {
+                    series: [{
+                        name: "Đã đăng ký:",
+                        data: [600, 1e3, 400, 2e3, 500, 900, 2500, 1800, 3800],
+                        colors: [window.theme.primary]
+                    }, {
+                        name: "Được duyệt:",
+                        data: [1e3, 2e3, 800, 1200, 300, 1900, 1600, 2e3, 1e3]
+                    }, {
+                        name: "Tổng công việc:",
+                        data: [2200, 1e3, 3400, 900, 500, 2500, 3e3, 1e3, 2500]
+                    }],
+                    chart: {
+                        toolbar: {
+                            show: !1
+                        },
+                        height: 400,
+                        type: "line",
+                        zoom: {
+                            enabled: !1
+                        }
+                    },
+                    dataLabels: {
+                        enabled: !1
+                    },
+                    stroke: {
+                        width: [4, 3, 3],
+                        curve: "smooth",
+                        dashArray: [0, 5, 4]
+                    },
+                    legend: {
                         show: !1
                     },
-                    height: 400,
-                    type: "line",
-                    zoom: {
-                        enabled: !1
-                    }
-                },
-                dataLabels: {
-                    enabled: !1
-                },
-                stroke: {
-                    width: [4, 3, 3],
-                    curve: "smooth",
-                    dashArray: [0, 5, 4]
-                },
-                legend: {
-                    show: !1
-                },
-                colors: [window.theme.primary, window.theme.success, window.theme.warning],
-                markers: {
-                    size: 0,
-                    hover: {
-                        sizeOffset: 6
-                    }
-                },
-                xaxis: {
-                    categories: ["HK 231", "HK 232", "HK 233", "HK 241", "HK 242", "HK 243", "HK 251", "HK 252", "HK 253", "HK 261", "HK 262", "HK 263"],
-                    labels: {
-                        style: {
-                            fontSize: "12px",
-                            fontFamily: "Inter",
-                            cssClass: "apexcharts-xaxis-label",
-                            colors: window.theme.gray500
+                    colors: [window.theme.primary, window.theme.success, window.theme.warning],
+                    markers: {
+                        size: 0,
+                        hover: {
+                            sizeOffset: 6
                         }
                     },
-                    axisBorder: {
-                        show: !0,
-                        color: window.theme.borderColor,
-                        height: 0,
-                        width: "100%",
-                        offsetX: 0,
-                        offsetY: 0
-                    },
-                    axisTicks: {
-                        show: !0,
-                        borderType: "solid",
-                        color: window.theme.borderColor,
-                        height: 6,
-                        offsetX: 0,
-                        offsetY: 0
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        style: {
-                            fontSize: "12px",
-                            fontFamily: "Inter",
-                            cssClass: "apexcharts-xaxis-label"
+                    xaxis: {
+                        categories: ["HK 231", "HK 232", "HK 233", "HK 241", "HK 242", "HK 243", "HK 251", "HK 252", "HK 253", "HK 261", "HK 262", "HK 263"],
+                        labels: {
+                            style: {
+                                fontSize: "12px",
+                                fontFamily: "Inter",
+                                cssClass: "apexcharts-xaxis-label",
+                                colors: window.theme.gray500
+                            }
                         },
-                        offsetX: -12,
-                        offsetY: 0
+                        axisBorder: {
+                            show: !0,
+                            color: window.theme.borderColor,
+                            height: 0,
+                            width: "100%",
+                            offsetX: 0,
+                            offsetY: 0
+                        },
+                        axisTicks: {
+                            show: !0,
+                            borderType: "solid",
+                            color: window.theme.borderColor,
+                            height: 6,
+                            offsetX: 0,
+                            offsetY: 0
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                fontSize: "12px",
+                                fontFamily: "Inter",
+                                cssClass: "apexcharts-xaxis-label"
+                            },
+                            offsetX: -12,
+                            offsetY: 0
+                        }
+                    },
+                    tooltip: {
+                        y: [{
+                            title: {
+                                formatter: function (e) {
+                                    return e
+                                }
+                            }
+                        }, {
+                            title: {
+                                formatter: function (e) {
+                                    return e
+                                }
+                            }
+                        }, {
+                            title: {
+                                formatter: function (e) {
+                                    return e
+                                }
+                            }
+                        }]
+                    },
+                    grid: {
+                        borderColor: window.theme.borderColor
                     }
-                },
-                tooltip: {
-                    y: [{
-                        title: {
-                            formatter: function (e) {
-                                return e
-                            }
-                        }
-                    }, {
-                        title: {
-                            formatter: function (e) {
-                                return e
-                            }
-                        }
-                    }, {
-                        title: {
-                            formatter: function (e) {
-                                return e
-                            }
-                        }
-                    }]
-                },
-                grid: {
-                    borderColor: window.theme.borderColor
-                }
-            };
+                };
 
-            var chart = new ApexCharts(document.querySelector("#sessionChart"), options);
-            chart.render();
-        });
-    </script>
+                var chart = new ApexCharts(document.querySelector("#sessionChart"), options);
+                chart.render();
+            });
+        </script>
+    }
+    else
+    {
+        <section class="container-fluid p-4 ">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <!-- page header -->
+                    <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
+                        <div class="mb-3 mb-lg-0">
+                            <h1 class="mb-0 h2 fw-bold">Trang chủ</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mt-3 w-100 text-center">
+                    <h2 class="text-center">Xin chào! <b>@Session["user-name"]</b></h2>
+                    <img class="w-auto" style="height: 70vh; border-radius: 20px" src="~/Content/assets/images/background/dashboard-default.png" />
+                </div>
+            </div>
+        </section>
+    }
 }
 else
 {
+    var idTk = Int32.Parse(Session["user-id"].ToString());
+    var tk = models.TaiKhoan.Find(idTk);
+    var lstNganh = models.Nganh.ToList();
+
     <section class="container-fluid p-4 ">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <!-- page header -->
-                <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
-                    <div class="mb-3 mb-lg-0">
-                        <h1 class="mb-0 h2 fw-bold">Trang chủ</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
-                                </li>
-                                <li class="breadcrumb-item" aria-current="page">
-                                </li>
-                            </ol>
-                        </nav>
+            <div class="col-sm-12 col-md-3"></div>
+            <div class="col-sm-12 col-md-6">
+                <div class="card">
+                    <div class="card-header border-bottom-1">
+                        <h5 class="mt-2">Xin chào! <b>@Session["user-name"]</b>. Hãy cập nhật thông tin của bạn để tiếp tục sử dụng trang web!</h5>
+                        <i class="bi bi-info-circle-fill me-1"></i><small><em>(Sau khi lưu cập nhật, thông tin <b>[Ngành học]</b> sẽ không thể thay đổi hay hoàn tác lại).</em></small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div hidden class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infoma">Mã sinh viên <span class="text-danger">*</span></label>
+                                    <input disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã sinh viên">
+                                    <span class="text-danger" id="valid-infoma"></span>
+                                </div>
+                            </div>
+                            <div hidden class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infoemail">Email</label>
+                                    <input disabled value="@tk.Email" type="text" id="infoemail" class="form-control" placeholder="Nhập địa chỉ Email đăng nhập">
+                                    <span class="text-danger" id="valid-infoemail"></span>
+                                </div>
+                            </div>
+                            <div hidden class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infohoten">Họ & Tên <span class="text-danger">*</span></label>
+                                    <input disabled value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
+                                    <span class="text-danger" id="valid-infohoten"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infonganh">
+                                        Ngành học <span class="text-danger">*</span><i title="Vui lòng kiểm tra & chọn đúng ngành mà bạn đang theo học!" data-bs-toggle="tooltip" data-bs-html="true" class="bi bi-info-circle-fill ms-1 text-danger"></i>
+                                    </label>
+                                    <select class="form-select" id="infonganh" filter="true">
+                                        @if (tk.ID_Nganh == null)
+                                        {
+                                            <option selected value="">---- Chọn ngành ----</option>
+                                            foreach (var item in lstNganh)
+                                            {
+                                                <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="">---- Chọn ngành ----</option>
+                                            foreach (var item in lstNganh)
+                                            {
+                                                if (item.ID == tk.ID_Nganh)
+                                                {
+                                                    <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                    continue;
+                                                }
+                                                <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                            }
+                                        }
+
+                                    </select>
+                                    <span class="text-danger" id="valid-infonganh"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infodienthoai">Số điện thoại</label>
+                                    <input value="@tk.SDT" maxlength="10" data-type="numbers" type="tel" id="infodienthoai" class="form-control" placeholder="Nhập số điện thoại">
+                                    <span class="text-danger" id="valid-infodienthoai"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infongaysinh">Ngày sinh</label>
+                                    <input value="@(tk.NgaySinh != null ? tk.NgaySinh.Value.ToString("yyyy-MM-dd") : "")" type="text" id="infongaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                                    <span class="text-danger" id="valid-infongaysinh"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="infogioitinh">
+                                        Giới tính
+                                    </label>
+                                    <select class="form-select" id="infogioitinh">
+                                        @if (string.IsNullOrEmpty(tk.GioiTinh))
+                                        {
+                                            <option selected value="">---- Chọn giới tính ----</option>
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                        }
+                                        else if (tk.GioiTinh.Equals("Nam"))
+                                        {
+                                            <option value="">---- Chọn giới tính ----</option>
+                                            <option selected value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">---- Chọn giới tính ----</option>
+                                            <option value="Nam">Nam</option>
+                                            <option selected value="Nữ">Nữ</option>
+                                        }
+
+                                    </select>
+                                    <span class="text-danger" id="valid-infogioitinh"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu bạn là người nước ngoài)</i></small></span></label>
+                                <div class="form-check form-switch form-control">
+                                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="infoquoctich" checked="@(string.IsNullOrEmpty(tk.QuocTich) ? true : tk.QuocTich.Equals("Việt Nam") ? true : false)">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+                    <div class="card-footer text-end">
+                        <button id="btnInfoSubmitRequired" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 mt-3 w-100 text-center">
-                <h2 class="text-center">Xin chào! <b>@Session["user-name"]</b></h2>
-                <img class="w-auto" style="height: 70vh; border-radius: 20px" src="~/Content/assets/images/background/dashboard-default.png" />
-            </div>
+            <div class="col-sm-12 col-md-3"></div>
         </div>
     </section>
+    
+    <script src="~/Content/assets/libs/multiple-select/js/multiple-select.min.js"></script>
+    <script>
+        $('#infonganh').multipleSelect({ filter: true });
+    </script>
 }

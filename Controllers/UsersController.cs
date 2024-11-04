@@ -307,18 +307,20 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, AllRole]
         [HttpPost]
-        public ActionResult UpdateInfo(string ma, string hoten, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult UpdateInfo(string ma, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
         {
             try
             {
                 int id = Int32.Parse(Session["user-id"].ToString());
 
-                var checks = model.TaiKhoan.FirstOrDefault(u => u.Ma.ToLower().Equals(ma.ToLower()) && u.ID != id);
-                if (checks != null)
-                    return Content("Exist");
+                if (!string.IsNullOrEmpty(ma))
+                {
+                    var checks = model.TaiKhoan.FirstOrDefault(u => u.Ma.ToLower().Equals(ma.ToLower()) && u.ID != id);
+                    if (checks != null)
+                        return Content("Exist");
+                }
 
                 var data = model.TaiKhoan.Find(id);
-                data.HoTen = hoten;
                 data.NgaySinh = ngaysinh;
 
                 int roleId = Int32.Parse(Session["user-role-id"].ToString());
