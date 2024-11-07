@@ -4,7 +4,7 @@
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
     var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
-    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
     var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
     var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
 
@@ -188,11 +188,11 @@
                                         <td valign="middle" class="text-nowrap">
                                             @if (item.DeXuatTroGiang.First().TrangThai == false)
                                             {
-                                                <span class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
+                                                <span id="trangthaiduyet-@item.ID" class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
                                             }
                                             else
                                             {
-                                                <span class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
+                                                <span id="trangthaiduyet-@item.ID" class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
                                             }
                                         </td>
                                         <td valign="middle" class="text-nowrap">

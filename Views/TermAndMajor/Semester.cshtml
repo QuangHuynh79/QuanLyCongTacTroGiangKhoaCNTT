@@ -74,12 +74,6 @@
                                             <a style="font-size: 20px" role="button" id="openSua-@item.ID" name="@item.ID" class="text-success">
                                                 <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                             </a>
-                                            @if (item.ThoiKhoaBieu.Count < 1)
-                                            {
-                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.TenHocKy" name="@item.ID" class="text-danger">
-                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                                </a>
-                                            }
                                         </td>
                                     </tr>
                                 }
@@ -96,7 +90,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="themmoiTitle">Thêm học kỳ mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" id="btnXClose" class="btn-close" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
@@ -117,13 +111,14 @@
                                 <select class="form-select" id="nambatdau">
                                     @for (int i = DateTime.Now.Year - 10; i < DateTime.Now.Year + 10; i++)
                                     {
+                                        int iDef = DateTime.Now.Year;
                                         if (i == DateTime.Now.Year)
                                         {
-                                            <option selected value="@i">@i</option>
+                                            <option data-default="@iDef" data-default-kethuc="@(iDef + 1)" selected value="@i">@i</option>
                                         }
                                         else
                                         {
-                                            <option value="@i">@i</option>
+                                            <option data-default="@iDef" data-default-kethuc="@(iDef + 1)" value="@i">@i</option>
                                         }
                                     }
                                 </select>
@@ -155,7 +150,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnClose" type="button" class="btn btn-secondary">Đóng</button>
                     <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
@@ -168,7 +163,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="capnhatTitle">Cập nhật học kỳ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn-close" id="btnEditXClose" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
@@ -176,7 +171,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button id="btnEditClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnEditClose" type="button" class="btn btn-secondary">Đóng</button>
                     <button id="btnEditSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>

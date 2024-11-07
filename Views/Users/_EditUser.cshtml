@@ -4,7 +4,7 @@
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
 
-    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
     var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
     var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
 
@@ -99,14 +99,6 @@
 
                 </select>
                 <span class="text-danger" id="valid-editgioitinh"></span>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="mb-3">
-                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu người dùng là người nước ngoài)</i></small></span></label>
-                <div class="form-check form-switch mb-2 form-control">
-                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="editquoctich" checked="@(string.IsNullOrEmpty(Model.QuocTich) ? true : Model.QuocTich.Equals("Việt Nam") ? true : false)">
-                </div>
             </div>
         </div>
         <div class="col-12">

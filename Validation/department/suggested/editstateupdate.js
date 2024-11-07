@@ -31,6 +31,9 @@
                 if (trangthai == false) {
                     thongbao = "Đã đóng cập nhật mô tả công việc.";
                 }
+                else {
+                    $('body').find('[id="trangthaiduyet-' + id + '"]').replaceWith('<span id="trangthaiduyet-' + id + '" class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>')
+                }
 
                 Toast.fire({
                     icon: "success",

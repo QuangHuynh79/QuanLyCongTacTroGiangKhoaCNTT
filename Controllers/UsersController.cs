@@ -155,7 +155,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, DateTime? ngaysinh)
         {
             try
             {
@@ -183,10 +183,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 data.NgaySinh = ngaysinh;
                 data.Ma = ma;
                 data.GioiTinh = gioitinh;
-                if (quoctich)
-                    data.QuocTich = "Việt Nam";
-                else
-                    data.QuocTich = "Nước ngoài";
                 data.SDT = dienthoai;
                 if (!string.IsNullOrEmpty(nganh))
                     data.ID_Nganh = Int32.Parse(nganh);
@@ -251,7 +247,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 var taikhoan = Session["TaiKhoan"] as TaiKhoan;
 
-                string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+                string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
                 var userKhoa = model.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
                 var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
 
@@ -307,7 +303,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, AllRole]
         [HttpPost]
-        public ActionResult UpdateInfo(string ma, string dienthoai, string nganh, string gioitinh, bool quoctich, DateTime? ngaysinh)
+        public ActionResult UpdateInfo(string ma, string dienthoai, string nganh, string gioitinh, DateTime? ngaysinh,
+            string sotaikhoan, string nganhang, string chutaikhoan, string cancuoc, string mst, string ghichu)
         {
             try
             {
@@ -328,13 +325,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     data.Ma = ma;
 
                 data.GioiTinh = gioitinh;
-                if (quoctich)
-                    data.QuocTich = "Việt Nam";
-                else
-                    data.QuocTich = "Nước ngoài";
                 data.SDT = dienthoai;
                 if (!string.IsNullOrEmpty(nganh))
                     data.ID_Nganh = Int32.Parse(nganh);
+
+                data.SoTaiKhoanNganHang = sotaikhoan;
+                data.TenNganHang = nganhang;
+                data.ChuTaiKhoanNganHang = chutaikhoan;
+                data.MaSoCanCuocCongDan = cancuoc;
+                data.MaSoThue = mst;
+                data.GhiChu = ghichu;
+
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 

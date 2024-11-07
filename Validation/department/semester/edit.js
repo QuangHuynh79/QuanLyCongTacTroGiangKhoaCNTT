@@ -1,4 +1,37 @@
 ﻿$(document).ready(function () {
+    function confirmCloseEditForm() {
+        var ngaybatdau = $('body').find('[id="editngaybatdau"]').val().trim();
+        var def = $('body').find('[id="editngaybatdau"]').attr('data-default');
+        var validngaybatdau = $('body').find('[id="valid-editngaybatdau"]');
+        validngaybatdau.text('');
+
+        if (ngaybatdau.length < 1 || (ngaybatdau !== def)) {
+            Swal.fire({
+                text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đóng ngay!",
+                cancelButtonText: "Không đóng"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#capnhat').modal('toggle');
+                    $('body').find('[id="editngaybatdau"]').val(def);
+                }
+            });
+        }
+        else {
+            $('#capnhat').modal('toggle');
+        }
+    }
+    $('body').on('click', '[id="btnEditClose"]', function () {
+        confirmCloseEditForm();
+    });
+    $('body').on('click', '[id="btnEditXClose"]', function () {
+        confirmCloseEditForm();
+    });
+
+
     $('body').on('change', '[id="editnambatdau"]', function () {
         var year = Number($(this).val());
         year = year + 1;
@@ -68,6 +101,16 @@
                 $('body').find('[id="capnhat"]').modal('toggle');
             }
         });
+    });
+
+    $('body').on('input', '[id="editngaybatdau"]', function () {
+        var ngaybatdau = $(this).val();
+        var validngaybatdau = $('body').find('[id="valid-editngaybatdau"]');
+        validngaybatdau.text('');
+
+        if (ngaybatdau.length < 1) {
+            validngaybatdau.text("Vui lòng chọn ngày bắt đầu");
+        }
     });
 
     $('body').on('click', '[id="btnEditSubmit"]', function () {

@@ -6,7 +6,7 @@
     Layout = Session["layout"].ToString();
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
     var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
-    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh;
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
     var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
 
     var lstNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
@@ -86,7 +86,7 @@
                             <select id="nganh" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    if (item.TenNganh.ToLower().Equals(userTennganh))
                                     {
                                         <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                     }
@@ -113,7 +113,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in lstTkb.ToList())
+                                @foreach (var item in lstTkb.ToList().OrderByDescending(o => o.ID))
                                 {
                                     <tr>
                                         <td>@item.LopHocPhan.MaLHP</td>
@@ -219,9 +219,16 @@
 
                 </div>
                 <div class="modal-footer">
+                    <div id="formCamKet" class="row col-12 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="editcamket">
+                            <label class="form-check-label fw-bold" for="editcamket">
+                                <em>Chọn khi đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.</em>
+                            </label>
+                        </div>
+                    </div>
                     <button id="btnviewtasklistmodalClose" type="button" class="btn btn-secondary">Đóng</button>
                     <button hidden id="btnviewtasklistmodalSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
-
                 </div>
             </div>
         </div>

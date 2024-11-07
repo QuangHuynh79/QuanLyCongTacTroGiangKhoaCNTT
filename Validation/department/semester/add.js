@@ -1,9 +1,83 @@
 ﻿$(document).ready(function () {
+    function confirmCloseForm() {
+        var tenhocky = $('body').find('[id="tenhocky"]').val().trim();
+        var nambatdau = $('body').find('[id="nambatdau"] :selected').val();
+        var namketthuc = $('body').find('[id="namketthuc"] :selected').val();
+        var ngaybatdau = $('body').find('[id="ngaybatdau"]').val().trim();
+
+        var defIn = $('body').find('[id="nambatdau"] :selected').attr('data-default');
+        var defOut = $('body').find('[id="nambatdau"] :selected').attr('data-default-kethuc');
+
+        var validtenhocky = $('body').find('[id="valid-tenhocky"]');
+        var validnambatdau = $('body').find('[id="valid-nambatdau"]');
+        var validnamketthuc = $('body').find('[id="valid-namketthuc"]');
+        var validngaybatdau = $('body').find('[id="valid-ngaybatdau"]');
+
+        validtenhocky.text('');
+        validnambatdau.text('');
+        validnamketthuc.text('');
+        validngaybatdau.text('');
+
+        if (tenhocky.length > 0 || ngaybatdau.length > 0 || (nambatdau !== defIn) || (namketthuc !== defOut)) {
+            Swal.fire({
+                text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đóng ngay!",
+                cancelButtonText: "Không đóng"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#themmoi').modal('toggle');
+
+                    $('body').find('[id="tenhocky"]').val('');
+                    $('body').find('[id="nambatdau"]').val(defIn).change;
+                    $('body').find('[id="namketthuc"]').val(defOut).change;
+                    $('body').find('[id="ngaybatdau"]').val('');
+                }
+            });
+        }
+        else {
+            $('#themmoi').modal('toggle');
+        }
+    }
+    $('body').on('click', '[id="btnClose"]', function () {
+        confirmCloseForm();
+    });
+    $('body').on('click', '[id="btnXClose"]', function () {
+        confirmCloseForm();
+    });
+
     $('body').on('change', '[id="nambatdau"]', function () {
         var year = Number($(this).val());
         year = year + 1;
-
         $('body').find('[id="namketthuc"]').html('<option selected value="' + year + '">' + year + '</option>');
+    });
+
+    $('body').on('input', '[id="tenhocky"]', function () {
+        var tenhocky = $(this).val().trim();
+        var validtenhocky = $('body').find('[id="valid-tenhocky"]');
+        validtenhocky.text('');
+
+        if (tenhocky.length < 3 || tenhocky.length > 3) {
+            validtenhocky.text("Vui lòng nhập học kỳ gồm 3 chữ số.");
+        }
+        else if (tenhocky.length == 3) {
+            tenhocky = tenhocky.substring(3, tenhocky.length - 1);
+            if (Number(tenhocky) > 3 || Number(tenhocky) < 1) {
+                validtenhocky.text("Số cuối học kỳ chỉ được phép nhập 1 - 3.");
+            }
+        }
+    });
+
+    $('body').on('input', '[id="ngaybatdau"]', function () {
+        var ngaybatdau = $(this).val();
+        var validngaybatdau = $('body').find('[id="valid-ngaybatdau"]');
+        validngaybatdau.text('');
+
+        if (ngaybatdau.length < 1) {
+            validngaybatdau.text("Vui lòng chọn ngày bắt đầu");
+        }
     });
 
     $('body').on('click', '[id="btnSubmit"]', function () {
@@ -13,8 +87,8 @@
         $('body').find('[id="btnClose"]').prop('disabled', true);
 
         var tenhocky = $('body').find('[id="tenhocky"]').val().trim();
-        var nambatdau = $('body').find('[id="nambatdau"] :selected').val().trim();
-        var namketthuc = $('body').find('[id="namketthuc"] :selected').val().trim();
+        var nambatdau = $('body').find('[id="nambatdau"] :selected').val();
+        var namketthuc = $('body').find('[id="namketthuc"] :selected').val();
         var ngaybatdau = $('body').find('[id="ngaybatdau"]').val().trim();
 
         var validtenhocky = $('body').find('[id="valid-tenhocky"]');
@@ -28,7 +102,7 @@
         validngaybatdau.text('');
 
         var check = true;
-        
+
         if (ngaybatdau.length < 1) {
             check = false;
 
@@ -39,7 +113,7 @@
             validngaybatdau.text("Vui lòng chọn ngày bắt đầu");
             $('body').find('[id="ngaybatdau"]').focus();
         }
-       
+
         if (tenhocky.length < 1) {
             check = false;
 
@@ -49,6 +123,19 @@
 
             validtenhocky.text("Vui lòng nhập học kỳ");
             $('body').find('[id="tenhocky"]').focus();
+        }
+        else if (tenhocky.length == 3) {
+            var checktenhocky = tenhocky.substring(3, tenhocky.length - 1);
+            if (Number(checktenhocky) > 3 || Number(checktenhocky) < 1) {
+                check = false;
+
+                btn.html('Lưu thông tin');
+                btn.prop('disabled', false);
+                $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                validtenhocky.text("Số cuối học kỳ chỉ được phép nhập 1 - 3.");
+                $('body').find('[id="tenhocky"]').focus();
+            }
         }
 
         if (check == true) {

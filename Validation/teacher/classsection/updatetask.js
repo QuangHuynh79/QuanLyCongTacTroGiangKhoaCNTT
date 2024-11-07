@@ -195,7 +195,7 @@
             formData.append('thoigian', thoigian.substring(0, thoigian.length - 1));
             formData.append('noilamviec', noilamviec.substring(0, noilamviec.length - 1));
             formData.append('ketqua', ketqua.substring(0, ketqua.length - 1));
-
+            formData.append('camket', $('body').find('[id="editcamket"]').prop('checked'));
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
                 url: $('#requestPath').val() + "ClassSection/EditTaskList",

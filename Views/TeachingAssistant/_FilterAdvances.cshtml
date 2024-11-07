@@ -46,11 +46,11 @@
                         <td valign="middle" class="text-nowrap">
                             @if (item.DeXuatTroGiang.First().TrangThai == false)
                             {
-                                <span class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
+                                <span id="trangthaiduyet-@item.ID" class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
                             }
                             else
                             {
-                                <span class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
+                                <span id="trangthaiduyet-@item.ID" class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
                             }
                         </td>
                         <td valign="middle" class="text-nowrap">

@@ -268,7 +268,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var dx = lhp.DeXuatTroGiang.First();
                 bool trangthai = dx.MoCapNhat;
-                dx.MoCapNhat = !trangthai;
+                trangthai = !trangthai;
+
+                dx.MoCapNhat = trangthai;
+                if (trangthai == true)
+                    dx.TrangThai = !trangthai;
+
 
                 model.Entry(dx).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();

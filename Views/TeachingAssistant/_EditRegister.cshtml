@@ -2,6 +2,13 @@
 @using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
     var lstHk = models.HocKy.ToList();
     var lstNganh = models.Nganh.ToList();
 
@@ -31,23 +38,46 @@
             </div>
         </div>
         <div class="col-12">
-            <div class="mb-3">
-                <label class="form-label" for="editnganh">
-                    Ngành <span class="text-danger">*</span>
-                </label>
-                <select class="form-select" id="editnganh">
-                    @foreach (var item in lstNganh)
-                    {
-                        if (item.ID == Model.ID_Nganh)
+            @if (roleId == 3)
+            {
+                <div class="mb-3">
+                    <label class="form-label" for="editnganh">
+                        Ngành <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" id="editnganh">
+                        @foreach (var item in userKhoa.Nganh.ToList())
                         {
-                            <option selected value="@item.ID">@item.TenNganh</option>
-                            continue;
+                            if (item.ID == Model.ID_Nganh)
+                            {
+                                <option selected value="@item.ID">@item.TenNganh</option>
+                                continue;
+                            }
+                            <option value="@item.ID">@item.TenNganh</option>
                         }
-                        <option value="@item.ID">@item.TenNganh</option>
-                    }
-                </select>
-                <span class="text-danger" id="valid-editnganh"></span>
-            </div>
+                    </select>
+                    <span class="text-danger" id="valid-editnganh"></span>
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <label class="form-label" for="editnganh">
+                        Ngành <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" id="editnganh">
+                        @foreach (var item in lstNganh.ToList())
+                        {
+                            if (item.ID == Model.ID_Nganh)
+                            {
+                                <option selected value="@item.ID">@item.TenNganh</option>
+                                continue;
+                            }
+                            <option value="@item.ID">@item.TenNganh</option>
+                        }
+                    </select>
+                    <span class="text-danger" id="valid-editnganh"></span>
+                </div>
+            }
         </div>
         <div class="col-12">
             <div class="mb-3">

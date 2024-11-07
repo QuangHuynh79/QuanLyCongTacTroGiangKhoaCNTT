@@ -325,15 +325,46 @@ else
                                     <span class="text-danger" id="valid-infogioitinh"></span>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu bạn là người nước ngoài)</i></small></span></label>
-                                <div class="form-check form-switch form-control">
-                                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="infoquoctich" checked="@(string.IsNullOrEmpty(tk.QuocTich) ? true : tk.QuocTich.Equals("Việt Nam") ? true : false)">
+                            <div class="col-12" hidden>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Số tài khoản ngân hàng</label>
+                                        <input disabled value="@tk.SoTaiKhoanNganHang" type="text" id="infosotaikhoan" class="form-control" placeholder="Nhập số tài khoản ngân hàng">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Tên ngân hàng</label>
+                                        <input disabled value="@tk.TenNganHang" type="text" id="infonganhang" class="form-control" placeholder="Nhập tên ngân hàng">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Chủ tài khoản</label>
+                                        <input disabled value="@tk.ChuTaiKhoanNganHang" type="text" id="infochutaikhoan" class="form-control" placeholder="Nhập Họ & Tên chủ tài khoản">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Số CCCD</label>
+                                        <input disabled value="@tk.MaSoCanCuocCongDan" type="text" id="infocancuoc" class="form-control" placeholder="Nhập số căn cước công dân">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">MST TNCN (nếu có)</label>
+                                        <input disabled value="@tk.MaSoThue" type="text" id="infomst" class="form-control" placeholder="Nhập mã số thuế thu nhập cá nhân">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Ghi chú</label>
+                                        <input disabled value="@tk.GhiChu" type="text" id="infoghichu" class="form-control" placeholder="Nhập ghi chú">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="card-footer text-end">
                         <button id="btnInfoSubmitRequired" type="button" class="btn btn-primary">Lưu thông tin</button>
                     </div>
@@ -342,7 +373,7 @@ else
             <div class="col-sm-12 col-md-3"></div>
         </div>
     </section>
-    
+
     <script src="~/Content/assets/libs/multiple-select/js/multiple-select.min.js"></script>
     <script>
         $('#infonganh').multipleSelect({ filter: true });

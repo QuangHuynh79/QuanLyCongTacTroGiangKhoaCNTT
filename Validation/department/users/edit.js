@@ -204,7 +204,6 @@
             formData.append('dienthoai', dienthoai);
             formData.append('nganh', nganh);
             formData.append('gioitinh', $('body').find('[id="editgioitinh"] :selected').val());
-            formData.append('quoctich', $('body').find('[id="editquoctich"]').prop('checked'));
             formData.append('ngaysinh', $('body').find('[id="editngaysinh"]').val());
 
             $.ajax({

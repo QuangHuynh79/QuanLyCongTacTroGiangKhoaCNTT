@@ -91,7 +91,7 @@
         }
     </style>
     @*<img class="santa" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/santas.gif" style="position: fixed; width: 12vw; min-width: 100px; z-index: 9999; cursor: pointer; -webkit-animation: FlyingSanta 38s infinite linear; -moz-animation: FlyingSanta 38s infinite linear; -ms-animation: FlyingSanta 38s infinite linear; -o-animation: FlyingSanta 38s infinite linear; animation: FlyingSanta 38s infinite linear; bottom: 0px; left: 0px; filter: drop-shadow(5px 5px 5px #155);" />
-    <img style="position: fixed; left: 0px; bottom: 20px; height: auto; width: 15vw; filter: opacity(0.9); z-index: 9998; filter: drop-shadow(0px -20px 50px #EC0);" src="~/Content/Christams/christams_01.gif" />*@
+        <img style="position: fixed; left: 0px; bottom: 20px; height: auto; width: 15vw; filter: opacity(0.9); z-index: 9998; filter: drop-shadow(0px -20px 50px #EC0);" src="~/Content/Christams/christams_01.gif" />*@
 
     @*<div id="pageLoader" style="background: #000000b0; display: none; align-items: center; justify-content: center; width: 100vw; height: 100vh; position: fixed; z-index: 9999;">
             <span class="spinner-border spinner-border-sm me-2 text-white" style="width: 30px; height: 30px" role="status" aria-hidden="true"></span>
@@ -330,113 +330,157 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#infothongtincanhan" role="tab" aria-controls="home" aria-selected="true">Thông tin cá nhân</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#infotaikhoannganhang" role="tab" aria-controls="profile" aria-selected="false">Tài khoản ngân hàng</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="infothongtincanhan" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infoma">Mã sinh viên <span class="text-danger">*</span></label>
+                                        <input disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã sinh viên">
+                                        <span class="text-danger" id="valid-infoma"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infoemail">Email</label>
+                                        <input disabled value="@tk.Email" type="text" id="infoemail" class="form-control" placeholder="Nhập địa chỉ Email đăng nhập">
+                                        <span class="text-danger" id="valid-infoemail"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Họ & Tên <span class="text-danger">*</span></label>
+                                        <input disabled value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
+                                        <span class="text-danger" id="valid-infohoten"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infodienthoai">Số điện thoại</label>
+                                        <input value="@tk.SDT" maxlength="10" data-type="numbers" type="tel" id="infodienthoai" class="form-control" placeholder="Nhập số điện thoại">
+                                        <span class="text-danger" id="valid-infodienthoai"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infongaysinh">Ngày sinh</label>
+                                        <input value="@(tk.NgaySinh != null ? tk.NgaySinh.Value.ToString("yyyy-MM-dd") : "")" type="text" id="infongaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                                        <span class="text-danger" id="valid-infongaysinh"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infogioitinh">
+                                            Giới tính
+                                        </label>
+                                        <select class="form-select" id="infogioitinh">
+                                            @if (string.IsNullOrEmpty(tk.GioiTinh))
+                                            {
+                                                <option selected value="">---- Chọn giới tính ----</option>
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            }
+                                            else if (tk.GioiTinh.Equals("Nam"))
+                                            {
+                                                <option value="">---- Chọn giới tính ----</option>
+                                                <option selected value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="">---- Chọn giới tính ----</option>
+                                                <option value="Nam">Nam</option>
+                                                <option selected value="Nữ">Nữ</option>
+                                            }
 
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infoma">Mã sinh viên <span class="text-danger">*</span></label>
-                                <input disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã sinh viên">
-                                <span class="text-danger" id="valid-infoma"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infoemail">Email</label>
-                                <input disabled value="@tk.Email" type="text" id="infoemail" class="form-control" placeholder="Nhập địa chỉ Email đăng nhập">
-                                <span class="text-danger" id="valid-infoemail"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infohoten">Họ & Tên <span class="text-danger">*</span></label>
-                                <input disabled value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
-                                <span class="text-danger" id="valid-infohoten"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infodienthoai">Số điện thoại</label>
-                                <input value="@tk.SDT" maxlength="10" data-type="numbers" type="tel" id="infodienthoai" class="form-control" placeholder="Nhập số điện thoại">
-                                <span class="text-danger" id="valid-infodienthoai"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infongaysinh">Ngày sinh</label>
-                                <input value="@(tk.NgaySinh != null ? tk.NgaySinh.Value.ToString("yyyy-MM-dd") : "")" type="text" id="infongaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
-                                <span class="text-danger" id="valid-infongaysinh"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infogioitinh">
-                                    Giới tính
-                                </label>
-                                <select class="form-select" id="infogioitinh">
-                                    @if (string.IsNullOrEmpty(tk.GioiTinh))
-                                    {
-                                        <option selected value="">---- Chọn giới tính ----</option>
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    }
-                                    else if (tk.GioiTinh.Equals("Nam"))
-                                    {
-                                        <option value="">---- Chọn giới tính ----</option>
-                                        <option selected value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="">---- Chọn giới tính ----</option>
-                                        <option value="Nam">Nam</option>
-                                        <option selected value="Nữ">Nữ</option>
-                                    }
+                                        </select>
+                                        <span class="text-danger" id="valid-infogioitinh"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infonganh">
+                                            Ngành
+                                        </label>
+                                        <select disabled class="form-select" id="infonganh">
+                                            @if (tk.ID_Nganh == null)
+                                            {
+                                                <option selected value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    <option value="@item.ID">@item.TenNganh</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    if (item.ID == tk.ID_Nganh)
+                                                    {
+                                                        <option selected value="@item.ID">@item.TenNganh</option>
+                                                        continue;
+                                                    }
+                                                    <option value="@item.ID">@item.TenNganh</option>
+                                                }
+                                            }
 
-                                </select>
-                                <span class="text-danger" id="valid-infogioitinh"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label">Quốc tịch <span class="text-secondary fw-normal"><small><i>(Bỏ chọn nếu bạn là người nước ngoài)</i></small></span></label>
-                                <div class="form-check form-switch mb-2 form-control">
-                                    <input class="form-check-input" style="margin-left: -15px; margin-top: 0" type="checkbox" role="switch" id="infoquoctich" checked="@(string.IsNullOrEmpty(tk.QuocTich) ? true : tk.QuocTich.Equals("Việt Nam") ? true : false)">
+                                        </select>
+                                        <span class="text-danger" id="valid-infonganh"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="infonganh">
-                                    Ngành
-                                </label>
-                                <select disabled class="form-select" id="infonganh">
-                                    @if (tk.ID_Nganh == null)
-                                    {
-                                        <option selected value="">---- Chọn ngành ----</option>
-                                        foreach (var item in lstNganh)
-                                        {
-                                            <option value="@item.ID">@item.TenNganh</option>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <option value="">---- Chọn ngành ----</option>
-                                        foreach (var item in lstNganh)
-                                        {
-                                            if (item.ID == tk.ID_Nganh)
-                                            {
-                                                <option selected value="@item.ID">@item.TenNganh</option>
-                                                continue;
-                                            }
-                                            <option value="@item.ID">@item.TenNganh</option>
-                                        }
-                                    }
-
-                                </select>
-                                <span class="text-danger" id="valid-infonganh"></span>
+                        <div class="tab-pane fade" id="infotaikhoannganhang" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Số tài khoản ngân hàng</label>
+                                        <input maxlength="50" value="@tk.SoTaiKhoanNganHang" type="text" id="infosotaikhoan" class="form-control" placeholder="Nhập số tài khoản ngân hàng">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Tên ngân hàng</label>
+                                        <input maxlength="255" value="@tk.TenNganHang" type="text" id="infonganhang" class="form-control" placeholder="Nhập tên ngân hàng">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Chủ tài khoản</label>
+                                        <input maxlength="255" value="@tk.ChuTaiKhoanNganHang" type="text" id="infochutaikhoan" class="form-control" placeholder="Nhập Họ & Tên chủ tài khoản">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Số CCCD</label>
+                                        <input maxlength="50" value="@tk.MaSoCanCuocCongDan" type="text" id="infocancuoc" class="form-control" placeholder="Nhập số căn cước công dân">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">MST TNCN (nếu có)</label>
+                                        <input maxlength="50" value="@tk.MaSoThue" type="text" id="infomst" class="form-control" placeholder="Nhập mã số thuế thu nhập cá nhân">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Ghi chú</label>
+                                        <input maxlength="300" value="@tk.GhiChu" type="text" id="infoghichu" class="form-control" placeholder="Nhập ghi chú">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button id="btnInfoClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -531,10 +575,10 @@
             }
     </style>
     @*<div id='snowflakeContainer'>
-        <p class='snowflake'>❄</p>
-    </div>
-    <script style='text/javascript'>
-        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; var transforms = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"]; var transformProperty = getSupportedPropertyName(transforms); var snowflakes = []; var browserWidth; var browserHeight; var numberOfSnowflakes = 50; var resetPosition = false; function setup() { window.addEventListener("DOMContentLoaded", generateSnowflakes, false); window.addEventListener("resize", setResetFlag, false) } setup(); function getSupportedPropertyName(b) { for (var a = 0; a < b.length; a++) { if (typeof document.body.style[b[a]] != "undefined") { return b[a] } } return null } function Snowflake(b, a, d, e, c) { this.element = b; this.radius = a; this.speed = d; this.xPos = e; this.yPos = c; this.counter = 0; this.sign = Math.random() < 0.5 ? 1 : -1; this.element.style.opacity = 0.5 + Math.random(); this.element.style.fontSize = 4 + Math.random() * 30 + "px" } Snowflake.prototype.update = function () { this.counter += this.speed / 5000; this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40; this.yPos += Math.sin(this.counter) / 40 + this.speed / 30; setTranslate3DTransform(this.element, Math.round(this.xPos), Math.round(this.yPos)); if (this.yPos > browserHeight) { this.yPos = -50 } }; function setTranslate3DTransform(a, c, b) { var d = "translate3d(" + c + "px, " + b + "px, 0)"; a.style[transformProperty] = d } function generateSnowflakes() { var b = document.querySelector(".snowflake"); var h = b.parentNode; browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var d = 0; d < numberOfSnowflakes; d++) { var j = b.cloneNode(true); h.appendChild(j); var e = getPosition(50, browserWidth); var a = getPosition(50, browserHeight); var c = 5 + Math.random() * 40; var g = 4 + Math.random() * 10; var f = new Snowflake(j, g, c, e, a); snowflakes.push(f) } h.removeChild(b); moveSnowflakes() } function moveSnowflakes() { for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.update() } if (resetPosition) { browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.xPos = getPosition(50, browserWidth); a.yPos = getPosition(50, browserHeight) } resetPosition = false } requestAnimationFrame(moveSnowflakes) } function getPosition(b, a) { return Math.round(-1 * b + Math.random() * (a + 2 * b)) } function setResetFlag(a) { resetPosition = true };
-    </script>*@
+            <p class='snowflake'>❄</p>
+        </div>
+        <script style='text/javascript'>
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; var transforms = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"]; var transformProperty = getSupportedPropertyName(transforms); var snowflakes = []; var browserWidth; var browserHeight; var numberOfSnowflakes = 50; var resetPosition = false; function setup() { window.addEventListener("DOMContentLoaded", generateSnowflakes, false); window.addEventListener("resize", setResetFlag, false) } setup(); function getSupportedPropertyName(b) { for (var a = 0; a < b.length; a++) { if (typeof document.body.style[b[a]] != "undefined") { return b[a] } } return null } function Snowflake(b, a, d, e, c) { this.element = b; this.radius = a; this.speed = d; this.xPos = e; this.yPos = c; this.counter = 0; this.sign = Math.random() < 0.5 ? 1 : -1; this.element.style.opacity = 0.5 + Math.random(); this.element.style.fontSize = 4 + Math.random() * 30 + "px" } Snowflake.prototype.update = function () { this.counter += this.speed / 5000; this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40; this.yPos += Math.sin(this.counter) / 40 + this.speed / 30; setTranslate3DTransform(this.element, Math.round(this.xPos), Math.round(this.yPos)); if (this.yPos > browserHeight) { this.yPos = -50 } }; function setTranslate3DTransform(a, c, b) { var d = "translate3d(" + c + "px, " + b + "px, 0)"; a.style[transformProperty] = d } function generateSnowflakes() { var b = document.querySelector(".snowflake"); var h = b.parentNode; browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var d = 0; d < numberOfSnowflakes; d++) { var j = b.cloneNode(true); h.appendChild(j); var e = getPosition(50, browserWidth); var a = getPosition(50, browserHeight); var c = 5 + Math.random() * 40; var g = 4 + Math.random() * 10; var f = new Snowflake(j, g, c, e, a); snowflakes.push(f) } h.removeChild(b); moveSnowflakes() } function moveSnowflakes() { for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.update() } if (resetPosition) { browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.xPos = getPosition(50, browserWidth); a.yPos = getPosition(50, browserHeight) } resetPosition = false } requestAnimationFrame(moveSnowflakes) } function getPosition(b, a) { return Math.round(-1 * b + Math.random() * (a + 2 * b)) } function setResetFlag(a) { resetPosition = true };
+        </script>*@
 </body>
 </html>

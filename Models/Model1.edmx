@@ -222,8 +222,13 @@
           <Property Name="Ma" Type="char" MaxLength="10" />
           <Property Name="GioiTinh" Type="nvarchar" MaxLength="5" />
           <Property Name="SDT" Type="varchar" MaxLength="12" />
-          <Property Name="QuocTich" Type="nvarchar" MaxLength="20" />
           <Property Name="NgaySinh" Type="date" />
+          <Property Name="SoTaiKhoanNganHang" Type="nvarchar" MaxLength="50" />
+          <Property Name="TenNganHang" Type="nvarchar" MaxLength="255" />
+          <Property Name="ChuTaiKhoanNganHang" Type="nvarchar" MaxLength="255" />
+          <Property Name="MaSoCanCuocCongDan" Type="nvarchar" MaxLength="50" />
+          <Property Name="GhiChu" Type="nvarchar(max)" />
+          <Property Name="MaSoThue" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -1026,8 +1031,13 @@
           <Property Name="Ma" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Name="GioiTinh" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="SDT" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="QuocTich" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+          <Property Name="SoTaiKhoanNganHang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TenNganHang" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ChuTaiKhoanNganHang" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MaSoCanCuocCongDan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaSoThue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_TaiKhoan_AspNetUsers" FromRole="TaiKhoan" ToRole="AspNetUsers" />
           <NavigationProperty Name="CongViec" Relationship="Self.FK_CongViec_TaiKhoan" FromRole="TaiKhoan" ToRole="CongViec" />
           <NavigationProperty Name="FormDangKyTroGiang" Relationship="Self.FK_FormDangKyTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="FormDangKyTroGiang" />
@@ -1793,8 +1803,13 @@
                 <ScalarProperty Name="Ma" ColumnName="Ma" />
                 <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
                 <ScalarProperty Name="SDT" ColumnName="SDT" />
-                <ScalarProperty Name="QuocTich" ColumnName="QuocTich" />
                 <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+                <ScalarProperty Name="SoTaiKhoanNganHang" ColumnName="SoTaiKhoanNganHang" />
+                <ScalarProperty Name="TenNganHang" ColumnName="TenNganHang" />
+                <ScalarProperty Name="ChuTaiKhoanNganHang" ColumnName="ChuTaiKhoanNganHang" />
+                <ScalarProperty Name="MaSoCanCuocCongDan" ColumnName="MaSoCanCuocCongDan" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="MaSoThue" ColumnName="MaSoThue" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -35,8 +35,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public string Ma { get; set; }
         public string GioiTinh { get; set; }
         public string SDT { get; set; }
-        public string QuocTich { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
+        public string SoTaiKhoanNganHang { get; set; }
+        public string TenNganHang { get; set; }
+        public string ChuTaiKhoanNganHang { get; set; }
+        public string MaSoCanCuocCongDan { get; set; }
+        public string GhiChu { get; set; }
+        public string MaSoThue { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

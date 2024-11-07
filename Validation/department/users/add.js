@@ -138,7 +138,6 @@
             formData.append('dienthoai', dienthoai);
             formData.append('nganh', nganh);
             formData.append('gioitinh', $('body').find('[id="gioitinh"] :selected').val());
-            formData.append('quoctich', $('body').find('[id="quoctich"]').prop('checked'));
             formData.append('ngaysinh', $('body').find('[id="ngaysinh"]').val());
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },

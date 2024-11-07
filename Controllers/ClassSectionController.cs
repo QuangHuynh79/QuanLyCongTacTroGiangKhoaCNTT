@@ -112,7 +112,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
 
                 var lstTask = lhp.CongViec.ToList();
-                if (lhp.DeXuatTroGiang.First().MoCapNhat == true) //Lớp học phần chưa duyệt được phép chỉnh sửa
+                if (lhp.DeXuatTroGiang.First().MoCapNhat == true || lhp.DeXuatTroGiang.First().TrangThai == false) //Lớp học phần chưa duyệt được phép chỉnh sửa
                     return PartialView("_TaskListViewEdit", lstTask); //Được phép chỉnh sửa
                 else //Lớp học phần đã duyệt chỉ được phép xem
                     return PartialView("_TaskListOnlyView", lstTask); //Không dược chỉnh sửa
@@ -126,7 +126,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, GVRole]
         [HttpPost]
         public ActionResult EditTaskList(int idLHP, string mota, string khoiluong,
-           string thoigian, string noilamviec, string ketqua) // Lưu cập nhật mô tả công việc lhp
+           string thoigian, string noilamviec, string ketqua, bool camket) // Lưu cập nhật mô tả công việc lhp
         {
             try
             {
@@ -167,6 +167,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         TrangThai = "canlam",
                     }; model.CongViec.Add(cv);
                 }
+                model.SaveChanges();
+
+                var dexuat = lhp.DeXuatTroGiang.First();
+                dexuat.TrangThai = camket;
+                if(camket)
+                    dexuat.MoCapNhat = !camket;
+
+                model.Entry(dexuat).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
