@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="ID" />
@@ -229,6 +229,7 @@
           <Property Name="MaSoCanCuocCongDan" Type="nvarchar" MaxLength="50" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
           <Property Name="MaSoThue" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID_Khoa" Type="int" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -543,6 +544,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TaiKhoan_Khoa">
+          <End Role="Khoa" Type="Self.Khoa" Multiplicity="0..1" />
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Khoa">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="ID_Khoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TaiKhoan_Nganh">
           <End Role="Nganh" Type="Self.Nganh" Multiplicity="0..1" />
           <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
@@ -745,6 +758,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
           </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_Khoa" Association="Self.FK_TaiKhoan_Khoa">
+            <End Role="Khoa" EntitySet="Khoa" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
           <AssociationSet Name="FK_TaiKhoan_Nganh" Association="Self.FK_TaiKhoan_Nganh">
             <End Role="Nganh" EntitySet="Nganh" />
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
@@ -778,8 +795,7 @@
             <End Role="UngTuyenTroGiang" EntitySet="UngTuyenTroGiang" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CongTacTroGiangKhoaCNTTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -955,6 +971,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenKhoa" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Nganh" Relationship="Self.FK_Nganh_Khoa" FromRole="Khoa" ToRole="Nganh" />
+          <NavigationProperty Name="TaiKhoan" Relationship="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Khoa" FromRole="Khoa" ToRole="TaiKhoan" />
         </EntityType>
         <EntityType Name="LopHocPhan">
           <Key>
@@ -1047,6 +1064,8 @@
           <NavigationProperty Name="PhanCongTroGiang" Relationship="Self.FK_PhanCongTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="PhanCongTroGiang" />
           <NavigationProperty Name="ThongBao" Relationship="Self.FK_ThongBao_TaiKhoan" FromRole="TaiKhoan" ToRole="ThongBao" />
           <NavigationProperty Name="UngTuyenTroGiang" Relationship="Self.FK_UngTuyenTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="UngTuyenTroGiang" />
+          <Property Name="ID_Khoa" Type="Int32" />
+          <NavigationProperty Name="Khoa" Relationship="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Khoa" FromRole="TaiKhoan" ToRole="Khoa" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -1574,7 +1593,23 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_Khoa" Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Khoa">
+            <End Role="Khoa" EntitySet="Khoa" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_TaiKhoan_Khoa">
+          <End Type="CongTacTroGiangKhoaCNTTModel.Khoa" Role="Khoa" Multiplicity="0..1" />
+          <End Type="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Role="TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Khoa">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="ID_Khoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1794,6 +1829,7 @@
           <EntitySetMapping Name="TaiKhoan">
             <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.TaiKhoan">
               <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="ID_Khoa" ColumnName="ID_Khoa" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Nganh" ColumnName="ID_Nganh" />
                 <ScalarProperty Name="ID_AspNetUsers" ColumnName="ID_AspNetUsers" />

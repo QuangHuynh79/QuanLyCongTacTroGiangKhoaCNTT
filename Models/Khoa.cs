@@ -18,6 +18,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public Khoa()
         {
             this.Nganh = new HashSet<Nganh>();
+            this.TaiKhoan = new HashSet<TaiKhoan>();
         }
     
         public int ID { get; set; }
@@ -25,5 +26,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Nganh> Nganh { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaiKhoan> TaiKhoan { get; set; }
     }
 }

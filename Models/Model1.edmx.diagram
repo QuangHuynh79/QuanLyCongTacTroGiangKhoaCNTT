@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="60f8bbcbb11b400e8e18587eaf199b6e" Name="Diagram1">
+      <Diagram DiagramId="60f8bbcbb11b400e8e18587eaf199b6e" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
@@ -53,6 +53,7 @@
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThongBao_TaiKhoan" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_UngTuyenTroGiang_TaiKhoan" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_TaiKhoan_Khoa" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
