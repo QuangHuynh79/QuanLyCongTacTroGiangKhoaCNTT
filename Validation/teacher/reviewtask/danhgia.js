@@ -3,6 +3,7 @@
         var id = $(this).attr('name');
         var urls = $('#requestPath').val() + "ReviewTask/OpenReviewTask";
         var titleForm = $(this).attr('titleForm');
+        var types = "edit";
 
         OpenDanhGia(id, urls, types, titleForm);
     }); 
@@ -11,6 +12,7 @@
         var id = $(this).attr('name');
         var urls = $('#requestPath').val() + "ReviewTask/OpenReviewTask";
         var titleForm = $(this).attr('titleForm');
+        var types = "view";
 
         OpenDanhGia(id, urls, types, titleForm);
     });
@@ -88,7 +90,6 @@
     function OpenDanhGia(id, urls, types, titleForm) {
         var formData = new FormData();
         formData.append('id', id);
-        formData.append('type', types);
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
