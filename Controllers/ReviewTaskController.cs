@@ -49,16 +49,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, GVandBCNandTARole]
         [HttpPost]
-        public ActionResult OpenReviewTask(int id, string type) //Mở chi tiết đánh giá lớp học phần
+        public ActionResult OpenReviewTask(int id) //Mở chi tiết đánh giá lớp học phần
         {
-            if (type.Equals("edit"))
-            {
-                return PartialView("_OpenEditReviewTask", model.LopHocPhan.Find(id));
-            }
-            else
-            {
-                return PartialView("_OpenViewReviewTask", model.LopHocPhan.Find(id));
-            }
+            return PartialView("_OpenEditReviewTask", model.LopHocPhan.Find(id));
         }
 
         [Authorize, GVRole]

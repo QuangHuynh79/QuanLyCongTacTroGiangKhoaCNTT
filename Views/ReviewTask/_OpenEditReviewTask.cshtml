@@ -65,7 +65,7 @@
                                 </td>
                                 @if (Model.PhanCongTroGiang.First().TrangThai == true)
                                 {
-                                    if (item.KetQuaCongViec.Equals("chuahoanthanh"))
+                                    if (string.IsNullOrEmpty(item.KetQuaCongViec))
                                     {
                                         <td valign="middle" class="pe-0 ps-3">
                                             <a role="button" class="text-danger form-control" style="max-width: fit-content">
@@ -75,11 +75,22 @@
                                     }
                                     else
                                     {
-                                        <td valign="middle" class="pe-0 ps-3">
-                                            <a role="button" class="text-success form-control" style="max-width: fit-content">
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Đã hoàn thành"><i style="font-size: 20px" class="bi bi-check-circle-fill"></i></span>
-                                            </a>
-                                        </td>
+                                        if (item.KetQuaCongViec.Equals("chuahoanthanh"))
+                                        {
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <a role="button" class="text-danger form-control" style="max-width: fit-content">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Chưa hoàn thành"><i style="font-size: 20px" class="bi bi-x-circle-fill"></i></span>
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td valign="middle" class="pe-0 ps-3">
+                                                <a role="button" class="text-success form-control" style="max-width: fit-content">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Đã hoàn thành"><i style="font-size: 20px" class="bi bi-check-circle-fill"></i></span>
+                                                </a>
+                                            </td>
+                                        }
                                     }
                                 }
                                 else
