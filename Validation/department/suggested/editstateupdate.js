@@ -33,6 +33,7 @@
                 }
                 else {
                     $('body').find('[id="trangthaiduyet-' + id + '"]').replaceWith('<span id="trangthaiduyet-' + id + '" class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>')
+                    $('body').find('[id="openChiTietDeXuat-' + id + '"]').attr('trangthaidexuat', "false");
                 }
 
                 Toast.fire({

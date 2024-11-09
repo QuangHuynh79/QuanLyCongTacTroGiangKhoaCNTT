@@ -47,6 +47,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>Tên khoa</th>
+                                    <th>Ngành</th>
                                     <th style="width: 80px"></th>
                                 </tr>
                             </thead>
@@ -54,17 +55,19 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.TenKhoa</td>
-                                        <td class="text-nowrap">
+                                        <td valign="middle">@item.TenKhoa</td>
+                                        <td valign="middle">
+                                            <ul>
+                                                @foreach (var items in item.Nganh.ToList())
+                                                {
+                                                    <li>@items.TenNganh</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
                                             <a style="font-size: 20px" role="button" id="openSua-@item.ID" name="@item.ID" class="text-success">
                                                 <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                             </a>
-                                            @if (item.Nganh.Count < 1)
-                                            {
-                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" name="@item.ID" fullname="@item.TenKhoa" class="text-danger">
-                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
-                                                </a>
-                                            }
                                         </td>
                                     </tr>
                                 }

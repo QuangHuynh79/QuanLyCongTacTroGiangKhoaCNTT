@@ -272,11 +272,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClassSectionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FacultysController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MajorsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ReviewTaskController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
-    <Compile Include="Controllers\TermAndMajorController.cs" />
+    <Compile Include="Controllers\TermController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -575,8 +577,6 @@
     <Content Include="Validation\teacher\classsection\viewTaskList.js" />
     <Content Include="Validation\teacher\teachingassistant\filterTask.js" />
     <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
-    <Content Include="Views\TermAndMajor\Faculty.cshtml" />
-    <Content Include="Views\TermAndMajor\_EditFaculty.cshtml" />
     <EntityDeploy Include="Models\vanlanguniAPI.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>vanlanguniAPI.Designer.cs</LastGenOutput>
@@ -617,6 +617,12 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Term\Semester.cshtml" />
+    <Content Include="Views\Term\_EditSemester.cshtml" />
+    <Content Include="Views\Majors\_EditMajor.cshtml" />
+    <Content Include="Views\Majors\Major.cshtml" />
+    <Content Include="Views\Facultys\_EditFaculty.cshtml" />
+    <Content Include="Views\Facultys\Faculty.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -680,10 +686,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-    <Content Include="Views\TermAndMajor\_EditMajor.cshtml" />
-    <Content Include="Views\TermAndMajor\_EditSemester.cshtml" />
-    <Content Include="Views\TermAndMajor\Major.cshtml" />
-    <Content Include="Views\TermAndMajor\Semester.cshtml" />
     <Content Include="Views\TimeTable\_FilterData.cshtml" />
     <Content Include="Views\TimeTable\_FilterParentData.cshtml" />
     <Content Include="Views\TimeTable\_IndexBCN.cshtml" />

@@ -116,7 +116,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 {
                     TaiKhoan newUser = new TaiKhoan();
                     newUser.HoTen = hoten;
-                    newUser.Ma = ma;
+                    if (ma != null)
+                        newUser.Ma = ma;
+
                     newUser.Email = EmailUser;
                     newUser.ID_AspNetUsers = aspNetUsers.ID;
                     newUser.TrangThai = true;

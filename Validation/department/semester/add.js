@@ -32,7 +32,7 @@
 
                     $('body').find('[id="tenhocky"]').val('');
                     $('body').find('[id="nambatdau"]').val(defIn).change;
-                    $('body').find('[id="namketthuc"]').val(defOut).change;
+                    $('body').find('[id="namketthuc"]').html('<option selected value="' + defOut + '">' + defOut + '</option>');
                     $('body').find('[id="ngaybatdau"]').val('');
                 }
             });
@@ -147,16 +147,17 @@
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-                url: $('#requestPath').val() + "TermAndMajor/addSemester",
+                url: $('#requestPath').val() + "Term/addSemester",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
-                $('body').find('[id="themmoi"]').modal('toggle');
 
                 if (ketqua == "SUCCESS") {
+                    $('body').find('[id="themmoi"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
@@ -187,6 +188,8 @@
                     $('body').find('[id="ngaybatdau"]').focus();
                 }
                 else {
+                    $('body').find('[id="themmoi"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);

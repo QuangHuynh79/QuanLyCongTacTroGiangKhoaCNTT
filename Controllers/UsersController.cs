@@ -185,7 +185,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 data.GioiTinh = gioitinh;
                 data.SDT = dienthoai;
                 if (!string.IsNullOrEmpty(nganh))
+                {
                     data.ID_Nganh = Int32.Parse(nganh);
+                    int khoa = model.Nganh.Find(Int32.Parse(nganh)).ID_Khoa;
+                    data.ID_Khoa = khoa;
+                }
+
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
@@ -329,17 +334,16 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (!string.IsNullOrEmpty(nganh))
                 {
                     data.ID_Nganh = Int32.Parse(nganh);
-                    int khoa = model.Nganh.Find(nganh).ID_Khoa;
+                    int khoa = model.Nganh.Find(Int32.Parse(nganh)).ID_Khoa;
                     data.ID_Khoa = khoa;
                 }
+
                 data.SoTaiKhoanNganHang = sotaikhoan;
                 data.TenNganHang = nganhang;
                 data.ChuTaiKhoanNganHang = chutaikhoan;
                 data.MaSoCanCuocCongDan = cancuoc;
                 data.MaSoThue = mst;
                 data.GhiChu = ghichu;
-
-
 
                 model.Entry(data).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();

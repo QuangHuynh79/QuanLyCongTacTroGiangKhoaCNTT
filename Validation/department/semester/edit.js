@@ -47,7 +47,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "TermAndMajor/editStateSemester",
+            url: $('#requestPath').val() + "Term/editStateSemester",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -79,7 +79,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "TermAndMajor/OpenEditSemester",
+            url: $('#requestPath').val() + "Term/OpenEditSemester",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -154,7 +154,7 @@
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-                url: $('#requestPath').val() + "TermAndMajor/editSemester",
+                url: $('#requestPath').val() + "Term/editSemester",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
