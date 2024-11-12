@@ -94,18 +94,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         if (confirm.Equals("replace")) //Xóa rồi thêm mới
                         {
                             var currentTkb = model.ThoiKhoaBieu.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
-                            model.ThoiKhoaBieu.RemoveRange(currentTkb);
+                            model.ThoiKhoaBieu.RemoveRange(currentTkb); //Xóa tkb cũ
                             model.SaveChanges();
 
                             var currentHocPhan = model.LopHocPhan.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
-                            model.LopHocPhan.RemoveRange(currentHocPhan);
+                            model.LopHocPhan.RemoveRange(currentHocPhan); //Xóa lớp học phần của tkb cũ
                             model.SaveChanges();
 
                             string filePath = string.Empty;
                             string path = Server.MapPath("~/Content/Uploads/ImportTKB/");
                             if (!Directory.Exists(path))
                             {
-                                Directory.CreateDirectory(path);
+                                Directory.CreateDirectory(path); //tạo đường dẫn lưu file import nếu có
                             }
 
                             filePath = path + Path.GetFileName(fileImport.FileName);
@@ -118,7 +118,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                             try
                             {
-                                using (OleDbConnection connExcel = new OleDbConnection(conString))
+                                using (OleDbConnection connExcel = new OleDbConnection(conString)) //Đọc file excel
                                 {
                                     using (OleDbCommand cmdExcel = new OleDbCommand())
                                     {
@@ -159,7 +159,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                             List<ThoiKhoaBieu> lstTemp = new List<ThoiKhoaBieu>();
 
-                            foreach (DataRow data in dt.Rows)
+                            foreach (DataRow data in dt.Rows) //Đọc từng dòng dữ liệu trong file excel
                             {
                                 if (!string.IsNullOrEmpty(data["Mã Ngành"].ToString()) && !string.IsNullOrEmpty(data["Tên Ngành"].ToString()))
                                     if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
@@ -186,7 +186,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string idmajor = data["Mã Ngành"].ToString();
                                 string namemajor = data["Tên Ngành"].ToString();
 
-                                // Check if values is null
+                                // Check dữ liệu trống
                                 string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
                                         , lessonNumber, lessonTime, roomId, lecturerId, fullName
                                     , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
@@ -203,41 +203,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                var isTKBExist = false;
                                 model = new CongTacTroGiangKhoaCNTTEntities();
                                 var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
                                 && w.ID_Nganh == nganh
-                                && w.MaMH.ToLower().Equals(subjectId.ToLower())
-                                && w.MaLHP.ToLower().Equals(classSectionid)
-                                && w.TenHP.ToLower().Equals(name.ToLower())
-                                && w.LoaiHP.ToLower().Equals(type.ToLower())
-                                && w.MaCBGD.ToLower().Equals(lecturerId.ToLower())
-                                && w.TenCBGD.ToLower().Equals(fullName.ToLower()));
+                                && w.MaLHP.ToLower().Equals(classSectionid)); //Kiểm tra lhp đã tồn tại chưa
 
-                                if (hocphanExist != null)
+                                int idHp = 0;
+                                if (hocphanExist != null) //Đã tồn tại thì chỉ lấy ID để gán cho tkb thôi
                                 {
-                                    var tkbExist = model.ThoiKhoaBieu.FirstOrDefault(w => w.ID_HocKy == hocky
-                                    && w.ID_Nganh == nganh
-                                    && w.ID_LopHocPhan == hocphanExist.ID
-                                    && w.SoTietDaXep == Int32.Parse(totalLesson)
-                                    && w.Thu.ToLower().Equals(day.ToLower())
-                                    && w.TietBD == Int32.Parse(startLesson)
-                                    && w.SoTiet == Int32.Parse(lessonNumber)
-                                    && w.TietHoc == lessonTime
-                                    && w.ThuS == Int32.Parse(day2)
-                                    && w.TietS == Int32.Parse(startLesson2)
-                                    && w.SoSVDK == Int32.Parse(studentRegisteredNumber)
-                                    && w.TuanBD == Int32.Parse(startWeek)
-                                    && w.TuanKT == Int32.Parse(endWeek)
-                                    && w.Phong.ToLower().Equals(roomId.ToLower()));
-
-                                    if (tkbExist != null)
-                                        isTKBExist = true;
+                                    idHp = hocphanExist.ID;
                                 }
-
-                                if (isTKBExist == false)
+                                else //Chưa tồn tại thì tạo mới lhp
                                 {
-
                                     var hocphan = new LopHocPhan()
                                     {
                                         ID_HocKy = hocky,
@@ -256,51 +233,52 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                                     model.LopHocPhan.Add(hocphan);
                                     model.SaveChanges();
-                                    int idHp = hocphan.ID;
-
-                                    var tkb = new ThoiKhoaBieu();
-                                    tkb.ID_HocKy = hocky;
-                                    tkb.ID_Nganh = nganh;
-                                    tkb.ID_LopHocPhan = idHp;
-                                    tkb.SoTietDaXep = Int32.Parse(totalLesson);
-                                    tkb.Thu = day;
-                                    tkb.TietBD = Int32.Parse(startLesson);
-                                    tkb.SoTiet = Int32.Parse(lessonNumber);
-                                    tkb.TietHoc = lessonTime;
-                                    tkb.ThuS = Int32.Parse(day2);
-                                    tkb.TietS = Int32.Parse(startLesson2);
-                                    tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
-                                    tkb.TuanBD = Int32.Parse(startWeek);
-                                    tkb.TuanKT = Int32.Parse(endWeek);
-                                    tkb.Phong = roomId;
-
-                                    model.ThoiKhoaBieu.Add(tkb);
-                                    model.SaveChanges();
+                                    idHp = hocphan.ID;
                                 }
+
+                                var tkb = new ThoiKhoaBieu(); //Tạo thời khóa biểu
+                                tkb.ID_HocKy = hocky;
+                                tkb.ID_Nganh = nganh;
+                                tkb.ID_LopHocPhan = idHp;
+                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                tkb.Thu = day;
+                                tkb.TietBD = Int32.Parse(startLesson);
+                                tkb.SoTiet = Int32.Parse(lessonNumber);
+                                tkb.TietHoc = lessonTime;
+                                tkb.ThuS = Int32.Parse(day2);
+                                tkb.TietS = Int32.Parse(startLesson2);
+                                tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
+                                tkb.TuanBD = Int32.Parse(startWeek);
+                                tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.Phong = roomId;
+
+                                model.ThoiKhoaBieu.Add(tkb);
+                                model.SaveChanges();
+
                             }
                         }
-                        else //cập nhật (update cái có sẵn)
+                        else //cập nhật (update cái tkb đang có sẵn)
                         {
-                            var tkbs = model.ThoiKhoaBieu.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
+                            var tkbs = model.ThoiKhoaBieu.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList(); //Lấy ra danh sách tkb cần update
 
                             string filePath = string.Empty;
-                            string path = Server.MapPath("~/Content/Uploads/ImportTKB/");
+                            string path = Server.MapPath("~/Content/Uploads/ImportTKB/"); //Lấy đường dẫn đã lưu file import
                             if (!Directory.Exists(path))
                             {
-                                Directory.CreateDirectory(path);
+                                Directory.CreateDirectory(path); //Tạo folder chứa file nếu chưa có
                             }
 
                             filePath = path + Path.GetFileName(fileImport.FileName);
                             string extension = Path.GetExtension(fileImport.FileName);
-                            fileImport.SaveAs(filePath);
+                            fileImport.SaveAs(filePath); //Lưu file import
 
                             string conString = ConfigurationManager.ConnectionStrings["ExcelConString"].ConnectionString;
                             DataTable dt = new DataTable();
-                            conString = string.Format(conString, filePath);
+                            conString = string.Format(conString, filePath); //Lấy cấu hình đọc file Excel trong file config
 
                             try
                             {
-                                using (OleDbConnection connExcel = new OleDbConnection(conString))
+                                using (OleDbConnection connExcel = new OleDbConnection(conString)) //Đọc file excel
                                 {
                                     using (OleDbCommand cmdExcel = new OleDbCommand())
                                     {
@@ -339,7 +317,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             if (isValid != null)
                                 return Content("Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
 
-                            foreach (DataRow data in dt.Rows)
+                            foreach (DataRow data in dt.Rows) //Đọc từng dòng trong file excel
                             {
                                 var tkb = tkbs.FirstOrDefault(f => f.LopHocPhan.MaLHP.Equals(data["Mã LHP"].ToString()));
                                 if (tkb == null)
@@ -365,7 +343,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string idmajor = data["Mã Ngành"].ToString();
                                 string namemajor = data["Tên Ngành"].ToString();
 
-                                // Check if values is null
+                                // Check dữ liệu bị bỏ trống
                                 string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
                                         , lessonNumber, lessonTime, roomId, lecturerId, fullName
                                     , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
@@ -382,92 +360,48 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                var isTKBExist = false;
-                                model = new CongTacTroGiangKhoaCNTTEntities();
-                                var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
-                                && w.ID_Nganh == nganh
-                                && w.MaMH.ToLower().Equals(subjectId.ToLower())
-                                && w.MaLHP.ToLower().Equals(classSectionid)
-                                && w.TenHP.ToLower().Equals(name.ToLower())
-                                && w.LoaiHP.ToLower().Equals(type.ToLower())
-                                && w.MaCBGD.ToLower().Equals(lecturerId.ToLower())
-                                && w.TenCBGD.ToLower().Equals(fullName.ToLower()));
+                                //Cập nhật thông tin về lớp học phần
+                                var hocphan = tkb.LopHocPhan;
+                                hocphan.MaMH = subjectId;
+                                hocphan.TenHP = name;
+                                hocphan.LoaiHP = type;
+                                hocphan.MaCBGD = lecturerId;
+                                hocphan.TenCBGD = fullName;
 
-                                if (hocphanExist != null)
-                                {
-                                    var tkbExist = model.ThoiKhoaBieu.FirstOrDefault(w => w.ID_HocKy == hocky
-                                    && w.ID_Nganh == nganh
-                                    && w.ID_LopHocPhan == hocphanExist.ID
-                                    && w.SoTietDaXep == Int32.Parse(totalLesson)
-                                    && w.Thu.ToLower().Equals(day.ToLower())
-                                    && w.TietBD == Int32.Parse(startLesson)
-                                    && w.SoTiet == Int32.Parse(lessonNumber)
-                                    && w.TietHoc == lessonTime
-                                    && w.ThuS == Int32.Parse(day2)
-                                    && w.TietS == Int32.Parse(startLesson2)
-                                    && w.SoSVDK == Int32.Parse(studentRegisteredNumber)
-                                    && w.TuanBD == Int32.Parse(startWeek)
-                                    && w.TuanKT == Int32.Parse(endWeek)
-                                    && w.Phong.ToLower().Equals(roomId.ToLower()));
+                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                                if (tkGv != null)
+                                    hocphan.ID_TaiKhoan = tkGv.ID;
 
-                                    if (tkbExist != null)
-                                        isTKBExist = true;
-                                }
+                                //Cập nhật thông tin về thời khóa biểu
+                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                tkb.Thu = day;
+                                tkb.TietBD = Int32.Parse(startLesson);
+                                tkb.SoTiet = Int32.Parse(lessonNumber);
+                                tkb.TietHoc = lessonTime;
+                                tkb.ThuS = Int32.Parse(day2);
+                                tkb.TietS = Int32.Parse(startLesson2);
+                                tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
+                                tkb.TuanBD = Int32.Parse(startWeek);
+                                tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.Phong = roomId;
 
-                                if (isTKBExist == false)
-                                {
-                                    var hocphan = new LopHocPhan()
-                                    {
-                                        ID_HocKy = hocky,
-                                        ID_Nganh = nganh,
-                                        MaMH = subjectId,
-                                        MaLHP = classSectionid,
-                                        TenHP = name,
-                                        LoaiHP = type,
-                                        MaCBGD = lecturerId,
-                                        TenCBGD = fullName,
-                                    };
-
-                                    var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                                    if (tkGv != null)
-                                        hocphan.ID_TaiKhoan = tkGv.ID;
-
-                                    model.LopHocPhan.Add(hocphan);
-                                    model.SaveChanges();
-                                    int idHp = hocphan.ID;
-
-                                    tkb.ID_HocKy = hocky;
-                                    tkb.ID_Nganh = nganh;
-                                    tkb.ID_LopHocPhan = idHp;
-                                    tkb.SoTietDaXep = Int32.Parse(totalLesson);
-                                    tkb.Thu = day;
-                                    tkb.TietBD = Int32.Parse(startLesson);
-                                    tkb.SoTiet = Int32.Parse(lessonNumber);
-                                    tkb.TietHoc = lessonTime;
-                                    tkb.ThuS = Int32.Parse(day2);
-                                    tkb.TietS = Int32.Parse(startLesson2);
-                                    tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
-                                    tkb.TuanBD = Int32.Parse(startWeek);
-                                    tkb.TuanKT = Int32.Parse(endWeek);
-                                    tkb.Phong = roomId;
-
-                                    model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
-                                    model.SaveChanges();
-                                }
+                                model.Entry(hocphan).State = System.Data.Entity.EntityState.Modified;
+                                model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
+                                model.SaveChanges();
                             }
                         }
                     }
-                    else
+                    else //Lần đầu import
                     {
                         var checkExist = model.ThoiKhoaBieu.FirstOrDefault(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh);
-                        if (checkExist != null)
+                        if (checkExist != null) //check đã tồn tại hay chưa
                             return Content("Exist");
 
                         string filePath = string.Empty;
                         string path = Server.MapPath("~/Content/Uploads/ImportTKB/");
                         if (!Directory.Exists(path))
                         {
-                            Directory.CreateDirectory(path);
+                            Directory.CreateDirectory(path); //tạo folder lưu file import
                         }
 
                         filePath = path + Path.GetFileName(fileImport.FileName);
@@ -480,7 +414,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                         try
                         {
-                            using (OleDbConnection connExcel = new OleDbConnection(conString))
+                            using (OleDbConnection connExcel = new OleDbConnection(conString)) //Đọc file import
                             {
                                 using (OleDbCommand cmdExcel = new OleDbCommand())
                                 {
@@ -521,7 +455,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                         List<ThoiKhoaBieu> lstTemp = new List<ThoiKhoaBieu>();
 
-                        foreach (DataRow data in dt.Rows)
+                        foreach (DataRow data in dt.Rows) //Đọc từng dòng trong file import
                         {
                             if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
                                 && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
@@ -564,41 +498,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                             }
 
-                            var isTKBExist = false;
                             model = new CongTacTroGiangKhoaCNTTEntities();
+
+                            //Check lhp đã tồn tại hay chưa
                             var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
                             && w.ID_Nganh == nganh
-                            && w.MaMH.ToLower().Equals(subjectId.ToLower())
-                            && w.MaLHP.ToLower().Equals(classSectionid)
-                            && w.TenHP.ToLower().Equals(name.ToLower())
-                            && w.LoaiHP.ToLower().Equals(type.ToLower())
-                            && w.MaCBGD.ToLower().Equals(lecturerId.ToLower())
-                            && w.TenCBGD.ToLower().Equals(fullName.ToLower()));
+                            && w.MaLHP.ToLower().Equals(classSectionid));
 
-                            if (hocphanExist != null)
+                            int idHp = 0;
+                            if (hocphanExist != null) //Đã tồn tại thì chỉ lấy id để gán vào tkb thôi
                             {
-                                var tkbExist = model.ThoiKhoaBieu.FirstOrDefault(w => w.ID_HocKy == hocky
-                                && w.ID_Nganh == nganh
-                                && w.ID_LopHocPhan == hocphanExist.ID
-                                && w.SoTietDaXep == Int32.Parse(totalLesson)
-                                && w.Thu.ToLower().Equals(day.ToLower())
-                                && w.TietBD == Int32.Parse(startLesson)
-                                && w.SoTiet == Int32.Parse(lessonNumber)
-                                && w.TietHoc == lessonTime
-                                && w.ThuS == Int32.Parse(day2)
-                                && w.TietS == Int32.Parse(startLesson2)
-                                && w.SoSVDK == Int32.Parse(studentRegisteredNumber)
-                                && w.TuanBD == Int32.Parse(startWeek)
-                                && w.TuanKT == Int32.Parse(endWeek)
-                                && w.Phong.ToLower().Equals(roomId.ToLower()));
-
-                                if (tkbExist != null)
-                                    isTKBExist = true;
+                                idHp = hocphanExist.ID;
                             }
-
-                            if (isTKBExist == false)
+                            else
                             {
-                                var hocphan = new LopHocPhan()
+                                var hocphan = new LopHocPhan() //Tạo mới lhp
                                 {
                                     ID_HocKy = hocky,
                                     ID_Nganh = nganh,
@@ -616,27 +530,28 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                                 model.LopHocPhan.Add(hocphan);
                                 model.SaveChanges();
-                                int idHp = hocphan.ID;
-
-                                var tkb = new ThoiKhoaBieu();
-                                tkb.ID_HocKy = hocky;
-                                tkb.ID_Nganh = nganh;
-                                tkb.ID_LopHocPhan = idHp;
-                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
-                                tkb.Thu = day;
-                                tkb.TietBD = Int32.Parse(startLesson);
-                                tkb.SoTiet = Int32.Parse(lessonNumber);
-                                tkb.TietHoc = lessonTime;
-                                tkb.ThuS = Int32.Parse(day2);
-                                tkb.TietS = Int32.Parse(startLesson2);
-                                tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
-                                tkb.TuanBD = Int32.Parse(startWeek);
-                                tkb.TuanKT = Int32.Parse(endWeek);
-                                tkb.Phong = roomId;
-
-                                model.ThoiKhoaBieu.Add(tkb);
-                                model.SaveChanges();
+                                idHp = hocphan.ID;
                             }
+
+                            var tkb = new ThoiKhoaBieu(); //tạo thời khóa biểu
+                            tkb.ID_HocKy = hocky;
+                            tkb.ID_Nganh = nganh;
+                            tkb.ID_LopHocPhan = idHp;
+                            tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                            tkb.Thu = day;
+                            tkb.TietBD = Int32.Parse(startLesson);
+                            tkb.SoTiet = Int32.Parse(lessonNumber);
+                            tkb.TietHoc = lessonTime;
+                            tkb.ThuS = Int32.Parse(day2);
+                            tkb.TietS = Int32.Parse(startLesson2);
+                            tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
+                            tkb.TuanBD = Int32.Parse(startWeek);
+                            tkb.TuanKT = Int32.Parse(endWeek);
+                            tkb.Phong = roomId;
+
+                            model.ThoiKhoaBieu.Add(tkb);
+                            model.SaveChanges();
+
                         }
                     }
                     return Content("SUCCESS");

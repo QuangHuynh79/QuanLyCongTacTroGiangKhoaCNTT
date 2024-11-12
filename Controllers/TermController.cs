@@ -14,7 +14,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         // GET: Term
         [Authorize, BCNRole]
-        public ActionResult Semester()
+        public ActionResult Semester() //Xem danh sách học kỳ
         {
             var lstSemester = model.HocKy.ToList();
             return View("Semester", lstSemester);
@@ -22,7 +22,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult AddSemester(string tenhocky, int nambatdau, int namketthuc, DateTime ngaybatdau)
+        public ActionResult AddSemester(string tenhocky, int nambatdau, int namketthuc, DateTime ngaybatdau) //Thêm học kỳ
         {
             try
             {
@@ -53,7 +53,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult editStateSemester(bool trangthai, int id)
+        public ActionResult editStateSemester(bool trangthai, int id) //Cập nhật trạng thái học kỳ
         {
             try
             {
@@ -75,7 +75,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult OpenEditSemester(int id)
+        public ActionResult OpenEditSemester(int id) //Mở form cập nhật học kỳ
         {
             try
             {
@@ -93,7 +93,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult EditSemester(int id, int nambatdau, int namketthuc, DateTime ngaybatdau)
+        public ActionResult EditSemester(int id, int nambatdau, int namketthuc, DateTime ngaybatdau) //Lưu thông tin cập nhật hk
         {
             try
             {
@@ -118,7 +118,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult DeleteSemester(int id)
+        public ActionResult DeleteSemester(int id) //Xóa hk ĐÃ LOẠI BỎ FUNCITON NÀY
         {
             try
             {

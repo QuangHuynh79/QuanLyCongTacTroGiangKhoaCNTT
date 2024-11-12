@@ -14,7 +14,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         // GET: Majors
         [Authorize, BCNRole]
-        public ActionResult Major()
+        public ActionResult Major() //Xem danh sách ngành
         {
             var lstMajor = model.Nganh.ToList();
             return View("Major", lstMajor);
@@ -22,7 +22,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult AddMajor(string manganh, string tennganh, int khoa)
+        public ActionResult AddMajor(string manganh, string tennganh, int khoa) //Thêm ngành
         {
             try
             {
@@ -48,7 +48,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult OpenEditMajor(int id)
+        public ActionResult OpenEditMajor(int id) //Mở form cập nhật ngành
         {
             try
             {
@@ -66,7 +66,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult EditMajor(int id, string manganh, string tennganh, int khoa)
+        public ActionResult EditMajor(int id, string manganh, string tennganh, int khoa) //Lưu thông tin cập nhật ngành
         {
             try
             {
@@ -88,7 +88,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult DeleteMajor(int id)
+        public ActionResult DeleteMajor(int id) //Xóa ngành
         {
             try
             {

@@ -14,7 +14,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         // GET: Facultys
         [Authorize, BCNRole]
-        public ActionResult Faculty()
+        public ActionResult Faculty() //Xem danh sách khoa
         {
             var lstFaculty = model.Khoa.ToList();
             return View("Faculty", lstFaculty);
@@ -22,7 +22,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult AddFaculty(string tenkhoa)
+        public ActionResult AddFaculty(string tenkhoa) //Thêm khoa
         {
             try
             {
@@ -46,7 +46,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult OpenEditFaculty(int id)
+        public ActionResult OpenEditFaculty(int id) //Mở form cập nhật khoa
         {
             try
             {
@@ -64,7 +64,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult EditFaculty(int id, string tenkhoa)
+        public ActionResult EditFaculty(int id, string tenkhoa) //Lưu thông tin cập nhật khoa
         {
             try
             {
@@ -84,7 +84,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         [Authorize, BCNRole]
         [HttpPost]
-        public ActionResult DeleteFaculty(int id)
+        public ActionResult DeleteFaculty(int id) //Xóa khoa ĐÃ BỎ FUNCTION NÀY
         {
             try
             {
