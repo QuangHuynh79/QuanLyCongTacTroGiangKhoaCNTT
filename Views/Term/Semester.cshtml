@@ -95,7 +95,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="tenhocky">Học kỳ <span class="text-danger">*</span></label>
-                                <input type="number" id="tenhocky" maxlength="3" class="form-control" placeholder="Nhập học kỳ (VD: 224)">
+                                <input type="number" data-default="@DateTime.Now.ToString("yy")" value="@DateTime.Now.ToString("yy")" id="tenhocky" class="form-control" placeholder="Nhập học kỳ (VD: 224)">
                                 <span class="text-danger" id="valid-tenhocky"></span>
                             </div>
                         </div>

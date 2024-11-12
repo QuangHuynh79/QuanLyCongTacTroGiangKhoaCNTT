@@ -5,6 +5,7 @@
         var namketthuc = $('body').find('[id="namketthuc"] :selected').val();
         var ngaybatdau = $('body').find('[id="ngaybatdau"]').val().trim();
 
+        var defName = $('body').find('[id="tenhocky"]').attr('data-default');
         var defIn = $('body').find('[id="nambatdau"] :selected').attr('data-default');
         var defOut = $('body').find('[id="nambatdau"] :selected').attr('data-default-kethuc');
 
@@ -18,7 +19,7 @@
         validnamketthuc.text('');
         validngaybatdau.text('');
 
-        if (tenhocky.length > 0 || ngaybatdau.length > 0 || (nambatdau !== defIn) || (namketthuc !== defOut)) {
+        if (tenhocky.length !== defName || ngaybatdau.length > 0 || (nambatdau !== defIn) || (namketthuc !== defOut)) {
             Swal.fire({
                 text: 'Dữ liệu chưa được lưu. Xác nhận đóng form?',
                 icon: "question",
@@ -30,7 +31,7 @@
                 if (result.isConfirmed) {
                     $('#themmoi').modal('toggle');
 
-                    $('body').find('[id="tenhocky"]').val('');
+                    $('body').find('[id="tenhocky"]').val(defName);
                     $('body').find('[id="nambatdau"]').val(defIn).change;
                     $('body').find('[id="namketthuc"]').html('<option selected value="' + defOut + '">' + defOut + '</option>');
                     $('body').find('[id="ngaybatdau"]').val('');
@@ -49,17 +50,46 @@
     });
 
     $('body').on('change', '[id="nambatdau"]', function () {
+        var validtenhocky = $('body').find('[id="valid-tenhocky"]');
+        validtenhocky.text('');
+
         var year = Number($(this).val());
         year = year + 1;
+
+        var nambatdaus = (year - 1) + "";
+        nambatdaus = nambatdaus.substring(2, 4);
+        var hk = $('body').find('[id="tenhocky"]');
+
+        if (hk.val().trim().length > 3) {
+            hk.val(nambatdaus);
+        }
+        else if (hk.val().trim().length == 3) {
+            var tenhocky = hk.val().trim().substring(3, hk.val().trim().length - 1);
+            if (Number(tenhocky) > 3 || Number(tenhocky) < 1) {
+                hk.val(nambatdaus);
+            }
+            else {
+                hk.val(nambatdaus + "" + tenhocky);
+            }
+        }
+        else {
+            hk.val(nambatdaus);
+        }
+
         $('body').find('[id="namketthuc"]').html('<option selected value="' + year + '">' + year + '</option>');
     });
 
     $('body').on('input', '[id="tenhocky"]', function () {
-        var tenhocky = $(this).val().trim();
+        var hk = $(this);
+        var tenhocky = hk.val().trim();
         var validtenhocky = $('body').find('[id="valid-tenhocky"]');
         validtenhocky.text('');
-
-        if (tenhocky.length < 3 || tenhocky.length > 3) {
+        if (tenhocky.length < 3) {
+            var nambatdaus = $('body').find('[id="nambatdau"] :selected').val();
+            nambatdaus = nambatdaus.substring(2, 4);
+            hk.val(nambatdaus);
+        }
+        else if (tenhocky.length > 3) {
             validtenhocky.text("Vui lòng nhập học kỳ gồm 3 chữ số.");
         }
         else if (tenhocky.length == 3) {
@@ -184,7 +214,7 @@
                     btn.prop('disabled', false);
                     $('body').find('[id="btnClose"]').prop('disabled', false);
 
-                    validngaybatdau.text("Ngày bắt đầu phải trong năm " + nambatdau + ".");
+                    validngaybatdau.text("Ngày bắt đầu phải ở trong năm " + nambatdau + " - " + namketthuc + ".");
                     $('body').find('[id="ngaybatdau"]').focus();
                 }
                 else {

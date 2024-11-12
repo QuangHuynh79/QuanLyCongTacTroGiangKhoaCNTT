@@ -2,6 +2,7 @@
 $(document).ready(function () {
     $('body').on('change', '[id="hinhanhmc"]', function () {
         var img = $(this);
+
         $('body').find('[id="valid-hinhanhmc"]').text('');
 
         var anhcuCount = 0;
@@ -15,8 +16,17 @@ $(document).ready(function () {
         }
         else {
             if (img[0].files.length > 0) {
+                var fileName = img[0].files[0].name;
                 var sizes = (img[0].files[0].size / 1024).toFixed(1);
-                if (sizes > (10 * 1024)) {
+
+                if (fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".jpg"
+                    || fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".jpeg"
+                    || fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".png") {
+
+                    $('body').find('[id="valid-hinhanhmc"]').text("Vui lòng chọn hình ảnh có định dạng JPG, JPEG, PNG.");
+                    img.val(null);
+                }
+                else if (sizes > (10 * 1024)) {
                     $('body').find('[id="valid-hinhanhmc"]').text("Vui lòng gửi tối đa 1 hình ảnh < 10MB.");
                     img.val(null);
                 }

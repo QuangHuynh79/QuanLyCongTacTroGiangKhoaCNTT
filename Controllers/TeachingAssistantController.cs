@@ -236,18 +236,20 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.Entry(dx).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
-                var thongbao = new ThongBao()
+                if (!trangthai)
                 {
-                    TieuDe = "Đề xuất trợ giảng.",
-                    NoiDung = "Lớp " + lhp.MaLHP + "đã được duyệt đề xuất trợ giảng.",
-                    ThoiGian = DateTime.Now,
-                    DaDoc = false,
-                    ForRole = "2",
-                    ID_TaiKhoan = lhp.ID_TaiKhoan
-                };
-                model.ThongBao.Add(thongbao);
-                model.SaveChanges();
-
+                    var thongbao = new ThongBao()
+                    {
+                        TieuDe = "Đề xuất trợ giảng.",
+                        NoiDung = "Lớp " + lhp.MaLHP + "đã được duyệt đề xuất trợ giảng.",
+                        ThoiGian = DateTime.Now,
+                        DaDoc = false,
+                        ForRole = "2",
+                        ID_TaiKhoan = lhp.ID_TaiKhoan
+                    };
+                    model.ThongBao.Add(thongbao);
+                    model.SaveChanges();
+                }
                 return Content("SUCCESS");
             }
             catch (Exception Ex)

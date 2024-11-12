@@ -23,13 +23,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         // GET: TimeTable
         [Authorize, GVandBCNandTARole]
-        public ActionResult Index()
+        public ActionResult Index() //Xem thời khóa biểu
         {
             return View("index");
         }
 
         [Authorize, GVandBCNandTARole]
-        public ActionResult LoadContent()
+        public ActionResult LoadContent() //Load dữ liệu thời khóa biểu
         {
             int role = Int32.Parse(Session["user-role-id"].ToString());
             if (role == 2)
@@ -43,7 +43,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
-        public ActionResult FilterData(int hocky, int nganh, string mon, string gv)
+        public ActionResult FilterData(int hocky, int nganh, string mon, string gv) //Lọc thời khóa biểu theo giảng viên, môn học
         {
             var lstMon = mon.Split('#').ToList();
             var lstGv = gv.Split('#').ToList();
@@ -54,7 +54,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
 
         [Authorize, BCNRole]
-        public ActionResult FilterParentData(int hocky, int nganh)
+        public ActionResult FilterParentData(int hocky, int nganh) // Lọc thời khóa biểu theo học kỳ, ngành
         {
             var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
             return PartialView("_FilterParentData", tkb);
@@ -68,12 +68,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
-        [HttpPost]
+        [HttpPost] //Import thời khóa biểu
         public ActionResult SubmitImport(HttpPostedFileBase fileImport, int hocky, int nganh, string confirm)
         {
             try
             {
-                if (fileImport != null && fileImport.ContentLength > (1024 * 1024 * 50)) // 50MB limit
+                if (fileImport != null && fileImport.ContentLength > (1024 * 1024 * 50)) // File vượt quá 50MB
                 {
                     return Content("more50mb");
                 }
@@ -170,21 +170,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
-                                string day = data["Thứ"].ToString(); //
-                                string startLesson = data["Tiết BĐ"].ToString(); //
-                                string lessonNumber = data["Số Tiết"].ToString();//
-                                string lessonTime = data["Tiết Học"].ToString();//
-                                string roomId = data["Phòng"].ToString();//
-                                string lecturerId = data["Mã CBGD"].ToString();//
-                                string fullName = data["Tên CBGD"].ToString();//
-                                string day2 = data["ThuS"].ToString();//
-                                string startLesson2 = data["TietS"].ToString();//
+                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string day = data["Thứ"].ToString();
+                                string startLesson = data["Tiết BĐ"].ToString();
+                                string lessonNumber = data["Số Tiết"].ToString();
+                                string lessonTime = data["Tiết Học"].ToString();
+                                string roomId = data["Phòng"].ToString();
+                                string lecturerId = data["Mã CBGD"].ToString();
+                                string fullName = data["Tên CBGD"].ToString();
+                                string day2 = data["ThuS"].ToString();
+                                string startLesson2 = data["TietS"].ToString();
                                 string studentRegisteredNumber = data["Số SVĐK"].ToString();
-                                string startWeek = data["Tuần BD"].ToString();//
-                                string endWeek = data["Tuần KT"].ToString();//
-                                string idmajor = data["Mã Ngành"].ToString();//
-                                string namemajor = data["Tên Ngành"].ToString();//
+                                string startWeek = data["Tuần BD"].ToString();
+                                string endWeek = data["Tuần KT"].ToString();
+                                string idmajor = data["Mã Ngành"].ToString();
+                                string namemajor = data["Tên Ngành"].ToString();
 
                                 // Check if values is null
                                 string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
@@ -203,44 +203,80 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                var hocphan = new LopHocPhan()
+                                var isTKBExist = false;
+                                model = new CongTacTroGiangKhoaCNTTEntities();
+                                var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
+                                && w.ID_Nganh == nganh
+                                && w.MaMH.ToLower().Equals(subjectId.ToLower())
+                                && w.MaLHP.ToLower().Equals(classSectionid)
+                                && w.TenHP.ToLower().Equals(name.ToLower())
+                                && w.LoaiHP.ToLower().Equals(type.ToLower())
+                                && w.MaCBGD.ToLower().Equals(lecturerId.ToLower())
+                                && w.TenCBGD.ToLower().Equals(fullName.ToLower()));
+
+                                if (hocphanExist != null)
                                 {
-                                    ID_HocKy = hocky,
-                                    ID_Nganh = nganh,
-                                    MaMH = subjectId,
-                                    MaLHP = classSectionid,
-                                    TenHP = name,
-                                    LoaiHP = type,
-                                    MaCBGD = lecturerId,
-                                    TenCBGD = fullName,
-                                };
+                                    var tkbExist = model.ThoiKhoaBieu.FirstOrDefault(w => w.ID_HocKy == hocky
+                                    && w.ID_Nganh == nganh
+                                    && w.ID_LopHocPhan == hocphanExist.ID
+                                    && w.SoTietDaXep == Int32.Parse(totalLesson)
+                                    && w.Thu.ToLower().Equals(day.ToLower())
+                                    && w.TietBD == Int32.Parse(startLesson)
+                                    && w.SoTiet == Int32.Parse(lessonNumber)
+                                    && w.TietHoc == lessonTime
+                                    && w.ThuS == Int32.Parse(day2)
+                                    && w.TietS == Int32.Parse(startLesson2)
+                                    && w.SoSVDK == Int32.Parse(studentRegisteredNumber)
+                                    && w.TuanBD == Int32.Parse(startWeek)
+                                    && w.TuanKT == Int32.Parse(endWeek)
+                                    && w.Phong.ToLower().Equals(roomId.ToLower()));
 
-                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                                if (tkGv != null)
-                                    hocphan.ID_TaiKhoan = tkGv.ID;
+                                    if (tkbExist != null)
+                                        isTKBExist = true;
+                                }
 
-                                model.LopHocPhan.Add(hocphan);
-                                model.SaveChanges();
-                                int idHp = hocphan.ID;
+                                if (isTKBExist == false)
+                                {
 
-                                var tkb = new ThoiKhoaBieu();
-                                tkb.ID_HocKy = hocky;
-                                tkb.ID_Nganh = nganh;
-                                tkb.ID_LopHocPhan = idHp;
-                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
-                                tkb.Thu = day;
-                                tkb.TietBD = Int32.Parse(startLesson);
-                                tkb.SoTiet = Int32.Parse(lessonNumber);
-                                tkb.TietHoc = lessonTime;
-                                tkb.ThuS = Int32.Parse(day2);
-                                tkb.TietS = Int32.Parse(startLesson2);
-                                tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
-                                tkb.TuanBD = Int32.Parse(startWeek);
-                                tkb.TuanKT = Int32.Parse(endWeek);
-                                tkb.Phong = roomId;
+                                    var hocphan = new LopHocPhan()
+                                    {
+                                        ID_HocKy = hocky,
+                                        ID_Nganh = nganh,
+                                        MaMH = subjectId,
+                                        MaLHP = classSectionid,
+                                        TenHP = name,
+                                        LoaiHP = type,
+                                        MaCBGD = lecturerId,
+                                        TenCBGD = fullName,
+                                    };
 
-                                model.ThoiKhoaBieu.Add(tkb);
-                                model.SaveChanges();
+                                    var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                                    if (tkGv != null)
+                                        hocphan.ID_TaiKhoan = tkGv.ID;
+
+                                    model.LopHocPhan.Add(hocphan);
+                                    model.SaveChanges();
+                                    int idHp = hocphan.ID;
+
+                                    var tkb = new ThoiKhoaBieu();
+                                    tkb.ID_HocKy = hocky;
+                                    tkb.ID_Nganh = nganh;
+                                    tkb.ID_LopHocPhan = idHp;
+                                    tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                    tkb.Thu = day;
+                                    tkb.TietBD = Int32.Parse(startLesson);
+                                    tkb.SoTiet = Int32.Parse(lessonNumber);
+                                    tkb.TietHoc = lessonTime;
+                                    tkb.ThuS = Int32.Parse(day2);
+                                    tkb.TietS = Int32.Parse(startLesson2);
+                                    tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
+                                    tkb.TuanBD = Int32.Parse(startWeek);
+                                    tkb.TuanKT = Int32.Parse(endWeek);
+                                    tkb.Phong = roomId;
+
+                                    model.ThoiKhoaBieu.Add(tkb);
+                                    model.SaveChanges();
+                                }
                             }
                         }
                         else //cập nhật (update cái có sẵn)
@@ -313,21 +349,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
-                                string day = data["Thứ"].ToString(); //
-                                string startLesson = data["Tiết BĐ"].ToString(); //
-                                string lessonNumber = data["Số Tiết"].ToString();//
-                                string lessonTime = data["Tiết Học"].ToString();//
-                                string roomId = data["Phòng"].ToString();//
-                                string lecturerId = data["Mã CBGD"].ToString();//
-                                string fullName = data["Tên CBGD"].ToString();//
-                                string day2 = data["ThuS"].ToString();//
-                                string startLesson2 = data["TietS"].ToString();//
+                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string day = data["Thứ"].ToString();
+                                string startLesson = data["Tiết BĐ"].ToString();
+                                string lessonNumber = data["Số Tiết"].ToString();
+                                string lessonTime = data["Tiết Học"].ToString();
+                                string roomId = data["Phòng"].ToString();
+                                string lecturerId = data["Mã CBGD"].ToString();
+                                string fullName = data["Tên CBGD"].ToString();
+                                string day2 = data["ThuS"].ToString();
+                                string startLesson2 = data["TietS"].ToString();
                                 string studentRegisteredNumber = data["Số SVĐK"].ToString();
-                                string startWeek = data["Tuần BD"].ToString();//
-                                string endWeek = data["Tuần KT"].ToString();//
-                                string idmajor = data["Mã Ngành"].ToString();//
-                                string namemajor = data["Tên Ngành"].ToString();//
+                                string startWeek = data["Tuần BD"].ToString();
+                                string endWeek = data["Tuần KT"].ToString();
+                                string idmajor = data["Mã Ngành"].ToString();
+                                string namemajor = data["Tên Ngành"].ToString();
 
                                 // Check if values is null
                                 string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
@@ -346,43 +382,78 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
 
-                                var hocphan = new LopHocPhan()
+                                var isTKBExist = false;
+                                model = new CongTacTroGiangKhoaCNTTEntities();
+                                var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
+                                && w.ID_Nganh == nganh
+                                && w.MaMH.ToLower().Equals(subjectId.ToLower())
+                                && w.MaLHP.ToLower().Equals(classSectionid)
+                                && w.TenHP.ToLower().Equals(name.ToLower())
+                                && w.LoaiHP.ToLower().Equals(type.ToLower())
+                                && w.MaCBGD.ToLower().Equals(lecturerId.ToLower())
+                                && w.TenCBGD.ToLower().Equals(fullName.ToLower()));
+
+                                if (hocphanExist != null)
                                 {
-                                    ID_HocKy = hocky,
-                                    ID_Nganh = nganh,
-                                    MaMH = subjectId,
-                                    MaLHP = classSectionid,
-                                    TenHP = name,
-                                    LoaiHP = type,
-                                    MaCBGD = lecturerId,
-                                    TenCBGD = fullName,
-                                };
+                                    var tkbExist = model.ThoiKhoaBieu.FirstOrDefault(w => w.ID_HocKy == hocky
+                                    && w.ID_Nganh == nganh
+                                    && w.ID_LopHocPhan == hocphanExist.ID
+                                    && w.SoTietDaXep == Int32.Parse(totalLesson)
+                                    && w.Thu.ToLower().Equals(day.ToLower())
+                                    && w.TietBD == Int32.Parse(startLesson)
+                                    && w.SoTiet == Int32.Parse(lessonNumber)
+                                    && w.TietHoc == lessonTime
+                                    && w.ThuS == Int32.Parse(day2)
+                                    && w.TietS == Int32.Parse(startLesson2)
+                                    && w.SoSVDK == Int32.Parse(studentRegisteredNumber)
+                                    && w.TuanBD == Int32.Parse(startWeek)
+                                    && w.TuanKT == Int32.Parse(endWeek)
+                                    && w.Phong.ToLower().Equals(roomId.ToLower()));
 
-                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                                if (tkGv != null)
-                                    hocphan.ID_TaiKhoan = tkGv.ID;
+                                    if (tkbExist != null)
+                                        isTKBExist = true;
+                                }
 
-                                model.LopHocPhan.Add(hocphan);
-                                model.SaveChanges();
-                                int idHp = hocphan.ID;
+                                if (isTKBExist == false)
+                                {
+                                    var hocphan = new LopHocPhan()
+                                    {
+                                        ID_HocKy = hocky,
+                                        ID_Nganh = nganh,
+                                        MaMH = subjectId,
+                                        MaLHP = classSectionid,
+                                        TenHP = name,
+                                        LoaiHP = type,
+                                        MaCBGD = lecturerId,
+                                        TenCBGD = fullName,
+                                    };
 
-                                tkb.ID_HocKy = hocky;
-                                tkb.ID_Nganh = nganh;
-                                tkb.ID_LopHocPhan = idHp;
-                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
-                                tkb.Thu = day;
-                                tkb.TietBD = Int32.Parse(startLesson);
-                                tkb.SoTiet = Int32.Parse(lessonNumber);
-                                tkb.TietHoc = lessonTime;
-                                tkb.ThuS = Int32.Parse(day2);
-                                tkb.TietS = Int32.Parse(startLesson2);
-                                tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
-                                tkb.TuanBD = Int32.Parse(startWeek);
-                                tkb.TuanKT = Int32.Parse(endWeek);
-                                tkb.Phong = roomId;
+                                    var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                                    if (tkGv != null)
+                                        hocphan.ID_TaiKhoan = tkGv.ID;
 
-                                model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
-                                model.SaveChanges();
+                                    model.LopHocPhan.Add(hocphan);
+                                    model.SaveChanges();
+                                    int idHp = hocphan.ID;
+
+                                    tkb.ID_HocKy = hocky;
+                                    tkb.ID_Nganh = nganh;
+                                    tkb.ID_LopHocPhan = idHp;
+                                    tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                    tkb.Thu = day;
+                                    tkb.TietBD = Int32.Parse(startLesson);
+                                    tkb.SoTiet = Int32.Parse(lessonNumber);
+                                    tkb.TietHoc = lessonTime;
+                                    tkb.ThuS = Int32.Parse(day2);
+                                    tkb.TietS = Int32.Parse(startLesson2);
+                                    tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
+                                    tkb.TuanBD = Int32.Parse(startWeek);
+                                    tkb.TuanKT = Int32.Parse(endWeek);
+                                    tkb.Phong = roomId;
+
+                                    model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
+                                    model.SaveChanges();
+                                }
                             }
                         }
                     }
@@ -460,21 +531,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             string classSectionid = data["Mã LHP"].ToString();
                             string name = data["Tên HP"].ToString();
                             string type = data["Loại HP"].ToString();
-                            string totalLesson = data["Số Tiết Đã xếp"].ToString(); //
-                            string day = data["Thứ"].ToString(); //
-                            string startLesson = data["Tiết BĐ"].ToString(); //
-                            string lessonNumber = data["Số Tiết"].ToString();//
-                            string lessonTime = data["Tiết Học"].ToString();//
-                            string roomId = data["Phòng"].ToString();//
-                            string lecturerId = data["Mã CBGD"].ToString();//
-                            string fullName = data["Tên CBGD"].ToString();//
-                            string day2 = data["ThuS"].ToString();//
-                            string startLesson2 = data["TietS"].ToString();//
+                            string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                            string day = data["Thứ"].ToString();
+                            string startLesson = data["Tiết BĐ"].ToString();
+                            string lessonNumber = data["Số Tiết"].ToString();
+                            string lessonTime = data["Tiết Học"].ToString();
+                            string roomId = data["Phòng"].ToString();
+                            string lecturerId = data["Mã CBGD"].ToString();
+                            string fullName = data["Tên CBGD"].ToString();
+                            string day2 = data["ThuS"].ToString();
+                            string startLesson2 = data["TietS"].ToString();
                             string studentRegisteredNumber = data["Số SVĐK"].ToString();
-                            string startWeek = data["Tuần BD"].ToString();//
-                            string endWeek = data["Tuần KT"].ToString();//
-                            string idmajor = data["Mã Ngành"].ToString();//
-                            string namemajor = data["Tên Ngành"].ToString();//
+                            string startWeek = data["Tuần BD"].ToString();
+                            string endWeek = data["Tuần KT"].ToString();
+                            string idmajor = data["Mã Ngành"].ToString();
+                            string namemajor = data["Tên Ngành"].ToString();
 
                             // Check if values is null
                             string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
@@ -493,44 +564,79 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                             }
 
-                            var hocphan = new LopHocPhan()
+                            var isTKBExist = false;
+                            model = new CongTacTroGiangKhoaCNTTEntities();
+                            var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
+                            && w.ID_Nganh == nganh
+                            && w.MaMH.ToLower().Equals(subjectId.ToLower())
+                            && w.MaLHP.ToLower().Equals(classSectionid)
+                            && w.TenHP.ToLower().Equals(name.ToLower())
+                            && w.LoaiHP.ToLower().Equals(type.ToLower())
+                            && w.MaCBGD.ToLower().Equals(lecturerId.ToLower())
+                            && w.TenCBGD.ToLower().Equals(fullName.ToLower()));
+
+                            if (hocphanExist != null)
                             {
-                                ID_HocKy = hocky,
-                                ID_Nganh = nganh,
-                                MaMH = subjectId,
-                                MaLHP = classSectionid,
-                                TenHP = name,
-                                LoaiHP = type,
-                                MaCBGD = lecturerId,
-                                TenCBGD = fullName,
-                            };
+                                var tkbExist = model.ThoiKhoaBieu.FirstOrDefault(w => w.ID_HocKy == hocky
+                                && w.ID_Nganh == nganh
+                                && w.ID_LopHocPhan == hocphanExist.ID
+                                && w.SoTietDaXep == Int32.Parse(totalLesson)
+                                && w.Thu.ToLower().Equals(day.ToLower())
+                                && w.TietBD == Int32.Parse(startLesson)
+                                && w.SoTiet == Int32.Parse(lessonNumber)
+                                && w.TietHoc == lessonTime
+                                && w.ThuS == Int32.Parse(day2)
+                                && w.TietS == Int32.Parse(startLesson2)
+                                && w.SoSVDK == Int32.Parse(studentRegisteredNumber)
+                                && w.TuanBD == Int32.Parse(startWeek)
+                                && w.TuanKT == Int32.Parse(endWeek)
+                                && w.Phong.ToLower().Equals(roomId.ToLower()));
 
-                            var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
-                            if (tkGv != null)
-                                hocphan.ID_TaiKhoan = tkGv.ID;
+                                if (tkbExist != null)
+                                    isTKBExist = true;
+                            }
 
-                            model.LopHocPhan.Add(hocphan);
-                            model.SaveChanges();
-                            int idHp = hocphan.ID;
+                            if (isTKBExist == false)
+                            {
+                                var hocphan = new LopHocPhan()
+                                {
+                                    ID_HocKy = hocky,
+                                    ID_Nganh = nganh,
+                                    MaMH = subjectId,
+                                    MaLHP = classSectionid,
+                                    TenHP = name,
+                                    LoaiHP = type,
+                                    MaCBGD = lecturerId,
+                                    TenCBGD = fullName,
+                                };
 
-                            var tkb = new ThoiKhoaBieu();
-                            tkb.ID_HocKy = hocky;
-                            tkb.ID_Nganh = nganh;
-                            tkb.ID_LopHocPhan = idHp;
-                            tkb.SoTietDaXep = Int32.Parse(totalLesson);
-                            tkb.Thu = day;
-                            tkb.TietBD = Int32.Parse(startLesson);
-                            tkb.SoTiet = Int32.Parse(lessonNumber);
-                            tkb.TietHoc = lessonTime;
-                            tkb.ThuS = Int32.Parse(day2);
-                            tkb.TietS = Int32.Parse(startLesson2);
-                            tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
-                            tkb.TuanBD = Int32.Parse(startWeek);
-                            tkb.TuanKT = Int32.Parse(endWeek);
-                            tkb.Phong = roomId;
+                                var tkGv = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lecturerId.ToLower()));
+                                if (tkGv != null)
+                                    hocphan.ID_TaiKhoan = tkGv.ID;
 
-                            model.ThoiKhoaBieu.Add(tkb);
-                            model.SaveChanges();
+                                model.LopHocPhan.Add(hocphan);
+                                model.SaveChanges();
+                                int idHp = hocphan.ID;
+
+                                var tkb = new ThoiKhoaBieu();
+                                tkb.ID_HocKy = hocky;
+                                tkb.ID_Nganh = nganh;
+                                tkb.ID_LopHocPhan = idHp;
+                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                tkb.Thu = day;
+                                tkb.TietBD = Int32.Parse(startLesson);
+                                tkb.SoTiet = Int32.Parse(lessonNumber);
+                                tkb.TietHoc = lessonTime;
+                                tkb.ThuS = Int32.Parse(day2);
+                                tkb.TietS = Int32.Parse(startLesson2);
+                                tkb.SoSVDK = Int32.Parse(studentRegisteredNumber);
+                                tkb.TuanBD = Int32.Parse(startWeek);
+                                tkb.TuanKT = Int32.Parse(endWeek);
+                                tkb.Phong = roomId;
+
+                                model.ThoiKhoaBieu.Add(tkb);
+                                model.SaveChanges();
+                            }
                         }
                     }
                     return Content("SUCCESS");

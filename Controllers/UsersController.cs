@@ -42,14 +42,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         // GET: Users
         [Authorize, BCNRole]
-        public ActionResult Index()
+        public ActionResult Index() //Xem danh sách người dùng
         {
             var lstRole = model.AspNetRoles.ToList();
             return View("Index", lstRole);
         }
 
         [Authorize, BCNRole]
-        public ActionResult LoadContent()
+        public ActionResult LoadContent() //Load dữ liệu danh sách người dùng
         {
             return PartialView("_Index");
         }
@@ -111,7 +111,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult EditState(bool trangthai, int id)
+        public ActionResult EditState(bool trangthai, int id) //Cập nhật trạng thái người dùng
         {
             try
             {
@@ -137,7 +137,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult OpenEdit(int id)
+        public ActionResult OpenEdit(int id) //Mở form cập nhật thông tin người dùng
         {
             try
             {
@@ -154,7 +154,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, BCNRole]
-        [HttpPost]
+        [HttpPost] //Lưu cập nhật thông tin người dùng
         public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, DateTime? ngaysinh)
         {
             try
@@ -246,7 +246,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize]
         [BCNRole]
         [HttpPost]
-        public ActionResult Filter(string id)
+        public ActionResult Filter(string id) //Lọc danh sách người dùng theo role
         {
             try
             {
@@ -307,7 +307,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         [Authorize, AllRole]
-        [HttpPost]
+        [HttpPost] //Cập nhật thông tin cá nhân của tài khoản
         public ActionResult UpdateInfo(string ma, string dienthoai, string nganh, string gioitinh, DateTime? ngaysinh,
             string sotaikhoan, string nganhang, string chutaikhoan, string cancuoc, string mst, string ghichu)
         {

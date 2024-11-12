@@ -57,13 +57,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (lhp == null)
                     return Content("Chi tiết lỗi: Lớp học phần đã bị xóa hoặc không tồn tại trên hệ thống.");
 
-                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
-                var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
-
-                string name = lhp.TenHP.ToLower();
-                var lstDeXuat = model.DeXuatTroGiang.FirstOrDefault(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma));
-
-                return PartialView("_AddDeXuat", id); //Không Có lớp tương đương để đồng bộ công việc
+                return PartialView("_AddDeXuat", id);
             }
             catch (Exception Ex)
             {

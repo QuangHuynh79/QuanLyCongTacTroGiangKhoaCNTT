@@ -161,9 +161,9 @@
                 processData: false,
                 contentType: false,
             }).done(function (ketqua) {
-                $('body').find('[id="capnhat"]').modal('toggle');
-
                 if (ketqua == "SUCCESS") {
+                    $('body').find('[id="capnhat"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);
@@ -179,12 +179,14 @@
                 else if (ketqua == "INVALIDYEAR") {
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
-                    $('body').find('[id="btnClose"]').prop('disabled', false);
+                    $('body').find('[id="btnEditClose"]').prop('disabled', false);
 
-                    validngaybatdau.text("Ngày bắt đầu phải trong năm " + nambatdau + ".");
+                    validngaybatdau.text("Ngày bắt đầu phải ở trong năm " + nambatdau + " - " + namketthuc + ".");
                     $('body').find('[id="editngaybatdau"]').focus();
                 }
                 else {
+                    $('body').find('[id="capnhat"]').modal('toggle');
+
                     btn.html('Lưu thông tin');
                     btn.prop('disabled', false);
                     $('body').find('[id="btnEditClose"]').prop('disabled', false);

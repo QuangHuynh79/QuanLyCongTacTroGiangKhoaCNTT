@@ -132,15 +132,29 @@
             hamc.val(null);
         }
         else {
-            var sizes = 0;
-            for (var i = 0; i < hamc[0].files.length; i++) {
-                sizes += (hamc[0].files[i].size / 1024).toFixed(1);
+
+            if (hamc[0].files.length > 0) {
+                var sizes = 0;
+                for (var i = 0; i < hamc[0].files.length; i++) {
+                    sizes += (hamc[0].files[i].size / 1024).toFixed(1);
+                }
+                var fileName = hamc[0].files[0].name;
+
+                if (fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".jpg"
+                    || fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".jpeg"
+                    || fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".png") {
+
+                    validhamc.text("Vui lòng chọn hình ảnh có định dạng JPG, JPEG, PNG.");
+                    $('body').find('[id="hamc"]').focus();
+                    hamc.val(null);
+                }
+                else if (sizes > (50 * 1024)) {
+                    validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
+                    $('body').find('[id="hamc"]').focus();
+                    hamc.val(null);
+                }
             }
-            if (sizes > (50 * 1024)) {
-                validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
-                $('body').find('[id="hamc"]').focus();
-                hamc.val(null);
-            }
+
         }
     });
 
@@ -206,20 +220,37 @@
             $('body').find('[id="hamc"]').focus();
         }
         else {
-            var sizes = 0;
-            for (var i = 0; i < hamc[0].files.length; i++) {
-                sizes += (hamc[0].files[i].size / 1024).toFixed(1);
-            }
-            if (sizes > (50 * 1024)) {
-                check = false;
+            if (hamc[0].files.length > 0) {
+                var fileName = hamc[0].files[0].name;
+                var sizes = 0;
+                for (var i = 0; i < hamc[0].files.length; i++) {
+                    sizes += (hamc[0].files[i].size / 1024).toFixed(1);
+                }
 
-                btn.html('Lưu thông tin');
-                btn.prop('disabled', false);
-                $('body').find('[id="btnClose"]').prop('disabled', false);
+                if (fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".jpg"
+                    || fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".jpeg"
+                    || fileName.substring(fileName.lastIndexOf('.'), fileName.length - 1).toLowerCase() == ".png") {
+                    check = false;
 
-                validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
-                $('body').find('[id="hamc"]').focus();
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                    validhamc.text("Vui lòng chọn hình ảnh có định dạng JPG, JPEG, PNG.");
+                    $('body').find('[id="hamc"]').focus();
+                }
+                else if (sizes > (50 * 1024)) {
+                    check = false;
+
+                    btn.html('Lưu thông tin');
+                    btn.prop('disabled', false);
+                    $('body').find('[id="btnClose"]').prop('disabled', false);
+
+                    validhamc.text("Vui lòng gửi tối đa 3 hình ảnh < 50MB.");
+                    $('body').find('[id="hamc"]').focus();
+                }
             }
+
         }
 
         if (dtk.length < 1) {

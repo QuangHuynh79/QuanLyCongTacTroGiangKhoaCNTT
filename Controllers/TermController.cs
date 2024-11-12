@@ -30,7 +30,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (checks != null)
                     return Content("Exist");
 
-                if (nambatdau != ngaybatdau.Year)
+                if (ngaybatdau.Year < nambatdau || ngaybatdau.Year > namketthuc)
                     return Content("INVALIDYEAR");
 
                 var data = new HocKy();
@@ -97,7 +97,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
-                if (nambatdau != ngaybatdau.Year)
+                if (ngaybatdau.Year < nambatdau || ngaybatdau.Year > namketthuc)
                     return Content("INVALIDYEAR");
 
                 var data = model.HocKy.Find(id);
