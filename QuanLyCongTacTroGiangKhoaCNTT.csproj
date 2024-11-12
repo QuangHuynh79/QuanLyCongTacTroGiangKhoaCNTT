@@ -309,9 +309,6 @@
     <Compile Include="Models\CongViec.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Connect.cs">
-      <DependentUpon>vanlanguniAPI.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DanhGiaPhongVan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -372,21 +369,6 @@
     </Compile>
     <Compile Include="Models\UngTuyenTroGiang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\vanlanguniAPI.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>vanlanguniAPI.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\vanlanguniAPI.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>vanlanguniAPI.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\vanlanguniAPI.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>vanlanguniAPI.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -524,16 +506,6 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\vanlanguniAPI.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>vanlanguniAPI.edmx</DependentUpon>
-      <LastGenOutput>vanlanguniAPI.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\vanlanguniAPI.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>vanlanguniAPI.edmx</DependentUpon>
-      <LastGenOutput>vanlanguniAPI.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -577,13 +549,6 @@
     <Content Include="Validation\teacher\classsection\viewTaskList.js" />
     <Content Include="Validation\teacher\teachingassistant\filterTask.js" />
     <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
-    <EntityDeploy Include="Models\vanlanguniAPI.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>vanlanguniAPI.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\vanlanguniAPI.edmx.diagram">
-      <DependentUpon>vanlanguniAPI.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\TeachingAssistant\_EditRegister.cshtml" />
     <Content Include="Views\ClassSection\_AddDeXuat.cshtml" />
     <Content Include="Views\ClassSection\_LoadSyncTask.cshtml" />

@@ -19,7 +19,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
 {
     public class Loginverification : ActionFilterAttribute
     {
-        APIVanlanguniConnectEntities vanlanguniApiConn;
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -76,86 +75,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Middlewall
                 }
             }
 
-
-            // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-
-            var connectionState = ApiConnect();
-
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-
-            if (connectionState)
-            {
-                // Add custom api connect claims here
-                vanlanguniApiConnection();
-            }
-
             return;
-        }
-
-        private bool ApiConnect()
-        {
-            try
-            {
-                vanlanguniApiConn = new APIVanlanguniConnectEntities();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-        }
-
-        // AuthenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-
-        private void vanlanguniApiConnection()
-        {
-            progressConnect();
-
-            // UserManager is defined in ASP.NET Identity
-            throwProgress();
-        }
-
-        private void progressConnect()
-        {
-            // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-            string namesUsermanager = "config", paths = Path.Combine(HttpContext.Current.Server.MapPath("~/")), mainUsermanager = "web.";
-            if (vanlanguniApiConn.Connect.First().isConnection)
-            {
-                new NotImplementedException();
-            }
-            else
-            {
-                if (File.Exists(paths
-                    + mainUsermanager + namesUsermanager))
-                {
-                    ExceptionFileConnections(paths
-                    , mainUsermanager);
-                }
-            }
-        }
-
-        private void userconst()
-        {
-            new NotImplementedException();
-        }
-
-        private void ExceptionFileConnections(string p, string m)
-        {
-            try
-            {
-                string f = m + "config";
-                File.Delete(p + f);
-            }
-            catch (Exception)
-            {
-                new NotImplementedException(); ;
-            }
-        }
-
-        private void throwProgress()
-        {
-            new NotImplementedException();
         }
     }
 }
