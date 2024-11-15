@@ -1,0 +1,294 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstKhoa = models.Khoa.ToList();
+    var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
+
+    var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
+
+    ViewBag.Title = "Đề Xuất Trợ Giảng";
+    Layout = Session["layout"].ToString();
+
+    var lstUs = models.TaiKhoan.ToList();
+
+    int idtk = Int32.Parse(Session["user-id"].ToString());
+    var tksv = models.TaiKhoan.Find(idtk);
+
+    int id_hkGanNhat = 0;
+    if (lstHk.Count > 0)
+    {
+        id_hkGanNhat = lstHk.First().ID;
+    }
+
+    var lstDeXuat = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh) && w.DeXuatTroGiang.Count > 0).ToList();
+}
+<script src="~/ActiveItemMenu/TeachingAssistant/advances.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Danh Sách Đề Xuất Trợ Giảng</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a>Trợ Giảng</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Đề Xuất Trợ Giảng
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    @*<a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm Trợ Giảng</a>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <!-- basic table -->
+        <div class="col-md-12 col-12 mb-5">
+            <div class="card">
+                <div class="card-header border-bottom-1 pt-3">
+                    <div class="row">
+                        <div class="mb-3 col-md-4 col-12 ">
+                            <label class="form-label">Học kỳ</label>
+                            <select id="hocky" class="form-select" data-width="100%">
+                                @foreach (var item in lstHk)
+                                {
+                                    if (item.ID == id_hkGanNhat)
+                                    {
+                                        <option selected value="@item.ID">@item.TenHocKy</option>
+                                        continue;
+                                    }
+                                    <option value="@item.ID">@item.TenHocKy</option>
+                                }
+                            </select>
+                        </div>
+                        @if (roleId == 5)
+                        {
+                            <div class="mb-3 col-md-4 col-12 ">
+                                <label class="form-label">Khoa</label>
+                                <select id="khoa" class="form-select" data-width="100%">
+                                    @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        if (userKhoa.TenKhoa.Equals(item.TenKhoa))
+                                        {
+                                            <option name="@item.TenKhoa" selected value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenKhoa" value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-4 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var items in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        foreach (var item in items.Nganh.ToList())
+                                        {
+                                            if (item.TenNganh.ToLower().Equals(userTennganh))
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                            }
+                                            else
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 col-md-4 col-12 ">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select" data-width="100%">
+                                    @foreach (var item in userNganh)
+                                    {
+                                        if (item.TenNganh.ToLower().Equals(userTennganh))
+                                        {
+                                            <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- table  -->
+                <div class="card-body mt-3" id="filterLoad">
+                    <div class="table-card">
+                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-nowrap">Lớp học phần</th>
+                                    <th class="text-nowrap">Giảng Viên</th>
+                                    <th class="text-nowrap">Lịch Học</th>
+                                    <th class="text-nowrap">Số tiết</th>
+                                    <th class="text-nowrap">Số SV</th>
+                                    <th class="text-nowrap">Trạng thái</th>
+                                    <th class="text-nowrap">Cập nhật</th>
+                                    <th class="text-nowrap"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lstDeXuat.ToList())
+                                {
+                                    <tr>
+                                        <td valign="middle">
+                                            Mã: @item.MaLHP
+                                            <br />
+                                            Tên: @item.TenHP
+                                            <br />
+                                            Loại: @if (item.LoaiHP.ToLower().Equals("lý thuyết"))
+                                            {
+                                                <span class="badge bg-success">@item.LoaiHP</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning">@item.LoaiHP</span>
+                                            }
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            Mã: @item.MaCBGD
+                                            <br />
+                                            Tên: @item.TenCBGD
+                                        </td>
+                                        <td valign="middle">@(item.ThoiKhoaBieu.First().Thu); Tiết @(item.ThoiKhoaBieu.First().TietHoc); Tuần @(item.ThoiKhoaBieu.First().TuanBD) - @(item.ThoiKhoaBieu.First().TuanKT); Phòng @(item.ThoiKhoaBieu.First().Phong)</td>
+                                        <td valign="middle">@item.ThoiKhoaBieu.First().SoTietDaXep</td>
+                                        <td valign="middle">@item.UngTuyenTroGiang.Count()</td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @if (item.DeXuatTroGiang.First().TrangThai == false)
+                                            {
+                                                <span id="trangthaiduyet-@item.ID" class="badge bg-danger"><i class="bi bi-x-square me-2"></i>Chưa duyệt</span>
+                                            }
+                                            else
+                                            {
+                                                <span id="trangthaiduyet-@item.ID" class="badge bg-success"><i class="bi bi-check-square me-2"></i>đã duyệt</span>
+                                            }
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            <div class="form-check form-switch mb-2" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn bật để mở cập nhật mô tả danh sách công việc.">
+                                                <input id="mocapnhat-@item.ID" class="form-check-input" type="checkbox" role="switch" name="@item.ID" checked="@item.DeXuatTroGiang.First().MoCapNhat">
+                                            </div>
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            <a style="font-size: 20px" id="openChiTietDeXuat-@item.ID" trangthaidexuat="@item.DeXuatTroGiang.First().TrangThai.ToString().ToLower()" name="@item.ID" role="button" class="text-primary">
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & duyệt đề xuất"><i class="bi bi-info-square me-2"></i></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="chiTietDeXuat" tabindex="-1" role="dialog" aria-labelledby="chiTietDeXuat" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chiTietDeXuatTitle">Xét duyệt danh sách công việc được giao cho TA.</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contentChiTietDeXuat">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" name="" type="button" class="btn btn-primary">Duyệt công việc</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Validation/department/suggested/accepted.js"></script>
+<script src="~/Validation/department/suggested/editstateupdate.js"></script>
+<script src="~/Validation/department/suggested/filter.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#khoa').on('change', function () {
+            var valu = $('#khoa :selected').val();
+            if (valu.length < 1) {
+                $('#nganh > option').each(function () {
+                    if ($(this).val() == "opNull") {
+                        $(this).prop('hidden', true);
+                    }
+                    else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+
+                $('#nganh').val("").change();
+            }
+            else {
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.attr('cuaKhoa') == valu) {
+                        $(this).prop('hidden', false);
+                    }
+                    else {
+                        $(this).prop('hidden', true);
+                    }
+                });
+
+                var countOp = 0;
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.prop('hidden') == false) {
+                        countOp++;
+                    }
+                });
+
+                if (countOp == 0) {
+                    $('#nganh').val("opNull").change();
+                    $('#nganh > [id="opNganhNull"]').prop('hidden', false);
+                }
+                else {
+
+                    $('#nganh > option').each(function () {
+                        var opt = $(this);
+                        if (opt.prop('hidden') == false) {
+                            $('#nganh').val(opt.val()).change();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script> 

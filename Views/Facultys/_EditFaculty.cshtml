@@ -1,0 +1,18 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.Khoa
+@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstKhoa = models.Khoa.ToList();
+}
+<div class="modal-body" id="capnhatnganh-partial">
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="edittenkhoa">Tên Khoa <span class="text-danger">*</span></label>
+                <input hidden id="idk" value="@Model.ID" />
+                <input type="text" id="edittenkhoa" value="@Model.TenKhoa" class="form-control" placeholder="Nhập tên khoa">
+                <span class="text-danger" id="valid-edittenkhoa"></span>
+            </div>
+        </div>
+    </div>
+</div>

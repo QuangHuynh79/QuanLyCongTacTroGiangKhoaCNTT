@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,10 +52,13 @@
       <HintPath>packages\DocumentFormat.OpenXml.2.16.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.SqlServerCompact.6.5.1\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
@@ -90,6 +94,9 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Owin.Security.OpenIdConnect.4.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
     </Reference>
@@ -99,6 +106,10 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -109,13 +120,16 @@
     <Reference Include="System.IO.Packaging, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.IO.Packaging.6.0.0\lib\net461\System.IO.Packaging.dll</HintPath>
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -155,6 +169,9 @@
       <HintPath>packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -249,22 +266,72 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassSectionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FacultysController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MajorsController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\ReviewTaskController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
-    <Compile Include="Controllers\TermAndMajorController.cs" />
+    <Compile Include="Controllers\TermController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewall\GVandBCNRole.cs" />
+    <Compile Include="Middlewall\GVandBCNandTARole.cs" />
+    <Compile Include="Middlewall\TAandGVRole.cs" />
+    <Compile Include="Middlewall\SVRole.cs" />
+    <Compile Include="Middlewall\SVandTARole.cs" />
+    <Compile Include="Middlewall\TARole.cs" />
+    <Compile Include="Middlewall\GVRole.cs" />
     <Compile Include="Middlewall\BCNRole.cs" />
     <Compile Include="Middlewall\AllRole.cs" />
     <Compile Include="Middlewall\Loginverification.cs" />
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CongViec.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DanhGiaPhongVan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DanhSachSinhVien.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeXuatTroGiang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DiemDanh.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormDangKyTroGiang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HocKy.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Khoa.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LopHocPhan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -285,7 +352,10 @@
     <Compile Include="Models\Nganh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Quyen.cs">
+    <Compile Include="Models\PhanCongTroGiang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiKhoan.cs">
@@ -294,23 +364,43 @@
     <Compile Include="Models\ThoiKhoaBieu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ThongBao.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UngTuyenTroGiang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairssemesterandmajor\nganh.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairssemesterandmajor\hocky.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\import.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairstimetable\index.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\studentaffairsdashboard\index.js" />
-    <Content Include="ActiveItemMenu\studentaffairs\user\index.js" />
+    <Content Include="ActiveItemMenu\Dashboard\index.js" />
+    <Content Include="ActiveItemMenu\ClassSection\index.js" />
+    <Content Include="ActiveItemMenu\Notifications\index.js" />
+    <Content Include="ActiveItemMenu\ReviewTask\index.js" />
+    <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
+    <Content Include="ActiveItemMenu\SemesterAndMajor\khoa.js" />
+    <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\assigned.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\resultApply.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\registered.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\evaluation.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\tasklist.js" />
+    <Content Include="ActiveItemMenu\TeachingAssistant\apply.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\register.js" />
+    <Content Include="ActiveItemMenu\Timetable\import.js" />
+    <Content Include="ActiveItemMenu\Timetable\index.js" />
+    <Content Include="ActiveItemMenu\User\index.js" />
     <Content Include="Content\assets\css\theme.min.css" />
     <Content Include="Content\assets\fonts\feather\feather.css" />
     <Content Include="Content\assets\images\avatar\avatar-1.jpg" />
     <Content Include="Content\assets\images\avatar\avatar-2.jpg" />
     <Content Include="Content\assets\images\avatar\avatar-3.jpg" />
     <Content Include="Content\assets\images\avatar\avatar-4.jpg" />
+    <Content Include="Content\assets\images\background\dashboard-default.gif" />
+    <Content Include="Content\assets\images\background\dashboard-default.png" />
     <Content Include="Content\assets\images\background\giftbox.png" />
     <Content Include="Content\assets\images\brand\logo\logo-inverse.svg" />
     <Content Include="Content\assets\images\browser-svg\brave.svg" />
@@ -327,6 +417,7 @@
     <Content Include="Content\assets\js\vendors\calendar.js" />
     <Content Include="Content\assets\js\vendors\chart.js" />
     <Content Include="Content\assets\js\vendors\chat.js" />
+    <Content Include="Content\assets\js\vendors\choice.js" />
     <Content Include="Content\assets\js\vendors\customDragula.js" />
     <Content Include="Content\assets\js\vendors\darkMode.js" />
     <Content Include="Content\assets\js\vendors\datatables.js" />
@@ -352,6 +443,7 @@
     <Content Include="Content\assets\libs\bootstrap\dist\js\bootstrap.min.js" />
     <Content Include="Content\assets\libs\bs-stepper\dist\css\bs-stepper.min.css" />
     <Content Include="Content\assets\libs\bs-stepper\dist\js\bs-stepper.min.js" />
+    <Content Include="Content\assets\libs\choices.js\public\assets\scripts\choices.min.js" />
     <Content Include="Content\assets\libs\datatables.net-bs5\css\dataTables.bootstrap5.min.css" />
     <Content Include="Content\assets\libs\datatables.net-bs5\js\dataTables.bootstrap5.min.js" />
     <Content Include="Content\assets\libs\datatables.net-buttons-bs5\css\buttons.bootstrap5.min.css" />
@@ -367,7 +459,7 @@
     <Content Include="Content\assets\libs\dragula\dist\dragula.min.js" />
     <Content Include="Content\assets\libs\dropzone\dist\dropzone.css" />
     <Content Include="Content\assets\libs\dropzone\dist\min\dropzone.min.js" />
-    <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.js" />
+    <Content Include="Content\assets\libs\flatpickr\dist\flatpickr-vn.js" />
     <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.min.css" />
     <Content Include="Content\assets\libs\flatpickr\dist\flatpickr.min.js" />
     <Content Include="Content\assets\libs\fullcalendar\index.global.min.js" />
@@ -395,10 +487,12 @@
     <Content Include="Content\assets\libs\tiny-slider\dist\min\tiny-slider.js" />
     <Content Include="Content\assets\libs\tiny-slider\dist\tiny-slider.css" />
     <Content Include="Content\assets\libs\tippy.js\dist\tippy-bundle.umd.min.js" />
+    <Content Include="Content\Christams\christams_01.gif" />
     <Content Include="Content\img\icon-vlu.png" />
     <Content Include="Content\img\img_login_background.jpg" />
     <Content Include="Content\img\img_sidebar_background.jpg" />
     <Content Include="Content\img\logo-vlu.png" />
+    <Content Include="Content\img\notifi.png" />
     <Content Include="Content\img\user-default.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -426,6 +520,61 @@
     <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.ttf" />
     <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff" />
     <Content Include="Content\assets\libs\%40mdi\font\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="Validation\department\faculty\add.js" />
+    <Content Include="Validation\department\faculty\delete.js" />
+    <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\SVandTA\cancelapply.js" />
+    <Content Include="Validation\SVandTA\resultApply\opentask.js" />
+    <Content Include="Validation\teacher\reviewtask\danhgia.js" />
+    <Content Include="Validation\teacher\reviewtask\filter.js" />
+    <Content Include="Validation\teacher\registereds\phongvan.js" />
+    <Content Include="Validation\teacher\registereds\detail.js" />
+    <Content Include="Validation\teacher\registereds\filter.js" />
+    <Content Include="Validation\department\registered\detailAndAccepted.js" />
+    <Content Include="Validation\department\registered\exportfile.js" />
+    <Content Include="Validation\department\registered\filter.js" />
+    <Content Include="Validation\department\register\add.js" />
+    <Content Include="Validation\department\register\delete.js" />
+    <Content Include="Validation\department\register\edit.js" />
+    <Content Include="Validation\department\suggested\editstateupdate.js" />
+    <Content Include="Validation\department\suggested\accepted.js" />
+    <Content Include="Validation\department\suggested\filter.js" />
+    <Content Include="Validation\SVandTA\filterviewapply.js" />
+    <Content Include="Validation\SVandTA\submitapply.js" />
+    <Content Include="Validation\SVandTA\openapply.js" />
+    <Content Include="Validation\teacher\classsection\DeXuatLHP.js" />
+    <Content Include="Validation\teacher\registereds\exportfile.js" />
+    <Content Include="Validation\teacher\classsection\filter.js" />
+    <Content Include="Validation\teacher\classsection\updatetask.js" />
+    <Content Include="Validation\teacher\classsection\viewTaskList.js" />
+    <Content Include="Validation\teacher\teachingassistant\filterTask.js" />
+    <Content Include="Validation\teacher\teachingassistant\taskDetail.js" />
+    <Content Include="Views\TeachingAssistant\_EditRegister.cshtml" />
+    <Content Include="Views\ClassSection\_AddDeXuat.cshtml" />
+    <Content Include="Views\ClassSection\_LoadSyncTask.cshtml" />
+    <Content Include="Views\ClassSection\_TaskListOnlyView.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskDetail.cshtml" />
+    <Content Include="Views\TeachingAssistant\_DetailAdvances.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterParentApply.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterChildApply.cshtml" />
+    <Content Include="Views\TeachingAssistant\_OpenApply.cshtml" />
+    <Content Include="Views\ClassSection\_TaskListViewEdit.cshtml" />
+    <Content Include="Views\TeachingAssistant\_OpenTaskDetailApply.cshtml" />
+    <Content Include="Views\TeachingAssistant\_DetailRegistered.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterRegistered.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterRegistereds.cshtml" />
+    <Content Include="Views\TeachingAssistant\_DetailRegistereds.cshtml" />
+    <Content Include="Views\TeachingAssistant\_PhongVanTA.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterAdvances.cshtml" />
+    <Content Include="Views\ClassSection\_FilterSection.cshtml" />
+    <Content Include="Views\TeachingAssistant\_ExportRegistered.cshtml" />
+    <Content Include="Views\TeachingAssistant\_ExportRegistereds.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterTaskList.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterHocKyTaskListGV.cshtml" />
+    <Content Include="Views\ReviewTask\Index.cshtml" />
+    <Content Include="Views\ReviewTask\_FilterCongViec.cshtml" />
+    <Content Include="Views\ReviewTask\_OpenEditReviewTask.cshtml" />
+    <Content Include="Views\TeachingAssistant\_FilterResultApply.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -433,6 +582,28 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Term\Semester.cshtml" />
+    <Content Include="Views\Term\_EditSemester.cshtml" />
+    <Content Include="Views\Majors\_EditMajor.cshtml" />
+    <Content Include="Views\Majors\Major.cshtml" />
+    <Content Include="Views\Facultys\_EditFaculty.cshtml" />
+    <Content Include="Views\Facultys\Faculty.cshtml" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -444,21 +615,28 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Validation\studentaffairs\major\add.js" />
-    <Content Include="Validation\studentaffairs\major\delete.js" />
-    <Content Include="Validation\studentaffairs\major\edit.js" />
-    <Content Include="Validation\studentaffairs\semester\delete.js" />
-    <Content Include="Validation\studentaffairs\semester\edit.js" />
-    <Content Include="Validation\studentaffairs\semester\add.js" />
-    <Content Include="Validation\studentaffairs\timetable\exportfile.js" />
-    <Content Include="Validation\studentaffairs\timetable\filterviewtimtable.js" />
-    <Content Include="Validation\studentaffairs\timetable\import.js" />
-    <Content Include="Validation\studentaffairs\timetable\load.js" />
-    <Content Include="Validation\studentaffairs\users\add.js" />
-    <Content Include="Validation\studentaffairs\users\delete.js" />
-    <Content Include="Validation\studentaffairs\users\edit.js" />
-    <Content Include="Validation\studentaffairs\users\filter.js" />
-    <Content Include="Validation\studentaffairs\users\load.js" />
+    <Content Include="Validation\department\major\add.js" />
+    <Content Include="Validation\department\major\delete.js" />
+    <Content Include="Validation\department\major\edit.js" />
+    <Content Include="Validation\department\notifications\delete.js" />
+    <Content Include="Validation\department\semester\add.js" />
+    <Content Include="Validation\department\semester\delete.js" />
+    <Content Include="Validation\department\semester\edit.js" />
+    <Content Include="Validation\department\timetable\downloadFormImport.js" />
+    <Content Include="Validation\department\timetable\exportfile.js" />
+    <Content Include="Validation\department\timetable\filterviewtimtable.js" />
+    <Content Include="Validation\department\timetable\import.js" />
+    <Content Include="Validation\department\timetable\load.js" />
+    <Content Include="Validation\department\users\add.js" />
+    <Content Include="Validation\department\users\delete.js" />
+    <Content Include="Validation\department\users\edit.js" />
+    <Content Include="Validation\department\users\filter.js" />
+    <Content Include="Validation\department\users\load.js" />
+    <Content Include="Validation\Infomation\updateInfo.js" />
+    <Content Include="Validation\student\load.js" />
+    <Content Include="Validation\teacher\classsection\suggestedTA.js" />
+    <Content Include="Validation\teacher\teachingassistant\viewAddTask.js" />
+    <Content Include="Validation\teachingassistant\load.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -471,29 +649,43 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-    <Content Include="Views\TermAndMajor\_EditMajor.cshtml" />
-    <Content Include="Views\TermAndMajor\_EditSemester.cshtml" />
-    <Content Include="Views\TermAndMajor\Major.cshtml" />
-    <Content Include="Views\TermAndMajor\Semester.cshtml" />
     <Content Include="Views\TimeTable\_FilterData.cshtml" />
     <Content Include="Views\TimeTable\_FilterParentData.cshtml" />
-    <Content Include="Views\TimeTable\_Index.cshtml" />
+    <Content Include="Views\TimeTable\_IndexBCN.cshtml" />
     <Content Include="Views\TimeTable\Import.cshtml" />
     <Content Include="Views\TimeTable\Index.cshtml" />
-    <Content Include="Views\Shared\_StudentAffairsLayout.cshtml" />
     <Content Include="Views\TimeTable\_Export.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_Index.cshtml" />
     <Content Include="Views\Users\_EditUser.cshtml" />
-    <Content Include="Views\Shared\_StudientLayout.cshtml" />
+    <Content Include="Views\Shared\_StudentLayout.cshtml" />
     <Content Include="Views\TeachingAssistant\Register.cshtml" />
     <Content Include="Views\Shared\_DepartmentLayout.cshtml" />
+    <Content Include="Views\ClassSection\Index.cshtml" />
+    <Content Include="Views\Shared\_TeacherLayout.cshtml" />
+    <Content Include="Views\Users\_Filter.cshtml" />
+    <Content Include="Views\TeachingAssistant\Apply.cshtml" />
+    <Content Include="Views\TeachingAssistant\TaskList.cshtml" />
+    <Content Include="Views\TeachingAssistant\_Apply.cshtml" />
+    <Content Include="Views\Shared\_TALayout.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskListTA.cshtml" />
+    <Content Include="Views\TeachingAssistant\Advances.cshtml" />
+    <Content Include="Views\TeachingAssistant\Registered.cshtml" />
+    <Content Include="Views\TimeTable\_IndexTA.cshtml" />
+    <Content Include="Views\TimeTable\_IndexGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\ResultApply.cshtml" />
+    <Content Include="Views\ClassSection\QuanLyLopHoc.cshtml" />
+    <Content Include="Views\TeachingAssistant\_TaskListGV.cshtml" />
+    <Content Include="Views\TeachingAssistant\Assgined.cshtml" />
+    <Content Include="Views\TeachingAssistant\Registereds.cshtml" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -537,6 +729,14 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

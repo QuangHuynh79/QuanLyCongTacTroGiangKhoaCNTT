@@ -1,0 +1,119 @@
+﻿@model int?
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lhp = models.LopHocPhan.Find(Model);
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+    string name = lhp.TenHP.ToLower();
+    var lstDeXuat = models.DeXuatTroGiang.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+    int i = 1;
+}
+<div class="modal-body" id="loadcontentdexuat">
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <label class="form-label" for="lydo">Lý do đề xuất <span class="text-danger">*</span></label>
+                <input hidden id="idLHPDX" value="" />
+                <textarea type="text" id="lydo" rows="4" class="form-control" placeholder="Nhập lý do cần đề xuất trợ giảng"></textarea>
+                <span class="text-danger" id="valid-lydo"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <hr class="my-4" />
+        </div>
+        @if (lstDeXuat.Count > 0)
+        {
+            <div class="col-12 mb-3" style="margin-top: -10px">
+                <small class="small"><i><i class="bi bi-info-circle-fill me-1"></i>Chọn [Lớp học phần] và ấn nút [Sao chép] bên dưới để sao chép danh sách công việc của Lớp học phần được chọn lên bảng mô tả công việc.</i></small>
+            </div>
+            <div class="col-12">
+                <div class="mb-4 text-nowrap">
+                    <div class="position-absolute">
+                        <div class="input-group">
+                            <select class="form-select form-select-sm" id="dexuatLHPID">
+                                <option selected="selected" value="">---- Chọn LHP ----</option>
+                                @foreach (var item in lstDeXuat)
+                                {
+                                    <option value="@item.LopHocPhan.ID">@item.LopHocPhan.MaLHP</option>
+                                }
+                            </select>
+                            <button id="SyncTaskList" class="btn btn-primary btn-sm" type="button">Sao chép</button>
+                        </div>
+                        <label id="valid-dexuatLHPID" class="text-danger small"></label>
+                    </div>
+                    <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="mb-4 text-nowrap">
+                    <h3 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h3>
+                </div>
+            </div>
+        }
+        <div class="col-12">
+            <div class="table-card mt-0">
+                <table class="table table-hover" data-width="100%">
+                    <thead class="table-light">
+                        <tr>
+                            <input hidden value="" id="dexuatLHPID" />
+                            <th class="ps-3 text-nowrap">Mô tả công việc</th>
+                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
+                            <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
+                            <th class="ps-3 text-nowrap">Nơi làm việc</th>
+                            <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
+                            <th class="ps-3 pe-3 text-nowrap"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="contentAddTaskList">
+                        <tr id="tr-parent-@i" name="@i">
+                            <td valign="middle" class="pe-0 ps-3">
+                                <textarea rows="1" type="text" id="mota-@i" name="@i" class="form-control" placeholder="Mô tả tóm tắt công việc"></textarea>
+                                <span class="text-danger" id="valid-mota-@i"></span>
+                            </td>
+                            <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                <input type="number" maxlength="3" id="khoiluong-@i" name="@i" class="form-control" placeholder="Số giờ" />
+                                <span class="text-danger" id="valid-khoiluong-@i"></span>
+                            </td>
+                            <td valign="middle" class="pe-0 ps-3">
+                                <input type="date" id="thoigian-@i" name="@i" class="form-control flatpickr" placeholder="Chọn hạn hoàn thành" />
+                                <span class="text-danger" id="valid-thoigian-@i"></span>
+                            </td>
+                            <td valign="middle" class="pe-0 ps-3">
+                                <textarea rows="1" type="text" id="noilamviec-@i" name="@i" class="form-control" placeholder="Giảng đường, tại nhà..."></textarea>
+                                <span class="text-danger" id="valid-noilamviec-@i"></span>
+                            </td>
+                            <td valign="middle" class="pe-0 ps-3">
+                                <textarea rows="1" type="text" id="ketqua-@i" name="@i" class="form-control" placeholder="Kết quả công việc"></textarea>
+                                <span class="text-danger" id="valid-ketqua-@i"></span>
+                            </td>
+                            <td valign="middle" class="ps-3 pe-3">
+                                <a role="button" id="btnXoa-@i" name="@i" class="text-danger form-control">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+
+                        </tr>
+
+
+                        <tr id="row-append">
+                            <td colspan="7" class="text-center">
+                                <a id="addRow" data-bs-toggle="tooltip" data-bs-html="true" title="Thêm hàng mới" class="btn btn-sm btn-secondary">
+                                    <i style="font-size: 18px" class="bi bi-plus-square-dotted"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('body').find('.flatpickr').flatpickr({ locale: 'vn' });
+</script>

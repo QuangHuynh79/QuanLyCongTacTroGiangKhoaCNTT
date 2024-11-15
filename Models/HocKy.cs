@@ -17,19 +17,22 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public HocKy()
         {
+            this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
+            this.LopHocPhan = new HashSet<LopHocPhan>();
             this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
         }
     
-        public int id { get; set; }
-        public int TenHocKy { get; set; }
+        public int ID { get; set; }
+        public string TenHocKy { get; set; }
         public int NamBatDau { get; set; }
         public int NamKetThuc { get; set; }
-        public int TuanBatDau { get; set; }
         public System.DateTime NgayBatDau { get; set; }
-        public int TietToiDa { get; set; }
-        public int LopToiDa { get; set; }
         public bool TrangThai { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LopHocPhan> LopHocPhan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieu { get; set; }
     }

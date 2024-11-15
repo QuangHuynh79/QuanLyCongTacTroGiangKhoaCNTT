@@ -1,0 +1,177 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@model QuanLyCongTacTroGiangKhoaCNTT.Models.CongViec
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    int idTk = Int32.Parse(Session["user-id"].ToString());
+    var role = models.TaiKhoan.Find(idTk);
+}
+<div class="modal-body" id="contentTaskDetail">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-8">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="hoten">
+                                    Mô tả công việc
+                                </label>
+                                <textarea class="form-control text-dark" style="min-height: 118px !important;" disabled>@Model.MoTa</textarea>
+                                <span class="text-danger" id="valid-hoten"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                @if (!role.AspNetUsers.AspNetRoles.First().ID.Equals("4"))
+                                {
+                                    <input hidden id="roletask" value="gv" />
+                                    <input hidden id="idtask" value="@Model.ID" />
+                                    <input hidden id="hideBtnSubmit" value="@(!Model.TrangThai.Equals("hoanthanh") ? "true" : "false")" />
+                                    <label class="form-label" for="tinhtrang">
+                                        Tình trạng <span class="text-danger">*</span>
+                                    </label>
+                                    <select @(!Model.TrangThai.Equals("hoanthanh") ? "disabled" : "") class="form-select text-dark" id="tinhtrang">
+                                        @if (string.IsNullOrEmpty(Model.KetQuaCongViec))
+                                        {
+                                            <option selected value="">---- Chọn tình trạng ----</option>
+                                            <option value="chuahoanthanh">Chưa hoàn thành</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else if (Model.KetQuaCongViec.Equals("hoanthanh"))
+                                        {
+                                            <option value="">---- Chọn tình trạng ----</option>
+                                            <option value="chuahoanthanh">Chưa hoàn thành</option>
+                                            <option selected value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">---- Chọn tình trạng ----</option>
+                                            <option selected value="chuahoanthanh">Chưa hoàn thành</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <input hidden id="roletask" value="ta" />
+                                    <input hidden id="idtask" value="@Model.ID" />
+                                    <input hidden id="hideBtnSubmit" value="@(!string.IsNullOrEmpty(Model.KetQuaCongViec) ? "true" : "false")" />
+                                    <label class="form-label" for="trangthai">
+                                        Trạng thái <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="trangthai">
+                                        @if (Model.TrangThai.Equals("canlam"))
+                                        {
+                                            <option selected value="canlam">Cần làm</option>
+                                            <option value="dangthuchien">Đang thực hiện</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else if (Model.TrangThai.Equals("hoanthanh"))
+                                        {
+                                            <option value="canlam">Cần làm</option>
+                                            <option value="dangthuchien">Đang thực hiện</option>
+                                            <option selected value="hoanthanh">Hoàn thành</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="canlam">Cần làm</option>
+                                            <option selected value="dangthuchien">Đang thực hiện</option>
+                                            <option value="hoanthanh">Hoàn thành</option>
+                                        }
+                                    </select>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Số giờ quy đổi @*<small><small class="text-muted">(số giờ ước lượng)</small></small>*@
+                                </label>
+                                <input value="@Model.SoGioQuyDoi.ToString().Replace(",", ".")" type="number" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-8">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="hoten">
+                                    Kết quả mong đợi
+                                </label>
+                                <textarea class="form-control text-dark" style="min-height: 118px !important;" disabled>@Model.KetQuaMongDoi</textarea>
+                                <span class="text-danger" id="valid-hoten"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row p-0">
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Thời hạn hoàn thành
+                                </label>
+                                <input id="editHanHoanThanh" value="@Model.ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="text" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <label class="form-label" for="">
+                                    Nơi làm việc
+                                </label>
+                                <input value="@Model.NoiLamViec" type="text" class="form-control text-dark" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-2">
+                <label class="form-label" for="ghichu">Ghi chú</label>
+                <textarea @(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? "disabled" : "") id="ghichu" maxlength="300" placeholder="Nhập tối đa 300 ký tự" rows="4" class="form-control text-dark" autofocus>@Model.GhiChu</textarea>
+            </div>
+        </div>
+        <div class="col-12">
+
+            <label class="form-label" for="hinhanhmc">Hình ảnh minh chứng <small><small class="text-muted"><i>(Chọn và gửi tối đa 1 hình ảnh < 10MB. JPG, JPEG, PNG)</i></small></small></label>
+            <input hidden id="file-delete-list" value="" />
+            <input hidden="@(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? true : false)" type="file" class="form-control form-control-file" id="hinhanhmc" accept="image/png, image/jpg, image/jpeg">
+            <span class="text-danger" id="valid-hinhanhmc"></span>
+            <div class="row mt-3">
+                @if (!string.IsNullOrEmpty(Model.HinhAnhMinhChung))
+                {
+                    var item = Model.HinhAnhMinhChung;
+                    <div class="col-4 position-relative" id="parent-anhcu">
+                        <a hidden="@(!role.AspNetUsers.AspNetRoles.First().ID.Equals("4") ? true : false)" id="delete-anhcu" data-bs-toggle="tooltip" data-bs-html="true" title="Xóa hình ảnh minh chứng" class="position-absolute text-danger" style="right:23px; top: 3px" role="button">
+                            <i style="font-size: 20px" class="bi bi-x-circle-fill"></i>
+                        </a>
+                        <div class="mb-3">
+                            <input hidden id="anhcu" value="@item" />
+                            <!-- Gallery -->
+                            <a href="@Url.Content(item)" class="glightbox" data-gallery="gallery1">
+                                <img src="@Url.Content(item)" alt="image" class="img-fluid rounded-3 w-100 bg-light-secondary" />
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        const lightbox = GLightbox({ touchNavigation: !0, loop: !0, autoplayVideos: !0 });
+    });
+</script>

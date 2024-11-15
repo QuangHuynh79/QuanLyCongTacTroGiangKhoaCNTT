@@ -1,0 +1,77 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.ThoiKhoaBieu>
+
+<div class="card-body mt-3" id="filterLoad">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-nowrap">Mã LHP</th>
+                    <th class="text-nowrap">Tên HP</th>
+                    <th class="text-nowrap">Lịch Học</th>
+                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái đề xuất</th>
+                    <th class="text-nowrap"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                    <tr>
+                        <td>@item.LopHocPhan.MaLHP</td>
+                        <td>@item.LopHocPhan.TenHP</td>
+                        <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
+                        <td>
+                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                            {
+                                <span>Không đăng ký</span>
+                            }
+                            else
+                            {
+                                if (item.LopHocPhan.DeXuatTroGiang.First().TrangThai)
+                                {
+                                    <span class="badge bg-success">Đã được duyệt</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Chưa được duyệt</span>
+                                }
+                            }
+                        </td>
+                        <td class="text-nowrap">
+                            <span data-bs-toggle="modal" data-bs-target="#diemdanh">
+                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                    <span><i class="bi bi-calendar3 me-2"></i></span>
+                                </a>
+                            </span>
+
+                            <span data-bs-toggle="modal" data-bs-target="#importsv">
+                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                </a>
+                            </span>
+                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                            {
+                                <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
+                                        <span><i class="bi bi-bookmark-star me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span id="viewTaskList-@item.ID" tieudeForm="Bảng mô tả công việc LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Danh sách công việc" class="text-danger">
+                                        <span><i class="bi bi-list-task me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#dataTableBasic').DataTable();
+</script>

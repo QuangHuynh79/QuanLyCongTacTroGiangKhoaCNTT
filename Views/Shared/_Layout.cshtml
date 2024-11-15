@@ -1,7 +1,11 @@
-﻿
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,6 +32,7 @@
     <link href="~/Content/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/@("@")mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
@@ -39,18 +44,65 @@
     <link rel="canonical" href="https://trogiangvlu.website">
     <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
 
-    <title>@ViewBag.Title</title>
+    <title>Studient | @ViewBag.Title</title>
 </head>
 
 <body>
+
+
+    <style>
+        @@keyframes FlyingSanta {
+            25% {
+                bottom: 15px;
+                left: 85%;
+                transform: rotateY(0deg);
+            }
+
+            26% {
+                transform: rotateY(180deg);
+            }
+
+            50% {
+                bottom: 15px;
+                left: 0%;
+                transform: rotateY(180deg);
+            }
+
+            51% {
+                transform: rotateY(0deg);
+            }
+
+            75% {
+                bottom: 15px;
+                left: 85%;
+                transform: rotateY(0deg);
+            }
+
+            76% {
+                bottom: 15px;
+                left: 85%;
+                transform: rotateY(180deg);
+            }
+
+            99% {
+                transform: rotateY(180deg);
+            }
+        }
+    </style>
+    @*<img class="santa" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/santas.gif" style="position: fixed; width: 12vw; min-width: 100px; z-index: 9999; cursor: pointer; -webkit-animation: FlyingSanta 38s infinite linear; -moz-animation: FlyingSanta 38s infinite linear; -ms-animation: FlyingSanta 38s infinite linear; -o-animation: FlyingSanta 38s infinite linear; animation: FlyingSanta 38s infinite linear; bottom: 0px; left: 0px; filter: drop-shadow(5px 5px 5px #155);" />
+        <img style="position: fixed; left: 0px; bottom: 20px; height: auto; width: 15vw; filter: opacity(0.9); z-index: 9998; filter: drop-shadow(0px -20px 50px #EC0);" src="~/Content/Christams/christams_01.gif" />*@
+
+
     @*<div id="pageLoader" style="background: #000000b0; display: none; align-items: center; justify-content: center; width: 100vw; height: 100vh; position: fixed; z-index: 9999;">
             <span class="spinner-border spinner-border-sm me-2 text-white" style="width: 30px; height: 30px" role="status" aria-hidden="true"></span>
         </div>*@
     <!-- Wrapper -->
+    <div hidden id="load-fill-page" style="background: #ffffff00; width: 120vw; height: 120vh; position: fixed; z-index: 999999; overflow: hidden; cursor: progress"></div>
+
     <div id="db-wrapper">
         <!-- navbar vertical -->
         <!-- Sidebar -->
-        <nav class="navbar-vertical navbar" style="background-image: url(/Content/img/img_sidebar_background.jpg); background-size: cover">
+        <nav class="navbar-vertical navbar" style="background-image: url(@Url.Content("~/Content/img/img_sidebar_background.jpg")); background-size: cover">
             <div class="vh-100" data-simplebar>
                 <!-- Brand logo -->
                 <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("index","Dashboard")">
@@ -63,94 +115,6 @@
                             <i class="nav-icon fe fe-home me-2"></i>
                             Trang chủ
                         </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a id="child-user-index" class="nav-link child-nav-link " href="@Url.Action("index", "Users")">
-                            <i class="nav-icon fe fe-users me-2"></i>
-                            Người dùng
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a id="parent-studentaffairs-studentaffairssemesterandmajor" class="nav-link  " href="#"
-                           data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairssemesterandmajor" aria-expanded="false"
-                           aria-controls="nav-studentaffairs-studentaffairssemesterandmajor">
-                            <i class="nav-icon fe fe-layers me-2"></i> Học kỳ & Ngành
-                        </a>
-                        <div id="nav-studentaffairs-studentaffairssemesterandmajor" class="collapse "
-                             data-bs-parent="#sideNavbar">
-                            <ul class="nav flex-column">
-                                <li class="nav-item ">
-                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-hocky" class="child-nav-link nav-link "
-                                       href="@Url.Action("semester", "TermAndMajor")">
-                                        Học kỳ
-                                    </a>
-                                </li>
-                                <!-- Nav item -->
-                                <li class="nav-item ">
-                                    <a id="child-studentaffairs-studentaffairssemesterandmajor-nganh" class="child-nav-link nav-link "
-                                       href="@Url.Action("major", "TermAndMajor")">
-                                        Ngành
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a id="parent-studentaffairs-studentaffairstimetable" class="nav-link  " href="#"
-                           data-bs-toggle="collapse" data-bs-target="#nav-studentaffairs-studentaffairstimetable" aria-expanded="false"
-                           aria-controls="nav-studentaffairs-studentaffairstimetable">
-                            <i class="nav-icon fe fe-calendar me-2"></i> Thời khóa biểu
-                        </a>
-                        <div id="nav-studentaffairs-studentaffairstimetable" class="collapse "
-                             data-bs-parent="#sideNavbar">
-                            <ul class="nav flex-column">
-                                <li class="nav-item ">
-                                    <a id="child-studentaffairs-studentaffairstimetable-index" class="child-nav-link nav-link "
-                                       href="@Url.Action("index", "TimeTable")">
-                                        Xem TKB
-                                    </a>
-                                </li>
-                                <!-- Nav item -->
-                                <li class="nav-item ">
-                                    <a id="child-studentaffairs-studentaffairstimetable-import" class="child-nav-link nav-link "
-                                       href="@Url.Action("import", "TimeTable")">
-                                        Import TKB
-
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="nav-item">
-                        <a id="parent-trogiang" class="nav-link  " href="#"
-                           data-bs-toggle="collapse" data-bs-target="#nav-trogiang" aria-expanded="false"
-                           aria-controls="nav-trogiang">
-                            <i class="nav-icon fe fe-calendar me-2"></i> Trợ giảng
-                        </a>
-                        <div id="nav-trogiang" class="collapse "
-                             data-bs-parent="#sideNavbar">
-                            <ul class="nav flex-column">
-                                <li class="nav-item ">
-                                    <a id="child-trogiang-index" class="child-nav-link nav-link "
-                                       href="@Url.Action("Register", "TeachingAssistant")">
-                                        Form đăng ký
-                                    </a>
-                                </li>
-                                <!-- Nav item -->
-                                <li class="nav-item ">
-                                    <a id="child-studentaffairs-studentaffairstimetable-import" class="child-nav-link nav-link "
-                                       href="@Url.Action("import", "TimeTable")">
-                                        Import TKB
-
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                 </ul>
 
@@ -174,6 +138,10 @@
 
                         </a>
                         <ul class="navbar-nav navbar-right-wrap ms-2 d-flex nav-top-wrap">
+                            <li class="dropdown ms-2 text-end">
+                                <h5 style=" margin-top: 3px !important; margin-bottom: -5px !important" class="m-0">@Session["user-name"]</h5>
+                                <span class="mb-0 small">@Session["user-role-name"]</span>
+                            </li>
                             <!-- List -->
                             <li class="dropdown ms-2">
                                 <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
@@ -197,14 +165,6 @@
                                     <div class="dropdown-divider"></div>
                                     <ul class="list-unstyled">
                                         <li>
-                                            <a class="dropdown-item" href="">
-                                                <i class="fe fe-user me-2"></i> Thông tin cá nhân
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="dropdown-divider"></div>
-                                    <ul class="list-unstyled">
-                                        <li>
                                             <a class="dropdown-item" role="button" href="@Url.Action("Signout", "Account")">
                                                 <i class="fe fe-power me-2"></i> Đăng xuất
                                             </a>
@@ -223,6 +183,7 @@
         </main>
     </div>
     <input id="requestPath" value="@Url.Content("~")" />
+    <script src="~/Validation/Infomation/updateInfo.js"></script>
     <!-- Scripts -->
     <!-- Libs JS -->
 
@@ -245,13 +206,74 @@
     <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="~/Content/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr-vn.js"></script>
+    <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
+    <script src="~/Content/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="~/Content/assets/js/vendors/glight.js"></script>
 
     <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
-    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
-    <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
-
     <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(document).on("ajaxStart", function () {
+                $('body').find('[id="load-fill-page"]').prop('hidden', false);
+            });
+            $(document).on("ajaxStop", function () {
+                $('body').find('[id="load-fill-page"]').prop('hidden', true);
+            });
+        })
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+
+
+
+    <!-- Snow -->
+    <style>
+        #snowflakeContainer {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        .snowflake {
+            padding-left: 15px;
+            font-size: 14px;
+            line-height: 24px;
+            position: fixed;
+            color: #ebebeb;
+            user-select: none;
+            z-index: 1000;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+            .snowflake:hover {
+                cursor: default
+            }
+    </style>
+    @*<div id='snowflakeContainer'>
+            <p class='snowflake'>❄</p>
+        </div>
+        <script style='text/javascript'>
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; var transforms = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"]; var transformProperty = getSupportedPropertyName(transforms); var snowflakes = []; var browserWidth; var browserHeight; var numberOfSnowflakes = 50; var resetPosition = false; function setup() { window.addEventListener("DOMContentLoaded", generateSnowflakes, false); window.addEventListener("resize", setResetFlag, false) } setup(); function getSupportedPropertyName(b) { for (var a = 0; a < b.length; a++) { if (typeof document.body.style[b[a]] != "undefined") { return b[a] } } return null } function Snowflake(b, a, d, e, c) { this.element = b; this.radius = a; this.speed = d; this.xPos = e; this.yPos = c; this.counter = 0; this.sign = Math.random() < 0.5 ? 1 : -1; this.element.style.opacity = 0.5 + Math.random(); this.element.style.fontSize = 4 + Math.random() * 30 + "px" } Snowflake.prototype.update = function () { this.counter += this.speed / 5000; this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40; this.yPos += Math.sin(this.counter) / 40 + this.speed / 30; setTranslate3DTransform(this.element, Math.round(this.xPos), Math.round(this.yPos)); if (this.yPos > browserHeight) { this.yPos = -50 } }; function setTranslate3DTransform(a, c, b) { var d = "translate3d(" + c + "px, " + b + "px, 0)"; a.style[transformProperty] = d } function generateSnowflakes() { var b = document.querySelector(".snowflake"); var h = b.parentNode; browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var d = 0; d < numberOfSnowflakes; d++) { var j = b.cloneNode(true); h.appendChild(j); var e = getPosition(50, browserWidth); var a = getPosition(50, browserHeight); var c = 5 + Math.random() * 40; var g = 4 + Math.random() * 10; var f = new Snowflake(j, g, c, e, a); snowflakes.push(f) } h.removeChild(b); moveSnowflakes() } function moveSnowflakes() { for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.update() } if (resetPosition) { browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.xPos = getPosition(50, browserWidth); a.yPos = getPosition(50, browserHeight) } resetPosition = false } requestAnimationFrame(moveSnowflakes) } function getPosition(b, a) { return Math.round(-1 * b + Math.random() * (a + 2 * b)) } function setResetFlag(a) { resetPosition = true };
+        </script>*@
 </body>
 </html>

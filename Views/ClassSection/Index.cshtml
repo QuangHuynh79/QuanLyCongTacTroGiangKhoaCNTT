@@ -1,0 +1,372 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+
+    ViewBag.Title = "Lớp học phần";
+    Layout = Session["layout"].ToString();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+
+    var lstNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
+
+    int id_hkGanNhat = 0;
+    if (lstHocKy.Count > 0)
+    {
+        var hkGanNhat = lstHocKy.OrderByDescending(o => o.ID).ToList().First();
+        id_hkGanNhat = hkGanNhat.ID;
+    }
+
+    int id_nganhCNTT = 0;
+    if (lstNganh.Count > 0)
+    {
+        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals(userTennganh));
+        if (nganhcntt != null)
+        {
+            id_nganhCNTT = nganhcntt.ID;
+        }
+    }
+
+    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+}
+<script src="~/ActiveItemMenu/ClassSection/index.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Lớp Học Phần</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Lớp Học Phần
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <!-- basic table -->
+        <div class="col-md-12 col-12 mb-5">
+            <div class="card">
+                <div class="card-header border-bottom-1 pt-3">
+                    <div class="row">
+                        <div class="mb-3 col-md-3 col-12">
+                            <label class="form-label">Học kỳ</label>
+                            <select id="hocky" class="form-select" data-width="100%">
+                                @foreach (var item in lstHocKy)
+                                {
+
+                                    if (id_hkGanNhat == item.ID)
+                                    {
+                                        <option selected value="@item.ID">@item.TenHocKy</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.TenHocKy</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-3 col-12 ">
+                            <label class="form-label">Ngành</label>
+                            <select id="nganh" class="form-select" data-width="100%">
+                                @foreach (var item in lstNganh)
+                                {
+                                    if (item.TenNganh.ToLower().Equals(userTennganh))
+                                    {
+                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                    }
+                                    else
+                                    {
+                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- table  -->
+                <div class="card-body mt-3" id="filterLoad">
+                    <div class="table-card">
+                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-nowrap">Mã LHP</th>
+                                    <th class="text-nowrap">Tên HP</th>
+                                    <th class="text-nowrap">Lịch Học</th>
+                                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái đề xuất</th>
+                                    <th class="text-nowrap"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in lstTkb.ToList().OrderByDescending(o => o.ID))
+                                {
+                                    <tr>
+                                        <td>@item.LopHocPhan.MaLHP</td>
+                                        <td>@item.LopHocPhan.TenHP</td>
+                                        <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
+                                        <td>
+                                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                                            {
+                                                <span>Không đăng ký</span>
+                                            }
+                                            else
+                                            {
+                                                if (item.LopHocPhan.DeXuatTroGiang.First().TrangThai)
+                                                {
+                                                    <span class="badge bg-success">Đã được duyệt</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">Chưa được duyệt</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <span data-bs-toggle="modal" data-bs-target="#diemdanh">
+                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                                    <span><i class="bi bi-calendar3 me-2"></i></span>
+                                                </a>
+                                            </span>
+
+                                            <span data-bs-toggle="modal" data-bs-target="#importsv">
+                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                                </a>
+                                            </span>
+                                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                                            {
+                                                <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
+                                                        <span><i class="bi bi-bookmark-star me-2"></i></span>
+                                                    </a>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span id="viewTaskList-@item.ID" tieudeForm="Bảng mô tả công việc LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Danh sách công việc" class="text-danger">
+                                                        <span><i class="bi bi-list-task me-2"></i></span>
+                                                    </a>
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dexuattrogiang" tabindex="-1" role="dialog" aria-labelledby="dexuattrogiang" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dexuattrogiangTitle"></h5>
+                    <button type="button" class="btn-close" id="btnDeXuatClose2">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="loadcontentdexuat">
+
+                </div>
+                <div class="modal-footer">
+                    <div class="row col-12 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="camket">
+                            <label class="form-check-label fw-bold" for="camket">
+                                <em>Chọn khi đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.</em>
+                            </label>
+                        </div>
+                        <span class="text-danger" id="valid-camket"></span>
+                    </div>
+                    <button id="btnDeXuatClose" type="button" class="btn btn-secondary">Đóng</button>
+                    <button id="btnDeXuatSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="viewtasklistmodal" tabindex="-1" role="dialog" aria-labelledby="viewtasklistmodal" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewtasklistmodalTitle"></h5>
+                    <button type="button" id="btnviewtasklistmodalClose2" class="btn-close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="loadcontentviewtasklistmodal">
+
+                </div>
+                <div class="modal-footer">
+                    <div id="formCamKet" class="row col-12 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="editcamket">
+                            <label class="form-check-label fw-bold" for="editcamket">
+                                <em>Chọn khi đồng ý chịu toàn bộ trách nhiệm về đề xuất trợ giảng nếu có bất kì vấn đề gì xảy ra trong công tác trợ giảng.</em>
+                            </label>
+                        </div>
+                    </div>
+                    <button id="btnviewtasklistmodalClose" type="button" class="btn btn-secondary">Đóng</button>
+                    <button hidden id="btnviewtasklistmodalSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="importsv" tabindex="-1" role="dialog" aria-labelledby="importsv" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importsvTitle">Import danh sách sinh viên LHP 221_71ITBS10103_01</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label" for="hinhanhmc">File import <small><small class="text-muted"><i>(chọn hoặc kéo thả file excel, tối đa 10MB)</i></small></small> <span class="text-danger">*</span></label>
+                            <div class="mb-3">
+                                <input type="file" class="form-control form-control-file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                <span class="text-danger" id="valid-import"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="diemdanh" tabindex="-1" role="dialog" aria-labelledby="diemdanh" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="diemdanhTitle">Điểm danh LHP 221_71ITBS10103_01</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body overflow-x-hidden">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <select id="hocky" class="form-select w-auto">
+                                            <option value="7">Tuần 5</option>
+                                            <option value="7">Tuần 6</option>
+                                            <option value="7">Tuần 7</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="w-100 text-end">
+                                        <a id="btnExportTkb" class="btn btn-outline-secondary">
+                                            <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5>Lớp HP: 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
+                            <h5>Sĩ Số: 20/20</h5>
+                        </div>
+                        <div class="col-12">
+                            <hr class="my-4" />
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-4">
+                                <h3 class="text-center mb-0" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h3>
+                                <label class="small text-center w-100">(Bỏ chọn nếu sinh viên vắng mặt)</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-card mt-0">
+                                <table id="diemDanhTable" class="table table-hover" style="width:100%">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>TT</th>
+                                            <th>MSSV</th>
+                                            <th>Họ & Tên</th>
+                                            <th>Email</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Giới tính</th>
+                                            <th>
+                                                Đ.Danh
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 1; i <= 20; i++)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>MSSV@(i)</td>
+                                                <td class="text-nowrap">Họ và tên của sinh viên @(i)</td>
+                                                <td>Địa chỉ emial @(i)</td>
+                                                <td>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                                                <td>Giới tính</td>
+                                                <td>
+                                                    <div class="form-check form-switch">
+                                                        <input checked="true" class="form-check-input" type="checkbox" role="switch">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script src="~/Validation/teacher/classsection/suggestedTA.js"></script>
+<script src="~/Validation/teacher/classsection/DeXuatLHP.js"></script>
+<script src="~/Validation/teacher/classsection/viewTaskList.js"></script>
+<script src="~/Validation/teacher/classsection/updatetask.js"></script>
+<script src="~/Validation/teacher/classsection/filter.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#diemDanhTable").DataTable({
+            responsive: !0,
+            pagingType: "numbers",
+            pageLength: 100,
+        });
+    });
+</script>

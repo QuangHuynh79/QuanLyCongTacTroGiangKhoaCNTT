@@ -1,0 +1,565 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang
+
+@if (Model.DanhGiaPhongVan.Count > 0)
+{
+    var pv = Model.DanhGiaPhongVan.First();
+    <div class="modal-body pt-0 pb-0" id="phongvanContent">
+        <input hidden id="idut" value="@Model.ID" />
+        <div class="row">
+            <div class="col-12">
+                <div class="table-card mt-0">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tiêu chí</th>
+                                <th class="text-center">Không Đạt</th>
+                                <th class="text-center">Phân Vân</th>
+                                <th class="text-center">Đạt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td valign="middle">
+                                    1. Ngoại hình tác phong
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.NgoaiHinhTacPhong.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-01" id="tieuchi-1-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.NgoaiHinhTacPhong.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-01" id="tieuchi-1-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.NgoaiHinhTacPhong.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-01" id="tieuchi-1-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    2. Kiến thức chuyên môn liên quan học phần cần TA
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KienThuc.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-2" id="tieuchi-2-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KienThuc.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-2" id="tieuchi-2-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KienThuc.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-2" id="tieuchi-2-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    3. Hiểu biết về công việc
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.HieuBietCongViec.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-3" id="tieuchi-3-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.HieuBietCongViec.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-3" id="tieuchi-3-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.HieuBietCongViec.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-3" id="tieuchi-3-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    4. Thái độ tích cực
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.ThaIDoTichCuc.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-4" id="tieuchi-4-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.ThaIDoTichCuc.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-4" id="tieuchi-4-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.ThaIDoTichCuc.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-4" id="tieuchi-4-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    5. Kỹ năng trình bày
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangTrinhBay.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-5" id="tieuchi-5-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangTrinhBay.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-5" id="tieuchi-5-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangTrinhBay.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-5" id="tieuchi-5-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    6. Kỹ năng giao tiếp
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangGiaoTiep.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-6" id="tieuchi-6-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangGiaoTiep.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-6" id="tieuchi-6-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangGiaoTiep.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-6" id="tieuchi-6-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    7. Kỹ năng giải quyết vấn đề
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.GiaiQuyetVanDe.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-7" id="tieuchi-7-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.GiaiQuyetVanDe.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-7" id="tieuchi-7-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.GiaiQuyetVanDe.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-7" id="tieuchi-7-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    8. Khả năng sư phạm
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KhaNangSuPham.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-8" id="tieuchi-8-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KhaNangSuPham.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-8" id="tieuchi-8-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KhaNangSuPham.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-8" id="tieuchi-8-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    9. Kỹ năng sử dụng công nghệ thông tin
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangCNTT.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="0" name="tieuchi-9" id="tieuchi-9-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangCNTT.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-9" id="tieuchi-9-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.KyNangCNTT.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-9" id="tieuchi-9-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    10. Yếu tố khác phù hợp yêu cầu đặc thù của môn học
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.YeuToKhac.Equals("0") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="9" name="tieuchi-10" id="tieuchi-10-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.YeuToKhac.Equals("1") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="1" name="tieuchi-10" id="tieuchi-10-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input disabled @(pv.YeuToKhac.Equals("2") ? "checked" : "") class="form-check-input" type="radio" ketquatieuchi="2" name="tieuchi-10" id="tieuchi-10-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    <b>Tổng Điểm</b>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <b id="tongdiem-1">@pv.TongSoDiemChuaDat</b>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <b id="tongdiem-2">@pv.TongSoDiemPhanVan</b>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <b id="tongdiem-3">@pv.TongSoDiemDat</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle" colspan="4">
+                                    <label><i>SV đủ điều kiện làm TA khi có ít nhất 8 tiêu chí được đánh giá “đạt” trong đó bắt buộc có tiêu chí 2.</i></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Nhận xét:</label>
+                                    <textarea disabled id="nhanxet" rows="5" class="form-control" placeholder="Nhập nhận xét........">@pv.NhanXet</textarea>
+                                    <span class="text-danger" id="valid-nhanxet"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Kết quả phỏng vấn:</label>
+                                    <select disabled id="ketqua" class="form-select">
+                                        @if (pv.KetLuanDat == true)
+                                        {
+                                            <option selected value="true">Đạt yêu cầu</option>
+                                            <option value="false">Không đạt yêu cầu</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="true">Đạt yêu cầu</option>
+                                            <option selected value="false">Không đạt yêu cầu</option>
+                                        }
+
+                                    </select>
+                                    <span class="text-danger" id="valid-ketqua"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Ngày phỏng vấn:</label>
+                                    <input disabled value="@pv.NgayPhongVan.Value.ToString("yyyy-MM-dd")" id="ngaypv" type="text" class="form-control" placeholder="Chọn ngày phỏng vấn" />
+                                    <span class="text-danger" id="valid-ngaypv"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Ngày duyệt phỏng vấn:</label>
+                                    <input disabled value="@pv.NgayDuyet.Value.ToString("yyyy-MM-dd")" id="ngayduyetpv" type="text" class="form-control" placeholder="Chọn ngày duyệt phỏng vấn" />
+                                    <span class="text-danger" id="valid-ngayduyetpv"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="modal-body pt-0 pb-0" id="phongvanContent">
+        <input hidden id="idut" value="@Model.ID" />
+        <div class="row">
+            <div class="col-12">
+                <div class="table-card mt-0">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tiêu chí</th>
+                                <th class="text-center">Không Đạt</th>
+                                <th class="text-center">Phân Vân</th>
+                                <th class="text-center">Đạt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td valign="middle">
+                                    1. Ngoại hình tác phong
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-01" ketquatieuchi="0" id="tieuchi-1-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-01" ketquatieuchi="1" id="tieuchi-1-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-01" ketquatieuchi="2" id="tieuchi-1-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    2. Kiến thức chuyên môn liên quan học phần cần TA
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-2" ketquatieuchi="0" id="tieuchi-2-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-2" ketquatieuchi="1" id="tieuchi-2-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-2" ketquatieuchi="2" id="tieuchi-2-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    3. Hiểu biết về công việc
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-3" ketquatieuchi="0" id="tieuchi-3-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-3" ketquatieuchi="1" id="tieuchi-3-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-3" ketquatieuchi="2" id="tieuchi-3-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    4. Thái độ tích cực
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-4" ketquatieuchi="0" id="tieuchi-4-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-4" ketquatieuchi="1" id="tieuchi-4-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-4" ketquatieuchi="2" id="tieuchi-4-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    5. Kỹ năng trình bày
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-5" ketquatieuchi="0" id="tieuchi-5-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-5" ketquatieuchi="1" id="tieuchi-5-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-5" ketquatieuchi="2" id="tieuchi-5-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    6. Kỹ năng giao tiếp
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-6" ketquatieuchi="0" id="tieuchi-6-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-6" ketquatieuchi="1" id="tieuchi-6-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-6" ketquatieuchi="2" id="tieuchi-6-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    7. Kỹ năng giải quyết vấn đề
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-7" ketquatieuchi="0" id="tieuchi-7-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-7" ketquatieuchi="1" id="tieuchi-7-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-7" ketquatieuchi="2" id="tieuchi-7-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    8. Khả năng sư phạm
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-8" ketquatieuchi="0" id="tieuchi-8-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-8" ketquatieuchi="1" id="tieuchi-8-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-8" ketquatieuchi="2" id="tieuchi-8-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    9. Kỹ năng sử dụng công nghệ thông tin
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-9" ketquatieuchi="0" id="tieuchi-9-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-9" ketquatieuchi="1" id="tieuchi-9-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-9" ketquatieuchi="2" id="tieuchi-9-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    10. Yếu tố khác phù hợp yêu cầu đặc thù của môn học
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-10" ketquatieuchi="0" id="tieuchi-10-0">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-10" ketquatieuchi="1" id="tieuchi-10-1">
+                                    </div>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <div class="form-check" style=" display: flex; align-items: center; justify-content: center;">
+                                        <input class="form-check-input" type="radio" name="tieuchi-10" ketquatieuchi="2" id="tieuchi-10-2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle">
+                                    <b>Tổng Điểm</b>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <b id="tongdiem-1">0</b>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <b id="tongdiem-2">0</b>
+                                </td>
+                                <td valign="middle" align="center">
+                                    <b id="tongdiem-3">0</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle" colspan="4">
+                                    <label><i>SV đủ điều kiện làm TA khi có ít nhất 8 tiêu chí được đánh giá “đạt” trong đó bắt buộc có tiêu chí 2.</i></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Nhận xét:</label>
+                                    <textarea id="nhanxet" rows="5" class="form-control" placeholder="Nhập nhận xét........"></textarea>
+                                    <span class="text-danger" id="valid-nhanxet"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Kết quả phỏng vấn:</label>
+                                    <select id="ketqua" class="form-select">
+                                        <option value="">---- Chọn kết kết phỏng vấn ----</option>
+                                        <option value="true">Đạt yêu cầu</option>
+                                        <option value="false">Không đạt yêu cầu</option>
+                                    </select>
+                                    <span class="text-danger" id="valid-ketqua"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Ngày phỏng vấn:</label>
+                                    <input id="ngaypv" type="date" class="form-control flatpickr" placeholder="Chọn ngày phỏng vấn" />
+                                    <span class="text-danger" id="valid-ngaypv"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <label class="form-label">Ngày duyệt phỏng vấn:</label>
+                                    <input id="ngayduyetpv" type="date" class="form-control flatpickr" placeholder="Chọn ngày duyệt phỏng vấn" />
+                                    <span class="text-danger" id="valid-ngayduyetpv"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $('body').find('.flatpickr').flatpickr({ locale: 'vn' });
+</script>

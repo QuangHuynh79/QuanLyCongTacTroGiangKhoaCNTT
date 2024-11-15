@@ -1,12 +1,37 @@
-﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.FormDangKyTroGiang>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
     var lstHk = models.HocKy.ToList();
-    var lstNganh = models.Nganh.ToList();
+    var lstKhoa = models.Khoa.ToList();
+
+    var lstForm = Model.ToList();
+
+    if (roleId == 3)
+    {
+        List<int> idNganh = new List<int>();
+        foreach (var item in userNganh.ToList())
+        {
+            idNganh.Add(item.ID);
+
+        }
+        lstForm = Model.ToList().Where(w => idNganh.Contains(w.ID_Nganh)).ToList();
+    }
 
     ViewBag.Title = "Teaching Assistant";
     Layout = Session["layout"].ToString();
+    var currentDate = DateTime.Now;
+    int first = 0;
+    int i = 0;
 }
+
 
 <script src="~/ActiveItemMenu/TeachingAssistant/register.js"></script>
 <section class="container-fluid p-4">
@@ -15,130 +40,153 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Form Đăng Ký</h1>
+                    <h1 class="mb-0 h2 fw-bold">Danh Sách Đăng Ký Trợ Giảng</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a>Trợ Giảng</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Form đăng Ký
+                                Đăng Ký Trợ Giảng
                             </li>
                         </ol>
                     </nav>
                 </div>
                 <!-- button -->
                 <div>
-                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm mới</a>
+                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Mở Đăng Ký</a>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="row">
         <!-- basic table -->
         <div class="col-md-12 col-12 mb-5">
             <div class="card">
+                <div class="card-header border-bottom-0 pt-3">
+                    @if (roleId == 3)
+                    {
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <label for="filter-khoa" class="form-label">Khoa</label>
+                                <select id="filter-khoa" class="form-select" data-width="100%">
+                                    <option value="">Tất cả</option>
+                                    <option value="@userKhoa.ID">@userKhoa.TenKhoa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label for="filter-nganh" class="form-label">Ngành</label>
+                                <select id="filter-nganh" class="form-select" data-width="100%">
+                                    <option value="" selected>Tất cả</option>
+                                    @foreach (var item in userKhoa.Nganh.ToList())
+                                    {
+                                        <option cuaKhoa="@item.ID_Khoa" value="@item.TenNganh">@item.TenNganh</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <label for="filter-khoa" class="form-label">Khoa</label>
+                                <select id="filter-khoa" class="form-select" data-width="100%">
+                                    <option value="">Tất cả</option>
+                                    @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        <option value="@item.ID">@item.TenKhoa</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label for="filter-nganh" class="form-label">Ngành</label>
+                                <select id="filter-nganh" class="form-select" data-width="100%">
+                                    <option value="" selected>Tất cả</option>
+                                    @foreach (var items in lstKhoa)
+                                    {
+                                        foreach (var item in items.Nganh.ToList())
+                                        {
+                                            <option cuaKhoa="@item.ID_Khoa" value="@item.TenNganh">@item.TenNganh</option>
+                                        }
+                                    }
+                                    <option hidden id="opNganhNull" value="opNull">Không có ngành nào</option>
+                                </select>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <hr />
                 <!-- table  -->
                 <div class="card-body">
                     <div class="table-card">
-                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                        <table id="tableFormDangKy" class="table table-hover" style="width:100%">
                             <thead class="table-light">
                                 <tr>
-                                    <th></th>
-                                    <th>Học Kỳ</th>
-                                    <th>Thời gian mở</th>
-                                    <th>Thời gian đóng</th>
-                                    <th>Ngành</th>
-                                    <th>Đã đăng ký</th>
-                                    <th>Trạng thái</th>
-                                    <th></th>
+                                    <th hidden></th>
+                                    <th class="text-nowrap">Thời gian</th>
+                                    <th class="text-nowrap">Học Kỳ</th>
+                                    <th class="text-nowrap">Ngày mở</th>
+                                    <th class="text-nowrap">Ngày đóng</th>
+                                    <th class="text-nowrap">Ngành</th>
+                                    <th class="text-nowrap">Đã đăng ký</th>
+                                    <th class="text-nowrap">Trạng thái</th>
+                                    <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>243</td>
-                                    <td>18:30 16/02/2025</td>
-                                    <td>22:30 22/02/2025</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>0</td>
-                                    <td><span class="badge bg-primary">Chưa mở</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>2</td>
-                                    <td>242</td>
-                                    <td>17:00 12/09/2024</td>
-                                    <td>23:00 20/09/2024</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>23</td>
-                                    <td><span class="badge bg-success">Đang mở</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td>3</td>
-                                    <td>233</td>
-                                    <td>19:00 20/04/2023</td>
-                                    <td>00:00 27/04/2023</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>25</td>
-                                    <td><span class="badge bg-danger">Đã đóng</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>4</td>
-                                    <td>231</td>
-                                    <td>18:30 20/08/2023</td>
-                                    <td>22:30 27/08/2023</td>
-                                    <td>Công nghệ thông tin</td>
-                                    <td>28</td>
-                                    <td><span class="badge bg-danger">Đã đóng</span></td>
-                                    <td>
-                                        <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" @*id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-success">
-                                            <i class="bi bi-pencil-square me-2"></i>
-                                        </a>
-
-                                        <a style="font-size: 20px" role="button" @*id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID"*@ class="text-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
+                                @foreach (var item in lstForm)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td class="sorting" hidden>@i</td>
+                                        <td valign="middle">
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Tạo bởi: @item.TaiKhoan.Email">Ngày tạo: @item.NgayTao.ToString("HH:mm dd/MM/yyyy")</span>
+                                            @if (item.NgayTao != item.NgayCapNhat)
+                                            {
+                                                <br />
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật bởi: @item.TaiKhoan1.Email">Cập nhật: @item.NgayCapNhat.ToString("HH:mm dd/MM/yyyy")</span>
+                                            }
+                                        </td>
+                                        <td valign="middle">@item.HocKy.TenHocKy</td>
+                                        <td valign="middle">@item.ThoiGianMo.ToString("dd/MM/yyyy")</td>
+                                        <td valign="middle">@(item.ThoiGianDong != null ? item.ThoiGianDong.Value.ToString("dd/MM/yyyy") : "")</td>
+                                        <td valign="middle">@item.Nganh.TenNganh</td>
+                                        <td valign="middle">
+                                            @item.UngTuyenTroGiang.Count() SV
+                                        </td>
+                                        <td valign="middle">
+                                            @if (currentDate < item.ThoiGianMo)
+                                            {
+                                                <span class="badge bg-primary">Chưa mở</span>
+                                            }
+                                            else if (currentDate >= item.ThoiGianMo && currentDate <= item.ThoiGianDong)
+                                            {
+                                                <span class="badge bg-success">Đang mở</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Đã đóng</span>
+                                            }
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @if (item.ThoiGianDong > currentDate)
+                                            {
+                                                <a style="font-size: 20px" data-bs-toggle="modal" data-bs-target="#capnhat" role="button" id="openSua-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-success">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
+                                                </a>
+                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="Học kỳ @item.HocKy.TenHocKy" name="@item.ID" class="text-danger">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -146,12 +194,13 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="themmoi" tabindex="-1" role="dialog" aria-labelledby="themmoi" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="themmoiTitle">Mở đợt đăng ký trợ giảng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="themmoiTitle">Mở đăng ký trợ giảng</h5>
+                    <button type="button" id="btnXClose" class="btn-close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
@@ -163,52 +212,84 @@
                                     Học kỳ <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="hocky">
-                                    <option selected value="">---- Chọn học kỳ ----</option>
-                                    @foreach (var item in lstHk)
+                                    <option value="">---- Chọn học kỳ ----</option>
+                                    @foreach (var item in lstHk.OrderByDescending(o => o.ID))
                                     {
-                                        <option value="@item.id">@item.TenHocKy</option>
+                                        int idDf = lstHk.OrderByDescending(o => o.ID).First().ID;
+                                        if (first == 0)
+                                        {
+                                            first++;
+                                            <option data-default="@idDf" selected value="@item.ID">@item.TenHocKy</option>
+                                            continue;
+                                        }
+                                        <option data-default="@idDf" value="@item.ID">@item.TenHocKy</option>
                                     }
                                 </select>
                                 <span class="text-danger" id="valid-hocky"></span>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="nganh">
-                                    Ngành <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="nganh">
-                                    <option selected value="">---- Chọn ngành ----</option>
-                                    @foreach (var item in lstNganh)
-                                    {
-                                        <option value="@item.id">@item.TenNganh</option>
-                                    }
-                                </select>
-                                <span class="text-danger" id="valid-nganh"></span>
+                        @if (roleId == 3)
+                        {
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="nganh">
+                                        Ngành <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="nganh">
+                                        <option selected value="">---- Chọn ngành ----</option>
+                                        @foreach (var item in userKhoa.Nganh.ToList())
+                                        {
+                                            <option value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    </select>
+                                    <span class="text-danger" id="valid-nganh"></span>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="nganh">
+                                        Ngành <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="nganh">
+                                        <option selected value="">---- Chọn ngành ----</option>
+                                        @foreach (var items in lstKhoa)
+                                        {
+                                            foreach (var item in items.Nganh.ToList())
+                                            {
+                                                <option value="@item.ID">@item.TenNganh</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span class="text-danger" id="valid-nganh"></span>
+                                </div>
+                            </div>
+                        }
+
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="thoigianmo">
-                                    Thời gian mở <span class="text-danger">*</span>
+                                    Ngày mở <span class="text-danger">*</span>
                                 </label>
-                                <input type="datetime-local" id="thoigianmo" class="form-control" placeholder="Chọn thời gian mở">
+                                <input type="date" data-default="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" value="@currentDate.AddDays(1).ToString("yyyy-MM-dd")" id="thoigianmo" class="form-control flatpickr" placeholder="Chọn thời gian mở">
                                 <span class="text-danger" id="valid-thoigianmo"></span>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label" for="thoigiandong">
-                                    Thời gian đóng <span class="text-danger">*</span>
+                                    Ngày đóng <span class="text-danger">*</span>
                                 </label>
-                                <input type="datetime-local" id="thoigiandong" class="form-control" placeholder="Chọn thời gian đóng đăng ký">
+                                <input type="date" id="thoigiandong" class="form-control flatpickr" placeholder="Chọn thời gian đóng">
                                 <span class="text-danger" id="valid-thoigiandong"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnClose" type="button" class="btn btn-secondary">Đóng</button>
                     <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
@@ -220,72 +301,94 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="capnhatTitle">Cập nhật đợt đăng ký trợ giảng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="capnhatTitle">Cập nhật đăng ký trợ giảng</h5>
+                    <button type="button" id="btnXEditClose" class="btn-close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="hocky">
-                                    Học kỳ <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="hocky">
-                                    <option selected value="">---- Chọn học kỳ ----</option>
-                                    @foreach (var item in lstHk)
-                                    {
-                                        <option value="@item.id">@item.TenHocKy</option>
-                                    }
-                                </select>
-                                <span class="text-danger" id="valid-hocky"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="nganh">
-                                    Ngành <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="nganh">
-                                    <option selected value="">---- Chọn ngành ----</option>
-                                    @foreach (var item in lstNganh)
-                                    {
-                                        <option value="@item.id">@item.TenNganh</option>
-                                    }
-                                </select>
-                                <span class="text-danger" id="valid-nganh"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="thoigianmo">
-                                    Thời gian mở <span class="text-danger">*</span>
-                                </label>
-                                <input type="datetime-local" id="thoigianmo" class="form-control" placeholder="Chọn thời gian mở">
-                                <span class="text-danger" id="valid-thoigianmo"></span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="thoigiandong">
-                                    Thời gian đóng <span class="text-danger">*</span>
-                                </label>
-                                <input type="datetime-local" id="thoigiandong" class="form-control" placeholder="Chọn thời gian đóng đăng ký">
-                                <span class="text-danger" id="valid-thoigiandong"></span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-body" id="capnhat-partial">
+
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnEditClose" type="button" class="btn btn-secondary">Đóng</button>
+                    <button id="btnEditSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
-<script src="~/Validation/studentaffairs/semester/add.js"></script>
-<script src="~/Validation/studentaffairs/semester/edit.js"></script>
-<script src="~/Validation/studentaffairs/semester/delete.js"></script>
+
+<script src="~/Validation/department/register/add.js"></script>
+<script src="~/Validation/department/register/delete.js"></script>
+<script src="~/Validation/department/register/edit.js"></script>
+
+
+<!-- Lọc form đăng ký -->
+<script>
+    $(document).ready(function () {
+        new DataTable('#tableFormDangKy', {
+            initComplete: function () {
+                this.api()
+                    .columns(5)
+                    .every(function () {
+                        let column = this;
+                        let select = $('#filter-nganh');
+
+                        select.on('change', function () {
+                            column.search(select.val(), { exact: true }).draw();
+                        });
+                    });
+            }
+        });
+
+        $('#filter-khoa').on('change', function () {
+            var valu = $('#filter-khoa :selected').val();
+            if (valu.length < 1) {
+                $('#filter-nganh > option').each(function () {
+                    if ($(this).val() == "opNull") {
+                        $(this).prop('hidden', true);
+                    }
+                    else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+
+                $('#filter-nganh').val("").change();
+            }
+            else {
+                $('#filter-nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.attr('cuaKhoa') == valu) {
+                        $(this).prop('hidden', false);
+                    }
+                    else {
+                        $(this).prop('hidden', true);
+                    }
+                });
+
+                var countOp = 0;
+                $('#filter-nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.prop('hidden') == false) {
+                        countOp++;
+                    }
+                });
+
+                if (countOp == 0) {
+                    $('#filter-nganh').val("opNull").change();
+                    $('#filter-nganh > [id="opNganhNull"]').prop('hidden', false);
+                }
+                else {
+
+                    $('#filter-nganh > option').each(function () {
+                        var opt = $(this);
+                        if (opt.prop('hidden') == false) {
+                            $('#filter-nganh').val(opt.val()).change();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script> 

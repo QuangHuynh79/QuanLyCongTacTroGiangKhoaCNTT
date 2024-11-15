@@ -14,19 +14,52 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     
     public partial class TaiKhoan
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TaiKhoan()
+        {
+            this.CongViec = new HashSet<CongViec>();
+            this.FormDangKyTroGiang = new HashSet<FormDangKyTroGiang>();
+            this.FormDangKyTroGiang1 = new HashSet<FormDangKyTroGiang>();
+            this.LopHocPhan = new HashSet<LopHocPhan>();
+            this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
+            this.ThongBao = new HashSet<ThongBao>();
+            this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
+        }
+    
         public int ID { get; set; }
-        public int ID_Quyen { get; set; }
+        public Nullable<int> ID_Nganh { get; set; }
+        public string ID_AspNetUsers { get; set; }
         public string HoTen { get; set; }
         public string Email { get; set; }
         public bool TrangThai { get; set; }
         public string Ma { get; set; }
         public string GioiTinh { get; set; }
         public string SDT { get; set; }
-        public string QuocTich { get; set; }
-        public string Khoa { get; set; }
-        public Nullable<int> ID_Nganh { get; set; }
+        public Nullable<System.DateTime> NgaySinh { get; set; }
+        public string SoTaiKhoanNganHang { get; set; }
+        public string TenNganHang { get; set; }
+        public string ChuTaiKhoanNganHang { get; set; }
+        public string MaSoCanCuocCongDan { get; set; }
+        public string GhiChu { get; set; }
+        public string MaSoThue { get; set; }
+        public Nullable<int> ID_Khoa { get; set; }
     
-        public virtual Quyen Quyen { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CongViec> CongViec { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LopHocPhan> LopHocPhan { get; set; }
         public virtual Nganh Nganh { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhanCongTroGiang> PhanCongTroGiang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ThongBao> ThongBao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
+        public virtual Khoa Khoa { get; set; }
     }
 }

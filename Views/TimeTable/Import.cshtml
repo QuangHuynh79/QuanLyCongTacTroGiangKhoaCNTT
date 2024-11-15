@@ -1,14 +1,21 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
 
-    var lstHk = models.HocKy.ToList();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
     var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
 
     ViewBag.Title = "Student Affairs | Import Thời Khóa Biểu";
     Layout = Session["layout"].ToString();
 }
-
+<script src="~/ActiveItemMenu/Timetable/import.js"></script>
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
@@ -158,7 +165,6 @@
     }
 </style>
 
-<script src="~/ActiveItemMenu/admin/admindashboard/thoikhoabieutemp.js"></script>
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
@@ -195,9 +201,9 @@
                             </label>
                             <select class="form-select" id="importhocky">
                                 <option selected value="">---- Chọn học kỳ ----</option>
-                                @foreach (var item in lstHk.OrderByDescending(o => o.NgayBatDau).ToList())
+                                @foreach (var item in lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList())
                                 {
-                                    <option value="@item.id">Học kỳ @item.TenHocKy</option>
+                                    <option value="@item.ID">@item.TenHocKy</option>
                                 }
                             </select>
                         </div>
@@ -207,13 +213,27 @@
                             <label class="form-label" for="importnganh">
                                 Ngành
                             </label>
-                            <select class="form-select" id="importnganh">
-                                <option selected value="">---- Chọn ngành ----</option>
-                                @foreach (var item in lstNganh.OrderByDescending(o => o.id).ToList())
-                                {
-                                    <option value="@item.id">@item.TenNganh</option>
-                                }
-                            </select>
+                            @if (roleId == 3)
+                            {
+                                <select class="form-select" id="importnganh">
+                                    <option selected value="">---- Chọn ngành ----</option>
+                                    @foreach (var item in userKhoa.Nganh.ToList().OrderByDescending(o => o.ID).ToList())
+                                    {
+                                        <option value="@item.ID">@item.TenNganh</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            { 
+                                <select class="form-select" id="importnganh">
+                                    <option selected value="">---- Chọn ngành ----</option>
+                                    @foreach (var item in lstNganh.OrderByDescending(o => o.ID).ToList())
+                                    {
+                                        <option value="@item.ID">@item.TenNganh</option>
+                                    }
+
+                                </select>
+                            }
                         </div>
                     </div>
                     <div class="col-12">
@@ -269,50 +289,8 @@
         </div>
     </div>
 </section>
-<script type="text/javascript">
-    function Base64ToBytes(base64) {
-        var s = window.atob(base64);
-        var bytes = new Uint8Array(s.length);
-        for (var i = 0; i < s.length; i++) {
-            bytes[i] = s.charCodeAt(i);
-        }
-        return bytes;
-    };
-
-    $('body').on('click', '[id="downloadformimport"]', function () {
-        var fileName = "CNTT UIS-ThoiKhoaBieu_TieuChuan_Mau.xlsx";
-
-        $.ajax({
-            type: "POST",
-            url: $('#requestPath').val() + "studentaffairs/studentaffairstimetable/DownloadFile",
-            data: '{fileName: "' + fileName + '"}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "text",
-            success: function (r) {
-                var bytes = Base64ToBytes(r);
-
-                var blob = new Blob([bytes], { type: "application/octetstream" });
-
-                var isIE = false || !!document.documentMode;
-                if (isIE) {
-                    window.navigator.msSaveBlob(blob, fileName);
-                } else {
-                    var url = window.URL || window.webkitURL;
-                    link = url.createObjectURL(blob);
-                    var a = $("<a />");
-                    a.attr("download", fileName);
-                    a.attr("href", link);
-                    $("body").append(a);
-                    a[0].click();
-                    $("body").remove(a);
-                }
-            }
-        });
-    });
-    
-</script>
+<script src="~/Validation/department/timetable/downloadFormImport.js"></script>
 <script src="~/Content/assets/libs/moment/moment-with-locales.min.js"></script>
 <script src="~/Content/assets/libs/moment/moment.min.js"></script>
 <script src="~/Content/assets/js/vendors/calendar.js"></script>
-<script src="~/ActiveItemMenu/studentaffairs/studentaffairstimetable/import.js"></script>
-<script src="~/Validation/studentaffairs/timetable/import.js"></script>
+<script src="~/Validation/department/timetable/import.js"></script>

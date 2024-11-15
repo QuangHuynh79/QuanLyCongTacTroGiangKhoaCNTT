@@ -1,0 +1,49 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.DeXuatTroGiang
+@{ 
+    var lstCv = Model.LopHocPhan.CongViec.ToList();
+}
+
+<tbody id="contentAddTaskList">
+    @for (int i = 1; i <= lstCv.Count; i++)
+    {
+        <tr id="tr-parent-@i" name="@i">
+            <td valign="middle" class="pe-0 ps-3">
+                <textarea rows="1" type="text" id="mota-@i" name="@i" class="form-control" placeholder="Mô tả tóm tắt công việc">@lstCv[i-1].MoTa</textarea>
+                <span class="text-danger" id="valid-mota-@i"></span>
+            </td>
+            <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                <input value="@lstCv[i-1].SoGioQuyDoi" type="number" maxlength="3" id="khoiluong-@i" name="@i" class="form-control" placeholder="Số giờ" />
+                <span class="text-danger" id="valid-khoiluong-@i"></span>
+            </td>
+            <td valign="middle" class="pe-0 ps-3">
+                <input value="@lstCv[i-1].ThoiHanHoanThanh.ToString("yyyy-MM-dd")" type="date" id="thoigian-@i" name="@i" class="form-control flatpickr" placeholder="Chọn hạn hoàn thành" />
+                <span class="text-danger" id="valid-thoigian-@i"></span>
+            </td>
+            <td valign="middle" class="pe-0 ps-3">
+                <textarea rows="1" type="text" id="noilamviec-@i" name="@i" class="form-control" placeholder="Giảng đường, tại nhà...">@lstCv[i-1].NoiLamViec</textarea>
+                <span class="text-danger" id="valid-noilamviec-@i"></span>
+            </td>
+            <td valign="middle" class="pe-0 ps-3">
+                <textarea rows="1" type="text" id="ketqua-@i" name="@i" class="form-control" placeholder="Kết quả công việc">@lstCv[i-1].KetQuaMongDoi</textarea>
+                <span class="text-danger" id="valid-ketqua-@i"></span>
+            </td>
+            <td valign="middle" class="ps-3 pe-3">
+                <a role="button" id="btnXoa-@i" name="@i" class="text-danger form-control">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </td>
+        </tr>
+
+    }
+    <tr id="row-append">
+        <td colspan="7" class="text-center">
+            <a id="addRow" data-bs-toggle="tooltip" data-bs-html="true" title="Thêm hàng mới" class="btn btn-sm btn-secondary">
+                <i style="font-size: 18px" class="bi bi-plus-square-dotted"></i>
+            </a>
+        </td>
+    </tr>
+</tbody>
+
+<script>
+    $('body').find('.flatpickr').flatpickr({ locale: 'vn' });
+</script>

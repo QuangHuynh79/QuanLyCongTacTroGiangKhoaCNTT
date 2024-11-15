@@ -1,1 +1,1 @@
-"use strict";dragula([document.querySelector("#courseOne"),document.querySelector("#courseTwo")]),dragula([document.querySelector("#kanbanDo"),document.querySelector("#kanbanProgress"),document.querySelector("#kanbanReview"),document.querySelector("#kanbanDone")]);
+"use strict";dragula([document.querySelector("#courseOne"),document.querySelector("#courseTwo")]),dragula([document.querySelector("#taskcanlam"),document.querySelector("#taskdangthuchien"),document.querySelector("#taskhoanthanh")]);

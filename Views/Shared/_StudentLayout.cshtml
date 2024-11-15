@@ -1,0 +1,548 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Công tác trợ giảng khoa công nghệ thông tin Trường Đại học Văn Lang" />
+    <meta name="keywords" content="trợ giảng khoa cntt, công tác trợ giảng, công tác trợ giảng vlu" />
+    <meta name="author" content="Codescandy" />
+
+    <link href="~/Content/assets/libs/multiple-select/css/multiple-select.min.css" rel="stylesheet" />
+
+
+    <script>
+        // Render blocking JS:
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
+    </script>
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/icon-vlu.png" />
+
+    <!-- CSS -->
+    <!-- Libs CSS -->
+
+    <link href="~/Content/assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/fonts/feather/feather.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/@("@")mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/theme.min.css">
+    <link href="~/Content/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/libs/Sweetalert2/css/sweetalert2.min.css" rel="stylesheet" />
+
+    <link rel="canonical" href="https://trogiangvlu.website">
+    <script src="~/Content/assets/js/vendors/jquery.min.js"></script>
+
+    <title>Studient | @ViewBag.Title</title>
+</head>
+
+<body>
+
+
+    <style>
+        @@keyframes FlyingSanta {
+            25% {
+                bottom: 15px;
+                left: 85%;
+                transform: rotateY(0deg);
+            }
+
+            26% {
+                transform: rotateY(180deg);
+            }
+
+            50% {
+                bottom: 15px;
+                left: 0%;
+                transform: rotateY(180deg);
+            }
+
+            51% {
+                transform: rotateY(0deg);
+            }
+
+            75% {
+                bottom: 15px;
+                left: 85%;
+                transform: rotateY(0deg);
+            }
+
+            76% {
+                bottom: 15px;
+                left: 85%;
+                transform: rotateY(180deg);
+            }
+
+            99% {
+                transform: rotateY(180deg);
+            }
+        }
+    </style>
+    @*<img class="santa" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/santas.gif" style="position: fixed; width: 12vw; min-width: 100px; z-index: 9999; cursor: pointer; -webkit-animation: FlyingSanta 38s infinite linear; -moz-animation: FlyingSanta 38s infinite linear; -ms-animation: FlyingSanta 38s infinite linear; -o-animation: FlyingSanta 38s infinite linear; animation: FlyingSanta 38s infinite linear; bottom: 0px; left: 0px; filter: drop-shadow(5px 5px 5px #155);" />
+        <img style="position: fixed; left: 0px; bottom: 20px; height: auto; width: 15vw; filter: opacity(0.9); z-index: 9998; filter: drop-shadow(0px -20px 50px #EC0);" src="~/Content/Christams/christams_01.gif" />*@
+
+
+    @*<div id="pageLoader" style="background: #000000b0; display: none; align-items: center; justify-content: center; width: 100vw; height: 100vh; position: fixed; z-index: 9999;">
+            <span class="spinner-border spinner-border-sm me-2 text-white" style="width: 30px; height: 30px" role="status" aria-hidden="true"></span>
+        </div>*@
+    <!-- Wrapper -->
+    <div hidden id="load-fill-page" style="background: #ffffff00; width: 120vw; height: 120vh; position: fixed; z-index: 999999; overflow: hidden; cursor: progress"></div>
+
+    <div id="db-wrapper">
+        <!-- navbar vertical -->
+        <!-- Sidebar -->
+        <nav class="navbar-vertical navbar" style="background-image: url(@Url.Content("~/Content/img/img_sidebar_background.jpg")); background-size: cover">
+            <div class="vh-100" data-simplebar>
+                <!-- Brand logo -->
+                <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("index","Dashboard")">
+                    <img src="~/Content/img/logo-vlu.png" style="width: 100%; height: auto" alt="Trợ giảng VLU" />
+                </a>
+                <!-- Navbar nav -->
+                <ul class="navbar-nav flex-column" id="sideNavbar">
+                    <li class="nav-item">
+                        <a id="child-studentaffairs-studentaffairsdashboard-index" class="nav-link child-nav-link " href="@Url.Action("index", "Dashboard")">
+                            <i class="nav-icon fe fe-home me-2"></i>
+                            Trang chủ
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a id="parent-trogiang" class="nav-link  " href="#"
+                           data-bs-toggle="collapse" data-bs-target="#nav-trogiang" aria-expanded="false"
+                           aria-controls="nav-trogiang">
+                            <i class="nav-icon fe fe-briefcase me-2"></i> Trợ giảng
+                        </a>
+                        <div id="nav-trogiang" class="collapse "
+                             data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                <li class="nav-item ">
+                                    <a id="child-trogiang-apply" class="child-nav-link nav-link "
+                                       href="@Url.Action("Apply", "TeachingAssistant")">
+                                        Đăng ký
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <main id="page-content">
+            <div class="header">
+                <!-- navbar -->
+                <nav class="navbar-default navbar navbar-expand-lg">
+                    <a id="nav-toggle" href="#">
+                        <i class="fe fe-menu"></i>
+                    </a>
+
+                    <!--Navbar nav -->
+                    <div class="ms-auto d-flex">
+                        <a href="#" class="form-check form-switch theme-switch btn btn-light btn-icon rounded-circle ">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+
+                        </a>
+                        <ul class="navbar-nav navbar-right-wrap ms-2 d-flex nav-top-wrap">
+                            <!--Thông báo-->
+                            <li class="dropdown stopevent me-2">
+                                <a class="btn btn-light btn-icon rounded-circle indicator indicator-primary"
+                                   href="#"
+                                   role="button"
+                                   id="dropdownNotification"
+                                   data-bs-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <i class="fe fe-bell"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg" aria-labelledby="dropdownNotification">
+                                    <div>
+                                        <div class="border-bottom px-3 pb-3 d-flex justify-content-between align-items-center">
+                                            <span class="h4 mb-0">Thông Báo</span>
+                                        </div>
+                                        <div class="p-3 border-bottom ">
+                                            <div class="input-group">
+                                                <input class="form-control form-control-sm" placeholder="nhập từ khóa cần tìm" type="search" />
+                                                <a class="btn btn-secondary btn-sm" role="button">
+                                                    <i class="fe fe-search"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- List group -->
+                                        <ul class="list-group list-group-flush" data-simplebar style="max-height: 300px">
+                                            @for (int i = 0; i < 10; i++)
+                                            {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <a class="text-body" href="#">
+                                                                <div class="d-flex">
+                                                                    <img src="~/Content/img/notifi.png" alt="" class="avatar-md" />
+                                                                    <div class="ms-3">
+                                                                        <h5 class="fw-bold mb-1">Tiêu đề thông báo @i</h5>
+                                                                        <p class="mb-3">Nội dung thông báo @i</p>
+                                                                        <span class="fs-6">
+                                                                            <span>
+                                                                                <span class="bi-clock-history me-1"></span>
+                                                                                1@(i):20 2@(i)/10/2024
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-auto text-center me-2">
+                                                            <div>
+                                                                <a href="#" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
+                                                                    <i class="fe fe-x"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <div class="border-top px-3 pt-3 pb-0">
+                                            @*<a href="../../pages/notification-history.html" class="text-link fw-semibold">See all Notifications</a>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="dropdown ms-2 text-end">
+                                <h5 style=" margin-top: 3px !important; margin-bottom: -5px !important" class="m-0">@Session["user-name"]</h5>
+                                <span class="mb-0 small">@Session["user-role-name"]</span>
+                            </li>
+                            <!-- List -->
+                            <li class="dropdown ms-2">
+                                <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="avatar avatar-md avatar-indicators avatar-online">
+                                        <img alt="avatar" src="~/Content/img/user-default.png" class="rounded-circle">
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+                                    <div class="dropdown-item">
+                                        <div class="d-flex">
+                                            <div class="avatar avatar-md avatar-indicators avatar-online">
+                                                <img alt="avatar" src="~/Content/img/user-default.png" class="rounded-circle">
+                                            </div>
+                                            <div class="ms-3 lh-1">
+                                                <h5 class="mb-1">@Session["user-name"]</h5>
+                                                <h5 class="mb-1">@Session["user-email"]</h5>
+                                                <p class="mb-0">@Session["user-role-name"]</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#thongtincanhanmodal">
+                                                <i class="fe fe-user me-2"></i> Thông tin cá nhân
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="dropdown-divider"></div>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a class="dropdown-item" role="button" href="@Url.Action("Signout", "Account")">
+                                                <i class="fe fe-power me-2"></i> Đăng xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <!-- Container fluid -->
+
+            @RenderBody()
+            @RenderSection("scripts", required: false)
+        </main>
+    </div>
+    <input id="requestPath" value="@Url.Content("~")" />
+
+    <!-- Thông tin cá nhân -->
+    @{
+        CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+        var idTk = Int32.Parse(Session["user-id"].ToString());
+        var tk = models.TaiKhoan.Find(idTk);
+        var lstNganh = models.Nganh.ToList();
+    }
+    <div class="modal fade" id="thongtincanhanmodal" tabindex="-1" role="dialog" aria-labelledby="thongtincanhanmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="thongtincanhanmodalTitle">Cập nhật thông tin cá nhân</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#infothongtincanhan" role="tab" aria-controls="home" aria-selected="true">Thông tin cá nhân</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#infotaikhoannganhang" role="tab" aria-controls="profile" aria-selected="false">Tài khoản ngân hàng</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="infothongtincanhan" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infoma">Mã sinh viên <span class="text-danger">*</span></label>
+                                        <input disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã sinh viên">
+                                        <span class="text-danger" id="valid-infoma"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infoemail">Email</label>
+                                        <input disabled value="@tk.Email" type="text" id="infoemail" class="form-control" placeholder="Nhập địa chỉ Email đăng nhập">
+                                        <span class="text-danger" id="valid-infoemail"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Họ & Tên <span class="text-danger">*</span></label>
+                                        <input disabled value="@tk.HoTen" type="text" id="infohoten" class="form-control" placeholder="Nhập Họ & Tên đầy đủ">
+                                        <span class="text-danger" id="valid-infohoten"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infodienthoai">Số điện thoại</label>
+                                        <input value="@tk.SDT" maxlength="10" data-type="numbers" type="tel" id="infodienthoai" class="form-control" placeholder="Nhập số điện thoại">
+                                        <span class="text-danger" id="valid-infodienthoai"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infongaysinh">Ngày sinh</label>
+                                        <input value="@(tk.NgaySinh != null ? tk.NgaySinh.Value.ToString("yyyy-MM-dd") : "")" type="text" id="infongaysinh" class="form-control flatpickr" placeholder="Chọn ngày sinh">
+                                        <span class="text-danger" id="valid-infongaysinh"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infogioitinh">
+                                            Giới tính
+                                        </label>
+                                        <select class="form-select" id="infogioitinh">
+                                            @if (string.IsNullOrEmpty(tk.GioiTinh))
+                                            {
+                                                <option selected value="">---- Chọn giới tính ----</option>
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            }
+                                            else if (tk.GioiTinh.Equals("Nam"))
+                                            {
+                                                <option value="">---- Chọn giới tính ----</option>
+                                                <option selected value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="">---- Chọn giới tính ----</option>
+                                                <option value="Nam">Nam</option>
+                                                <option selected value="Nữ">Nữ</option>
+                                            }
+
+                                        </select>
+                                        <span class="text-danger" id="valid-infogioitinh"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infonganh">
+                                            Ngành
+                                        </label>
+                                        <select disabled class="form-select" id="infonganh">
+                                            @if (tk.ID_Nganh == null)
+                                            {
+                                                <option selected value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    <option value="@item.ID">@item.TenNganh</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    if (item.ID == tk.ID_Nganh)
+                                                    {
+                                                        <option selected value="@item.ID">@item.TenNganh</option>
+                                                        continue;
+                                                    }
+                                                    <option value="@item.ID">@item.TenNganh</option>
+                                                }
+                                            }
+
+                                        </select>
+                                        <span class="text-danger" id="valid-infonganh"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="infotaikhoannganhang" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Số tài khoản ngân hàng</label>
+                                        <input maxlength="50" value="@tk.SoTaiKhoanNganHang" type="text" id="infosotaikhoan" class="form-control" placeholder="Nhập số tài khoản ngân hàng">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Tên ngân hàng</label>
+                                        <input maxlength="255" value="@tk.TenNganHang" type="text" id="infonganhang" class="form-control" placeholder="Nhập tên ngân hàng">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Chủ tài khoản</label>
+                                        <input maxlength="255" value="@tk.ChuTaiKhoanNganHang" type="text" id="infochutaikhoan" class="form-control" placeholder="Nhập Họ & Tên chủ tài khoản">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Số CCCD</label>
+                                        <input maxlength="50" value="@tk.MaSoCanCuocCongDan" type="text" id="infocancuoc" class="form-control" placeholder="Nhập số căn cước công dân">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">MST TNCN (nếu có)</label>
+                                        <input maxlength="50" value="@tk.MaSoThue" type="text" id="infomst" class="form-control" placeholder="Nhập mã số thuế thu nhập cá nhân">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infohoten">Ghi chú</label>
+                                        <input maxlength="300" value="@tk.GhiChu" type="text" id="infoghichu" class="form-control" placeholder="Nhập ghi chú">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnInfoClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnInfoSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Validation/Infomation/updateInfo.js"></script>
+    <!-- Scripts -->
+    <!-- Libs JS -->
+
+    <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/assets/libs/simplebar/dist/simplebar.min.js"></script>
+    <script src="~/Content/assets/js/theme.min.js"></script>
+
+    <script src="~/Content/assets/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
+    <script src="~/Content/assets/libs/jsvectormap/dist/maps/world.js"></script>
+    <script src="~/Content/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/Content/assets/js/vendors/chart.js"></script>
+
+    <script src="~/Content/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="~/Content/assets/libs/flatpickr/dist/flatpickr-vn.js"></script>
+    <script src="~/Content/assets/js/vendors/flatpickr.js"></script>
+    <script src="~/Content/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="~/Content/assets/js/vendors/glight.js"></script>
+
+    <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(document).on("ajaxStart", function () {
+                $('body').find('[id="load-fill-page"]').prop('hidden', false);
+            });
+            $(document).on("ajaxStop", function () {
+                $('body').find('[id="load-fill-page"]').prop('hidden', true);
+            });
+        })
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+
+
+
+    <!-- Snow -->
+    <style>
+        #snowflakeContainer {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        .snowflake {
+            padding-left: 15px;
+            font-size: 14px;
+            line-height: 24px;
+            position: fixed;
+            color: #ebebeb;
+            user-select: none;
+            z-index: 1000;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+            .snowflake:hover {
+                cursor: default
+            }
+    </style>
+    @*<div id='snowflakeContainer'>
+            <p class='snowflake'>❄</p>
+        </div>
+        <script style='text/javascript'>
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; var transforms = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"]; var transformProperty = getSupportedPropertyName(transforms); var snowflakes = []; var browserWidth; var browserHeight; var numberOfSnowflakes = 50; var resetPosition = false; function setup() { window.addEventListener("DOMContentLoaded", generateSnowflakes, false); window.addEventListener("resize", setResetFlag, false) } setup(); function getSupportedPropertyName(b) { for (var a = 0; a < b.length; a++) { if (typeof document.body.style[b[a]] != "undefined") { return b[a] } } return null } function Snowflake(b, a, d, e, c) { this.element = b; this.radius = a; this.speed = d; this.xPos = e; this.yPos = c; this.counter = 0; this.sign = Math.random() < 0.5 ? 1 : -1; this.element.style.opacity = 0.5 + Math.random(); this.element.style.fontSize = 4 + Math.random() * 30 + "px" } Snowflake.prototype.update = function () { this.counter += this.speed / 5000; this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40; this.yPos += Math.sin(this.counter) / 40 + this.speed / 30; setTranslate3DTransform(this.element, Math.round(this.xPos), Math.round(this.yPos)); if (this.yPos > browserHeight) { this.yPos = -50 } }; function setTranslate3DTransform(a, c, b) { var d = "translate3d(" + c + "px, " + b + "px, 0)"; a.style[transformProperty] = d } function generateSnowflakes() { var b = document.querySelector(".snowflake"); var h = b.parentNode; browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var d = 0; d < numberOfSnowflakes; d++) { var j = b.cloneNode(true); h.appendChild(j); var e = getPosition(50, browserWidth); var a = getPosition(50, browserHeight); var c = 5 + Math.random() * 40; var g = 4 + Math.random() * 10; var f = new Snowflake(j, g, c, e, a); snowflakes.push(f) } h.removeChild(b); moveSnowflakes() } function moveSnowflakes() { for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.update() } if (resetPosition) { browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.xPos = getPosition(50, browserWidth); a.yPos = getPosition(50, browserHeight) } resetPosition = false } requestAnimationFrame(moveSnowflakes) } function getPosition(b, a) { return Math.round(-1 * b + Math.random() * (a + 2 * b)) } function setResetFlag(a) { resetPosition = true };
+        </script>*@
+</body>
+</html>

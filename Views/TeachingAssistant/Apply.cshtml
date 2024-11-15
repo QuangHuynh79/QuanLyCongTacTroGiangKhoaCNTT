@@ -1,0 +1,91 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    ViewBag.Title = "Thời Khóa Biểu";
+    Layout = Session["layout"].ToString();
+
+    int currentYear = DateTime.Now.Year;
+    int idtk = Int32.Parse(Session["user-id"].ToString());
+    var tksv = models.TaiKhoan.Find(idtk);
+
+}
+<script src="~/ActiveItemMenu/TeachingAssistant/apply.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-3 mb-3 d-flex justify-content-between align-items-center">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="h2 fw-bold">Đăng Ký Trợ Giảng</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Trợ giảng
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Đăng ký
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card" id="pageload">
+                <h3 class="text-center mt-4 mb-3"><span class="spinner-border spinner-border-sm me-2" style="width: 18px; height: 18px" role="status" aria-hidden="true"></span>Đang tải...</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body" id="contentApply">
+               
+            </div>
+            <div class="modal-footer">
+                <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button hidden id="btnHuydangky" type="button" class="btn btn-danger">Hủy đăng ký</button>
+                <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="taskList" tabindex="-1" role="dialog" aria-labelledby="taskList" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskListTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body" id="contentTaskList">
+
+            </div>
+            <div class="modal-footer">
+                <button id="btnTaskListClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Validation/student/load.js"></script>
+<script src="~/Validation/SVandTA/filterviewapply.js"></script>
+<script src="~/Validation/SVandTA/openapply.js"></script>
+<script src="~/Validation/SVandTA/submitapply.js"></script>
+<script src="~/Validation/SVandTA/cancelapply.js"></script>

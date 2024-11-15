@@ -1,20 +1,42 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
 @{
     CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-    var lstRole = models.Quyen.ToList();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstKhoa = models.Khoa.ToList();
+    var lstNganh = models.Nganh.ToList();
+
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
+    var lstRole = models.AspNetRoles.ToList();
     var lstUser = models.TaiKhoan.OrderByDescending(o => o.ID).ToList();
+    if (roleId == 3)
+    {
+        List<int> idNganh = new List<int>();
+        foreach (var item in userKhoa.Nganh.ToList())
+        {
+            idNganh.Add(item.ID);
+        }
+        //lstUser = lstUser.Where(w => w.ID_Nganh != null).ToList();
+        lstUser = lstUser.Where(w => w.ID_Nganh != null && idNganh.Contains(w.ID_Nganh.Value)).ToList();
+    }
+
     int i = 0;
     int idUs = Int32.Parse(Session["user-id"].ToString());
 }
 
 <div class="row" id="pageload">
-    <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="card mb-4">
             <!-- Card body -->
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 2).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("1")).Count())</h2>
                         <span>Sinh viên</span>
                     </div>
                     <div>
@@ -26,13 +48,13 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="card mb-4">
             <!-- Card body -->
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 5).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("4")).Count())</h2>
                         <span>Trợ giảng</span>
                     </div>
                     <div>
@@ -44,13 +66,13 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="card mb-4">
             <!-- Card body -->
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 3).First().TaiKhoan.Count())</h2>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("2")).Count())</h2>
                         <span>Giảng viên</span>
                     </div>
                     <div>
@@ -62,14 +84,14 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="card mb-4">
             <!-- Card body -->
             <div class="card-body d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 4).First().TaiKhoan.Count())</h2>
-                        <span>Chủ nhiệm khoa</span>
+                        <h2 class="h1 fw-bold mb-0">@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("3") || w.AspNetUsers.AspNetRoles.First().ID.Equals("5")).Count())</h2>
+                        <span>@(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("5")).Count()) PĐT - @(lstUser.Where(w => w.AspNetUsers.AspNetRoles.First().ID.Equals("3")).Count()) BCN</span>
                     </div>
                     <div>
                         <span class="bg-light-info icon-shape icon-xl rounded-3 text-dark-info">
@@ -80,42 +102,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-        <div class="card mb-4">
-            <!-- Card body -->
-            <div class="card-body d-flex flex-column gap-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 6).First().TaiKhoan.Count())</h2>
-                        <span>Phòng đào tạo</span>
-                    </div>
-                    <div>
-                        <span class="bg-light-secondary icon-shape icon-xl rounded-3 text-dark-secondary">
-                            <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-        <div class="card mb-4">
-            <!-- Card body -->
-            <div class="card-body d-flex flex-column gap-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="lh-1 d-flex flex-column gap-1">
-                        <h2 class="h1 fw-bold mb-0">@(lstRole.Where(w => w.ID == 1).First().TaiKhoan.Count())</h2>
-                        <span>Chưa phân quyền</span>
-                    </div>
-                    <div>
-                        <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
-                            <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="col-xl-12 col-lg-12 col-md-12 col-12">
         <!-- Card -->
         <div class="card">
@@ -123,35 +110,35 @@
             <div class="card-header border-bottom-0 pb-0">
                 <div class="row">
                     <div class="mb-3 col-md-4 col-12">
-                        <label class="form-label">Lọc chức danh</label>
-                        <select id="hocky" class="form-select" data-width="100%">
-                            <option value="">Chọn chức danh để lọc</option>
+                        <label class="form-label" for="filterchucdanh">Vai trò</label>
+                        <select id="filterchucdanh" class="form-select" data-width="100%">
+                            <option value="0">Chọn tất cả</option>
                             @foreach (var item in lstRole)
                             {
-                                <option value="@item.ID">@item.name</option>
+                                <option value="@item.ID">@item.Name</option>
                             }
                         </select>
                     </div>
                 </div>
             </div>
+            <hr />
             <div id="filterParentLoad">
                 <div class="card-body">
                     <!-- table  -->
                     <div class="table-card">
-                        <table class="table table-hover" style="width:100%">
+                        <table class="table table-hover" id="dataTableBasic" style="width:100%">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-nowrap"></th>
                                     <th class="text-nowrap">Mã</th>
                                     <th class="text-nowrap">Họ & Tên</th>
                                     <th class="text-nowrap">Liên hệ</th>
-                                    <th class="text-nowrap">Chức danh</th>
-                                    <th class="text-nowrap">Quốc tịch</th>
+                                    <th class="text-nowrap">Vai trò</th>
                                     <th class="text-nowrap">Trạng thái</th>
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="filterLoad">
+                            <tbody>
                                 @foreach (var item in lstUser)
                                 {
                                     i++;
@@ -160,27 +147,29 @@
 
                                         <td valign="middle">@item.Ma</td>
                                         <td valign="middle">@item.HoTen</td>
-                                        <td valign="middle">
+                                        <td valign="middle" class="text-nowrap">
                                             @item.Email<br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br />Giới tính: @item.GioiTinh<br />Khoa: @item.Khoa<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-success" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                         </td>
-                                        <td valign="middle">@item.Quyen.name @(string.IsNullOrEmpty(item.Quyen.AbbreviatedName) ? "" : "(" + item.Quyen.AbbreviatedName + ")")</td>
-                                        <td valign="middle">@item.QuocTich</td>
+                                        <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
                                         <td valign="middle">
-                                            <div class="form-check form-switch  mb-2">
-                                                <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
-                                            </div>
+                                            @if (idUs != item.ID && item.AspNetUsers.AspNetRoles.Where(w => !w.ID.Equals("5") && !w.ID.Equals("3")).Count() > 0)
+                                            {
+                                                <div class="form-check form-switch  mb-2">
+                                                    <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@(item.AspNetUsers.LockoutEnabled ? false : true)">
+                                                </div>
+                                            }
                                         </td>
                                         <td valign="middle" class="text-nowrap">
-                                            @if (idUs != item.ID)
+                                            @if (idUs != item.ID && item.AspNetUsers.AspNetRoles.Where(w => !w.ID.Equals("5") && !w.ID.Equals("3")).Count() > 0)
                                             {
                                                 <a style="font-size: 20px" role="button" id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-success">
-                                                    <i class="bi bi-pencil-square me-2"></i>
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
                                                 </a>
 
-                                                <a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
+                                                @*<a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-danger">
+                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
+                                                    </a>*@
                                             }
                                         </td>
                                     </tr>
@@ -193,11 +182,4 @@
         </div>
     </div>
 </div>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-</script>
-
 

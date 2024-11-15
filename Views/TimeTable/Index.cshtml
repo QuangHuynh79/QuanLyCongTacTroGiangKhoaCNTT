@@ -1,12 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Student Affairs | Thời Khóa Biểu";
+    ViewBag.Title = "Thời Khóa Biểu";
     Layout = Session["layout"].ToString();
 
     int currentYear = DateTime.Now.Year;
 }
 <link href="~/Content/assets/libs/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
-<script src="~/ActiveItemMenu/studentaffairs/studentaffairstimetable/index.js"></script>
-
+<script src="~/ActiveItemMenu/Timetable/index.js"></script>
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
@@ -44,6 +43,6 @@
 <section style="display: none" id="table-export-data">
 </section>
 
-<script src="~/Validation/studentaffairs/timetable/load.js"></script>
-<script src="~/Validation/studentaffairs/timetable/filterviewtimtable.js"></script>
-<script src="~/Validation/studentaffairs/timetable/exportfile.js"></script>
+<script src="~/Validation/department/timetable/load.js"></script>
+<script src="~/Validation/department/timetable/filterviewtimtable.js"></script>
+<script src="~/Validation/department/timetable/exportfile.js"></script>

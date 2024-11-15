@@ -1,0 +1,273 @@
+﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    ViewBag.Title = "Trợ giảng";
+    Layout = Session["layout"].ToString();
+
+    var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+    var currentYear = DateTime.Now.Year;
+
+    var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
+    int id_hkGanNhat = 0;
+    if (lstHk.Count > 0)
+    {
+        id_hkGanNhat = lstHk.First().ID;
+    }
+
+    var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList().OrderByDescending(o => o.ID);
+    int i = 0;
+}
+<script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Danh Sách Sinh Viên Đăng Ký Trợ Giảng</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a>Trợ Giảng</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Đã Đăng Ký
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    @*<a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm Trợ Giảng</a>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <!-- basic table -->
+        <div class="col-md-12 col-12 mb-5">
+            <div class="card">
+                <div class="card-header border-bottom-1 pt-3">
+                    <div class="row">
+                        <div class="mb-3 col-md-3 col-12 ">
+                            <label class="form-label">Học kỳ</label>
+                            <select id="hocky" class="form-select" data-width="100%">
+                                @foreach (var item in lstHk)
+                                {
+                                    if (id_hkGanNhat == item.ID)
+                                    {
+                                        <option name="@item.TenHocKy" selected value="@item.ID">@item.TenHocKy</option>
+                                    }
+                                    else
+                                    {
+                                        <option name="@item.TenHocKy" value="@item.ID">@item.TenHocKy</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-3 col-12 ">
+                            <label class="form-label">Ngành</label>
+                            <select id="nganh" class="form-select" data-width="100%">
+                                @foreach (var item in userNganh)
+                                {
+                                    if (item.TenNganh.ToLower().Equals(userTennganh))
+                                    {
+                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                    }
+                                    else
+                                    {
+                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-3 col-12 ">
+                            <label class="form-label">Lọc trạng thái</label>
+                            <select id="trangthaipc" class="form-select" data-width="100%">
+                                <option value="all">Chọn tất cả</option>
+                                <option value="true">Đã phân công</option>
+                                <option value="false">Chưa phân công</option>
+                            </select>
+                        </div>
+                        @*<div class="mb-3 col-md-3 col-12" style="display: flex; flex-direction: row; align-items: end">
+                                <div style="width: 100%; text-align: end">
+                                    <a id="btnExport" class="btn btn-outline-secondary">
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                    </a>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+                <!-- table  -->
+                <div class="card-body mt-3" id="filterLoad">
+                    <div class="table-card">
+                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-nowrap">Sinh viên</th>
+                                    <th class="text-nowrap">Lớp HP</th>
+                                    <th class="text-nowrap">Điểm số</th>
+                                    <th class="text-nowrap">Phỏng vấn</th>
+                                    <th class="text-nowrap">Trạng Thái</th>
+                                    <th class="text-nowrap"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var items in formDky.ToList())
+                                {
+                                    foreach (var item in items.UngTuyenTroGiang.Where(w => w.LopHocPhan.MaCBGD.Equals(taikhoan.Ma)).ToList().OrderByDescending(o => o.ID))
+                                    {
+                                        var idtks = item.ID_TaiKhoan;
+                                        i++;
+                                        <tr>
+                                            <td valign="middle"> 
+                                                MSSV: @item.MSSV
+                                                <br />
+                                                Họ & Tên: @item.HoTen
+                                                <br />
+                                                <span class="text-nowrap">Email: @item.Email</span>
+                                                <br />
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                            </td>
+                                            <td valign="middle" class="text-nowrap">
+                                                Mã LHP: @item.LopHocPhan.MaLHP
+                                                <br />
+                                                Tên HP: @item.LopHocPhan.TenHP
+                                            </td>
+                                            <td valign="middle" class="text-nowrap">
+                                                TB Chung: @item.DiemTBTL
+                                                <br />
+                                                Rèn luyện: @item.DiemRL
+                                                <br />
+                                                TK môn: @item.DiemTKMH
+                                            </td>
+                                            <td valign="middle">
+                                                @if (item.LopHocPhan.PhanCongTroGiang.Where(w => w.ID_TaiKhoan != idtks).Count() > 0)
+                                                {
+                                                    if (item.DanhGiaPhongVan.Count > 0)
+                                                    {
+                                                        if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                                        {
+                                                            <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt</a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a data-bs-toggle="tooltip" data-bs-html="true" style="min-width: 130px !important" title="LHP đã có TA không cần phỏng vấn" class="btn btn-warning btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>LHP đã có TA</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (item.DanhGiaPhongVan.Count > 0)
+                                                    {
+                                                        if (!item.DanhGiaPhongVan.First().KetLuanDat.Value)
+                                                        {
+                                                            <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-danger btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa đạt</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="false" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để xem thông tin/kết quả phỏng vấn" class="btn btn-success btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Đạt</a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="ketquapv-@item.ID" name="@item.ID" style="min-width: 130px !important" editState="true" data-bs-toggle="tooltip" data-bs-html="true" titleForm="Cập nhật kết quả phỏng vấn TA: @item.MSSV - @item.HoTen" title="Chọn để cập nhật kết quả phỏng vấn" class="btn btn-primary btn-sm text-nowrap"><i class="bi bi-info-circle me-2"></i>Chưa PV</a>
+                                                    }
+                                                }
+                                            </td>
+                                            <td valign="middle" class="text-nowrap">
+                                                @if (item.LopHocPhan.PhanCongTroGiang.Count() > 0)
+                                                {
+                                                    if (item.LopHocPhan.PhanCongTroGiang.FirstOrDefault(w => w.ID_TaiKhoan == idtks) == null)
+                                                    {
+                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa phân công</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã phân công</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa phân công</span>
+                                                }
+                                            </td>
+                                            <td valign="middle" class="text-nowrap">
+                                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="apply" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="content-partialDetail">
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="phongvan" tabindex="-1" role="dialog" aria-labelledby="phongvan" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="phongvanTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body pt-0 pb-0" id="phongvanContent">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="display: none" id="table-export-data">
+</section>
+
+<script src="~/Validation/teacher/registereds/detail.js"></script>
+<script src="~/Validation/teacher/registereds/filter.js"></script>
+<script src="~/Validation/teacher/registereds/phongvan.js"></script>
+<script src="~/Validation/teacher/registereds/exportfile.js"></script>

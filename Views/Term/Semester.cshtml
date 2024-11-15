@@ -1,0 +1,179 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.HocKy>
+@{
+    ViewBag.Title = "Semester";
+    Layout = Session["layout"].ToString();
+}
+<script src="~/ActiveItemMenu/SemesterAndMajor/hocky.js"></script>
+<section class="container-fluid p-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Học Kỳ</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a>Học kỳ, Ngành & Khoa</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Quản Lý Học Kỳ
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themmoi">Thêm mới</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <!-- basic table -->
+        <div class="col-md-12 col-12 mb-5">
+            <div class="card">
+                <!-- table  -->
+                <div class="card-body">
+                    <div class="table-card">
+                        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Học Kỳ</th>
+                                    <th>Năm bắt đầu</th>
+                                    <th>Năm kết thúc</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderByDescending(o => o.ID))
+                                {
+                                    <tr>
+                                        <td>@item.TenHocKy</td>
+                                        <td>@item.NamBatDau</td>
+                                        <td>@item.NamKetThuc</td>
+                                        <td>@item.NgayBatDau.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            <div class="form-check form-switch  mb-2">
+                                                <input class="form-check-input" type="checkbox" role="switch" fullname="@item.TenHocKy" name="@item.ID" id="trangthai-@item.ID" checked="@item.TrangThai">
+                                            </div>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <a style="font-size: 20px" role="button" id="openSua-@item.ID" name="@item.ID" class="text-success">
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="themmoi" tabindex="-1" role="dialog" aria-labelledby="themmoi" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="themmoiTitle">Thêm học kỳ mới</h5>
+                    <button type="button" id="btnXClose" class="btn-close" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="tenhocky">Học kỳ <span class="text-danger">*</span></label>
+                                <input type="number" data-default="@DateTime.Now.ToString("yy")" value="@DateTime.Now.ToString("yy")" id="tenhocky" class="form-control" placeholder="Nhập học kỳ (VD: 224)">
+                                <span class="text-danger" id="valid-tenhocky"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="nambatdau">
+                                    Năm bắt đầu <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="nambatdau">
+                                    @for (int i = DateTime.Now.Year - 10; i < DateTime.Now.Year + 10; i++)
+                                    {
+                                        int iDef = DateTime.Now.Year;
+                                        if (i == DateTime.Now.Year)
+                                        {
+                                            <option data-default="@iDef" data-default-kethuc="@(iDef + 1)" selected value="@i">@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option data-default="@iDef" data-default-kethuc="@(iDef + 1)" value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="text-danger" id="valid-nambatdau"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="namketthuc">
+                                    Năm kết thúc <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="namketthuc">
+                                    <option selected value="@(DateTime.Now.Year + 1)">@(DateTime.Now.Year + 1)</option>
+                                </select>
+                                <span class="text-danger" id="valid-namketthuc"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="ngaybatdau">
+                                    Ngày bắt đầu <span class="text-danger">*</span>
+                                </label>
+                                <input id="ngaybatdau" type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu">
+                                <span class="text-danger" id="valid-ngaybatdau"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnClose" type="button" class="btn btn-secondary">Đóng</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CẬP NHẬT -->
+    <div class="modal fade" id="capnhat" tabindex="-1" role="dialog" aria-labelledby="capnhat" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="capnhatTitle">Cập nhật học kỳ</h5>
+                    <button type="button" class="btn-close" id="btnEditXClose" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="capnhathocky-partial">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnEditClose" type="button" class="btn btn-secondary">Đóng</button>
+                    <button id="btnEditSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Validation/department/semester/add.js"></script>
+<script src="~/Validation/department/semester/edit.js"></script>
+<script src="~/Validation/department/semester/delete.js"></script>

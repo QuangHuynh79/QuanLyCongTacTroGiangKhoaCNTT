@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
+using Microsoft.AspNet.Identity.Owin;
+using System.Text.RegularExpressions;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -20,9 +22,22 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
-        [AllowAnonymous]
-        [Loginverification]
-        public void SignIn()
+        private ApplicationUserManager _userManager; //Tạo biến user
+
+        public ApplicationUserManager UserManager //hàm gọi user sau khi login
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); //lấy dữ liệu user sau khi login
+            }
+            private set
+            {
+                _userManager = value; //cập nhật dữ liệu user vào biến hiện tại
+            }
+        }
+
+        [AllowAnonymous, Loginverification]
+        public void SignIn() //đăng nhập vào hệ thống
         {
             // Send an OpenID Connect sign-in request.
             if (!Request.IsAuthenticated)
@@ -32,39 +47,92 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-        public ActionResult SignOut()
+        public ActionResult SignOut(string enbLock) //đăng xuất vào hệ thống
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
+            Session.Clear();
+            Session.Abandon();
 
             HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
 
-            return RedirectToAction("index", "home");
+            return RedirectToAction("index", "home", new { enbLock = enbLock });
         }
 
         // GET: /Account/SignInCallBack
-        public ActionResult SignInCallBack()
+        public ActionResult SignInCallBack() //tạo hoặc đăng nhập tài khoản hiện có và chuyển hướng sau khi đăng nhập
         {
             var EmailUser = User.Identity.GetUserName();
-            ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
-            string FullName = identity.Claims.ToList()[7].Value;
+            ClaimsIdentity identitys = (ClaimsIdentity)User.Identity;
+            string FullName = identitys.Claims.SingleOrDefault(s => s.Type.Equals("name")).Value; //get full name
+            string userId = EmailUser.ToLower();
 
-            var users = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(EmailUser.ToLower()));
+            var users = model.AspNetUsers.Find(EmailUser.ToLower()); //Tài khoản đã tồn tại - load thông tin tài khoản đó
             if (users != null)
             {
-                return RedirectToAction("Index", "Dashboard");
+                if (users.LockoutEnabled == true)
+                {
+                    return RedirectToAction("SignOut", "Account", new { enbLock = "lock" });
+                }
+                return RedirectToAction("Index", "DashBoard");
             }
-            else
+            else //Tài khoản chưa tồn tại, tạo tài khoản mới
             {
-                TaiKhoan newUser = new TaiKhoan();
-                newUser.HoTen = FullName;
-                newUser.Email = EmailUser;
-                newUser.ID_Quyen = 1;
-                newUser.TrangThai = true;
 
-                model.TaiKhoan.Add(newUser);
+                //Lấy thông tin họ tên email của tài khoản VLU
+                string ma = null;
+                string hoten = FullName;
+
+                string pattern = string.Format(@"\b{0}\b", " - ");
+                int counter = Regex.Matches(FullName, pattern).Count;
+
+                if (counter == 2)
+                {
+                    FullName = FullName.Replace(" - ", "#");
+                    ma = FullName.Split('#')[0].Trim();
+                    hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
+                }
+
+                var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
+
+                //Tạo aspnet user
+                AspNetUsers aspNetUsers = new AspNetUsers();
+                aspNetUsers.ID = userId;
+                aspNetUsers.Email = EmailUser;
+                aspNetUsers.EmailConfirmed = false;
+                aspNetUsers.PhoneNumberConfirmed = false;
+                aspNetUsers.TwoFactorEnabled = false;
+                aspNetUsers.LockoutEnabled = false;
+                aspNetUsers.AccessFailedCount = 0;
+                aspNetUsers.UserName = ma != null ? ma : hoten;
+                aspNetUsers.AspNetRoles = aspNetRolesSinhVien;
+                model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
+
+                //Kiểm tra tài khoản đã được thêm trc chưa, nếu chưa thì tạo mới
+                var taikhoanExist = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(userId));
+                if (taikhoanExist == null)
+                {
+                    TaiKhoan newUser = new TaiKhoan();
+                    newUser.HoTen = hoten;
+                    if (ma != null)
+                        newUser.Ma = ma;
+
+                    newUser.Email = EmailUser;
+                    newUser.ID_AspNetUsers = aspNetUsers.ID;
+                    newUser.TrangThai = true;
+
+                    model.TaiKhoan.Add(newUser);
+                    model.SaveChanges();
+                }
+                else
+                {
+                    taikhoanExist.ID_AspNetUsers = aspNetUsers.ID;
+                    model.Entry(taikhoanExist).State = System.Data.Entity.EntityState.Modified;
+                    model.SaveChanges();
+                }
+
                 return RedirectToAction("Index", "Dashboard");
             }
         }

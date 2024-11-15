@@ -1,0 +1,47 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.Nganh
+@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var lstKhoa = models.Khoa.ToList();
+}
+<div class="modal-body" id="capnhatnganh-partial">
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editmanganh">Mã ngành</label>
+                <input hidden id="idn" value="@Model.ID" />
+                <input value="@Model.MaNganh" disabled type="number" id="editmanganh" class="form-control" placeholder="Nhập mã ngành">
+                <span class="text-danger" id="valid-editmanganh"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="edittennganh">Tên ngành <span class="text-danger">*</span></label>
+                <input value="@Model.TenNganh" type="text" id="edittennganh" class="form-control" placeholder="Nhập tên ngành">
+                <span class="text-danger" id="valid-edittennganh"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label" for="editkhoa">Khoa <span class="text-danger">*</span></label>
+                        <select id="editkhoa" class="form-select">
+                            <option value="">---- Chọn khoa ----</option>
+                            @foreach (var item in lstKhoa)
+                            {
+                                if (item.ID == Model.ID_Khoa)
+                                {
+                                    <option selected value="@item.ID">@item.TenKhoa</option>
+                                    continue;
+                                }
+                                <option value="@item.ID">@item.TenKhoa</option>
+                            }
+                        </select>
+                        <span class="text-danger" id="valid-editkhoa"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
