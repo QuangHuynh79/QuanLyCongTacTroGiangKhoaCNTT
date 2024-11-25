@@ -588,6 +588,9 @@
     <Content Include="Views\Majors\Major.cshtml" />
     <Content Include="Views\Facultys\_EditFaculty.cshtml" />
     <Content Include="Views\Facultys\Faculty.cshtml" />
+    <Content Include="Views\TimeTable\_FilterParentDataGV.cshtml" />
+    <Content Include="Views\TimeTable\_FilterDataGV.cshtml" />
+    <Content Include="Views\TimeTable\_IndexTA.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -673,7 +676,6 @@
     <Content Include="Views\TeachingAssistant\_TaskListTA.cshtml" />
     <Content Include="Views\TeachingAssistant\Advances.cshtml" />
     <Content Include="Views\TeachingAssistant\Registered.cshtml" />
-    <Content Include="Views\TimeTable\_IndexTA.cshtml" />
     <Content Include="Views\TimeTable\_IndexGV.cshtml" />
     <Content Include="Views\TeachingAssistant\ResultApply.cshtml" />
     <Content Include="Views\ClassSection\QuanLyLopHoc.cshtml" />

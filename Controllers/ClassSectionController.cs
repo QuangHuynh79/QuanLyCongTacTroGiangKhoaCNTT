@@ -35,7 +35,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 var taikhoan = Session["TaiKhoan"] as TaiKhoan;
                 var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
-                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_Nganh == nganh && w.ID_HocKy == hocky && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+                var lstTkb = model.LopHocPhan.Where(w => w.ID_Nganh == nganh && w.ID_HocKy == hocky && w.MaCBGD.ToLower().Equals(ma)).ToList();
 
                 return PartialView("_FilterSection", lstTkb);
             }

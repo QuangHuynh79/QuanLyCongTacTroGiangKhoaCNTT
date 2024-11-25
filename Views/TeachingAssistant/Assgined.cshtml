@@ -30,7 +30,7 @@
         }
     }
 
-    var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
+    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
 
     int idtk = Int32.Parse(Session["user-id"].ToString());
     var tksv = model.TaiKhoan.Find(idtk);
@@ -137,12 +137,12 @@
                                 {
                                     <tr>
                                         <td valign="middle" class="text-nowrap">
-                                            Mã: @item.LopHocPhan.MaLHP
+                                            Mã: @item.MaLHP
                                             <br />
-                                            Tên: @item.LopHocPhan.TenHP
+                                            Tên: @item.TenHP
                                         </td>
                                         <td valign="middle">
-                                            @if (item.LopHocPhan.MaLHP.Length == 18)
+                                            @if (item.MaLHP.Length == 18)
                                             {
                                                 <span role="button" class="badge bg-warning">Chưa phân công</span>
                                             }
@@ -157,7 +157,15 @@
                                                 <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @(tksv.NgaySinh != null ? tksv.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                             }
                                         </td>
-                                        <td valign="middle">@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
+                                        <td valign="middle">
+                                            <ul>
+                                                @foreach (var items in item.ThoiKhoaBieu.ToList())
+                                                {
+                                                    <li>
+                                                        @(items.Thu); Tiết @(items.TietHoc); Tuần @(items.TuanBD) - @(items.TuanKT); Phòng @(items.Phong)
+                                                    </li>
+                                                }
+                                            </ul>                                        </td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
                                             <span data-bs-toggle="modal" data-bs-target="#phancong">

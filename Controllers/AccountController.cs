@@ -39,11 +39,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [AllowAnonymous, Loginverification]
         public void SignIn() //đăng nhập vào hệ thống
         {
-            // Send an OpenID Connect sign-in request.
-            if (!Request.IsAuthenticated)
+            try
             {
                 HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = Url.Action("SignInCallBack") },
                    OpenIdConnectAuthenticationDefaults.AuthenticationType);
+            }
+            catch (Exception)
+            {
+                Url.Action("signout");
             }
         }
 
@@ -110,6 +113,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
 
+                model = new CongTacTroGiangKhoaCNTTEntities();
                 //Kiểm tra tài khoản đã được thêm trc chưa, nếu chưa thì tạo mới
                 var taikhoanExist = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(userId));
                 if (taikhoanExist == null)
@@ -120,7 +124,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         newUser.Ma = ma;
 
                     newUser.Email = EmailUser;
-                    newUser.ID_AspNetUsers = aspNetUsers.ID;
+                    newUser.ID_AspNetUsers = userId;
                     newUser.TrangThai = true;
 
                     model.TaiKhoan.Add(newUser);
@@ -128,7 +132,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 }
                 else
                 {
-                    taikhoanExist.ID_AspNetUsers = aspNetUsers.ID;
+                    taikhoanExist.ID_AspNetUsers = userId;
                     model.Entry(taikhoanExist).State = System.Data.Entity.EntityState.Modified;
                     model.SaveChanges();
                 }

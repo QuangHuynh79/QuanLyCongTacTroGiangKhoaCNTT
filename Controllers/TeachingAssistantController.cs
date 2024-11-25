@@ -726,24 +726,24 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
             if (trangthai.Equals("tatca"))
             {
-                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0).ToList();
-                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+                var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
                 return PartialView("_FilterChildApply", tkb);
             }
             else if (trangthai.Equals("dadangky"))
             {
                 int idTk = Int32.Parse(Session["user-id"].ToString());
-                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0
-                && w.LopHocPhan.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == idTk).Count() > 0).ToList();
-                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+                var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0
+                && w.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == idTk).Count() > 0).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
                 return PartialView("_FilterChildApply", tkb);
             }
             else
             {
                 int idTk = Int32.Parse(Session["user-id"].ToString());
-                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0
-                && w.LopHocPhan.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == idTk).Count() < 1).ToList();
-                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
+                var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0
+                && w.UngTuyenTroGiang.Where(wt => wt.ID_TaiKhoan == idTk).Count() < 1).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.MaMH) && lstGv.Contains(w.MaCBGD)).ToList();
                 return PartialView("_FilterChildApply", tkb);
             }
         }
@@ -752,7 +752,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [HttpPost]
         public ActionResult FilterParentApply(int hocky, int nganh)  //Lọc thời khóa biểu theo học kỳ để đăng ký TA
         {
-            var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0).ToList();
+            var tkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.DeXuatTroGiang.Where(we => we.TrangThai == true).Count() > 0).ToList();
             return PartialView("_FilterParentApply", tkb);
         }
 

@@ -29,7 +29,7 @@
         }
     }
 
-    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+    var lstTkb = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.MaCBGD.ToLower().Equals(ma)).ToList();
 }
 <script src="~/ActiveItemMenu/ClassSection/index.js"></script>
 <section class="container-fluid p-4">
@@ -116,17 +116,26 @@
                                 @foreach (var item in lstTkb.ToList().OrderByDescending(o => o.ID))
                                 {
                                     <tr>
-                                        <td>@item.LopHocPhan.MaLHP</td>
-                                        <td>@item.LopHocPhan.TenHP</td>
-                                        <td>@(item.Thu); Tiết @(item.TietHoc); Tuần @(item.TuanBD) - @(item.TuanKT); Phòng @(item.Phong)</td>
+                                        <td>@item.MaLHP</td>
+                                        <td>@item.TenHP</td>
                                         <td>
-                                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                                            <ul>
+                                                @foreach (var items in item.ThoiKhoaBieu.ToList())
+                                                {
+                                                    <li>
+                                                        @(items.Thu); Tiết @(items.TietHoc); Tuần @(items.TuanBD) - @(items.TuanKT); Phòng @(items.Phong)
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            @if (item.DeXuatTroGiang.Count < 1)
                                             {
                                                 <span>Không đăng ký</span>
                                             }
                                             else
                                             {
-                                                if (item.LopHocPhan.DeXuatTroGiang.First().TrangThai)
+                                                if (item.DeXuatTroGiang.First().TrangThai)
                                                 {
                                                     <span class="badge bg-success">Đã được duyệt</span>
                                                 }
@@ -148,9 +157,9 @@
                                                     <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
                                                 </a>
                                             </span>
-                                            @if (item.LopHocPhan.DeXuatTroGiang.Count < 1)
+                                            @if (item.DeXuatTroGiang.Count < 1)
                                             {
-                                                <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                                <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.MaLHP - @item.TenHP" name="@item.ID">
                                                     <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
                                                         <span><i class="bi bi-bookmark-star me-2"></i></span>
                                                     </a>
@@ -158,7 +167,7 @@
                                             }
                                             else
                                             {
-                                                <span id="viewTaskList-@item.ID" tieudeForm="Bảng mô tả công việc LHP @item.LopHocPhan.MaLHP - @item.LopHocPhan.TenHP" name="@item.LopHocPhan.ID">
+                                                <span id="viewTaskList-@item.ID" tieudeForm="Bảng mô tả công việc LHP @item.MaLHP - @item.TenHP" name="@item.ID">
                                                     <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Danh sách công việc" class="text-danger">
                                                         <span><i class="bi bi-list-task me-2"></i></span>
                                                     </a>
