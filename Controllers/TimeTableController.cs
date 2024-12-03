@@ -22,12 +22,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TimeTable
+        /// <summary>
+        /// Hàm này dùng để hiển thị trang thời khóa biểu.
+        /// </summary>
+        /// <returns>Trả về một view có tên "index", hiển thị thời khóa biểu của người dùng.</returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult Index() //Xem thời khóa biểu
         {
             return View("index");
         }
-
+        /// <summary>
+        /// Hàm này dùng để load dữ liệu thời khóa biểu dựa trên vai trò của người dùng.
+        /// </summary>
+        /// <returns>Trả về một PartialView khác nhau tùy thuộc vào vai trò của người dùng hoặc thông báo yêu cầu đăng nhập lại nếu không tìm thấy vai trò hợp lệ.</returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult LoadContent() //Load dữ liệu thời khóa biểu
         {
@@ -41,7 +48,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             else
                 return new JsonResult { Data = "SystemLoginAgain", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-
+        /// <summary>
+        /// Hàm này lọc dữ liệu thời khóa biểu theo giảng viên, môn học, học kỳ và ngành học.
+        /// </summary>
+        /// <returns>Trả về một PartialView chứa danh sách thời khóa biểu đã lọc.</returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult FilterData(string role, int hocky, int nganh, string mon, string gv) //Lọc thời khóa biểu theo giảng viên, môn học
         {
@@ -62,7 +72,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return PartialView("_FilterData", tkb);
             }
         }
-         
+        /// <summary>
+        /// Hàm này lọc dữ liệu thời khóa biểu theo giảng viên, môn học, học kỳ và ngành học.
+        /// </summary>
+        /// <returns>Trả về một PartialView chứa danh sách thời khóa biểu đã lọc.</returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult FilterParentData(string role, int hocky, int nganh) // Lọc thời khóa biểu theo học kỳ, ngành
         {
@@ -74,7 +87,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
                 return PartialView("_FilterParentDataGV", tkb);
             }
-            else if(role.Equals("TA"))
+            else if (role.Equals("TA"))
             {
                 var taikhoan = Session["TaiKhoan"] as TaiKhoan;
                 string ma = taikhoan.Ma.ToLower();
@@ -87,9 +100,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
                 return PartialView("_FilterParentData", tkb);
             }
-                
-        }
 
+        }
+        /// <summary>
+        /// Hàm này mở view để nhập thời khóa biểu (TKB).
+        /// </summary>
+        /// <returns>Trả về một View với tên là "import".</returns>
         [Authorize, BCNRole]
         [HttpGet]
         public ActionResult Import() //Mở view import tkb
@@ -669,7 +685,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        /// <summary>
+        /// Lấy tệp Excel, mã hóa thành chuỗi base64 và trả về.
+        /// </summary>
+        /// <returns>Chuỗi base64 chứa dữ liệu của tệp Excel</returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ContentResult DownloadFile(string fileName)
@@ -682,7 +701,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
             return Content(base64);
         }
-
+        /// <summary>
+        /// Xuất thời khóa biểu theo học kỳ, ngành học, mã môn học và giảng viên.
+        /// </summary>
+        /// <returns>Partial view "_Export" chứa dữ liệu thời khóa biểu đã lọc</returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ActionResult ExportTimeTable(int hocky, int nganh, string mon, string gv)
@@ -695,7 +717,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
             return PartialView("_Export", tkb);
         }
-
+        /// <summary>
+        /// Kiểm tra sự tồn tại của các cột hợp lệ trong DataTable.
+        /// </summary>
+        /// <returns>Trả về tên cột thiếu nếu có, nếu không trả về null</returns>
         public string ValidateColumns(DataTable dt)
         {
             // Declare the valid column names
@@ -717,7 +742,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
             return null;
         }
-
+        /// <summary>
+        /// Kiểm tra xem có phần tử nào trong mảng chuỗi là null hoặc chuỗi rỗng không.
+        /// </summary>
+        /// <returns>Trả về phần tử đầu tiên là null hoặc chuỗi rỗng, nếu không trả về null</returns>
         public string ValidateNotNull(string[] validRows)
         {
             foreach (string validRow in validRows)

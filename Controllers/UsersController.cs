@@ -28,6 +28,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         private ApplicationUserManager _userManager;
+        /// <summary>
+        /// Thuộc tính để lấy hoặc thiết lập đối tượng ApplicationUserManager.
+        /// Nếu _userManager chưa được khởi tạo, nó sẽ lấy từ OWIN context.
+        /// </summary>
+        /// <returns>Đối tượng ApplicationUserManager</returns>
         public ApplicationUserManager UserManager
         {
             get
@@ -41,13 +46,20 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         // GET: Users
+        /// <summary>
+        /// Hiển thị danh sách các vai trò người dùng.
+        /// </summary>
+        /// <returns>Trả về view "Index" với danh sách vai trò người dùng</returns>
         [Authorize, BCNRole]
         public ActionResult Index() //Xem danh sách người dùng
         {
             var lstRole = model.AspNetRoles.ToList();
             return View("Index", lstRole);
         }
-
+        /// <summary>
+        /// Tải dữ liệu và trả về một partial view có tên "_Index".
+        /// </summary>
+        /// <returns>Trả về partial view "_Index"</returns>
         [Authorize, BCNRole]
         public ActionResult LoadContent() //Load dữ liệu danh sách người dùng
         {
@@ -107,7 +119,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         //        return Content("Chi tiết lỗi: " + Ex.Message);
         //    }
         //}
-
+        /// <summary>
+        /// Cập nhật trạng thái khóa tài khoản người dùng (mở khóa hoặc khóa tài khoản).
+        /// </summary>
+        /// <returns>Trả về thông báo "SUCCESS" nếu thành công, hoặc thông báo lỗi nếu có lỗi xảy ra</returns>
         [Authorize]
         [BCNRole]
         [HttpPost]
@@ -133,7 +148,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Mở form chỉnh sửa thông tin người dùng.
+        /// </summary>
+        /// <returns>Trả về partial view "_EditUser" với thông tin người dùng, hoặc thông báo lỗi nếu có vấn đề</returns>
         [Authorize]
         [BCNRole]
         [HttpPost]
@@ -152,7 +170,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        /// <summary>
+        /// Cập nhật thông tin người dùng và vai trò của họ.
+        /// </summary>
+        /// <returns>Trả về thông báo "SUCCESS" nếu thành công, "Exist" nếu có lỗi trùng lặp, hoặc thông báo lỗi chi tiết nếu gặp sự cố</returns>
         [Authorize, BCNRole]
         [HttpPost] //Lưu cập nhật thông tin người dùng
         public ActionResult SubmitEdit(int id, string ma, string hoten, string email, string chucdanh, string dienthoai, string nganh, string gioitinh, DateTime? ngaysinh)
@@ -242,7 +263,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         //        return Content("Chi tiết lỗi: " + Ex.Message);
         //    }
         //}
-
+        /// <summary>
+        /// Lọc danh sách người dùng theo vai trò và/hoặc ngành của người dùng.
+        /// </summary>
+        /// <returns>Trả về partial view "_Filter" với danh sách người dùng đã lọc, hoặc thông báo lỗi nếu có sự cố</returns>
         [Authorize]
         [BCNRole]
         [HttpPost]
@@ -305,7 +329,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        /// <summary>
+        /// Cập nhật thông tin người dùng, bao gồm mã, điện thoại, ngành, giới tính, ngày sinh, tài khoản ngân hàng, căn cước công dân, mã số thuế và ghi chú.
+        /// </summary>
+        /// <returns>Trả về thông báo "SUCCESS" nếu thành công, "Exist" nếu có lỗi trùng mã, hoặc thông báo lỗi chi tiết nếu gặp sự cố</returns>
         [Authorize, AllRole]
         [HttpPost] //Cập nhật thông tin cá nhân của tài khoản
         public ActionResult UpdateInfo(string ma, string dienthoai, string nganh, string gioitinh, DateTime? ngaysinh,
