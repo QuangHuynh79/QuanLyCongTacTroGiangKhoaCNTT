@@ -22,12 +22,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TimeTable
+        /// <summary>
+        /// Hàm này dùng để hiển thị trang thời khóa biểu.
+        /// </summary>
+        /// <returns>Trả về một view có tên "index", hiển thị thời khóa biểu của người dùng.</returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult Index() //Xem thời khóa biểu
         {
             return View("index");
         }
-
+        /// <summary>
+        /// Hàm này dùng để load dữ liệu thời khóa biểu dựa trên vai trò của người dùng.
+        /// </summary>
+        /// <returns>Trả về một PartialView khác nhau tùy thuộc vào vai trò của người dùng hoặc thông báo yêu cầu đăng nhập lại nếu không tìm thấy vai trò hợp lệ.</returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult LoadContent() //Load dữ liệu thời khóa biểu
         {
@@ -41,28 +48,67 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             else
                 return new JsonResult { Data = "SystemLoginAgain", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-
-        [Authorize, BCNRole]
-        public ActionResult FilterData(int hocky, int nganh, string mon, string gv) //Lọc thời khóa biểu theo giảng viên, môn học
+        /// <summary>
+        /// Hàm này lọc dữ liệu thời khóa biểu theo giảng viên, môn học, học kỳ và ngành học.
+        /// </summary>
+        /// <returns>Trả về một PartialView chứa danh sách thời khóa biểu đã lọc.</returns>
+        [Authorize, GVandBCNandTARole]
+        public ActionResult FilterData(string role, int hocky, int nganh, string mon, string gv) //Lọc thời khóa biểu theo giảng viên, môn học
         {
-            var lstMon = mon.Split('#').ToList();
-            var lstGv = gv.Split('#').ToList();
-            var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
-            var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH) && lstGv.Contains(w.LopHocPhan.MaCBGD)).ToList();
-            return PartialView("_FilterData", tkb);
+            if (role.Equals("GV"))
+            {
+                var lstMon = mon.Split('#').ToList();
+                var lstGv = gv.Split('#').ToList();
+                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH.ToLower()) && lstGv.Contains(w.LopHocPhan.MaCBGD.ToLower())).ToList();
+                return PartialView("_FilterDataGV", tkb);
+            }
+            else
+            {
+                var lstMon = mon.Split('#').ToList();
+                var lstGv = gv.Split('#').ToList();
+                var lstTkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
+                var tkb = lstTkb.Where(w => lstMon.Contains(w.LopHocPhan.MaMH.ToLower()) && lstGv.Contains(w.LopHocPhan.MaCBGD.ToLower())).ToList();
+                return PartialView("_FilterData", tkb);
+            }
         }
-
-
-        [Authorize, BCNRole]
-        public ActionResult FilterParentData(int hocky, int nganh) // Lọc thời khóa biểu theo học kỳ, ngành
+        /// <summary>
+        /// Hàm này lọc dữ liệu thời khóa biểu theo giảng viên, môn học, học kỳ và ngành học.
+        /// </summary>
+        /// <returns>Trả về một PartialView chứa danh sách thời khóa biểu đã lọc.</returns>
+        [Authorize, GVandBCNandTARole]
+        public ActionResult FilterParentData(string role, int hocky, int nganh) // Lọc thời khóa biểu theo học kỳ, ngành
         {
-            var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
-            return PartialView("_FilterParentData", tkb);
-        }
+            if (role.Equals("GV"))
+            {
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+                string ma = taikhoan.Ma.ToLower();
 
+                var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
+                return PartialView("_FilterParentDataGV", tkb);
+            }
+            else if (role.Equals("TA"))
+            {
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+                string ma = taikhoan.Ma.ToLower();
+
+                var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.UngTuyenTroGiang.Where(wl => wl.ID_TaiKhoan == taikhoan.ID).Count() > 0).ToList();
+                return PartialView("_FilterParentDataGV", tkb);
+            }
+            else
+            {
+                var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
+                return PartialView("_FilterParentData", tkb);
+            }
+
+        }
+        /// <summary>
+        /// Hàm này mở view để nhập thời khóa biểu (TKB).
+        /// </summary>
+        /// <returns>Trả về một View với tên là "import".</returns>
         [Authorize, BCNRole]
         [HttpGet]
-        public ActionResult Import()
+        public ActionResult Import() //Mở view import tkb
         {
             return View("import");
         }
@@ -80,13 +126,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 else
                 {
                     var nganhdb = model.Nganh.Find(nganh);
-                    if (nganhdb == null)
+                    if (nganhdb == null) //Ngành không tồn tại
                         return Content("NOTEXISTNGANH");
 
                     var hockydb = model.HocKy.Find(hocky);
-                    if (hockydb == null)
+                    if (hockydb == null) //Học kỳ không tồn tại
                         return Content("NOTEXISTHOCKY");
-                    if (hockydb.TrangThai == false)
+                    if (hockydb.TrangThai == false) //Trạng thái học kỳ đang đóng
                         return Content("Close");
 
                     if (!string.IsNullOrEmpty(confirm))
@@ -157,8 +203,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             if (isValid != null)
                                 return Content("Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
 
-                            List<ThoiKhoaBieu> lstTemp = new List<ThoiKhoaBieu>();
-
                             foreach (DataRow data in dt.Rows) //Đọc từng dòng dữ liệu trong file excel
                             {
                                 if (!string.IsNullOrEmpty(data["Mã Ngành"].ToString()) && !string.IsNullOrEmpty(data["Tên Ngành"].ToString()))
@@ -202,6 +246,33 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     int excelRow = dt.Rows.IndexOf(data) + 2;
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
+                            }
+                            foreach (DataRow data in dt.Rows) //Đọc từng dòng dữ liệu trong file excel
+                            {
+                                if (!string.IsNullOrEmpty(data["Mã Ngành"].ToString()) && !string.IsNullOrEmpty(data["Tên Ngành"].ToString()))
+                                    if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
+                                        && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
+                                        continue;
+
+                                string subjectId = data["Mã MH"].ToString();
+                                string classSectionid = data["Mã LHP"].ToString();
+                                string name = data["Tên HP"].ToString();
+                                string type = data["Loại HP"].ToString();
+                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string day = data["Thứ"].ToString();
+                                string startLesson = data["Tiết BĐ"].ToString();
+                                string lessonNumber = data["Số Tiết"].ToString();
+                                string lessonTime = data["Tiết Học"].ToString();
+                                string roomId = data["Phòng"].ToString();
+                                string lecturerId = data["Mã CBGD"].ToString();
+                                string fullName = data["Tên CBGD"].ToString();
+                                string day2 = data["ThuS"].ToString();
+                                string startLesson2 = data["TietS"].ToString();
+                                string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                                string startWeek = data["Tuần BD"].ToString();
+                                string endWeek = data["Tuần KT"].ToString();
+                                string idmajor = data["Mã Ngành"].ToString();
+                                string namemajor = data["Tên Ngành"].ToString();
 
                                 model = new CongTacTroGiangKhoaCNTTEntities();
                                 var hocphanExist = model.LopHocPhan.FirstOrDefault(w => w.ID_HocKy == hocky
@@ -359,6 +430,33 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     int excelRow = dt.Rows.IndexOf(data) + 2;
                                     return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                                 }
+                            }
+
+                            foreach (DataRow data in dt.Rows) //Đọc từng dòng trong file excel
+                            {
+                                var tkb = tkbs.FirstOrDefault(f => f.LopHocPhan.MaLHP.Equals(data["Mã LHP"].ToString()));
+                                if (tkb == null)
+                                    continue;
+
+                                string subjectId = data["Mã MH"].ToString();
+                                string classSectionid = data["Mã LHP"].ToString();
+                                string name = data["Tên HP"].ToString();
+                                string type = data["Loại HP"].ToString();
+                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string day = data["Thứ"].ToString();
+                                string startLesson = data["Tiết BĐ"].ToString();
+                                string lessonNumber = data["Số Tiết"].ToString();
+                                string lessonTime = data["Tiết Học"].ToString();
+                                string roomId = data["Phòng"].ToString();
+                                string lecturerId = data["Mã CBGD"].ToString();
+                                string fullName = data["Tên CBGD"].ToString();
+                                string day2 = data["ThuS"].ToString();
+                                string startLesson2 = data["TietS"].ToString();
+                                string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                                string startWeek = data["Tuần BD"].ToString();
+                                string endWeek = data["Tuần KT"].ToString();
+                                string idmajor = data["Mã Ngành"].ToString();
+                                string namemajor = data["Tên Ngành"].ToString();
 
                                 //Cập nhật thông tin về lớp học phần
                                 var hocphan = tkb.LopHocPhan;
@@ -453,8 +551,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         if (isValid != null)
                             return Content($"Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
 
-                        List<ThoiKhoaBieu> lstTemp = new List<ThoiKhoaBieu>();
-
                         foreach (DataRow data in dt.Rows) //Đọc từng dòng trong file import
                         {
                             if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
@@ -497,6 +593,33 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 int excelRow = dt.Rows.IndexOf(data) + 2;
                                 return Content("Đã có lỗi đã xảy ra ở dòng số [" + excelRow + "], tiết bắt đầu phải là 1, 4, 7, 10 hoặc 13.");
                             }
+                        }
+
+                        foreach (DataRow data in dt.Rows) //Đọc từng dòng trong file import
+                        {
+                            if (!data["Mã Ngành"].ToString().ToLower().Equals(nganhdb.MaNganh.ToLower())
+                                && !data["Tên Ngành"].ToString().ToLower().Equals(nganhdb.TenNganh.ToLower()))
+                                continue;
+
+                            string subjectId = data["Mã MH"].ToString();
+                            string classSectionid = data["Mã LHP"].ToString();
+                            string name = data["Tên HP"].ToString();
+                            string type = data["Loại HP"].ToString();
+                            string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                            string day = data["Thứ"].ToString();
+                            string startLesson = data["Tiết BĐ"].ToString();
+                            string lessonNumber = data["Số Tiết"].ToString();
+                            string lessonTime = data["Tiết Học"].ToString();
+                            string roomId = data["Phòng"].ToString();
+                            string lecturerId = data["Mã CBGD"].ToString();
+                            string fullName = data["Tên CBGD"].ToString();
+                            string day2 = data["ThuS"].ToString();
+                            string startLesson2 = data["TietS"].ToString();
+                            string studentRegisteredNumber = data["Số SVĐK"].ToString();
+                            string startWeek = data["Tuần BD"].ToString();
+                            string endWeek = data["Tuần KT"].ToString();
+                            string idmajor = data["Mã Ngành"].ToString();
+                            string namemajor = data["Tên Ngành"].ToString();
 
                             model = new CongTacTroGiangKhoaCNTTEntities();
 
@@ -562,7 +685,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        /// <summary>
+        /// Lấy tệp Excel, mã hóa thành chuỗi base64 và trả về.
+        /// </summary>
+        /// <returns>Chuỗi base64 chứa dữ liệu của tệp Excel</returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ContentResult DownloadFile(string fileName)
@@ -575,7 +701,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
             return Content(base64);
         }
-
+        /// <summary>
+        /// Xuất thời khóa biểu theo học kỳ, ngành học, mã môn học và giảng viên.
+        /// </summary>
+        /// <returns>Partial view "_Export" chứa dữ liệu thời khóa biểu đã lọc</returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ActionResult ExportTimeTable(int hocky, int nganh, string mon, string gv)
@@ -588,7 +717,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
             return PartialView("_Export", tkb);
         }
-
+        /// <summary>
+        /// Kiểm tra sự tồn tại của các cột hợp lệ trong DataTable.
+        /// </summary>
+        /// <returns>Trả về tên cột thiếu nếu có, nếu không trả về null</returns>
         public string ValidateColumns(DataTable dt)
         {
             // Declare the valid column names
@@ -610,7 +742,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
             return null;
         }
-
+        /// <summary>
+        /// Kiểm tra xem có phần tử nào trong mảng chuỗi là null hoặc chuỗi rỗng không.
+        /// </summary>
+        /// <returns>Trả về phần tử đầu tiên là null hoặc chuỗi rỗng, nếu không trả về null</returns>
         public string ValidateNotNull(string[] validRows)
         {
             foreach (string validRow in validRows)

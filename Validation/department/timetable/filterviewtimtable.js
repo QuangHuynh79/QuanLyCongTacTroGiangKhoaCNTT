@@ -20,6 +20,7 @@
         var nganh = $('body').find('[id="nganh"] :selected').val();
 
         var formData = new FormData();
+        formData.append('role', $('body').find('[id="strRole"]').val());
         formData.append('hocky', hocky);
         formData.append('nganh', nganh);
 
@@ -44,13 +45,14 @@
         var gv = "";
 
         $('body').find('[id="locmonhoc"] :selected').each(function () {
-            mon += $(this).val() + "#";
+            mon += $(this).val().toLowerCase() + "#";
         });
         $('body').find('[id="locgiangvien"] :selected').each(function () {
-            gv += $(this).val() + "#";
+            gv += $(this).val().toLowerCase() + "#";
         });
 
         var formData = new FormData();
+        formData.append('role', $('body').find('[id="strRole"]').val());
         formData.append('hocky', hocky);
         formData.append('nganh', nganh);
         formData.append('mon', mon.substring(0, mon.length - 1));

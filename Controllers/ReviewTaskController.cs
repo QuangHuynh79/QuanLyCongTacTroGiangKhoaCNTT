@@ -22,12 +22,23 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: TaskList
+        /// <summary>
+        /// Hiển thị danh sách đánh giá công việc của lớp học phần.
+        /// </summary>
+        /// <returns>
+        /// Trả về một đối tượng <see cref="ViewResult"> với View "Index" để hiển thị trang danh sách đánh giá công việc lớp học phần.
+        /// </returns>
         [Authorize, GVandBCNandTARole]
         public ActionResult Index() // Xem danh sách đánh giá công việc lớp học phần
         {
             return View("Index");
         }
-
+        /// <summary>
+        /// Lọc danh sách lớp học phần dựa trên học kỳ, ngành và trạng thái của phân công trợ giảng.
+        /// </summary>
+        /// <returns>
+        /// Trả về một đối tượng <see cref="PartialViewResult"> hiển thị danh sách lớp học phần đã lọc.
+        /// </returns>
         [Authorize, GVandBCNandTARole]
         [HttpPost]
         public ActionResult FilterData(int hocky, int nganh, string trangthai) //Lọc danh sách đánh giá lhp
@@ -46,14 +57,24 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return PartialView("_FilterCongViec", lhps);
             }
         }
-
+        /// <summary>
+        /// Mở chi tiết đánh giá của lớp học phần dựa trên ID lớp học phần.
+        /// </summary>
+        /// <returns>
+        /// Trả về một đối tượng <see cref="PartialViewResult"> hiển thị chi tiết đánh giá của lớp học phần.
+        /// </returns>
         [Authorize, GVandBCNandTARole]
         [HttpPost]
         public ActionResult OpenReviewTask(int id) //Mở chi tiết đánh giá lớp học phần
         {
             return PartialView("_OpenEditReviewTask", model.LopHocPhan.Find(id));
         }
-
+        /// <summary>
+        /// Lưu thông tin đánh giá lớp học phần, bao gồm trạng thái công việc, ghi chú và số giờ thực tế.
+        /// </summary>
+        /// <returns>
+        /// Trả về thông báo "SUCCESS" nếu lưu thành công, hoặc chi tiết lỗi nếu có ngoại lệ.
+        /// </returns>
         [Authorize, GVRole]
         [HttpPost]
         public ActionResult SubmitReviewTask(string lstid, string lsttrangthai, string ghichu, string giothucte) //Lưu thông tin đánh giá lhp

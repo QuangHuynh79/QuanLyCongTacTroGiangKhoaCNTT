@@ -13,13 +13,27 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
 
         // GET: Facultys
+        /// <summary>
+        /// Lấy danh sách các khoa từ cơ sở dữ liệu và hiển thị trên trang.
+        /// </summary>
+        /// <returns>
+        /// Trả về một đối tượng <see cref="ActionResult"/> chứa danh sách các khoa.
+        /// </returns>
         [Authorize, BCNRole]
         public ActionResult Faculty() //Xem danh sách khoa
         {
             var lstFaculty = model.Khoa.ToList();
             return View("Faculty", lstFaculty);
         }
-
+        /// <summary>
+        /// Thêm một khoa mới vào hệ thống.
+        /// </summary>
+        /// <returns>
+        /// Trả về một chuỗi thông báo:
+        /// - "Exist" nếu khoa đã tồn tại.
+        /// - "SUCCESS" nếu thêm khoa thành công.
+        /// - Chi tiết lỗi nếu có sự cố trong quá trình thực thi.
+        /// </returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ActionResult AddFaculty(string tenkhoa) //Thêm khoa
@@ -43,7 +57,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        /// <summary>
+        /// Mở form cập nhật thông tin khoa theo ID.
+        /// </summary>
+        /// <returns>
+        /// Trả về một đối tượng <see cref="ActionResult"/>:
+        /// - Nếu khoa tồn tại, trả về form cập nhật (Partial View) với thông tin khoa.
+        /// - Nếu khoa không tồn tại, trả về thông báo lỗi "Khoa không tồn tại trên hệ thống."
+        /// </returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ActionResult OpenEditFaculty(int id) //Mở form cập nhật khoa
@@ -61,7 +82,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
-
+        /// <summary>
+        /// Cập nhật thông tin khoa với tên mới.
+        /// </summary>
+        /// <returns>
+        /// Trả về một chuỗi thông báo:
+        /// - "SUCCESS" nếu cập nhật thành công.
+        /// - Chi tiết lỗi nếu có sự cố trong quá trình cập nhật.
+        /// </returns>
         [Authorize, BCNRole]
         [HttpPost]
         public ActionResult EditFaculty(int id, string tenkhoa) //Lưu thông tin cập nhật khoa

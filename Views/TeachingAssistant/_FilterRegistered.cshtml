@@ -39,7 +39,7 @@
                             <br />
                             <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.TaiKhoan.ID_Nganh != null ? item.TaiKhoan.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                         </td>
-                        <td valign="middle" class="text-nowrap">
+                        <td valign="middle">
                             Mã LHP: @item.LopHocPhan.MaLHP
                             <br />
                             Tên HP: @item.LopHocPhan.TenHP
