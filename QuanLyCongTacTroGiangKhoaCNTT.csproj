@@ -278,6 +278,7 @@
     <Compile Include="Controllers\MajorsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ReviewTaskController.cs" />
+    <Compile Include="Controllers\StatisticalsController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
     <Compile Include="Controllers\TermController.cs" />
     <Compile Include="Controllers\TimeTableController.cs" />
@@ -689,6 +690,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Notifications\" />
+    <Folder Include="Views\Statisticals\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
