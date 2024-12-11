@@ -2,40 +2,33 @@
 @{
     Layout = Session["layout"].ToString();
     ViewBag.Title = "Phân công trợ giảng";
-    CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
-    var lstNganh = model.Nganh.OrderByDescending(o => o.ID).ToList();
-    var lstHocKy = model.HocKy.OrderByDescending(o => o.ID).ToList();
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+
+    var lstNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+    var lstHocKy = models.HocKy.OrderByDescending(o => o.ID).ToList();
 
     int id_hkGanNhat = 0;
     if (lstHocKy.Count > 0)
     {
-        var hkGanNhat = lstHocKy.OrderByDescending(o => o.NgayBatDau).ToList().First();
-        if (hkGanNhat == null)
-        {
-            id_hkGanNhat = lstHocKy.First().ID;
-        }
-        else
-        {
-            id_hkGanNhat = hkGanNhat.ID;
-        }
+        var hkGanNhat = lstHocKy.OrderByDescending(o => o.ID).ToList().First();
+        id_hkGanNhat = hkGanNhat.ID;
     }
 
     int id_nganhCNTT = 0;
     if (lstNganh.Count > 0)
     {
-        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals("công nghệ thông tin"));
+        var nganhcntt = lstNganh.FirstOrDefault(f => f.TenNganh.ToLower().Equals(userTennganh));
         if (nganhcntt != null)
         {
             id_nganhCNTT = nganhcntt.ID;
         }
     }
 
-    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT).ToList();
-
-    int idtk = Int32.Parse(Session["user-id"].ToString());
-    var tksv = model.TaiKhoan.Find(idtk);
-    var lstUser = model.TaiKhoan.ToList();
-    int i = 0;
+    var lstTkb = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.MaCBGD.ToLower().Equals(ma)).ToList();
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/assigned.js"></script>
 <section class="container-fluid p-4">
@@ -75,52 +68,50 @@
             <div class="card">
                 <div class="card-header border-bottom-1 pt-3">
                     <div class="row">
-                        <div class="mb-3 col-md-3 col-12 ">
+                        <div class="mb-3 col-md-4 col-12 ">
                             <label class="form-label">Học kỳ</label>
                             <select id="hocky" class="form-select" data-width="100%">
                                 @foreach (var item in lstHocKy)
                                 {
-                                    if (item.TenHocKy.Equals("242"))
+                                    if (id_hkGanNhat == item.ID)
                                     {
                                         <option selected value="@item.ID">@item.TenHocKy</option>
-                                        continue;
                                     }
-                                    <option value="@item.ID">@item.TenHocKy</option>
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.TenHocKy</option>
+                                    }
                                 }
                             </select>
                         </div>
-                        <div class="mb-3 col-md-3 col-12 ">
+                        <div class="mb-3 col-md-4 col-12 ">
                             <label class="form-label">Ngành</label>
-                            <select id="hocky" class="form-select" data-width="100%">
+                            <select id="nganh" class="form-select" data-width="100%">
                                 @foreach (var item in lstNganh)
                                 {
-                                    if (item.TenNganh.ToLower().Equals("công nghệ thông tin"))
+                                    if (item.TenNganh.ToLower().Equals(userTennganh))
                                     {
-                                        <option selected value="@item.ID">@item.TenNganh</option>
-                                        continue;
+                                        <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                     }
-                                    <option value="@item.ID">@item.TenNganh</option>
+                                    else
+                                    {
+                                        <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                    }
                                 }
                             </select>
                         </div>
-                        <div class="mb-3 col-md-3 col-12 ">
-                            <label class="form-label">Lọc học phần</label>
-                            <select id="hocky" class="form-select" data-width="100%">
-                                <option value="">Chọn tất cả</option>
-                            </select>
-                        </div>
-                        <div class="mb-3 col-md-3 col-12 ">
+                        <div class="mb-3 col-md-4 col-12 ">
                             <label class="form-label">Lọc trạng thái</label>
-                            <select id="" class="form-select" data-width="100%">
-                                <option value="all">Chọn tất cả</option>
-                                <option value="all">Đã phân công</option>
-                                <option value="all">Chưa phân công</option>
+                            <select id="trangthai" class="form-select" data-width="100%">
+                                <option selected value="all">Chọn tất cả</option>
+                                <option value="true">Đã phân công</option>
+                                <option value="false">Chưa phân công</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <!-- table  -->
-                <div class="card-body mt-3">
+                <div class="card-body mt-3" id="filterLoad">
                     <div class="table-card">
                         <table id="dataTableBasic" class="table table-hover" style="width:100%">
                             <thead class="table-light">
@@ -142,19 +133,19 @@
                                             Tên: @item.TenHP
                                         </td>
                                         <td valign="middle">
-                                            @if (item.MaLHP.Length == 18)
+                                            @if (item.PhanCongTroGiang.Count() < 1)
                                             {
                                                 <span role="button" class="badge bg-warning">Chưa phân công</span>
                                             }
                                             else
                                             {
-                                                <span>MSSV: @tksv.Ma</span>
+                                                <span>MSSV: @item.PhanCongTroGiang.First().TaiKhoan.Ma</span>
                                                 <br />
-                                                <span>Họ & Tên: @tksv.HoTen</span>
+                                                <span>Họ & Tên: @item.PhanCongTroGiang.First().TaiKhoan.HoTen</span>
                                                 <br />
-                                                <span class="text-nowrap">Email: @tksv.Email</span>
+                                                <span class="text-nowrap">Email: @item.PhanCongTroGiang.First().TaiKhoan.Email</span>
                                                 <br />
-                                                <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @tksv.SDT<br>Ngày sinh: @(tksv.NgaySinh != null ? tksv.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @tksv.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                                <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @item.PhanCongTroGiang.First().TaiKhoan.SDT<br>Ngày sinh: @(item.PhanCongTroGiang.First().TaiKhoan.NgaySinh != null ? item.PhanCongTroGiang.First().TaiKhoan.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @item.PhanCongTroGiang.First().TaiKhoan.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
                                             }
                                         </td>
                                         <td valign="middle">
@@ -165,15 +156,13 @@
                                                         @(items.Thu); Tiết @(items.TietHoc); Tuần @(items.TuanBD) - @(items.TuanKT); Phòng @(items.Phong)
                                                     </li>
                                                 }
-                                            </ul>                                        </td>
+                                            </ul>
+                                        </td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
-                                            <span data-bs-toggle="modal" data-bs-target="#phancong">
-                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho lớp học phần" class="text-primary">
-                                                    <span><i class="bi bi-person-check"></i></span>
-                                                </a>
-                                            </span>
-
+                                            <a style="font-size: 20px" name="@item.ID" id="btnOpenAssign-@item.ID" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho lớp học phần" class="text-primary">
+                                                <span><i class="bi bi-person-check"></i></span>
+                                            </a>
                                         </td>
                                     </tr>
                                 }
@@ -194,55 +183,8 @@
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body overflow-x-hidden">
-                    <div class="row">
-                        <div class="col-12">
-                            <h3 class="text-center mb-3" for="tennganh">DANH SÁCH SINH VIÊN ĐĂNG KÝ LÀM TA LHP 221_71ITBS10103_01</h3>
-                        </div>
-                    </div>
-                    <div class="table-card mt-0">
-                        <table id="phanCongTable" class="table table-hover" style="width:100%">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Thông tin sinh viên</th>
-                                    <th>Điểm số</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in lstUser)
-                                {
-                                    <tr>
-                                        <td valign="middle">
-                                            MSSV: @item.Ma
-                                            <br />
-                                            Họ & Tên: @item.HoTen
-                                            <br />
-                                            <span class="text-nowrap">Email: @item.Email</span>
-                                            <br />
-                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
-                                        </td>
+                <div class="modal-body overflow-x-hidden" id="modal-content-assign">
 
-                                        <td valign="middle" class="text-nowrap">
-                                            TB Chung: 8.0
-                                            <br />
-                                            Rèn luyện: 90
-                                            <br />
-                                            TK môn: 9.0
-                                        </td>
-                                        <td valign="middle" class="text-nowrap">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="chonLamTA" keyta="@item.ID" id="chonLamTA-@item.ID">
-                                                <label class="form-check-label" for="chonLamTA-@item.ID">
-                                                    Chọn
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -253,12 +195,7 @@
         </div>
     </div>
 </section>
-<script>
-    $(document).ready(function () {
-        $("#phanCongTable").DataTable({
-            responsive: !0,
-            pagingType: "numbers",
-            pageLength: 100,
-        });
-    });
-</script>
+
+<script src="~/Validation/teacher/Assignment/filter.js"></script>
+<script src="~/Validation/teacher/Assignment/openAssgin.js"></script>
+<script src="~/Validation/teacher/Assignment/submitAssign.js"></script>

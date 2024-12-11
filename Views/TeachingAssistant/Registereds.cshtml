@@ -128,7 +128,7 @@
                             <tbody>
                                 @foreach (var items in formDky.ToList())
                                 {
-                                    foreach (var item in items.UngTuyenTroGiang.Where(w => w.LopHocPhan.MaCBGD.Equals(taikhoan.Ma)).ToList().OrderByDescending(o => o.ID))
+                                    foreach (var item in items.UngTuyenTroGiang.Where(w => w.LopHocPhan.MaCBGD.ToLower().ToLower().Equals(ma)).ToList().OrderByDescending(o => o.ID))
                                     {
                                         var idtks = item.ID_TaiKhoan;
                                         i++;

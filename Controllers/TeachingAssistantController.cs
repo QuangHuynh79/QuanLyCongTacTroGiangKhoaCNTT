@@ -831,9 +831,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     foreach (var c in lstCv)
                     {
                         c.ID_TaiKhoan = idtk;
+                        model.Entry(c).State = System.Data.Entity.EntityState.Modified;
+                        model.SaveChanges();
                     }
-                    model.Entry(lstCv).State = System.Data.Entity.EntityState.Modified;
-                    model.SaveChanges();
 
                     var thongbao = new ThongBao()
                     {

@@ -383,6 +383,7 @@
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\khoa.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
+    <Content Include="ActiveItemMenu\Statisticals\index.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\assigned.js" />
@@ -527,6 +528,9 @@
     <Content Include="Validation\department\faculty\edit.js" />
     <Content Include="Validation\SVandTA\cancelapply.js" />
     <Content Include="Validation\SVandTA\resultApply\opentask.js" />
+    <Content Include="Validation\teacher\Assignment\submitAssign.js" />
+    <Content Include="Validation\teacher\Assignment\openAssgin.js" />
+    <Content Include="Validation\teacher\Assignment\filter.js" />
     <Content Include="Validation\teacher\reviewtask\danhgia.js" />
     <Content Include="Validation\teacher\reviewtask\filter.js" />
     <Content Include="Validation\teacher\registereds\phongvan.js" />
@@ -594,6 +598,9 @@
     <Content Include="Views\TimeTable\_FilterDataGV.cshtml" />
     <Content Include="Views\TimeTable\_IndexTA.cshtml" />
     <Content Include="Views\Assignment\Assgined.cshtml" />
+    <Content Include="Views\Statisticals\Index.cshtml" />
+    <Content Include="Views\Assignment\_FilterAssgined.cshtml" />
+    <Content Include="Views\Assignment\_ListTA.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -690,7 +697,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Notifications\" />
-    <Folder Include="Views\Statisticals\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
