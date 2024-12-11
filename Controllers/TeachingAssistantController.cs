@@ -796,6 +796,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 if (ketqua)
                 {
+                    float tongSoGioQuyDoi = 0;
+                    if (ut.LopHocPhan.CongViec.Count() > 0)
+                        tongSoGioQuyDoi = float.Parse(ut.LopHocPhan.CongViec.ToList().Sum(s => s.SoGioQuyDoi).ToString());
+
                     var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("4")).ToList();
 
                     string userId = ut.TaiKhoan.AspNetUsers.ID.ToLower();
@@ -818,6 +822,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     pc.TrangThai = false;
                     pc.SoGioThucTe = 0;
                     pc.GhiChu = "";
+                    pc.SoGioQuyDoi = tongSoGioQuyDoi;
 
                     model.PhanCongTroGiang.Add(pc);
                     model.SaveChanges();
@@ -1469,15 +1474,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult TaskDetail(int id) //Mở form chi tiết công việc
         {
             return PartialView("_TaskDetail", model.CongViec.Find(id));
-        }
-        /// <summary>
-        /// Hàm này trả về view "Assgined" cho người dùng.
-        /// </summary>
-        /// <returns>Trả về View "Assgined".</returns>
-        [Authorize, GVRole]
-        public ActionResult Assgined()
-        {
-            return View("Assgined");
         }
     }
 }
