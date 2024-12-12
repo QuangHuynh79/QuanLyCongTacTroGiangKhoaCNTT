@@ -29,7 +29,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         [Authorize, BCNRole]
         public ActionResult FilterStatistical(int hocky, int nganh)
         {
-            var data = model.UngTuyenTroGiang.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).GroupBy(g => g.ID_TaiKhoan).ToList();
+            var data = model.UngTuyenTroGiang.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).ToList();
+            if (data.Count > 0) {
+                var dataGroupBy = data.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).GroupBy(g => g.ID_TaiKhoan).ToList();
+            }
             return PartialView("_FilterStatistical", data);
         }
     }
