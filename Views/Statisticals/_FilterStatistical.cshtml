@@ -5,17 +5,17 @@
 <div class="card-body" id="filterLoad">
     <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-            <div class="card mb-4">
+            <div class="card bg-light-warning mb-4">
                 <!-- Card body -->
                 <div class="card-body d-flex flex-column gap-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="lh-1 d-flex flex-column gap-1">
-                            <h2 class="h1 fw-bold mb-0">@(ut.Count() > 0 ? ut.GroupBy(g => g.ID_TaiKhoan).Count() : 0)</h2>
+                            <h2 class="h1 fw-bold mb-0">@(ut.Count() > 0 ? ut.GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
                             <span>Đã Đăng Ký</span>
                         </div>
                         <div>
-                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
-                                <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i style="font-size: 24px" class="bi bi-person-fill"></i>
                             </span>
                         </div>
                     </div>
@@ -23,17 +23,17 @@
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-            <div class="card mb-4">
+            <div class="card bg-light-success mb-4">
                 <!-- Card body -->
                 <div class="card-body d-flex flex-column gap-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="lh-1 d-flex flex-column gap-1">
-                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.TrangThai == true).Count() > 0 ? ut.Where(w => w.TrangThai == true).GroupBy(g => g.ID_TaiKhoan).Count() : 0)</h2>
+                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.TrangThai == true).Count() > 0 ? ut.Where(w => w.TrangThai == true).GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
                             <span>Được Duyệt</span>
                         </div>
                         <div>
-                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
-                                <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i style="font-size: 24px" class="bi bi-person-fill-check"></i>
                             </span>
                         </div>
                     </div>
@@ -41,17 +41,17 @@
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-            <div class="card mb-4">
+            <div class="card bg-light-primary mb-4">
                 <!-- Card body -->
                 <div class="card-body d-flex flex-column gap-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="lh-1 d-flex flex-column gap-1">
-                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ?ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count() : 0)</h2>
+                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ?ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
                             <span>Đã Phân Công</span>
                         </div>
                         <div>
-                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
-                                <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i style="font-size: 24px" class="bi bi-person-fill-gear"></i>
                             </span>
                         </div>
                     </div>
@@ -59,4 +59,61 @@
             </div>
         </div>
     </div>
+
+    <div class="table-card mt-3 border-top-lg">
+        <div class="card-body mt-3" id="filterLoad">
+            <div class="table-card">
+                <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center" align="center" colspan="5">
+                                Danh sách Trợ Giảng đã được phân công
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Mã SV</th>
+                            <th>Họ Tên SV</th>
+                            <th>Giảng viên</th>
+                            <th>Lớp học phần</th>
+                            <th>Giờ quy đổi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count() : 0) > 0)
+                        {
+                            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).ToList())
+                            {
+                               <tr>
+                                   <td valign="middle">@item.First().MSSV</td>
+                                   <td valign="middle">
+                                       Họ & Tên: @item.First().HoTen
+                                       <br />
+                                       Điện thoại: @item.First().SoDienThoai
+                                       <br />
+                                       Email: @item.First().Email
+                                   </td>
+                                   <td valign="middle">
+                                       Mã GV: @item.First().LopHocPhan.MaCBGD
+                                       <br />
+                                       Họ & Tên: @item.First().LopHocPhan.TenCBGD
+                                   </td>
+                                   <td valign="middle">
+                                       Mã LHP: @item.First().LopHocPhan.MaLHP
+                                       <br />
+                                       Tên HP: @item.First().LopHocPhan.TenHP
+                                   </td>
+                                   <td valign="middle">
+                                       @item.First().LopHocPhan.CongViec.Sum(s => s.SoGioQuyDoi) giờ
+                                   </td>
+                               </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#dataTableBasic').DataTable();
+    </script>
 </div>
