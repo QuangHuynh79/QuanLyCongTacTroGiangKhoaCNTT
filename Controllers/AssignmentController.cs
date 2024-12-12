@@ -33,7 +33,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// Trả về một `PartialView` chứa danh sách các lớp học phần phù hợp hoặc thông báo lỗi nếu có lỗi xảy ra.
         /// </returns>
         [Authorize, GVRole]
-        public ActionResult Filter(int hocky, int nganh, string trangthai)
+        public ActionResult Filter(int hocky, int nganh)
         {
             try
             {
@@ -41,22 +41,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var taikhoan = Session["TaiKhoan"] as TaiKhoan;
                 var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
 
-                if (trangthai.Equals("all"))
-                {
-                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
-                    return PartialView("_FilterAssgined", lstTkb);
-                }
-
-                else if (trangthai.Equals("true"))
-                {
-                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0 && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
-                    return PartialView("_FilterAssgined", lstTkb);
-                }
-                else
-                {
-                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() < 1 && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
-                    return PartialView("_FilterAssgined", lstTkb);
-                }
+                var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0).ToList();
+                return PartialView("_FilterAssgined", lstTkb);
             }
             catch (Exception Ex)
             {

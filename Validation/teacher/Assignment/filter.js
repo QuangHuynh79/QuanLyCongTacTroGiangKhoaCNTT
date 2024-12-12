@@ -7,10 +7,6 @@
         FilterData();
     });
 
-    $('body').on('change', '[id="trangthai"]', function () {
-        FilterData();
-    });
-
 
     function FilterData() {
 
@@ -23,7 +19,6 @@
         var formData = new FormData();
         formData.append('hocky', hocky);
         formData.append('nganh', nganh);
-        formData.append('trangthai', trangthai);
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },

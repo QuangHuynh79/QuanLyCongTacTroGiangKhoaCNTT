@@ -28,7 +28,7 @@
         }
     }
 
-    var lstTkb = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.MaCBGD.ToLower().Equals(ma) && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
+    var lstTkb = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0).ToList();
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/assigned.js"></script>
 <section class="container-fluid p-4">
@@ -98,14 +98,6 @@
                                         <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
                                     }
                                 }
-                            </select>
-                        </div>
-                        <div class="mb-3 col-md-4 col-12 ">
-                            <label class="form-label">Lọc trạng thái</label>
-                            <select id="trangthai" class="form-select" data-width="100%">
-                                <option selected value="all">Chọn tất cả</option>
-                                <option value="true">Đã phân công</option>
-                                <option value="false">Chưa phân công</option>
                             </select>
                         </div>
                     </div>

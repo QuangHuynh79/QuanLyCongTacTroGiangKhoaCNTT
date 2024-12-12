@@ -204,7 +204,15 @@
                                                 TK môn: @item.DiemTKMH
                                             </td>
                                             <td valign="middle" class="text-nowrap">
-                                                @if (!item.TrangThai)
+                                                @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
+                                                {
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                                                }
+                                                else if (models.DanhGiaPhongVan.FirstOrDefault(f => f.ID_UngTuyenTroGiang == idut) != null)
+                                                {
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                                                }
+                                                else if (!item.TrangThai)
                                                 {
                                                     <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
                                                 }
