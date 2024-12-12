@@ -87,14 +87,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
                 return PartialView("_FilterParentDataGV", tkb);
             }
-            else if (role.Equals("TA"))
-            {
-                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
-                string ma = taikhoan.Ma.ToLower();
-
-                var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.UngTuyenTroGiang.Where(wl => wl.ID_TaiKhoan == taikhoan.ID).Count() > 0).ToList();
-                return PartialView("_FilterParentDataGV", tkb);
-            }
             else
             {
                 var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();

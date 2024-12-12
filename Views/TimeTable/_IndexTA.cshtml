@@ -21,7 +21,7 @@
         id_hkGanNhat = hkGanNhat.ID;
     }
 
-    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh) && w.LopHocPhan.UngTuyenTroGiang.Where(wl => wl.ID_TaiKhoan == taikhoan.ID).Count() > 0).ToList();
+    var lstTkb = models.ThoiKhoaBieu.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList();
 }
 
 <div class="card" id="pageload">
