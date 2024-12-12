@@ -31,19 +31,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var ma = string.IsNullOrEmpty(taikhoan.Ma) ? "" : taikhoan.Ma.ToLower();
                 if (trangthai.Equals("all"))
                 {
-                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma)).ToList();
+                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
                     return PartialView("_FilterAssgined", lstTkb);
 
                 }
                 else if (trangthai.Equals("true"))
                 {
-                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0).ToList();
+                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0 && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
                     return PartialView("_FilterAssgined", lstTkb);
 
                 }
                 else
                 {
-                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() < 1).ToList();
+                    var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() < 1 && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
                     return PartialView("_FilterAssgined", lstTkb);
 
                 }
@@ -59,7 +59,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
-                var lstTA = model.UngTuyenTroGiang.Where(w => w.ID_LopHocPhan == lhp).ToList();
+                var lstTA = model.UngTuyenTroGiang.Where(w => w.ID_LopHocPhan == lhp && w.TrangThai == true).ToList();
                 Session["title-update-assign"] = model.LopHocPhan.Find(lhp);
                 return PartialView("_ListTA", lstTA);
             }

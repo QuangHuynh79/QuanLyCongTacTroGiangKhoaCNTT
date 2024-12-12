@@ -1,0 +1,257 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    var models = new CongTacTroGiangKhoaCNTTEntities();
+    var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+    int roleId = Int32.Parse(Session["user-role-id"].ToString());
+
+    string userTennganh = taikhoan.Nganh == null ? "công nghệ thông tin" : taikhoan.Nganh.TenNganh.ToLower().ToLower();
+    var userKhoa = models.Khoa.FirstOrDefault(f => f.Nganh.Where(w => w.TenNganh.Equals(userTennganh)).Count() > 0);
+    var userNganh = userKhoa.Nganh.OrderByDescending(o => o.ID).ToList();
+
+    var lstNganh = models.Nganh.ToList();
+    var lstKhoa = models.Khoa.ToList();
+
+    ViewBag.Title = "Thống kê";
+    Layout = Session["layout"].ToString();
+
+    bool checkUpdate = Convert.ToBoolean(Session["user-update-info"].ToString());
+    var lstHk = models.HocKy.OrderByDescending(o => o.ID).ToList();
+    int id_hkGanNhat = 0;
+    if (lstHk.Count > 0)
+    {
+        id_hkGanNhat = lstHk.First().ID;
+    }
+
+    var ut = Model.Where(w => w.LopHocPhan.ID_HocKy == id_hkGanNhat).ToList();
+
+    if (roleId == 3)
+    {
+        ut = ut.Where(w => w.TaiKhoan.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList();
+    }
+}
+
+<script src="~/ActiveItemMenu/Statisticals/index.js"></script>
+
+
+<section class="container-fluid p-4 ">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- page header -->
+            <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Bảng Thống Kê Trợ Giảng</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-4">
+            <!-- card -->
+            <div class="card h-100">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label class="form-label">Học kỳ</label>
+                            <select id="hocky" class="form-select text-dark me-3 w-100">
+                                @foreach (var item in lstHk)
+                                {
+                                    if (item.ID == id_hkGanNhat)
+                                    {
+                                        <option selected value="@item.ID">@item.TenHocKy</option>
+                                        continue;
+                                    }
+                                    <option value="@item.ID">@item.TenHocKy</option>
+                                }
+                            </select>
+                        </div>
+                        @if (roleId == 3)
+                        {
+                            <div class="mb-3 col-md-4">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select text-dark me-3 w-100" data-width="100%">
+                                    @foreach (var item in userKhoa.Nganh.ToList())
+                                    {
+                                        if (item.TenNganh.ToLower().Equals(userTennganh))
+                                        {
+                                            <option name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 col-md-4">
+                                <label class="form-label">Khoa</label>
+                                <select id="khoa" class="form-select text-dark me-3 w-100" data-width="100%">
+                                    @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        if (userKhoa.TenKhoa.Equals(item.TenKhoa))
+                                        {
+                                            <option name="@item.TenKhoa" selected value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.TenKhoa" value="@item.ID">@item.TenKhoa</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label class="form-label">Ngành</label>
+                                <select id="nganh" class="form-select text-dark me-3 w-100" data-width="100%">
+                                    @foreach (var items in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
+                                    {
+                                        foreach (var item in items.Nganh.ToList())
+                                        {
+                                            if (item.TenNganh.ToLower().Equals(userTennganh))
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
+                                            }
+                                            else
+                                            {
+                                                <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- card body -->
+                <div class="card-body" id="filterLoad">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="card mb-4">
+                                <!-- Card body -->
+                                <div class="card-body d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="lh-1 d-flex flex-column gap-1">
+                                            <h2 class="h1 fw-bold mb-0">@ut.GroupBy(g => g.ID_TaiKhoan).Count()</h2>
+                                            <span>Đã Đăng Ký</span>
+                                        </div>
+                                        <div>
+                                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
+                                                <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="card mb-4">
+                                <!-- Card body -->
+                                <div class="card-body d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="lh-1 d-flex flex-column gap-1">
+                                            <h2 class="h1 fw-bold mb-0">@ut.Where(w => w.TrangThai == true).GroupBy(g => g.ID_TaiKhoan).Count()</h2>
+                                            <span>Được Duyệt</span>
+                                        </div>
+                                        <div>
+                                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
+                                                <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="card mb-4">
+                                <!-- Card body -->
+                                <div class="card-body d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="lh-1 d-flex flex-column gap-1">
+                                            <h2 class="h1 fw-bold mb-0">@ut.Where(w => w.LopHocPhan.PhanCongTroGiang.Where(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan).Count() > 0).ToList().GroupBy(g => g.ID_TaiKhoan).Count()</h2>
+                                            <span>Đã Phân Công</span>
+                                        </div>
+                                        <div>
+                                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
+                                                <i style="font-size: 24px" class="bi bi-person-rolodex"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('#khoa').on('change', function () {
+            var valu = $('#khoa :selected').val();
+            if (valu.length < 1) {
+                $('#nganh > option').each(function () {
+                    if ($(this).val() == "opNull") {
+                        $(this).prop('hidden', true);
+                    }
+                    else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+
+                $('#nganh').val("").change();
+            }
+            else {
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.attr('cuaKhoa') == valu) {
+                        $(this).prop('hidden', false);
+                    }
+                    else {
+                        $(this).prop('hidden', true);
+                    }
+                });
+
+                var countOp = 0;
+                $('#nganh > option').each(function () {
+                    var opt = $(this);
+                    if (opt.prop('hidden') == false) {
+                        countOp++;
+                    }
+                });
+
+                if (countOp == 0) {
+                    $('#nganh').val("opNull").change();
+                    $('#nganh > [id="opNganhNull"]').prop('hidden', false);
+                }
+                else {
+
+                    $('#nganh > option').each(function () {
+                        var opt = $(this);
+                        if (opt.prop('hidden') == false) {
+                            $('#nganh').val(opt.val()).change();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+<script src="~/Validation/department/statisticals/filter.js"></script>

@@ -271,6 +271,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AssignmentController.cs" />
+    <Compile Include="Controllers\ClassManagementController.cs" />
     <Compile Include="Controllers\ClassSectionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FacultysController.cs" />
@@ -526,6 +527,7 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\department\statisticals\filter.js" />
     <Content Include="Validation\SVandTA\cancelapply.js" />
     <Content Include="Validation\SVandTA\resultApply\opentask.js" />
     <Content Include="Validation\teacher\Assignment\submitAssign.js" />
@@ -598,9 +600,10 @@
     <Content Include="Views\TimeTable\_FilterDataGV.cshtml" />
     <Content Include="Views\TimeTable\_IndexTA.cshtml" />
     <Content Include="Views\Assignment\Assgined.cshtml" />
-    <Content Include="Views\Statisticals\Index.cshtml" />
     <Content Include="Views\Assignment\_FilterAssgined.cshtml" />
     <Content Include="Views\Assignment\_ListTA.cshtml" />
+    <Content Include="Views\Statisticals\Statistical.cshtml" />
+    <Content Include="Views\Statisticals\_FilterStatistical.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -696,6 +699,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ClassManagement\" />
     <Folder Include="Views\Notifications\" />
   </ItemGroup>
   <ItemGroup>
