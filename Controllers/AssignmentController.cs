@@ -45,20 +45,17 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 {
                     var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
                     return PartialView("_FilterAssgined", lstTkb);
-
                 }
 
                 else if (trangthai.Equals("true"))
                 {
                     var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0 && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
                     return PartialView("_FilterAssgined", lstTkb);
-
                 }
                 else
                 {
                     var lstTkb = model.LopHocPhan.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() < 1 && w.DeXuatTroGiang.Where(wd => wd.TrangThai == true).Count() > 0).ToList();
                     return PartialView("_FilterAssgined", lstTkb);
-
                 }
             }
             catch (Exception Ex)
