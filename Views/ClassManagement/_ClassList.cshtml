@@ -1,0 +1,140 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.DanhSachSinhVien>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    var models = new CongTacTroGiangKhoaCNTTEntities();
+    var lhp = Session["id-lhp-classlist"] as LopHocPhan;
+    var dssv = Model.ToList();
+
+    var dbLichHoc = lhp.LichHoc.ToList();
+    int i = 0;
+
+    var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+    int currentLichHoc = Int32.Parse(Session["id-current-lichhoc"].ToString());
+}
+
+<div class="modal-body overflow-x-hidden" id="loadcontentdiemdanhsv">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <select id="tuanhoc" class="form-select w-auto">
+                            @foreach (var item in dbLichHoc.OrderBy(o => o.NgayHoc).ToList())
+                            {
+                                if (currentLichHoc == item.ID)
+                                {
+                                    <option selected value="@item.NgayHoc">@item.NgayHoc</option>
+                                    continue;
+                                }
+                                <option value="@item.NgayHoc">@item.NgayHoc</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="w-100 text-end">
+                        <a id="btnExportTkb" class="btn btn-outline-secondary">
+                            <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <input id="idLHPDiemDanh" value="@lhp.ID" hidden />
+            <h5>Lớp HP: @lhp.MaLHP - @lhp.TenHP</h5>
+            @if (dbLichHoc.Count() > 0)
+            {
+                var dbDiemDanh = dbLichHoc.FirstOrDefault(f => f.ID == currentLichHoc).DiemDanh.ToList();
+                <h5>Sĩ Số: @dbDiemDanh.Where(w => w.DuLop.Equals("Có mặt")).Count()/@dbLichHoc.Count (@dbDiemDanh.Where(w => w.DuLop.Equals("Có mặt")).Count() có mặt, @dbDiemDanh.Where(w => w.DuLop.Equals("Đi trễ")).Count() đi trễ, @dbDiemDanh.Where(w => w.DuLop.Equals("Vắng mặt")).Count() vắng)</h5>
+            }
+            else
+            {
+                <h5>Sĩ Số: Chưa điểm danh</h5>
+            }
+        </div>
+        <div class="col-12">
+            <hr class="my-4" />
+        </div>
+        <div class="col-12">
+            <div class="mb-4">
+                <h3 class="text-center mb-0" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h3>
+                <label class="small text-center w-100">(Bỏ chọn nếu sinh viên vắng mặt)</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="table-card mt-0">
+                <table id="diemDanhTable" class="table table-hover" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th>TT</th>
+                            <th>MSSV</th>
+                            <th>Họ & Tên</th>
+                            <th>Email</th>
+                            <th>Ngày sinh</th>
+                            <th>Giới tính</th>
+                            <th>
+                                Đ.Danh
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in dssv.OrderBy(o => o.ID))
+                        {
+                            var diemdanh = item.DiemDanh.FirstOrDefault(w => w.ID_LichHoc == currentLichHoc);
+                            i++;
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.MaSV</td>
+                                <td class="text-nowrap">@item.HoLot @item.Ten</td>
+                                <td>@item.Email</td>
+                                <td>@item.NgaySinh</td>
+                                <td>@item.GioiTinh</td>
+                                <td>
+                                    @if (diemdanh != null)
+                                    {
+                                        if (diemdanh.DuLop.Equals("Có mặt"))
+                                        {
+                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                                <option selected value="Có mặt">Có mặt</option>
+                                                <option value="Đi trễ">Đi trễ</option>
+                                                <option value="Vắng mặt">Vắng mặt</option>
+                                            </select>
+                                        }
+                                        else if (diemdanh.DuLop.Equals("Đi trễ"))
+                                        {
+                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                                <option value="Có mặt">Có mặt</option>
+                                                <option selected value="Đi trễ">Đi trễ</option>
+                                                <option value="Vắng mặt">Vắng mặt</option>
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                                <option value="Có mặt">Có mặt</option>
+                                                <option value="Đi trễ">Đi trễ</option>
+                                                <option selected value="Vắng mặt">Vắng mặt</option>
+                                            </select>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                            <option selected value="Có mặt">Có mặt</option>
+                                            <option value="Đi trễ">Đi trễ</option>
+                                            <option value="Vắng mặt">Vắng mặt</option>
+                                        </select>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#diemDanhTable').DataTable();
+    </script>
+</div>

@@ -19,10 +19,38 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// Hàm này trả về danh sách sinh viên của lớp học phần cho người dùng.
         /// </summary>
         /// <returns>Danh sách sinh viên của lớp học phần được chọn.</returns>
-        public ActionResult ClassList(int idLhp)
+        public ActionResult ClassList(int idLhp, string idLichHoc)
         {
-            var lhp = model.LopHocPhan.Find(idLhp);
-            return PartialView("_ClassList", lhp.DanhSachSinhVien.ToList());
+            if (!string.IsNullOrEmpty(idLichHoc))
+            {
+                int idLich = Int32.Parse(idLichHoc);
+
+                var lhp = model.LopHocPhan.Find(idLhp);
+                Session["id-lhp-classlist"] = lhp;
+
+                Session["id-current-lichhoc"] = idLich;
+                return PartialView("_ClassList", lhp.DanhSachSinhVien.ToList());
+            }
+            else
+            {
+                var lhp = model.LopHocPhan.Find(idLhp);
+                Session["id-lhp-classlist"] = lhp;
+
+                var dbLichHoc = lhp.LichHoc.ToList();
+                int idLich = 0;
+                var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+
+                foreach (var item in dbLichHoc.OrderBy(o => o.NgayHoc).ToList())
+                {
+                    if (currentDate <= item.NgayHoc)
+                    {
+                        idLich = item.ID;
+                        break;
+                    }
+                }
+                Session["id-current-lichhoc"] = idLich;
+                return PartialView("_ClassList", lhp.DanhSachSinhVien.ToList());
+            }
         }
 
         /// <summary>
@@ -44,7 +72,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (!string.IsNullOrEmpty(confirm))
                 {
                     string filePath = string.Empty;
-                    string path = Server.MapPath("~/Content/Uploads/ImportTKB/");
+                    string path = Server.MapPath("~/Content/Uploads/ImportDanhSachSv/HK" + lhp.HocKy.TenHocKy + "/" + lhp.MaLHP + "/");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path); //tạo đường dẫn lưu file import nếu có
@@ -90,23 +118,76 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         return Json("error" + e.Message);
                     }
 
-                    //Xóa khoảng trắng các ô dữ liệu
+                    if (dt.Columns.Count < 9)
+                        return Content("Có vẻ như bạn đã sai hoặc thiếu tên cột, vui lòng kiểm tra lại tệp tin!");
+
+                    //Xóa khoảng trắng các ô tiêu đề
                     foreach (DataColumn col in dt.Columns)
-                    {
                         col.ColumnName = col.ColumnName.Trim();
-                    }
 
                     string isValid = ValidateColumns(dt);
                     if (isValid != null)
                         return Content("Có vẻ như bạn đã sai hoặc thiếu tên cột [" + isValid + "], vui lòng kiểm tra lại tệp tin!");
 
-                    //Đọc từng dòng dữ liệu trong file excel
-                    foreach (DataRow data in dt.Rows) 
+                    var lstNewLichHoc = new List<LichHoc>();
+                    for (int i = 8; i < dt.Columns.Count; i++)
                     {
+                        DataColumn col = dt.Columns[i];
+                        var colDate = col.ColumnName.Trim();
+                        try
+                        {
+                            DateTime ngayHoc = Convert.ToDateTime(colDate.Split('/')[2] + "-" + colDate.Split('/')[1] + "-" + colDate.Split('/')[0]);
+
+                            var lichHoc = new LichHoc();
+                            lichHoc.ID_LopHocPhan = idLhp;
+                            lichHoc.NgayHoc = ngayHoc;
+
+                            lstNewLichHoc.Add(lichHoc);
+                        }
+                        catch (Exception)
+                        {
+                            return Content("Có vẻ như định dạng cột [" + (i + 1) + "] đã sai, phải là ngày học với định dạng [dd/mm/yyyy], vui lòng kiểm tra lại tệp tin!");
+                        }
 
                     }
 
+                    var lstNewDSSV = new List<DanhSachSinhVien>();
+                    //Đọc từng dòng dữ liệu trong file excel
+                    foreach (DataRow data in dt.Rows)
+                    {
+                        string masv = data["Mã SV"].ToString();
+                        string holot = data["Họ lót"].ToString();
+                        string ten = data["Tên"].ToString();
+                        string ngaysinh = data["Ngày sinh"].ToString();
+                        try
+                        {
+                            Convert.ToDateTime(ngaysinh.Split('/')[2] + "-" + ngaysinh.Split('/')[1] + "-" + ngaysinh.Split('/')[0]);
+                        }
+                        catch (Exception)
+                        {
+                            return Content("Có vẻ như định dạng cột [Ngày sinh] đã sai, phải là định dạng [dd/mm/yyyy], vui lòng kiểm tra lại tệp tin!");
+                        }
+                        string gioitinh = data["Giới tính"].ToString();
+                        string email = data["Email"].ToString();
+                        string lophanhchinh = data["Lớp hành chính"].ToString();
 
+                        DanhSachSinhVien dssv = new DanhSachSinhVien();
+                        dssv.ID_LopHocPhan = idLhp;
+                        dssv.MaSV = masv;
+                        dssv.HoLot = holot;
+                        dssv.Ten = ten;
+                        dssv.NgaySinh = Convert.ToDateTime(ngaysinh.Split('/')[2] + "-" + ngaysinh.Split('/')[1] + "-" + ngaysinh.Split('/')[0]);
+                        dssv.GioiTinh = gioitinh;
+                        dssv.Email = email;
+                        dssv.LopHanhChinh = lophanhchinh;
+
+                        lstNewDSSV.Add(dssv);
+                    }
+
+                    model.DanhSachSinhVien.AddRange(lstNewDSSV);
+                    model.LichHoc.AddRange(lstNewLichHoc);
+                    model.SaveChanges();
+                    model = new CongTacTroGiangKhoaCNTTEntities();
                 }
                 #endregion
 
@@ -133,7 +214,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             // Declare the valid column names
             string[] validColumns = {
-                "Mã MH", "Mã LHP", "Tên HP"
+                "Mã SV", "Họ lót", "Tên", "Ngày sinh", "Giới tính", "Email", "Lớp hành chính"
             };
 
             DataColumnCollection columns = dt.Columns;

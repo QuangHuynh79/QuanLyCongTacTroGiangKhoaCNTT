@@ -16,10 +16,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
     {
         public int ID { get; set; }
         public int ID_DanhSachSinhVien { get; set; }
-        public System.DateTime NgayHoc { get; set; }
         public string DuLop { get; set; }
         public string GhiChu { get; set; }
+        public int ID_LichHoc { get; set; }
     
         public virtual DanhSachSinhVien DanhSachSinhVien { get; set; }
+        public virtual LichHoc LichHoc { get; set; }
     }
 }
