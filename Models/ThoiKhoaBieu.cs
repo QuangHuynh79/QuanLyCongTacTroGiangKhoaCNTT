@@ -18,9 +18,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public int ID_HocKy { get; set; }
         public int ID_Nganh { get; set; }
         public Nullable<int> ID_LopHocPhan { get; set; }
-        public Nullable<int> SoTietDaXep { get; set; }
+        public Nullable<int> SoTC { get; set; }
         public Nullable<int> TietBD { get; set; }
-        public Nullable<int> SoTiet { get; set; }
+        public Nullable<int> TSMH { get; set; }
         public string TietHoc { get; set; }
         public string Phong { get; set; }
         public Nullable<int> ThuS { get; set; }

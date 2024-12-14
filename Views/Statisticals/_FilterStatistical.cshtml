@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
-@{ 
+@{
     var ut = Model.ToList();
+    int i = 0;
 }
+<!-- card body -->
 <div class="card-body" id="filterLoad">
     <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
@@ -59,23 +61,23 @@
             </div>
         </div>
     </div>
-
     <div class="table-card mt-3 border-top-lg">
         <div class="card-body mt-3" id="filterLoad">
             <div class="table-card">
                 <table id="dataTableBasic" class="table table-hover" style="width:100%">
                     <thead class="table-light">
                         <tr>
-                            <th align="center" class="text-center bg-white" colspan="5">
+                            <th align="center" class="text-center bg-white" colspan="6">
                                 <h4>Danh sách Trợ Giảng đã được phân công</h4>
                             </th>
                         </tr>
                         <tr>
-                            <th>Mã SV</th>
-                            <th>Họ Tên SV</th>
-                            <th>Giảng viên</th>
-                            <th>Lớp học phần</th>
-                            <th>Giờ quy đổi</th>
+                            <th>TT</th>
+                            <th>Mã TA</th>
+                            <th>Họ & Tên TA</th>
+                            <th>Mã GV</th>
+                            <th>Họ & Tên GV</th>
+                            <th>Mã LHP</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,29 +85,60 @@
                         {
                             foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).ToList())
                             {
-                               <tr>
-                                   <td valign="middle">@item.First().MSSV</td>
-                                   <td valign="middle">
-                                       Họ & Tên: @item.First().HoTen
-                                       <br />
-                                       Điện thoại: @item.First().SoDienThoai
-                                       <br />
-                                       Email: @item.First().Email
-                                   </td>
-                                   <td valign="middle">
-                                       Mã GV: @item.First().LopHocPhan.MaCBGD
-                                       <br />
-                                       Họ & Tên: @item.First().LopHocPhan.TenCBGD
-                                   </td>
-                                   <td valign="middle">
-                                       Mã LHP: @item.First().LopHocPhan.MaLHP
-                                       <br />
-                                       Tên HP: @item.First().LopHocPhan.TenHP
-                                   </td>
-                                   <td valign="middle">
-                                       @item.First().LopHocPhan.CongViec.Sum(s => s.SoGioQuyDoi) giờ
-                                   </td>
-                               </tr>
+                                i++;
+                                <tr name="@item.First().ID" id="parent-data-@item.First().ID">
+                                    <td valign="middle">@i</td>
+                                    <td valign="middle">@item.First().MSSV</td>
+                                    <td valign="middle">
+                                        @item.First().HoTen
+                                    </td>
+                                    <td valign="middle">
+                                        @item.First().LopHocPhan.MaCBGD
+                                    </td>
+                                    <td valign="middle">
+                                        @item.First().LopHocPhan.TenCBGD
+                                    </td>
+                                    <td valign="middle">
+                                        Mã LHP: @item.First().LopHocPhan.MaLHP
+                                    </td>
+                                </tr>
+                                <tr hidden name="@item.First().ID" id="child-data-@item.First().ID">
+                                    <td hidden>@(i+ 0.5)</td>
+                                    <td colspan="6" class="p-0">
+                                        <table d="none-datatable" class="ms-5 table table-sm table-sm m-0" style="width:100%">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Tên LHP</th>
+                                                    <th>TC</th>
+                                                    <th>TSMH</th>
+                                                    <th>Giờ QĐ</th>
+                                                    <th>Số SV</th>
+                                                    <th>Lý do đề xuất</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="middle">@item.First().LopHocPhan.TenHP</td>
+                                                    <td valign="middle">@item.First().LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                                                    <td valign="middle">@item.First().LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                                                    <td valign="middle">
+                                                        @item.First().LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.First().LopHocPhan.DanhSachSinhVien.Count
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.First().LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td hidden></td>
+                                    <td hidden></td>
+                                    <td hidden></td>
+                                    <td hidden></td>
+                                </tr>
                             }
                         }
                     </tbody>

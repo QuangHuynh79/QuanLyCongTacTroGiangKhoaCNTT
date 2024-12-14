@@ -248,9 +248,9 @@
           <Property Name="ID_HocKy" Type="int" Nullable="false" />
           <Property Name="ID_Nganh" Type="int" Nullable="false" />
           <Property Name="ID_LopHocPhan" Type="int" />
-          <Property Name="SoTietDaXep" Type="int" />
+          <Property Name="SoTC" Type="int" />
           <Property Name="TietBD" Type="int" />
-          <Property Name="SoTiet" Type="int" />
+          <Property Name="TSMH" Type="int" />
           <Property Name="TietHoc" Type="nvarchar" MaxLength="256" />
           <Property Name="Phong" Type="nvarchar" MaxLength="256" />
           <Property Name="ThuS" Type="int" />
@@ -1131,9 +1131,9 @@
           <Property Name="ID_HocKy" Type="Int32" Nullable="false" />
           <Property Name="ID_Nganh" Type="Int32" Nullable="false" />
           <Property Name="ID_LopHocPhan" Type="Int32" />
-          <Property Name="SoTietDaXep" Type="Int32" />
+          <Property Name="SoTC" Type="Int32" />
           <Property Name="TietBD" Type="Int32" />
-          <Property Name="SoTiet" Type="Int32" />
+          <Property Name="TSMH" Type="Int32" />
           <Property Name="TietHoc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Phong" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ThuS" Type="Int32" />
@@ -1955,9 +1955,9 @@
                 <ScalarProperty Name="ID_HocKy" ColumnName="ID_HocKy" />
                 <ScalarProperty Name="ID_Nganh" ColumnName="ID_Nganh" />
                 <ScalarProperty Name="ID_LopHocPhan" ColumnName="ID_LopHocPhan" />
-                <ScalarProperty Name="SoTietDaXep" ColumnName="SoTietDaXep" />
+                <ScalarProperty Name="SoTC" ColumnName="SoTC" />
                 <ScalarProperty Name="TietBD" ColumnName="TietBD" />
-                <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />
+                <ScalarProperty Name="TSMH" ColumnName="TSMH" />
                 <ScalarProperty Name="TietHoc" ColumnName="TietHoc" />
                 <ScalarProperty Name="Phong" ColumnName="Phong" />
                 <ScalarProperty Name="ThuS" ColumnName="ThuS" />
