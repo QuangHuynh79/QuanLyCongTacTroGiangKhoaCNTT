@@ -92,8 +92,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     var phancong = lhp.PhanCongTroGiang.First();
                     phancong.ID_TaiKhoan = idtk;
 
+                    var ungtuyen = lhp.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk);
+                    ungtuyen.TrangThai = true;
+
                     // Đánh dấu đối tượng là đã sửa đổi và lưu thay đổi
                     model.Entry(phancong).State = System.Data.Entity.EntityState.Modified;
+                    model.Entry(ungtuyen).State = System.Data.Entity.EntityState.Modified;
                     model.SaveChanges();
 
                     // Cập nhật tài khoản trợ giảng cho tất cả công việc liên quan đến lớp học phần

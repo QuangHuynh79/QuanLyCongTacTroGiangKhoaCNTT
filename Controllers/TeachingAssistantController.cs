@@ -465,7 +465,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
-                if (trangthai.Equals("all"))
+                if (trangthai.ToLower().Equals("all"))
                 {
                     var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
                     && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
@@ -478,7 +478,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang)).ToList();
                     return PartialView("_FilterRegistered", uts);
                 }
-                else if (trangthai.Equals("true"))
+                else if (trangthai.ToLower().Equals("true"))
                 {
                     var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
                     && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
@@ -600,7 +600,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var tk = Session["Taikhoan"] as TaiKhoan;
                 var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
                 && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
-                if (trangthai.Equals("all"))
+                if (trangthai.ToLower().Equals("all"))
                 {
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
@@ -608,10 +608,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     List<int> idF = new List<int>();
                     foreach (var t in ut)
                         idF.Add(t.ID);
-                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList();
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma) && w.TrangThai == true).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
-                else if (trangthai.Equals("true"))
+                else if (trangthai.ToLower().Equals("true"))
                 {
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
@@ -619,8 +619,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     List<int> idF = new List<int>();
                     foreach (var t in ut)
                         idF.Add(t.ID);
-                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
-                    && w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma) && w.TrangThai == true
+                    && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == w.ID_TaiKhoan).Count() > 0).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
                 else
@@ -631,8 +631,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     List<int> idF = new List<int>();
                     foreach (var t in ut)
                         idF.Add(t.ID);
-                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
-                    && (w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList();
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma) && w.TrangThai == true
+                    && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == w.ID_TaiKhoan).Count() < 1).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
             }

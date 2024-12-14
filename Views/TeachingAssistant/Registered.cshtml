@@ -24,6 +24,13 @@
     }
 
     var formDky = models.FormDangKyTroGiang.Where(w => w.ID_HocKy == id_hkGanNhat && w.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList().OrderByDescending(o => o.ID);
+    List<int> idF = new List<int>();
+    foreach (var t in formDky)
+    {
+        idF.Add(t.ID);
+    }
+    var uts = models.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang)).ToList();
+
     int i = 0;
 }
 <script src="~/ActiveItemMenu/TeachingAssistant/registered.js"></script>
@@ -170,49 +177,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var items in formDky.ToList())
+                                @foreach (var item in uts.ToList().OrderByDescending(o => o.ID))
                                 {
-                                    foreach (var item in items.UngTuyenTroGiang.ToList().OrderByDescending(o => o.ID))
-                                    {
-                                        i++;
-                                        int idut = item.ID;
-                                        int idtk = item.ID_TaiKhoan;
-                                        int idlhp = item.ID_LopHocPhan;
+                                    i++;
+                                    int idut = item.ID;
+                                    int idtk = item.ID_TaiKhoan;
+                                    int idlhp = item.ID_LopHocPhan;
 
-                                        <tr>
-                                            <td valign="middle">@i</td>
-                                            <td valign="middle">
-                                                MSSV: @item.MSSV
-                                                <br />
-                                                Họ & Tên: @item.HoTen
-                                            </td>
-                                            <td valign="middle" class="text-nowrap">
-                                                @item.Email
-                                                <br />
-                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.TaiKhoan.ID_Nganh != null ? item.TaiKhoan.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
-                                            </td>
-                                            <td valign="middle">
-                                                Mã LHP: @item.LopHocPhan.MaLHP
-                                                <br />
-                                                Tên HP: @item.LopHocPhan.TenHP
-                                            </td>
-                                            <td valign="middle" class="text-nowrap">
-                                                TB Chung: @item.DiemTBTL
-                                                <br />
-                                                Rèn luyện: @item.DiemRL
-                                                <br />
-                                                TK môn: @item.DiemTKMH
-                                            </td>
-                                            <td valign="middle" class="text-nowrap">
-                                                @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
-                                                {
-                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
-                                                }
-                                                else if (models.DanhGiaPhongVan.FirstOrDefault(f => f.ID_UngTuyenTroGiang == idut) != null)
-                                                {
-                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
-                                                }
-                                                else if (!item.TrangThai)
+                                    <tr>
+                                        <td valign="middle">@i</td>
+                                        <td valign="middle">
+                                            MSSV: @item.MSSV
+                                            <br />
+                                            Họ & Tên: @item.HoTen
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @item.Email
+                                            <br />
+                                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.TaiKhoan.ID_Nganh != null ? item.TaiKhoan.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                                        </td>
+                                        <td valign="middle">
+                                            Mã LHP: @item.LopHocPhan.MaLHP
+                                            <br />
+                                            Tên HP: @item.LopHocPhan.TenHP
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            TB Chung: @item.DiemTBTL
+                                            <br />
+                                            Rèn luyện: @item.DiemRL
+                                            <br />
+                                            TK môn: @item.DiemTKMH
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
+                                            {
+                                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                                            }
+                                            else
+                                            {
+                                                if (!item.TrangThai)
                                                 {
                                                     <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
                                                 }
@@ -220,29 +223,30 @@
                                                 {
                                                     <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
                                                 }
-                                            </td>
-                                            <td valign="middle" class="text-nowrap">
-                                                @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
-                                                {
-                                                    <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
-                                                    </a>
-                                                }
-                                                else if (models.DanhGiaPhongVan.FirstOrDefault(f => f.ID_UngTuyenTroGiang == idut) != null)
-                                                {
-                                                    <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
-                                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                                            }
+                                        </td>
+                                        <td valign="middle" class="text-nowrap">
+                                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
+                                            {
+                                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
+                                                </a>
+                                            }
+                                            else if (models.DanhGiaPhongVan.FirstOrDefault(f => f.ID_UngTuyenTroGiang == idut) != null)
+                                            {
+                                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="daphancong" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết"><i class="bi bi-info-square"></i></span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a style="font-size: 20px" role="button" id="chitietungtuyen-@item.ID" trangthaiUT="@item.TrangThai.ToString().ToLower()" titleForm="Thông tin ứng tuyển Trợ giảng @item.MSSV - @item.HoTen" name="@item.ID" class="text-primary">
+                                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="Xem chi tiết & xét duyệt"><i class="bi bi-info-square"></i></span>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+
                                 }
                             </tbody>
                         </table>

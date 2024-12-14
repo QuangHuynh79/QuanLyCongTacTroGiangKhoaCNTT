@@ -52,13 +52,20 @@
                             TK môn: @item.DiemTKMH
                         </td>
                         <td valign="middle" class="text-nowrap">
-                            @if (!item.TrangThai)
+                            @if (models.PhanCongTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idtk && f.ID_LopHocPhan == idlhp) != null)
                             {
-                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
                             }
                             else
                             {
-                                <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                                if (!item.TrangThai)
+                                {
+                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-warning">Chưa được duyệt</span>
+                                }
+                                else
+                                {
+                                    <span data-bs-toggle="tooltip" data-bs-html="true" title="" class="badge bg-success">Đã được duyệt</span>
+                                }
                             }
                         </td>
                         <td valign="middle" class="text-nowrap">
