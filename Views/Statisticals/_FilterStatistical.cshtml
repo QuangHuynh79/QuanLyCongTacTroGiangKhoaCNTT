@@ -64,8 +64,8 @@
     <div class="table-card mt-3 border-top-lg">
         <div class="card-body mt-3" id="filterLoad">
             <div class="table-card">
-                <table id="dataTableBasic" class="table table-hover" style="width:100%">
-                    <thead class="table-light">
+                <table id="dataTableBasics" class="table table-hover" style="width:100%">
+                    <thead id="thread-thongke" class="table-light">
                         <tr>
                             <th align="center" class="text-center bg-white" colspan="6">
                                 <h4>Danh sách Trợ Giảng đã được phân công</h4>
@@ -73,6 +73,7 @@
                         </tr>
                         <tr>
                             <th>TT</th>
+                            <th class="p-0 m-0"></th>
                             <th>Mã TA</th>
                             <th>Họ & Tên TA</th>
                             <th>Mã GV</th>
@@ -86,8 +87,13 @@
                             foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
                             {
                                 i++;
-                                <tr name="@item.ID" id="parent-data-@item.ID">
-                                    <td valign="middle">@i</td>
+                                <tr name="@item.ID">
+                                    <td valign="middle">
+                                        @i
+                                    </td>
+                                    <td class="ps-0 pe-0">
+                                        <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
+                                    </td>
                                     <td valign="middle">@item.MSSV</td>
                                     <td valign="middle">
                                         @item.HoTen
@@ -100,44 +106,37 @@
                                     </td>
                                     <td valign="middle">
                                         @item.LopHocPhan.MaLHP
+                                        <div hidden name="@item.ID" id="child-data-@item.ID">
+                                            <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Tên LHP</th>
+                                                        <th>TC</th>
+                                                        <th>Tổng số giờ HP</th>
+                                                        <th>Số giờ TA</th>
+                                                        <th>Số SV</th>
+                                                        <th>Lý do đề xuất</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td valign="middle">@item.LopHocPhan.TenHP</td>
+                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                                                        <td valign="middle">
+                                                            @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
+                                                        </td>
+                                                        <td valign="middle">
+                                                            @item.LopHocPhan.DanhSachSinhVien.Count
+                                                        </td>
+                                                        <td valign="middle">
+                                                            @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </td>
-                                </tr>
-                                <tr hidden name="@item.ID" id="child-data-@item.ID">
-                                    <td hidden>@(i+ 0.5)</td>
-                                    <td colspan="6" class="p-0 ps-10">
-                                        <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Tên LHP</th>
-                                                    <th>TC</th>
-                                                    <th>TSMH</th>
-                                                    <th>Giờ QĐ</th>
-                                                    <th>Số SV</th>
-                                                    <th>Lý do đề xuất</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td valign="middle">@item.LopHocPhan.TenHP</td>
-                                                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
-                                                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
-                                                    </td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.DanhSachSinhVien.Count
-                                                    </td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td hidden></td>
-                                    <td hidden></td>
-                                    <td hidden></td>
-                                    <td hidden></td>
                                 </tr>
                             }
                         }
@@ -147,6 +146,39 @@
         </div>
     </div>
     <script>
-        $('#dataTableBasic').DataTable();
+        $(document).ready(function () {
+
+            function format(d, id) {
+                return (
+                    $('body').find('[id="' + id + '"]').html()
+                );
+            }
+
+            let table = $("#dataTableBasics").DataTable();
+            table.on('click', '.btn-open-child', function (e) {
+                //table.rows().every(function () {
+                //    var row = this;
+                //    if (row.child.isShown()) {
+                //        row.child.hide();
+                //        $(this.node()).removeClass('shown');
+                //        $(".close-child-rows").addClass("disable-button");
+                //    }
+                //});
+                var id = 'child-data-' + $(this).attr('name');
+                if (id.indexOf('undefined') == -1) {
+                    let tr = e.target.closest('tr');
+                    let row = table.row(tr);
+
+                    if (row.child.isShown()) {
+                        row.child.hide();
+                        $(this).replaceWith(`<i name="` + $(this).attr('name') + `" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>`)
+                    }
+                    else {
+                        row.child(format(row.data(), id)).show();
+                        $(this).replaceWith(`<i name="` + $(this).attr('name') + `" role="button" style="font-size: 21px" class="bi bi-dash-circle-fill text-danger btn-open-child"></i>`)
+                    }
+                }
+            });
+        });
     </script>
 </div>
