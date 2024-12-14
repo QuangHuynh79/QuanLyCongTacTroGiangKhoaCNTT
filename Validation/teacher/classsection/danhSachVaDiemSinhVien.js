@@ -39,7 +39,7 @@
         $('body').find('[id="diemdanhsvTitle"]').text(tieude);
 
         var formData = new FormData();
-        formData.append('id', id);
+        formData.append('idLhp', id);
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },

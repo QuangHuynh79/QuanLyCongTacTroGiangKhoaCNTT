@@ -23,10 +23,10 @@
                             {
                                 if (currentLichHoc == item.ID)
                                 {
-                                    <option selected value="@item.NgayHoc">@item.NgayHoc</option>
+                                    <option selected value="@item.ID">@item.NgayHoc.ToString("dd/MM/yyyy")</option>
                                     continue;
                                 }
-                                <option value="@item.NgayHoc">@item.NgayHoc</option>
+                                <option value="@item.ID">@item.NgayHoc.ToString("dd/MM/yyyy")</option>
                             }
                         </select>
                     </div>
