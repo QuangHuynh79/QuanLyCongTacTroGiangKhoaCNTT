@@ -536,7 +536,10 @@
     <Content Include="Validation\teacher\Assignment\submitAssign.js" />
     <Content Include="Validation\teacher\Assignment\openAssgin.js" />
     <Content Include="Validation\teacher\Assignment\filter.js" />
-    <Content Include="Validation\teacher\classsection\danhSachVaDiemSinhVien.js" />
+    <Content Include="Validation\teacher\classsection\diemDanh.js" />
+    <Content Include="Validation\teacher\classsection\danhSachSinhVien.js" />
+    <Content Include="Validation\teacher\classsection\exportfile.js" />
+    <Content Include="Validation\teacher\classsection\import.js" />
     <Content Include="Validation\teacher\reviewtask\danhgia.js" />
     <Content Include="Validation\teacher\reviewtask\filter.js" />
     <Content Include="Validation\teacher\registereds\phongvan.js" />
@@ -609,6 +612,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\ClassManagement\_Export.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

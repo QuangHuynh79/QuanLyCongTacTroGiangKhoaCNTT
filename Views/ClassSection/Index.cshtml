@@ -148,19 +148,15 @@
                                         <td class="text-nowrap">
                                             @if (item.DanhSachSinhVien.Count < 1)
                                             {
-                                                <span data-bs-toggle="modal" data-bs-target="#importsv">
-                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
-                                                        <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
-                                                    </a>
-                                                </span>
+                                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                                </a>
                                             }
                                             else
                                             {
-                                                <span data-bs-toggle="modal" data-bs-target="#importsv">
-                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload lại danh sách sinh viên" class="text-success">
-                                                        <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
-                                                    </a>
-                                                </span>
+                                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật lại danh sách sinh viên" class="text-primary">
+                                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                                </a>
                                             }
 
                                             @if (item.DanhSachSinhVien.Count() > 0)
@@ -261,7 +257,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="importsvTitle">Import danh sách sinh viên LHP 221_71ITBS10103_01</h5>
+                    <h5 class="modal-title" id="importsvTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -269,17 +265,17 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
-                            <label class="form-label" for="hinhanhmc">File import <small><small class="text-muted"><i>(chọn hoặc kéo thả file excel, tối đa 10MB)</i></small></small> <span class="text-danger">*</span></label>
+                            <label class="form-label" for="hinhanhmc">File import <small><small class="text-muted"><i>(chọn 1 file excel, tối đa 50MB)</i></small></small> <span class="text-danger">*</span></label>
                             <div class="mb-3">
-                                <input type="file" class="form-control form-control-file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                <input id="fileImportDssv" type="file" class="form-control form-control-file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                                 <span class="text-danger" id="valid-import"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnCloseImport" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmitImport" type="button" class="btn btn-primary">Import</button>
                 </div>
             </div>
         </div>
@@ -295,20 +291,27 @@
                     </button>
                 </div>
                 <div class="modal-body overflow-x-hidden" id="loadcontentdiemdanhsv">
-                  
+
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnCloseDiemDanh" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmitDiemDanh" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
+
+
+<section style="display: none" id="table-export-data">
+</section>
+
 <script src="~/Validation/teacher/classsection/suggestedTA.js"></script>
 <script src="~/Validation/teacher/classsection/DeXuatLHP.js"></script>
 <script src="~/Validation/teacher/classsection/viewTaskList.js"></script>
 <script src="~/Validation/teacher/classsection/updatetask.js"></script>
 <script src="~/Validation/teacher/classsection/filter.js"></script>
-<script src="~/Validation/teacher/classsection/danhSachVaDiemSinhVien.js"></script>
+<script src="~/Validation/teacher/classsection/danhSachSinhVien.js"></script>
+<script src="~/Validation/teacher/classsection/import.js"></script>
+<script src="~/Validation/teacher/classsection/diemDanh.js"></script>
+<script src="~/Validation/teacher/classsection/exportfile.js"></script>

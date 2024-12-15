@@ -29,6 +29,9 @@
             }
             else {
                 $('body').find('[id="loadcontentdiemdanhsv"]').replaceWith(ketqua);
+                $('body').find('[id="diemDanhTable"]').DataTable({
+                    pageLength: 100
+                });
             }
         });
     });
@@ -60,6 +63,9 @@
             }
             else {
                 $('body').find('[id="loadcontentdiemdanhsv"]').replaceWith(ketqua);
+                $('body').find('[id="diemDanhTable"]').DataTable({
+                    pageLength: 100
+                });
                 $('body').find('[id="diemdanhsv"]').modal('toggle');
             }
         });

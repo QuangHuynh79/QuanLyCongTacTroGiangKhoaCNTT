@@ -10,6 +10,10 @@
 
     var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
     int currentLichHoc = Int32.Parse(Session["id-current-lichhoc"].ToString());
+    if (currentLichHoc == 0)
+    {
+        currentLichHoc = dbLichHoc.OrderByDescending(o => o.NgayHoc).ToList().First().ID;
+    }
 }
 
 <div class="modal-body overflow-x-hidden" id="loadcontentdiemdanhsv">
@@ -18,7 +22,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3">
-                        <select id="tuanhoc" class="form-select w-auto">
+                        <select id="tuanhoc" class="form-select w-auto text-dark">
                             @foreach (var item in dbLichHoc.OrderBy(o => o.NgayHoc).ToList())
                             {
                                 if (currentLichHoc == item.ID)
@@ -34,23 +38,23 @@
 
                 <div class="col-6">
                     <div class="w-100 text-end">
-                        <a id="btnExportTkb" class="btn btn-outline-secondary">
+                        <a id="btnExportDssv" class="btn btn-outline-secondary">
                             <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
                         </a>
                     </div>
                 </div>
             </div>
 
-            <input id="idLHPDiemDanh" value="@lhp.ID" hidden />
+            <input id="idLHPDiemDanh" name="@lhp.MaLHP" value="@lhp.ID" hidden />
             <h5>Lớp HP: @lhp.MaLHP - @lhp.TenHP</h5>
-            @if (dbLichHoc.Count() > 0)
+            @if (dbLichHoc.Where(d => d.DiemDanh.Where(wd => wd.DuLop.Length > 0).Count() > 0).Count() > 0)
             {
                 var dbDiemDanh = dbLichHoc.FirstOrDefault(f => f.ID == currentLichHoc).DiemDanh.ToList();
-                <h5>Sĩ Số: @dbDiemDanh.Where(w => w.DuLop.Equals("Có mặt")).Count()/@dbLichHoc.Count (@dbDiemDanh.Where(w => w.DuLop.Equals("Có mặt")).Count() có mặt, @dbDiemDanh.Where(w => w.DuLop.Equals("Đi trễ")).Count() đi trễ, @dbDiemDanh.Where(w => w.DuLop.Equals("Vắng mặt")).Count() vắng)</h5>
+                <h5>Sĩ Số: @dbDiemDanh.Where(w => w.DuLop.Equals("Có mặt") || w.DuLop.Equals("Đi trễ")).Count()/@lhp.DanhSachSinhVien.Count (@dbDiemDanh.Where(w => w.DuLop.Equals("Có mặt")).Count() có mặt, @dbDiemDanh.Where(w => w.DuLop.Equals("Đi trễ")).Count() đi trễ, @dbDiemDanh.Where(w => w.DuLop.Equals("Vắng mặt")).Count() vắng)</h5>
             }
             else
             {
-                <h5>Sĩ Số: Chưa điểm danh</h5>
+                <h5>Sĩ Số: 0/@lhp.DanhSachSinhVien.Count (chưa điểm danh lớp học)</h5>
             }
         </div>
         <div class="col-12">
@@ -59,7 +63,7 @@
         <div class="col-12">
             <div class="mb-4">
                 <h3 class="text-center mb-0" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h3>
-                <label class="small text-center w-100">(Bỏ chọn nếu sinh viên vắng mặt)</label>
+                <label class="small text-center w-100">(Trạng thái lựa chọn mặc định khi chưa điểm danh là có mặt)</label>
             </div>
         </div>
         <div class="col-12">
@@ -67,15 +71,11 @@
                 <table id="diemDanhTable" class="table table-hover" style="width:100%">
                     <thead class="table-light">
                         <tr>
-                            <th>TT</th>
-                            <th>MSSV</th>
-                            <th>Họ & Tên</th>
-                            <th>Email</th>
-                            <th>Ngày sinh</th>
-                            <th>Giới tính</th>
-                            <th>
-                                Đ.Danh
-                            </th>
+                            <th class="text-nowrap">TT</th>
+                            <th class="text-nowrap">MSSV</th>
+                            <th class="text-nowrap">Thông tin sinh viên</th>
+                            <th class="text-nowrap">Trạng thái</th>
+                            <th class="text-nowrap">Điểm danh</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,18 +84,50 @@
                             var diemdanh = item.DiemDanh.FirstOrDefault(w => w.ID_LichHoc == currentLichHoc);
                             i++;
                             <tr>
-                                <td>@i</td>
-                                <td>@item.MaSV</td>
-                                <td class="text-nowrap">@item.HoLot @item.Ten</td>
-                                <td>@item.Email</td>
-                                <td>@item.NgaySinh</td>
-                                <td>@item.GioiTinh</td>
-                                <td>
+                                <td valign="middle">@i</td>
+                                <td valign="middle">@item.MaSV</td>
+                                <td valign="middle" class="text-nowrap">
+                                    <b>Họ & Tên:</b> @item.HoLot @item.Ten
+                                    <br />
+                                    <b>
+                                        Email:
+                                    </b> @item.Email
+                                    <br />
+                                    <b>
+                                        Ngày sinh:
+                                    </b> @item.NgaySinh.Value.ToString("dd/MM/yyyy")
+                                    <br />
+                                    <b>Giới tính:</b> @item.GioiTinh
+                                </td>
+                                <td valign="middle">
                                     @if (diemdanh != null)
                                     {
                                         if (diemdanh.DuLop.Equals("Có mặt"))
                                         {
-                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                            <span class="badge bg-success">Có mặt</span>
+                                        }
+                                        else if (diemdanh.DuLop.Equals("Đi trễ"))
+                                        {
+                                            <span class="badge bg-warning">Đi trễ</span>
+
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Vắng mặt</span>
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Chưa điểm danh</span>
+                                    }
+                                </td>
+                                <td valign="middle">
+                                    @if (diemdanh != null)
+                                    {
+                                        if (diemdanh.DuLop.Equals("Có mặt"))
+                                        {
+                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark w-auto">
                                                 <option selected value="Có mặt">Có mặt</option>
                                                 <option value="Đi trễ">Đi trễ</option>
                                                 <option value="Vắng mặt">Vắng mặt</option>
@@ -103,7 +135,7 @@
                                         }
                                         else if (diemdanh.DuLop.Equals("Đi trễ"))
                                         {
-                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark w-auto">
                                                 <option value="Có mặt">Có mặt</option>
                                                 <option selected value="Đi trễ">Đi trễ</option>
                                                 <option value="Vắng mặt">Vắng mặt</option>
@@ -111,7 +143,7 @@
                                         }
                                         else
                                         {
-                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                            <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark w-auto">
                                                 <option value="Có mặt">Có mặt</option>
                                                 <option value="Đi trễ">Đi trễ</option>
                                                 <option selected value="Vắng mặt">Vắng mặt</option>
@@ -120,7 +152,7 @@
                                     }
                                     else
                                     {
-                                        <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark">
+                                        <select name="@item.ID" id="dulop-@item.ID" class="form-select text-dark w-auto">
                                             <option selected value="Có mặt">Có mặt</option>
                                             <option value="Đi trễ">Đi trễ</option>
                                             <option value="Vắng mặt">Vắng mặt</option>
@@ -134,7 +166,4 @@
             </div>
         </div>
     </div>
-    <script>
-        $('#diemDanhTable').DataTable();
-    </script>
 </div>
