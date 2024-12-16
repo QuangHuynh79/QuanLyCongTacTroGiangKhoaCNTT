@@ -30,7 +30,12 @@
             else {
                 $('body').find('[id="loadcontentdiemdanhsv"]').replaceWith(ketqua);
                 $('body').find('[id="diemDanhTable"]').DataTable({
-                    pageLength: 100
+                    pageLength: 100,
+                    columnDefs: [{
+                        'searchable': false,
+                        'targets': [0, 3, 4]
+                    },
+                    ]
                 });
             }
         });
@@ -64,7 +69,12 @@
             else {
                 $('body').find('[id="loadcontentdiemdanhsv"]').replaceWith(ketqua);
                 $('body').find('[id="diemDanhTable"]').DataTable({
-                    pageLength: 100
+                    pageLength: 100,
+                    columnDefs: [{
+                        'searchable': false,
+                        'targets': [0, 3, 4]
+                    },
+                    ]
                 });
                 $('body').find('[id="diemdanhsv"]').modal('toggle');
             }

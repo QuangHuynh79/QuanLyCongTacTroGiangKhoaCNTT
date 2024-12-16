@@ -460,7 +460,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// <returns>Trả về dữ liệu điểm danh lớp học.</returns>
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult RollCall(int idLichHoc, string idsv, string trangthai)
+        public ActionResult RollCall(int idLichHoc, string idsv, string trangthai, string ghichu)
         {
             try
             {
@@ -470,6 +470,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 var lstIdsv = idsv.Split('#').ToList();
                 var lstTrangthai = trangthai.Split('#').ToList();
+                var lstGhiChu = ghichu.Split('#').ToList();
 
                 var lstDiemDanh = new List<DiemDanh>();
                 for (int i = 0; i < lstIdsv.Count; i++)
@@ -482,12 +483,15 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         dd.ID_LichHoc = idLichHoc;
                         dd.ID_DanhSachSinhVien = idDssv;
                         dd.DuLop = lstTrangthai[i];
+                        dd.GhiChu = lstGhiChu[i];
 
                         lstDiemDanh.Add(dd);
                     }
                     else
                     {
                         curDD.DuLop = lstTrangthai[i];
+                        curDD.GhiChu = lstGhiChu[i];
+
                         model.Entry(curDD).State = System.Data.Entity.EntityState.Modified;
                         model.SaveChanges();
                     }

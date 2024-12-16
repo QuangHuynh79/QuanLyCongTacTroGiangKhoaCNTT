@@ -116,9 +116,9 @@
                                 @foreach (var item in lstTkb.ToList().OrderByDescending(o => o.ID))
                                 {
                                     <tr>
-                                        <td>@item.MaLHP</td>
-                                        <td>@item.TenHP</td>
-                                        <td>
+                                        <td valign="middle">@item.MaLHP</td>
+                                        <td valign="middle">@item.TenHP</td>
+                                        <td valign="middle">
                                             <ul>
                                                 @foreach (var items in item.ThoiKhoaBieu.ToList())
                                                 {
@@ -128,10 +128,10 @@
                                                 }
                                             </ul>
                                         </td>
-                                        <td>
+                                        <td valign="middle" class="text-nowrap">
                                             @if (item.DeXuatTroGiang.Count < 1)
                                             {
-                                                <span>Không đăng ký</span>
+                                                <span class="badge bg-secondary">Không đăng ký</span>
                                             }
                                             else
                                             {
@@ -145,7 +145,7 @@
                                                 }
                                             }
                                         </td>
-                                        <td class="text-nowrap">
+                                        <td class="text-nowrap" valign="middle">
                                             @if (item.DanhSachSinhVien.Count < 1)
                                             {
                                                 <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">

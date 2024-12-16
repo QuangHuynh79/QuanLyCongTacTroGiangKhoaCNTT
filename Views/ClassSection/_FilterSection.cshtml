@@ -16,9 +16,9 @@
                 @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
                 {
                     <tr>
-                        <td>@item.MaLHP</td>
-                        <td>@item.TenHP</td>
-                        <td>
+                        <td valign="middle">@item.MaLHP</td>
+                        <td valign="middle">@item.TenHP</td>
+                        <td valign="middle">
                             <ul>
                                 @foreach (var items in item.ThoiKhoaBieu.ToList())
                                 {
@@ -28,10 +28,10 @@
                                 }
                             </ul>
                         </td>
-                        <td>
+                        <td valign="middle" class="text-nowrap">
                             @if (item.DeXuatTroGiang.Count < 1)
                             {
-                                <span>Không đăng ký</span>
+                                <span class="badge bg-secondary">Không đăng ký</span>
                             }
                             else
                             {
@@ -45,7 +45,7 @@
                                 }
                             }
                         </td>
-                        <td class="text-nowrap">
+                        <td class="text-nowrap" valign="middle">
                             <span data-bs-toggle="modal" data-bs-target="#diemdanh">
                                 <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
                                     <span><i class="bi bi-calendar3 me-2"></i></span>

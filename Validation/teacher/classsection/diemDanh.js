@@ -8,15 +8,21 @@
 
         var lstIdSv = "";
         var lstDuLop = "";
-
+        var lstGhiChu = "";
         var check = true;
         $('body').find('[id^="dulop-"]').each(function () {
             var select = $(this);
             var id = select.attr('name');
             var dulop = $('body').find('[id="dulop-' + id + '"] :selected').val();
+            var ghichu = $('body').find('[id="ghichu-' + id + '"]').val().trim();
+
+            if (ghichu.indexOf("#") != -1) {
+                ghichu = ghichu.replace(/#/g, '');
+            }
 
             lstIdSv += id + "#";
             lstDuLop += dulop + "#";
+            lstGhiChu += ghichu + "#";
         });
 
         if (lstIdSv.length > 0) {
@@ -45,12 +51,17 @@
             });
         }
 
+        if (lstGhiChu.length > 0) {
+            lstGhiChu = lstGhiChu.substring(0, lstGhiChu.length - 1);
+        }
+
         if (check == true) {
 
             var formData = new FormData();
             formData.append('idLichHoc', idLichHoc);
             formData.append('idsv', lstIdSv);
             formData.append('trangthai', lstDuLop);
+            formData.append('ghichu', lstGhiChu);
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
@@ -114,7 +125,12 @@
             else {
                 $('body').find('[id="loadcontentdiemdanhsv"]').replaceWith(ketqua);
                 $('body').find('[id="diemDanhTable"]').DataTable({
-                    pageLength: 100
+                    pageLength: 100,
+                    columnDefs: [{
+                        'searchable': false,
+                        'targets': [0, 3, 4]
+                    },
+                    ]
                 });
             }
         });

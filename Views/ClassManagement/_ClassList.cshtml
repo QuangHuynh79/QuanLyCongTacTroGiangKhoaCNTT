@@ -27,10 +27,10 @@
                             {
                                 if (currentLichHoc == item.ID)
                                 {
-                                    <option selected value="@item.ID">@item.NgayHoc.ToString("dd/MM/yyyy")</option>
+                                    <option selected value="@item.ID">@item.NgayHoc.ToString("dddd - dd/MM/yyyy")</option>
                                     continue;
                                 }
-                                <option value="@item.ID">@item.NgayHoc.ToString("dd/MM/yyyy")</option>
+                                <option value="@item.ID">@item.NgayHoc.ToString("dddd - dd/MM/yyyy")</option>
                             }
                         </select>
                     </div>
@@ -72,10 +72,10 @@
                     <thead class="table-light">
                         <tr>
                             <th class="text-nowrap">TT</th>
-                            <th class="text-nowrap">MSSV</th>
-                            <th class="text-nowrap">Thông tin sinh viên</th>
-                            <th class="text-nowrap">Trạng thái</th>
+                            <th class="text-nowrap ps-0">Thông tin sinh viên</th>
+                            <th class="text-nowrap ps-0">Trạng thái</th>
                             <th class="text-nowrap">Điểm danh</th>
+                            <th class="text-nowrap">Ghi chú</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,9 +84,10 @@
                             var diemdanh = item.DiemDanh.FirstOrDefault(w => w.ID_LichHoc == currentLichHoc);
                             i++;
                             <tr>
-                                <td valign="middle">@i</td>
-                                <td valign="middle">@item.MaSV</td>
-                                <td valign="middle" class="text-nowrap">
+                                <td valign="middle" class="pe-0">@i</td>
+                                <td valign="middle" class="text-nowrap ps-0">
+                                    <b>MSSV: <span class="badge bg-primary">@item.MaSV</span></b>
+                                    <br />
                                     <b>Họ & Tên:</b> @item.HoLot @item.Ten
                                     <br />
                                     <b>
@@ -99,7 +100,7 @@
                                     <br />
                                     <b>Giới tính:</b> @item.GioiTinh
                                 </td>
-                                <td valign="middle">
+                                <td valign="middle" class="ps-0">
                                     @if (diemdanh != null)
                                     {
                                         if (diemdanh.DuLop.Equals("Có mặt"))
@@ -158,6 +159,9 @@
                                             <option value="Vắng mặt">Vắng mặt</option>
                                         </select>
                                     }
+                                </td>
+                                <td valign="middle">
+                                    <textarea class="form-control text-dark" rows="4" id="ghichu-@item.ID" style="min-width: 350px">@(diemdanh != null ? diemdanh.GhiChu : "")</textarea>
                                 </td>
                             </tr>
                         }
