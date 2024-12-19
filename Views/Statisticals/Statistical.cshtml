@@ -124,9 +124,13 @@
                                             {
                                                 <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" selected value="@item.ID">@item.TenNganh</option>
                                             }
-                                            else
+                                            else if (userTennganh.Equals(item.Khoa.TenKhoa.ToLower().ToLower()))
                                             {
                                                 <option cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
+                                            }
+                                            else
+                                            {
+                                                <option hidden cuaKhoa="@item.ID_Khoa" name="@item.TenNganh" value="@item.ID">@item.TenNganh</option>
                                             }
                                         }
                                     }
