@@ -20,7 +20,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// Hàm này trả về danh sách sinh viên của lớp học phần cho người dùng.
         /// </summary>
         /// <returns>Danh sách sinh viên của lớp học phần được chọn.</returns>
-        [Authorize, GVRole]
+        [Authorize, TAandGVRole]
         [HttpPost]
         public ActionResult ClassList(int idLhp, string idLichHoc)
         {
@@ -458,7 +458,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// Điểm danh lớp học.
         /// </summary>
         /// <returns>Trả về dữ liệu điểm danh lớp học.</returns>
-        [Authorize, GVRole]
+        [Authorize, TAandGVRole]
         [HttpPost]
         public ActionResult RollCall(int idLichHoc, string idsv, string trangthai, string ghichu)
         {
@@ -515,7 +515,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// Lấy dữ liệu và xuất file danh sách sinh viên theo LHP.
         /// </summary>
         /// <returns>Trả về danh sách sv thành file excel</returns>
-        [Authorize, GVRole]
+        [Authorize, TAandGVRole]
         [HttpPost]
         public ActionResult ExportData(int idLhp)
         {

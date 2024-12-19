@@ -46,17 +46,28 @@
                             }
                         </td>
                         <td class="text-nowrap" valign="middle">
-                            <span data-bs-toggle="modal" data-bs-target="#diemdanh">
-                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
-                                    <span><i class="bi bi-calendar3 me-2"></i></span>
-                                </a>
-                            </span>
-
-                            <span data-bs-toggle="modal" data-bs-target="#importsv">
-                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                            @if (item.DanhSachSinhVien.Count < 1)
+                            {
+                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
                                     <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
                                 </a>
-                            </span>
+                            }
+                            else
+                            {
+                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật lại danh sách sinh viên" class="text-primary">
+                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                </a>
+                            }
+
+                            @if (item.DanhSachSinhVien.Count() > 0)
+                            {
+                                <span id="viewDiemDanh-@item.ID" tieudeForm="Điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                        <span><i class="bi bi-calendar3 me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+
                             @if (item.DeXuatTroGiang.Count < 1)
                             {
                                 <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.MaLHP - @item.TenHP" name="@item.ID">
@@ -81,6 +92,7 @@
         </table>
     </div>
 </div>
+
 <script>
     $('#dataTableBasic').DataTable();
 </script>
