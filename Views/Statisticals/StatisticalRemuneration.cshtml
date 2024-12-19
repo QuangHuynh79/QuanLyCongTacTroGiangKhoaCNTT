@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
 @using QuanLyCongTacTroGiangKhoaCNTT.Models
+@using System.Configuration;
+
 @{
     var models = new CongTacTroGiangKhoaCNTTEntities();
     var taikhoan = Session["TaiKhoan"] as TaiKhoan;
@@ -12,7 +14,7 @@
     var lstNganh = models.Nganh.ToList();
     var lstKhoa = models.Khoa.ToList();
 
-    ViewBag.Title = "Thống kê";
+    ViewBag.Title = "Thống kê Thù Lao";
     Layout = Session["layout"].ToString();
 
     bool checkUpdate = Convert.ToBoolean(Session["user-update-info"].ToString());
@@ -30,9 +32,28 @@
         ut = ut.Where(w => w.TaiKhoan.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList();
     }
     int i = 0;
+
+    var tongSoGioQuyDoi = 0.0;
+    foreach (var items in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+    {
+        tongSoGioQuyDoi += items.LopHocPhan.CongViec.Sum(s => s.SoGioQuyDoi);
+    }
+
+    var tongSoGioThucTe = 0.0;
+    foreach (var items in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+    {
+        tongSoGioThucTe += items.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe;
+    }
+
+    string thulao = ConfigurationManager.AppSettings["RemunerationPrice"];
+    var tongThuLao = 0.0;
+    foreach (var items in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+    {
+        tongThuLao += items.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe * float.Parse(thulao);
+    }
 }
 
-<script src="~/ActiveItemMenu/Statisticals/trogiang.js"></script>
+<script src="~/ActiveItemMenu/Statisticals/thulao.js"></script>
 
 
 <section class="container-fluid p-4 ">
@@ -51,6 +72,10 @@
                             </li>
                         </ol>
                     </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a class="btn btn-primary me-2" id="btncauhinhthulao">Cấu hình</a>
                 </div>
             </div>
         </div>
@@ -138,43 +163,7 @@
                 <!-- card body -->
                 <div class="card-body" id="filterLoad">
                     <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <div class="card bg-light-warning mb-4">
-                                <!-- Card body -->
-                                <div class="card-body d-flex flex-column gap-2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="lh-1 d-flex flex-column gap-1">
-                                            <h2 class="h1 fw-bold mb-0">@(ut.Count() > 0 ? ut.GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
-                                            <span>Đã Đăng Ký</span>
-                                        </div>
-                                        <div>
-                                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
-                                                <i style="font-size: 24px" class="bi bi-person-fill"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <div class="card bg-light-success mb-4">
-                                <!-- Card body -->
-                                <div class="card-body d-flex flex-column gap-2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="lh-1 d-flex flex-column gap-1">
-                                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.TrangThai == true).Count() > 0 ? ut.Where(w => w.TrangThai == true).GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
-                                            <span>Được Duyệt</span>
-                                        </div>
-                                        <div>
-                                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
-                                                <i style="font-size: 24px" class="bi bi-person-fill-check"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="card bg-light-primary mb-4">
                                 <!-- Card body -->
                                 <div class="card-body d-flex flex-column gap-2">
@@ -192,6 +181,60 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="card bg-light-warning mb-4">
+                                <!-- Card body -->
+                                <div class="card-body d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="lh-1 d-flex flex-column gap-1">
+                                            <h2 class="h1 fw-bold mb-0">@(tongSoGioQuyDoi == 0 ? "0" : tongSoGioQuyDoi.ToString())</h2>
+                                            <span>Tổng Số Giờ Quy Đổi</span>
+                                        </div>
+                                        <div>
+                                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                                <i style="font-size: 24px" class="bi bi-person-fill"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="card bg-light-success mb-4">
+                                <!-- Card body -->
+                                <div class="card-body d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="lh-1 d-flex flex-column gap-1">
+                                            <h2 class="h1 fw-bold mb-0">@(tongSoGioThucTe == 0 ? "0" : tongSoGioThucTe.ToString())</h2>
+                                            <span>Tổng Số Giờ Thực Tế</span>
+                                        </div>
+                                        <div>
+                                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                                <i style="font-size: 24px" class="bi bi-person-fill-check"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="card bg-light-danger mb-4">
+                                <!-- Card body -->
+                                <div class="card-body d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="lh-1 d-flex flex-column gap-1">
+                                            <h2 class="h1 fw-bold mb-0">@(tongThuLao == 0 ? "0" : tongThuLao.ToString())đ</h2>
+                                            <span>Tổng Thù Lao</span>
+                                        </div>
+                                        <div>
+                                            <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-danger">
+                                                <i style="font-size: 24px" class="bi bi-person-fill-check"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="table-card mt-3 border-top-lg">
                         <div class="card-body mt-3" id="filterLoad">
@@ -199,8 +242,8 @@
                                 <table id="dataTableBasics" class="table table-hover" style="width:100%">
                                     <thead id="thread-thongke" class="table-light">
                                         <tr>
-                                            <th align="center" class="text-center bg-white" colspan="7">
-                                                <h4>Danh sách Trợ Giảng đã được phân công</h4>
+                                            <th align="center" class="text-center bg-white" colspan="8">
+                                                <h4>Danh sách Trợ Giảng đã được phân công và Thù lao Công việc</h4>
                                             </th>
                                         </tr>
                                         <tr>
@@ -208,62 +251,79 @@
                                             <th class="p-0 m-0"></th>
                                             <th>Mã TA</th>
                                             <th>Họ & Tên TA</th>
-                                            <th>Mã GV</th>
-                                            <th>Họ & Tên GV</th>
-                                            <th>Mã LHP</th>
+                                            <th>Số LHP</th>
+                                            <th>Tổng giờ kế hoạch</th>
+                                            <th>Tổng giờ thực tế</th>
+                                            <th>Tổng thù lao</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count() : 0) > 0)
+                                        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() : 0) > 0)
                                         {
-                                            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+                                            var pctg = models.PhanCongTroGiang.Where(w => w.LopHocPhan.ID_HocKy == id_hkGanNhat && w.LopHocPhan.Nganh.TenNganh.ToLower().Equals(userTennganh)).ToList();
+                                            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).ToList())
                                             {
+                                                var soLopHocPhan = pctg.Where(w => w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == item.First().ID_TaiKhoan).Count() > 0);
+
+                                                var tonggioquydoi = 0.0;
+                                                foreach (var quydoi in soLopHocPhan) { tonggioquydoi += quydoi.LopHocPhan.CongViec.Sum(s => s.SoGioQuyDoi); }
+
+                                                var tonggiothucte = 0.0;
+                                                foreach (var thucte in soLopHocPhan) { tonggiothucte += thucte.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe; }
+
                                                 i++;
-                                                <tr name="@item.ID">
-                                                    <td valign="middle">@i
+                                                <tr name="@item.First().ID">
+                                                    <td valign="middle">
+                                                        @i
                                                     </td>
                                                     <td class="ps-0 pe-0">
-                                                        <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
+                                                        <i name="@item.First().ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
                                                     </td>
-                                                    <td valign="middle">@item.MSSV</td>
+                                                    <td valign="middle">@item.First().MSSV</td>
                                                     <td valign="middle">
-                                                        @item.HoTen
-                                                    </td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.MaCBGD
+                                                        @item.First().HoTen
                                                     </td>
                                                     <td valign="middle">
-                                                        @item.LopHocPhan.TenCBGD
+                                                        @(soLopHocPhan.Count() == 0 ? "0" : soLopHocPhan.Count().ToString("D2"))
                                                     </td>
                                                     <td valign="middle">
-                                                        @item.LopHocPhan.MaLHP
-                                                        <div hidden name="@item.ID" id="child-data-@item.ID">
+                                                        @(tonggioquydoi == 0 ? 0 : tonggioquydoi) giờ
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @(tonggiothucte == 0 ? 0 : tonggiothucte) giờ
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @((Convert.ToDecimal(tonggiothucte) * Convert.ToDecimal(thulao)).ToString("0,0").Equals("00") ? "0" : (Convert.ToDecimal(tonggiothucte) * Convert.ToDecimal(thulao)).ToString("0,0"))đ
+
+                                                        <div hidden name="@item.First().ID" id="child-data-@item.First().ID">
                                                             <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
                                                                 <thead class="table-light">
                                                                     <tr>
                                                                         <th>Tên LHP</th>
-                                                                        <th>TC</th>
-                                                                        <th>Tổng số giờ HP</th>
-                                                                        <th>Số giờ TA</th>
-                                                                        <th>Số SV</th>
-                                                                        <th>Lý do đề xuất</th>
+                                                                        <th>Mã LHP</th>
+                                                                        <th>Tổng giờ HP</th>
+                                                                        <th>Giờ kế hoạch</th>
+                                                                        <th>Giờ thực tế</th>
+                                                                        <th>Đơn giá</th>
+                                                                        <th>Thành tiền</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td valign="middle">@item.LopHocPhan.TenHP</td>
-                                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
-                                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
-                                                                        <td valign="middle">
-                                                                            @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
-                                                                        </td>
-                                                                        <td valign="middle">
-                                                                            @item.LopHocPhan.DanhSachSinhVien.Count
-                                                                        </td>
-                                                                        <td valign="middle">
-                                                                            @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
-                                                                        </td>
-                                                                    </tr>
+                                                                    @foreach (var lhp in soLopHocPhan.ToList())
+                                                                    {
+                                                                        var thulaos = Convert.ToDecimal(thulao);
+                                                                        var giothucte = Convert.ToDecimal(lhp.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe);
+                                                                        <tr>
+                                                                            <td valign="middle">@lhp.LopHocPhan.TenHP</td>
+                                                                            <td valign="middle">@lhp.LopHocPhan.MaLHP</td>
+                                                                            <td valign="middle">@lhp.LopHocPhan.ThoiKhoaBieu.First().TSMH giờ</td>
+                                                                            <td valign="middle">@lhp.LopHocPhan.CongViec.Sum(s => s.SoGioQuyDoi) giờ</td>
+                                                                            <td valign="middle">@lhp.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe giờ</td>
+                                                                            <td valign="middle">@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))đ</td>
+                                                                            <td valign="middle">@((giothucte * thulaos).ToString("0,0").Equals("00") ? "0" : (giothucte * thulaos).ToString("0,0"))đ</td>
+                                                                        </tr>
+                                                                    }
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -283,6 +343,38 @@
 
     </div>
 </section>
+<div class="modal fade" id="cauhinh" tabindex="-1" role="dialog" aria-labelledby="cauhinh" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cauhinhTitle">Cấu hình</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="giathulao">Giá thù lao (VNĐ) <span class="text-danger">*</span></label>
+                            <input type="text" defaultData="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))"
+                                   data-type="currency"
+                                   id="giathulao"
+                                   class="form-control"
+                                   placeholder="Nhập đơn giá thù lao (VNĐ)"
+                                   value="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))">
+                            <span class="text-danger" id="valid-giathulao"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnThuLaoClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button id="btnSubmitThuLao" type="button" class="btn btn-primary">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -370,4 +462,5 @@
     });
 </script>
 
-<script src="~/Validation/department/statisticals/trogiang/filter.js"></script>
+<script src="~/Validation/department/statisticals/thulao/filter.js"></script>
+<script src="~/Validation/department/statisticals/thulao/cauhinh.js"></script>

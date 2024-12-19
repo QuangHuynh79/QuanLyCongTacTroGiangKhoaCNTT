@@ -387,7 +387,8 @@
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\khoa.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
-    <Content Include="ActiveItemMenu\Statisticals\index.js" />
+    <Content Include="ActiveItemMenu\Statisticals\thulao.js" />
+    <Content Include="ActiveItemMenu\Statisticals\trogiang.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\quanly.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\assigned.js" />
@@ -530,7 +531,9 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
-    <Content Include="Validation\department\statisticals\filter.js" />
+    <Content Include="Validation\department\statisticals\thulao\cauhinh.js" />
+    <Content Include="Validation\department\statisticals\thulao\filter.js" />
+    <Content Include="Validation\department\statisticals\trogiang\filter.js" />
     <Content Include="Validation\SVandTA\cancelapply.js" />
     <Content Include="Validation\SVandTA\resultApply\opentask.js" />
     <Content Include="Validation\teacher\Assignment\submitAssign.js" />
@@ -613,6 +616,8 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Views\ClassManagement\_Export.cshtml" />
+    <Content Include="Views\Statisticals\StatisticalRemuneration.cshtml" />
+    <Content Include="Views\Statisticals\_FilterRemuneration.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
