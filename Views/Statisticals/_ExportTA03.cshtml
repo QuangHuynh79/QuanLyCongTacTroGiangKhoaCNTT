@@ -1,0 +1,55 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    var models = new CongTacTroGiangKhoaCNTTEntities();
+    var ut = Model.ToList();
+    int i = 0;
+
+    int id_hkGanNhat = 0;
+    int id_nganh = 0;
+
+    if (ut.Count > 0)
+    {
+        id_hkGanNhat = ut.First().LopHocPhan.ID_HocKy;
+        id_nganh = ut.First().LopHocPhan.ID_Nganh;
+    }
+}
+
+<table id="exportTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>TT</th>
+            <th>Mã SV</th>
+            <th>Họ & Tên SV</th>
+            <th>Mã LHP</th>
+            <th>Số tài khoản ngân hàng</th>
+            <th>Tên ngân hàng</th>
+            <th>Chủ tài khoản</th>
+            <th>CCCD</th>
+            <th>MST TNCN (nếu có)</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() : 0) > 0)
+        {
+            var pctg = models.PhanCongTroGiang.Where(w => w.LopHocPhan.ID_HocKy == id_hkGanNhat && w.LopHocPhan.ID_Nganh == id_nganh).ToList();
+            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).ToList())
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td>'@item.First().MSSV</td>
+                    <td>@item.First().HoTen</td>
+                    <td>'@item.First().LopHocPhan.MaLHP</td>
+                    <td>'@item.First().TaiKhoan.SoTaiKhoanNganHang</td>
+                    <td>@item.First().TaiKhoan.TenNganHang</td>
+                    <td>@item.First().TaiKhoan.ChuTaiKhoanNganHang</td>
+                    <td>'@item.First().TaiKhoan.MaSoCanCuocCongDan</td>
+                    <td>'@item.First().TaiKhoan.MaSoThue</td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

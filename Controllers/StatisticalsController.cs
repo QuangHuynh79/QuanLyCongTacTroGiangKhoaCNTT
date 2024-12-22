@@ -32,7 +32,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             return View("StatisticalRemuneration", model.UngTuyenTroGiang.ToList());
         }
-       
+
         /// <summary>
         /// Hàm này trả về dữ liệu được lọc view "Statistical" cho người dùng.
         /// </summary>
@@ -41,10 +41,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult FilterStatistical(int hocky, int nganh)
         {
             var data = model.UngTuyenTroGiang.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).ToList();
-            if (data.Count > 0)
-            {
-                var dataGroupBy = data.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).GroupBy(g => g.ID_TaiKhoan).ToList();
-            }
             return PartialView("_FilterStatistical", data);
         }
 
@@ -57,10 +53,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult FilterRemuneration(int hocky, int nganh)
         {
             var data = model.UngTuyenTroGiang.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).ToList();
-            if (data.Count > 0)
-            {
-                var dataGroupBy = data.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).GroupBy(g => g.ID_TaiKhoan).ToList();
-            }
             return PartialView("_FilterRemuneration", data);
         }
 
@@ -87,6 +79,21 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi " + Ex.Message);
             }
 
+        }
+
+        /// <summary>
+        /// Lấy dữ liệu và xuất file danh sách TA được phân công hoặc được tính thù lao.
+        /// </summary>
+        /// <returns>Trả về danh sách sv được phân công hoặc được tính thù lao thành file excel</returns>
+        [Authorize, BCNRole]
+        [HttpPost]
+        public ActionResult ExportFiles(string type, int hocky, int nganh)
+        {
+            var data = model.UngTuyenTroGiang.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).ToList();
+            if (type.Equals("ta02")) //Xuất danh sách được phân công => TA02
+                return PartialView("_ExportTA02", data);
+            else //Xuất danh sách được tính thù lao => TA03
+                return PartialView("_ExportTA03", data);
         }
     }
 }

@@ -62,23 +62,23 @@
             <div class="card h-100">
                 <div class="card-header">
                     <div class="row">
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-3">
                             <label class="form-label">Học kỳ</label>
                             <select id="hocky" class="form-select text-dark me-3 w-100">
                                 @foreach (var item in lstHk)
                                 {
                                     if (item.ID == id_hkGanNhat)
                                     {
-                                        <option selected value="@item.ID">@item.TenHocKy</option>
+                                        <option name="@item.TenHocKy" selected value="@item.ID">@item.TenHocKy</option>
                                         continue;
                                     }
-                                    <option value="@item.ID">@item.TenHocKy</option>
+                                    <option name="@item.TenHocKy" value="@item.ID">@item.TenHocKy</option>
                                 }
                             </select>
                         </div>
                         @if (roleId == 3)
                         {
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-3">
                                 <label class="form-label">Ngành</label>
                                 <select id="nganh" class="form-select text-dark me-3 w-100" data-width="100%">
                                     @foreach (var item in userKhoa.Nganh.ToList())
@@ -94,10 +94,18 @@
                                     }
                                 </select>
                             </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label"> </label>
+                                <div class="w-100 text-end mt-2">
+                                    <a id="exportfile" name="ta02" class="btn btn-outline-secondary">
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                    </a>
+                                </div>
+                            </div>
                         }
                         else
                         {
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-3">
                                 <label class="form-label">Khoa</label>
                                 <select id="khoa" class="form-select text-dark me-3 w-100" data-width="100%">
                                     @foreach (var item in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
@@ -113,7 +121,7 @@
                                     }
                                 </select>
                             </div>
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-3">
                                 <label class="form-label">Ngành</label>
                                 <select id="nganh" class="form-select text-dark me-3 w-100" data-width="100%">
                                     @foreach (var items in lstKhoa.Where(w => w.Nganh.Count > 0).ToList())
@@ -135,6 +143,14 @@
                                         }
                                     }
                                 </select>
+                            </div>
+                            <div class="mb-3 col-md-3">
+                                <label class="form-label"> </label>
+                                <div class="w-100 text-end mt-2">
+                                    <a id="exportfile" name="ta02" class="btn btn-outline-secondary">
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                    </a>
+                                </div>
                             </div>
                         }
                     </div>
@@ -224,57 +240,58 @@
                                             {
                                                 i++;
                                                 <tr name="@item.ID">
-                                                    <td valign="middle">@i
-                                                    </td>
-                                                    <td class="ps-0 pe-0">
-                                                        <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
-                                                    </td>
-                                                    <td valign="middle">@item.MSSV</td>
                                                     <td valign="middle">
-                                                        @item.HoTen
-                                                    </td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.MaCBGD
-                                                    </td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.TenCBGD
-                                                    </td>
-                                                    <td valign="middle">
-                                                        @item.LopHocPhan.MaLHP
-                                                        <div hidden name="@item.ID" id="child-data-@item.ID">
-                                                            <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Tên LHP</th>
-                                                                        <th>TC</th>
-                                                                        <th>Tổng số giờ HP</th>
-                                                                        <th>Số giờ TA</th>
-                                                                        <th>Số SV</th>
-                                                                        <th>Lý do đề xuất</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td valign="middle">@item.LopHocPhan.TenHP</td>
-                                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
-                                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
-                                                                        <td valign="middle">
-                                                                            @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
-                                                                        </td>
-                                                                        <td valign="middle">
-                                                                            @item.LopHocPhan.DanhSachSinhVien.Count
-                                                                        </td>
-                                                                        <td valign="middle">
-                                                                            @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            }
+                                                        @i
+                                                </td>
+                                                <td class="ps-0 pe-0">
+                                                    <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
+                                                </td>
+                                                <td valign="middle">@item.MSSV</td>
+                                                <td valign="middle">
+                                                    @item.HoTen
+                                                </td>
+                                                <td valign="middle">
+                                                    @item.LopHocPhan.MaCBGD
+                                                </td>
+                                                <td valign="middle">
+                                                    @item.LopHocPhan.TenCBGD
+                                                </td>
+                                                <td valign="middle">
+                                                    @item.LopHocPhan.MaLHP
+                                                    <div hidden name="@item.ID" id="child-data-@item.ID">
+                                                        <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th>Tên LHP</th>
+                                                                    <th>TC</th>
+                                                                    <th>Tổng số giờ HP</th>
+                                                                    <th>Số giờ TA</th>
+                                                                    <th>Số SV</th>
+                                                                    <th>Lý do đề xuất</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td valign="middle">@item.LopHocPhan.TenHP</td>
+                                                                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                                                                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                                                                    <td valign="middle">
+                                                                        @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
+                                                                    </td>
+                                                                    <td valign="middle">
+                                                                        @item.LopHocPhan.DanhSachSinhVien.Count
+                                                                    </td>
+                                                                    <td valign="middle">
+                                                                        @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         }
+                                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -287,7 +304,8 @@
 
     </div>
 </section>
-
+<section style="display: none" id="table-export-data">
+</section>
 <script>
     $(document).ready(function () {
         $('#khoa').on('change', function () {
@@ -375,3 +393,4 @@
 </script>
 
 <script src="~/Validation/department/statisticals/trogiang/filter.js"></script>
+<script src="~/Validation/department/statisticals/exportfile.js"></script>
