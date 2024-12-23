@@ -242,56 +242,56 @@
                                                 <tr name="@item.ID">
                                                     <td valign="middle">
                                                         @i
-                                                </td>
-                                                <td class="ps-0 pe-0">
-                                                    <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
-                                                </td>
-                                                <td valign="middle">@item.MSSV</td>
-                                                <td valign="middle">
-                                                    @item.HoTen
-                                                </td>
-                                                <td valign="middle">
-                                                    @item.LopHocPhan.MaCBGD
-                                                </td>
-                                                <td valign="middle">
-                                                    @item.LopHocPhan.TenCBGD
-                                                </td>
-                                                <td valign="middle">
-                                                    @item.LopHocPhan.MaLHP
-                                                    <div hidden name="@item.ID" id="child-data-@item.ID">
-                                                        <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
-                                                            <thead class="table-light">
-                                                                <tr>
-                                                                    <th>Tên LHP</th>
-                                                                    <th>TC</th>
-                                                                    <th>Tổng số giờ HP</th>
-                                                                    <th>Số giờ TA</th>
-                                                                    <th>Số SV</th>
-                                                                    <th>Lý do đề xuất</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td valign="middle">@item.LopHocPhan.TenHP</td>
-                                                                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
-                                                                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
-                                                                    <td valign="middle">
-                                                                        @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
-                                                                    </td>
-                                                                    <td valign="middle">
-                                                                        @item.LopHocPhan.DanhSachSinhVien.Count
-                                                                    </td>
-                                                                    <td valign="middle">
-                                                                        @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td class="ps-0 pe-0">
+                                                        <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
+                                                    </td>
+                                                    <td valign="middle">@item.MSSV</td>
+                                                    <td valign="middle">
+                                                        @item.HoTen
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.LopHocPhan.MaCBGD
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.LopHocPhan.TenCBGD
+                                                    </td>
+                                                    <td valign="middle">
+                                                        @item.LopHocPhan.MaLHP
+                                                        <div hidden name="@item.ID" id="child-data-@item.ID">
+                                                            <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th>Tên LHP</th>
+                                                                        <th>TC</th>
+                                                                        <th>Tổng số giờ HP</th>
+                                                                        <th>Số giờ TA</th>
+                                                                        <th>Số SV</th>
+                                                                        <th>Lý do đề xuất</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td valign="middle">@item.LopHocPhan.TenHP</td>
+                                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                                                                        <td valign="middle">
+                                                                            @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
+                                                                        </td>
+                                                                        <td valign="middle">
+                                                                            @item.LopHocPhan.DanhSachSinhVien.Count
+                                                                        </td>
+                                                                        <td valign="middle">
+                                                                            @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
-                                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -393,4 +393,5 @@
 </script>
 
 <script src="~/Validation/department/statisticals/trogiang/filter.js"></script>
+<script src="~/Content/assets/libs/XLSX-Full/xlsx.full.min.js"></script>
 <script src="~/Validation/department/statisticals/exportfile.js"></script>

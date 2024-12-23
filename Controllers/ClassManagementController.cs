@@ -523,6 +523,14 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             return PartialView("_Export", model.DanhSachSinhVien.Where(w => w.ID_LopHocPhan == idLhp).ToList());
         }
 
+        [Authorize, TAandGVRole]
+        [HttpPost]
+        public ActionResult ResultRollCall(int idLhp)
+        {
+            Session["ResultRollCall"] = model.LichHoc.Where(w => w.ID_LopHocPhan == idLhp).ToList();
+            return PartialView("_ResultRollCall", model.DanhSachSinhVien.Where(w => w.ID_LopHocPhan == idLhp).ToList());
+        }
+
         /// <summary>
         /// Kiểm tra sự tồn tại của các cột hợp lệ trong DataTable.
         /// </summary>

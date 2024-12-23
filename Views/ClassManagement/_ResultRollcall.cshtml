@@ -1,0 +1,83 @@
+﻿
+@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.DanhSachSinhVien>
+@{
+    var lstLichHoc = Session["ResultRollCall"] as List<QuanLyCongTacTroGiangKhoaCNTT.Models.LichHoc>;
+    var dssv = Model.ToList();
+    int i = 0;
+
+    var lhp = new QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan();
+    string malhp = "..........";
+    string tenlhp = "..........";
+    if (lstLichHoc.Count > 0)
+    {
+        malhp = lstLichHoc.First().LopHocPhan.MaLHP ;
+        tenlhp = lstLichHoc.First().LopHocPhan.TenHP;
+        lhp = lstLichHoc.First().LopHocPhan;
+    }
+}
+
+
+<div class="modal-body overflow-x-hidden" id="loadcontentketquadiemdanhmodal">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="mb-1">
+                <h3 class="text-center mb-0" for="tennganh">KẾT QUẢ ĐIỂM DANH LHP: @malhp<br />@tenlhp</h3>
+            </div>
+            <div class="w-100 text-end">
+                <a id="btnExportDssv" class="btn btn-outline-secondary">
+                    <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                </a>
+                <input id="idLHPDiemDanh" name="@lhp.MaLHP" value="@lhp.ID" hidden />
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="table-card mt-0">
+                <table id="tableKetQuaDiemDanh" class="table table-hover" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-nowrap">TT</th>
+                            <th class="text-nowrap w-100" style="min-width: 300px">Thông tin SV</th>
+                            @foreach (var item in lstLichHoc)
+                            {
+                                <th class="text-nowrap">@item.NgayHoc.ToString("dd/MM/yyyy")</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody class="overflow-x-scroll">
+                        @foreach (var item in dssv.OrderBy(o => o.ID))
+                        {
+                            int idsv = item.ID;
+                            i++;
+                            <tr>
+                                <td valign="middle" class="pe-0">@i</td>
+                                <td valign="middle" class="text-nowrap ps-0">
+                                    <b>MSSV:</b> <span class="badge bg-primary">@item.MaSV</span>
+                                    <br />
+                                    <b>Họ & Tên:</b> @item.HoLot @item.Ten
+                                    <br />
+                                    <b>Email:</b> @item.Email
+                                    <br />
+                                    <b>Ngày sinh:</b> @item.NgaySinh.Value.ToString("dd/MM/yyyy")
+                                    <br />
+                                    <b>Giới tính:</b> @item.GioiTinh
+                                </td>
+                                @foreach (var items in lstLichHoc)
+                                {
+                                    if (items.DiemDanh.Where(w => w.ID_DanhSachSinhVien == idsv).Count() > 0)
+                                    {
+                                        <td valign="middle">@items.DiemDanh.Where(w => w.ID_DanhSachSinhVien == idsv).First().DuLop</td>
+                                    }
+                                    else
+                                    {
+                                        <td valign="middle"></td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

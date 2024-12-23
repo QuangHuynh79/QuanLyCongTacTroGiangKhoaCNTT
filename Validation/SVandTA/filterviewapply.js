@@ -28,7 +28,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/FilterParentApply",
+            url: $('#requestPath').val() + "ApplyTeachingAssistant/FilterParentApply",
             dataType: 'html',
             data: formData,
             type: 'POST',
@@ -62,7 +62,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/FilterChildApply",
+            url: $('#requestPath').val() + "ApplyTeachingAssistant/FilterChildApply",
             dataType: 'html',
             data: formData,
             type: 'POST',

@@ -44,7 +44,7 @@ $(document).ready(function () {
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/TaskDetail",
+            url: $('#requestPath').val() + "TaskManagement/TaskDetail",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -141,7 +141,7 @@ $(document).ready(function () {
         if (check == true) {
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-                url: $('#requestPath').val() + "TeachingAssistant/SubmitEditTaskDetail",
+                url: $('#requestPath').val() + "TaskManagement/SubmitEditTaskDetail",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
@@ -186,7 +186,7 @@ $(document).ready(function () {
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/FilterTaskList",
+            url: $('#requestPath').val() + "TaskManagement/FilterTaskList",
             dataType: 'html',
             data: formData,
             type: 'POST',
