@@ -1,0 +1,52 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.DanhSachSinhVien>
+@{
+    var lstLichHoc = Session["Export-LichHoc"] as List<QuanLyCongTacTroGiangKhoaCNTT.Models.LichHoc>;
+    var dssv = Model.ToList();
+    int i = 0;
+}
+
+<table id="exportTable" style="width:100%">
+    <thead>
+        <tr>
+            <th class="text-nowrap">TT</th>
+            <th class="text-nowrap">MSSV</th>
+            <th class="text-nowrap">Họ lót</th>
+            <th class="text-nowrap">Tên</th>
+            <th class="text-nowrap">Email</th>
+            <th class="text-nowrap">Ngày sinh</th>
+            <th class="text-nowrap">Giới tính</th>
+            @foreach (var item in lstLichHoc)
+            {
+                <th class="text-nowrap">@item.NgayHoc.ToString("dd/MM/yyyy")</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in dssv.OrderBy(o => o.ID))
+        {
+            int idsv = item.ID;
+            i++;
+            <tr>
+                <td valign="middle">@i</td>
+                <td valign="middle">'@item.MaSV</td>
+                <td valign="middle">@item.HoLot</td>
+                <td valign="middle">@item.Ten</td>
+                <td valign="middle">@item.Email</td>
+                <td valign="middle">@item.NgaySinh.Value.ToString("dd/MM/yyyy")</td>
+                <td valign="middle">@item.GioiTinh</td>
+                @foreach (var items in lstLichHoc)
+                {
+                    if (items.DiemDanh.Where(w => w.ID_DanhSachSinhVien == idsv).Count() > 0)
+                    {
+                        <td valign="middle">@items.DiemDanh.Where(w => w.ID_DanhSachSinhVien == idsv).First().DuLop</td>
+                    }
+                    else
+                    {
+                        <td valign="middle"></td>
+                    }
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>

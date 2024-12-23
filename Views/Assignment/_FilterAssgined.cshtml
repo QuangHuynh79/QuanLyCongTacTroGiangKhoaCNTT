@@ -1,0 +1,66 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan>
+
+<div class="card-body mt-3" id="filterLoad">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-nowrap">Học phần</th>
+                    <th class="text-nowrap">Trợ giảng</th>
+                    <th class="text-nowrap">Lịch Học</th>
+                    <th class="text-nowrap">Số SV</th>
+                    <th class="text-nowrap"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                    <tr>
+                        <td valign="middle" class="text-nowrap">
+                            Mã: @item.MaLHP
+                            <br />
+                            Tên: @item.TenHP
+                        </td>
+                        <td valign="middle">
+                            @if (item.PhanCongTroGiang.Count() < 1)
+                            {
+                                <span role="button" class="badge bg-warning">Chưa phân công</span>
+                            }
+                            else
+                            {
+                                <span>MSSV: @item.PhanCongTroGiang.First().TaiKhoan.Ma</span>
+                                <br />
+                                <span>Họ & Tên: @item.PhanCongTroGiang.First().TaiKhoan.HoTen</span>
+                                <br />
+                                <span class="text-nowrap">Email: @item.PhanCongTroGiang.First().TaiKhoan.Email</span>
+                                <br />
+                                <span role="button" data-bs-toggle="tooltip" data-bs-html="true" title="SĐT: @item.PhanCongTroGiang.First().TaiKhoan.SDT<br>Ngày sinh: @(item.PhanCongTroGiang.First().TaiKhoan.NgaySinh != null ? item.PhanCongTroGiang.First().TaiKhoan.NgaySinh.Value.ToString("dd/MM/yyyy") : "")<br>Giới tính: @item.PhanCongTroGiang.First().TaiKhoan.GioiTinh" class="badge bg-info"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                            }
+                        </td>
+                        <td valign="middle">
+                            <ul>
+                                @foreach (var items in item.ThoiKhoaBieu.ToList())
+                                {
+                                    <li>
+                                        @(items.Thu); Tiết @(items.TietHoc); Tuần @(items.TuanBD) - @(items.TuanKT); Phòng @(items.Phong)
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td valign="middle">0</td>
+                        <td valign="middle" class="text-nowrap">
+                            <a style="font-size: 20px" name="@item.ID" id="btnOpenAssign-@item.ID" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho lớp học phần" class="text-primary">
+                                <span><i class="bi bi-person-check"></i></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#dataTableBasic").DataTable();
+</script>

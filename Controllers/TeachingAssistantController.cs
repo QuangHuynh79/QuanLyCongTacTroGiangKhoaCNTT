@@ -465,7 +465,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         {
             try
             {
-                if (trangthai.Equals("all"))
+                if (trangthai.ToLower().Equals("all"))
                 {
                     var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
                     && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
@@ -478,7 +478,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang)).ToList();
                     return PartialView("_FilterRegistered", uts);
                 }
-                else if (trangthai.Equals("true"))
+                else if (trangthai.ToLower().Equals("true"))
                 {
                     var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
                     && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
@@ -600,7 +600,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var tk = Session["Taikhoan"] as TaiKhoan;
                 var ut = model.FormDangKyTroGiang.Where(w => w.ID_HocKy == hocky
                 && w.ID_Nganh == nganh).ToList().OrderByDescending(o => o.ID);
-                if (trangthai.Equals("all"))
+                if (trangthai.ToLower().Equals("all"))
                 {
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
@@ -608,10 +608,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     List<int> idF = new List<int>();
                     foreach (var t in ut)
                         idF.Add(t.ID);
-                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)).ToList();
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma) && w.TrangThai == true).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
-                else if (trangthai.Equals("true"))
+                else if (trangthai.ToLower().Equals("true"))
                 {
                     if (ut == null)
                         return PartialView("_FilterRegistereds", new List<UngTuyenTroGiang>());
@@ -619,8 +619,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     List<int> idF = new List<int>();
                     foreach (var t in ut)
                         idF.Add(t.ID);
-                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
-                    && w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == true).Count() > 0).ToList();
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma) && w.TrangThai == true
+                    && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == w.ID_TaiKhoan).Count() > 0).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
                 else
@@ -631,8 +631,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     List<int> idF = new List<int>();
                     foreach (var t in ut)
                         idF.Add(t.ID);
-                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma)
-                    && (w.DanhGiaPhongVan.Where(wd => wd.KetLuanDat == false).Count() > 0 || w.DanhGiaPhongVan.Count() < 1)).ToList();
+                    var uts = model.UngTuyenTroGiang.Where(w => idF.Contains(w.ID_FormDangKyTroGiang) && w.LopHocPhan.MaCBGD.Equals(tk.Ma) && w.TrangThai == true
+                    && w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == w.ID_TaiKhoan).Count() < 1).ToList();
                     return PartialView("_FilterRegistereds", uts);
                 }
             }
@@ -796,6 +796,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 if (ketqua)
                 {
+                    float tongSoGioQuyDoi = 0;
+                    if (ut.LopHocPhan.CongViec.Count() > 0)
+                        tongSoGioQuyDoi = float.Parse(ut.LopHocPhan.CongViec.ToList().Sum(s => s.SoGioQuyDoi).ToString());
+
                     var aspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("4")).ToList();
 
                     string userId = ut.TaiKhoan.AspNetUsers.ID.ToLower();
@@ -818,6 +822,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     pc.TrangThai = false;
                     pc.SoGioThucTe = 0;
                     pc.GhiChu = "";
+                    pc.SoGioQuyDoi = tongSoGioQuyDoi;
 
                     model.PhanCongTroGiang.Add(pc);
                     model.SaveChanges();
@@ -826,9 +831,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     foreach (var c in lstCv)
                     {
                         c.ID_TaiKhoan = idtk;
+                        model.Entry(c).State = System.Data.Entity.EntityState.Modified;
+                        model.SaveChanges();
                     }
-                    model.Entry(lstCv).State = System.Data.Entity.EntityState.Modified;
-                    model.SaveChanges();
 
                     var thongbao = new ThongBao()
                     {
@@ -1469,15 +1474,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         public ActionResult TaskDetail(int id) //Mở form chi tiết công việc
         {
             return PartialView("_TaskDetail", model.CongViec.Find(id));
-        }
-        /// <summary>
-        /// Hàm này trả về view "Assgined" cho người dùng.
-        /// </summary>
-        /// <returns>Trả về View "Assgined".</returns>
-        [Authorize, GVRole]
-        public ActionResult Assgined()
-        {
-            return View("Assgined");
         }
     }
 }

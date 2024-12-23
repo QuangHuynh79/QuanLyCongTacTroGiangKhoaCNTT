@@ -8,7 +8,7 @@
                     <th class="text-nowrap">Mã LHP</th>
                     <th class="text-nowrap">Tên HP</th>
                     <th class="text-nowrap">Lịch Học</th>
-                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái đề xuất</th>
+                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái</th>
                     <th class="text-nowrap"></th>
                 </tr>
             </thead>
@@ -16,9 +16,9 @@
                 @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
                 {
                     <tr>
-                        <td>@item.MaLHP</td>
-                        <td>@item.TenHP</td>
-                        <td>
+                        <td valign="middle">@item.MaLHP</td>
+                        <td valign="middle">@item.TenHP</td>
+                        <td valign="middle">
                             <ul>
                                 @foreach (var items in item.ThoiKhoaBieu.ToList())
                                 {
@@ -28,35 +28,46 @@
                                 }
                             </ul>
                         </td>
-                        <td>
+                        <td valign="middle" class="text-nowrap">
                             @if (item.DeXuatTroGiang.Count < 1)
                             {
-                                <span>Không đăng ký</span>
+                                <span class="badge bg-secondary">Không đăng ký</span>
                             }
                             else
                             {
                                 if (item.DeXuatTroGiang.First().TrangThai)
                                 {
-                                    <span class="badge bg-success">Đã được duyệt</span>
+                                    <span class="badge bg-success">Đã duyệt</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-danger">Chưa được duyệt</span>
+                                    <span class="badge bg-danger">Chưa duyệt</span>
                                 }
                             }
                         </td>
-                        <td class="text-nowrap">
-                            <span data-bs-toggle="modal" data-bs-target="#diemdanh">
-                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
-                                    <span><i class="bi bi-calendar3 me-2"></i></span>
-                                </a>
-                            </span>
-
-                            <span data-bs-toggle="modal" data-bs-target="#importsv">
-                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                        <td class="text-nowrap" valign="middle">
+                            @if (item.DanhSachSinhVien.Count < 1)
+                            {
+                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
                                     <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
                                 </a>
-                            </span>
+                            }
+                            else
+                            {
+                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật lại danh sách sinh viên" class="text-primary">
+                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                </a>
+                            }
+
+                            @if (item.DanhSachSinhVien.Count() > 0)
+                            {
+                                <span id="viewDiemDanh-@item.ID" tieudeForm="Điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                        <span><i class="bi bi-calendar3 me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+
                             @if (item.DeXuatTroGiang.Count < 1)
                             {
                                 <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.MaLHP - @item.TenHP" name="@item.ID">
@@ -81,6 +92,7 @@
         </table>
     </div>
 </div>
+
 <script>
     $('#dataTableBasic').DataTable();
 </script>

@@ -34,6 +34,18 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
 
         /// <summary>
+        /// Hiển thị trang quản lý lớp học.
+        /// </summary>
+        /// <returns>
+        /// Trả về một đối tượng <see cref="ActionResult"/> chứa trang "QuanLyLopHoc".
+        /// </returns>
+        [Authorize, TARole]
+        public ActionResult QuanLyLopHoc()
+        {
+            return View("QuanLyLopHoc");
+        }
+
+        /// <summary>
         /// Lọc danh sách lớp học phần dựa trên học kỳ và ngành học, trả về danh sách lớp phù hợp.
         /// </summary>
         /// <returns>
@@ -58,6 +70,32 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
+
+        /// <summary>
+        /// Lọc danh sách lớp học phần dựa trên học kỳ và ngành học, trả về danh sách lớp phù hợp.
+        /// </summary>
+        /// <returns>
+        /// Trả về một <see cref="PartialViewResult"/> hiển thị danh sách lớp học phần được lọc.
+        /// Nếu có lỗi xảy ra, trả về nội dung chi tiết lỗi dưới dạng văn bản.
+        /// </returns>
+        [Authorize, TARole]
+        public ActionResult FilterQuanLyLopHoc(int hocky, int nganh) //Lọc lớp học phần
+        {
+            try
+            {
+                // Lấy thông tin tài khoản từ Session
+                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
+                // Lọc danh sách lớp học phần dựa trên điều kiện
+                var lstTkb = model.LopHocPhan.Where(w => w.ID_Nganh == nganh && w.ID_HocKy == hocky && w.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == taikhoan.ID).Count() > 0).ToList();
+                // Trả về PartialView "_FilterSection" cùng với danh sách lớp học phần
+                return PartialView("_FilterQuanLyLopHoc", lstTkb);
+            }
+            catch (Exception Ex)
+            {
+                return Content("Chi tiết lỗi: " + Ex.Message);
+            }
+        }
+
         /// <summary>
         /// Mở form đề xuất trợ giảng và mô tả công việc dựa trên ID lớp học phần.
         /// </summary>
@@ -320,17 +358,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
-        }
-        /// <summary>
-        /// Hiển thị trang quản lý lớp học.
-        /// </summary>
-        /// <returns>
-        /// Trả về một đối tượng <see cref="ActionResult"/> chứa trang "QuanLyLopHoc".
-        /// </returns>
-        [Authorize, TARole]
-        public ActionResult QuanLyLopHoc()
-        {
-            return View("QuanLyLopHoc");
         }
     }
 }

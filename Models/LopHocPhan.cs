@@ -20,6 +20,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             this.CongViec = new HashSet<CongViec>();
             this.DanhSachSinhVien = new HashSet<DanhSachSinhVien>();
             this.DeXuatTroGiang = new HashSet<DeXuatTroGiang>();
+            this.LichHoc = new HashSet<LichHoc>();
             this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
             this.ThoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
             this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
@@ -43,6 +44,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeXuatTroGiang> DeXuatTroGiang { get; set; }
         public virtual HocKy HocKy { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LichHoc> LichHoc { get; set; }
         public virtual Nganh Nganh { get; set; }
         public virtual TaiKhoan TaiKhoan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

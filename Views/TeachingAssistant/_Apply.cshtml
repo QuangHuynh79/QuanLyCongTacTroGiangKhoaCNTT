@@ -117,7 +117,7 @@
                                 <th class="text-nowrap">Tên HP</th>
                                 <th class="text-nowrap">Loại HP</th>
                                 <th class="text-nowrap">Lịch Học</th>
-                                <th class="text-nowrap">Số tiết</th>
+                                <th class="text-nowrap">Số TC</th>
                                 <th class="text-nowrap">Ứng tuyển</th>
                                 <th class="text-nowrap"></th>
                             </tr>
@@ -150,7 +150,7 @@
                                             }
                                         </ul>
                                     </td>
-                                    <td valign="middle">@item.ThoiKhoaBieu.Sum(s => s.SoTietDaXep)</td>
+                                    <td valign="middle">@item.ThoiKhoaBieu.Sum(s => s.SoTC)</td>
                                     <td valign="middle" class="text-nowrap">
                                         @if (item.UngTuyenTroGiang.FirstOrDefault(f => f.ID_TaiKhoan == idTk) != null)
                                         {

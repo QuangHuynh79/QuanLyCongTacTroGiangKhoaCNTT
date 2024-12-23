@@ -108,7 +108,7 @@
                                     <th class="text-nowrap">Mã LHP</th>
                                     <th class="text-nowrap">Tên HP</th>
                                     <th class="text-nowrap">Lịch Học</th>
-                                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái đề xuất</th>
+                                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái</th>
                                     <th class="text-nowrap"></th>
                                 </tr>
                             </thead>
@@ -116,9 +116,9 @@
                                 @foreach (var item in lstTkb.ToList().OrderByDescending(o => o.ID))
                                 {
                                     <tr>
-                                        <td>@item.MaLHP</td>
-                                        <td>@item.TenHP</td>
-                                        <td>
+                                        <td valign="middle">@item.MaLHP</td>
+                                        <td valign="middle">@item.TenHP</td>
+                                        <td valign="middle">
                                             <ul>
                                                 @foreach (var items in item.ThoiKhoaBieu.ToList())
                                                 {
@@ -128,35 +128,46 @@
                                                 }
                                             </ul>
                                         </td>
-                                        <td>
+                                        <td valign="middle" class="text-nowrap">
                                             @if (item.DeXuatTroGiang.Count < 1)
                                             {
-                                                <span>Không đăng ký</span>
+                                                <span class="badge bg-secondary">Không đăng ký</span>
                                             }
                                             else
                                             {
                                                 if (item.DeXuatTroGiang.First().TrangThai)
                                                 {
-                                                    <span class="badge bg-success">Đã được duyệt</span>
+                                                    <span class="badge bg-success">Đã duyệt</span>
                                                 }
                                                 else
                                                 {
-                                                    <span class="badge bg-danger">Chưa được duyệt</span>
+                                                    <span class="badge bg-danger">Chưa duyệt</span>
                                                 }
                                             }
                                         </td>
-                                        <td class="text-nowrap">
-                                            <span data-bs-toggle="modal" data-bs-target="#diemdanh">
-                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
-                                                    <span><i class="bi bi-calendar3 me-2"></i></span>
-                                                </a>
-                                            </span>
-
-                                            <span data-bs-toggle="modal" data-bs-target="#importsv">
-                                                <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                                        <td class="text-nowrap" valign="middle">
+                                            @if (item.DanhSachSinhVien.Count < 1)
+                                            {
+                                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
                                                     <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
                                                 </a>
-                                            </span>
+                                            }
+                                            else
+                                            {
+                                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật lại danh sách sinh viên" class="text-primary">
+                                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                                </a>
+                                            }
+
+                                            @if (item.DanhSachSinhVien.Count() > 0)
+                                            {
+                                                <span id="viewDiemDanh-@item.ID" tieudeForm="Điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                                        <span><i class="bi bi-calendar3 me-2"></i></span>
+                                                    </a>
+                                                </span>
+                                            }
+
                                             @if (item.DeXuatTroGiang.Count < 1)
                                             {
                                                 <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.MaLHP - @item.TenHP" name="@item.ID">
@@ -214,7 +225,6 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="viewtasklistmodal" tabindex="-1" role="dialog" aria-labelledby="viewtasklistmodal" aria-hidden="true">
         <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -247,7 +257,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="importsvTitle">Import danh sách sinh viên LHP 221_71ITBS10103_01</h5>
+                    <h5 class="modal-title" id="importsvTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -255,127 +265,53 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
-                            <label class="form-label" for="hinhanhmc">File import <small><small class="text-muted"><i>(chọn hoặc kéo thả file excel, tối đa 10MB)</i></small></small> <span class="text-danger">*</span></label>
+                            <label class="form-label" for="hinhanhmc">File import <small><small class="text-muted"><i>(chọn 1 file excel, tối đa 50MB)</i></small></small> <span class="text-danger">*</span></label>
                             <div class="mb-3">
-                                <input type="file" class="form-control form-control-file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                <input id="fileImportDssv" type="file" class="form-control form-control-file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                                 <span class="text-danger" id="valid-import"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnCloseImport" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmitImport" type="button" class="btn btn-primary">Import</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="diemdanh" tabindex="-1" role="dialog" aria-labelledby="diemdanh" aria-hidden="true">
+    <div class="modal fade" id="diemdanhsv" tabindex="-1" role="dialog" aria-labelledby="diemdanhsv" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="diemdanhTitle">Điểm danh LHP 221_71ITBS10103_01</h5>
+                    <h5 class="modal-title" id="diemdanhsvTitle">Điểm danh LHP 221_71ITBS10103_01</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body overflow-x-hidden">
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <select id="hocky" class="form-select w-auto">
-                                            <option value="7">Tuần 5</option>
-                                            <option value="7">Tuần 6</option>
-                                            <option value="7">Tuần 7</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-6">
-                                    <div class="w-100 text-end">
-                                        <a id="btnExportTkb" class="btn btn-outline-secondary">
-                                            <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <h5>Lớp HP: 221_71ITBS10103_01 - Nhập môn công nghệ thông tin</h5>
-                            <h5>Sĩ Số: 20/20</h5>
-                        </div>
-                        <div class="col-12">
-                            <hr class="my-4" />
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-4">
-                                <h3 class="text-center mb-0" for="tennganh">DANH SÁCH SINH VIÊN - ĐIỂM DANH</h3>
-                                <label class="small text-center w-100">(Bỏ chọn nếu sinh viên vắng mặt)</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="table-card mt-0">
-                                <table id="diemDanhTable" class="table table-hover" style="width:100%">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>TT</th>
-                                            <th>MSSV</th>
-                                            <th>Họ & Tên</th>
-                                            <th>Email</th>
-                                            <th>Ngày sinh</th>
-                                            <th>Giới tính</th>
-                                            <th>
-                                                Đ.Danh
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (int i = 1; i <= 20; i++)
-                                        {
-                                            <tr>
-                                                <td>@i</td>
-                                                <td>MSSV@(i)</td>
-                                                <td class="text-nowrap">Họ và tên của sinh viên @(i)</td>
-                                                <td>Địa chỉ emial @(i)</td>
-                                                <td>@DateTime.Now.ToString("dd/MM/yyyy")</td>
-                                                <td>Giới tính</td>
-                                                <td>
-                                                    <div class="form-check form-switch">
-                                                        <input checked="true" class="form-check-input" type="checkbox" role="switch">
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-body overflow-x-hidden" id="loadcontentdiemdanhsv">
 
                 </div>
                 <div class="modal-footer">
-                    <button id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button id="btnSubmit" type="button" class="btn btn-primary">Lưu thông tin</button>
+                    <button id="btnCloseDiemDanh" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button id="btnSubmitDiemDanh" type="button" class="btn btn-primary">Lưu thông tin</button>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
+
+
+<section style="display: none" id="table-export-data">
+</section>
+
 <script src="~/Validation/teacher/classsection/suggestedTA.js"></script>
 <script src="~/Validation/teacher/classsection/DeXuatLHP.js"></script>
 <script src="~/Validation/teacher/classsection/viewTaskList.js"></script>
 <script src="~/Validation/teacher/classsection/updatetask.js"></script>
 <script src="~/Validation/teacher/classsection/filter.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $("#diemDanhTable").DataTable({
-            responsive: !0,
-            pagingType: "numbers",
-            pageLength: 100,
-        });
-    });
-</script>
+<script src="~/Validation/teacher/classsection/danhSachSinhVien.js"></script>
+<script src="~/Validation/teacher/classsection/import.js"></script>
+<script src="~/Validation/teacher/classsection/diemDanh.js"></script>
+<script src="~/Validation/teacher/classsection/exportfile.js"></script>

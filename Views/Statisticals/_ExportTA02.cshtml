@@ -1,0 +1,47 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@{
+    var ut = Model.ToList();
+    int i = 0;
+}
+
+<table id="exportTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>TT</th>
+            <th>Mã TA (mã sv)</th>
+            <th>Họ & Tên TA</th>
+            <th>Mã GV</th>
+            <th>Họ & Tên GV<br />sử dụng TA</th>
+            <th>Mã lớp HP<br />sử dụng TA</th>
+            <th>Tên HP<br />sử dụng TA</th>
+            <th>Số TC</th>
+            <th>Tổng số giờ HP</th>
+            <th>Số giờ TA<br />(theo kế hoạch)</th>
+            <th>Số SV của lớp HP<br />sử dụng TA</th>
+            <th>Lý do đề xuất<br />sử dụng TA</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count() : 0) > 0)
+        {
+            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+            {
+                i++;
+                <tr>
+                    <td valign="middle">@i</td>
+                    <td valign="middle">'@item.MSSV</td>
+                    <td valign="middle">@item.HoTen</td>
+                    <td valign="middle">'@item.LopHocPhan.MaCBGD</td>
+                    <td valign="middle">@item.LopHocPhan.TenCBGD</td>
+                    <td valign="middle">'@item.LopHocPhan.MaLHP</td>
+                    <td valign="middle">@item.LopHocPhan.TenHP</td>
+                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                    <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                    <td valign="middle">@item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi</td>
+                    <td valign="middle">@item.LopHocPhan.DanhSachSinhVien.Count</td>
+                    <td valign="middle">@item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

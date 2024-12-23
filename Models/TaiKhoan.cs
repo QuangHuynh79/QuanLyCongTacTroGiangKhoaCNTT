@@ -51,6 +51,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDangKyTroGiang> FormDangKyTroGiang1 { get; set; }
+        public virtual Khoa Khoa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LopHocPhan> LopHocPhan { get; set; }
         public virtual Nganh Nganh { get; set; }
@@ -60,6 +61,5 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         public virtual ICollection<ThongBao> ThongBao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
-        public virtual Khoa Khoa { get; set; }
     }
 }

@@ -87,14 +87,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
                 return PartialView("_FilterParentDataGV", tkb);
             }
-            else if (role.Equals("TA"))
-            {
-                var taikhoan = Session["TaiKhoan"] as TaiKhoan;
-                string ma = taikhoan.Ma.ToLower();
-
-                var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh && w.LopHocPhan.UngTuyenTroGiang.Where(wl => wl.ID_TaiKhoan == taikhoan.ID).Count() > 0).ToList();
-                return PartialView("_FilterParentDataGV", tkb);
-            }
             else
             {
                 var tkb = model.ThoiKhoaBieu.Where(w => w.ID_HocKy == hocky && w.ID_Nganh == nganh).ToList();
@@ -214,10 +206,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string tc = data["Số TC"].ToString();
                                 string day = data["Thứ"].ToString();
                                 string startLesson = data["Tiết BĐ"].ToString();
-                                string lessonNumber = data["Số Tiết"].ToString();
+                                string tsmh = data["TSMH"].ToString();
                                 string lessonTime = data["Tiết Học"].ToString();
                                 string roomId = data["Phòng"].ToString();
                                 string lecturerId = data["Mã CBGD"].ToString();
@@ -231,8 +223,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string namemajor = data["Tên Ngành"].ToString();
 
                                 // Check dữ liệu trống
-                                string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
-                                        , lessonNumber, lessonTime, roomId, lecturerId, fullName
+                                string[] validRows = { subjectId, classSectionid, name, type, tc, day, startLesson
+                                        , tsmh, lessonTime, roomId, lecturerId, fullName
                                     , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
                                 string checkNull = ValidateNotNull(validRows);
                                 if (checkNull != null)
@@ -258,10 +250,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string tc = data["Số TC"].ToString();
                                 string day = data["Thứ"].ToString();
                                 string startLesson = data["Tiết BĐ"].ToString();
-                                string lessonNumber = data["Số Tiết"].ToString();
+                                string tsmh = data["TSMH"].ToString();
                                 string lessonTime = data["Tiết Học"].ToString();
                                 string roomId = data["Phòng"].ToString();
                                 string lecturerId = data["Mã CBGD"].ToString();
@@ -311,10 +303,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 tkb.ID_HocKy = hocky;
                                 tkb.ID_Nganh = nganh;
                                 tkb.ID_LopHocPhan = idHp;
-                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                tkb.SoTC = Int32.Parse(tc);
                                 tkb.Thu = day;
                                 tkb.TietBD = Int32.Parse(startLesson);
-                                tkb.SoTiet = Int32.Parse(lessonNumber);
+                                tkb.TSMH = Int32.Parse(tsmh);
                                 tkb.TietHoc = lessonTime;
                                 tkb.ThuS = Int32.Parse(day2);
                                 tkb.TietS = Int32.Parse(startLesson2);
@@ -398,10 +390,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string tc = data["Số TC"].ToString();
                                 string day = data["Thứ"].ToString();
                                 string startLesson = data["Tiết BĐ"].ToString();
-                                string lessonNumber = data["Số Tiết"].ToString();
+                                string tsmh = data["TSMH"].ToString();
                                 string lessonTime = data["Tiết Học"].ToString();
                                 string roomId = data["Phòng"].ToString();
                                 string lecturerId = data["Mã CBGD"].ToString();
@@ -415,8 +407,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string namemajor = data["Tên Ngành"].ToString();
 
                                 // Check dữ liệu bị bỏ trống
-                                string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
-                                        , lessonNumber, lessonTime, roomId, lecturerId, fullName
+                                string[] validRows = { subjectId, classSectionid, name, type, tc, day, startLesson
+                                        , tsmh, lessonTime, roomId, lecturerId, fullName
                                     , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
                                 string checkNull = ValidateNotNull(validRows);
                                 if (checkNull != null)
@@ -442,10 +434,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 string classSectionid = data["Mã LHP"].ToString();
                                 string name = data["Tên HP"].ToString();
                                 string type = data["Loại HP"].ToString();
-                                string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                                string tc = data["Số TC"].ToString();
                                 string day = data["Thứ"].ToString();
                                 string startLesson = data["Tiết BĐ"].ToString();
-                                string lessonNumber = data["Số Tiết"].ToString();
+                                string tsmh = data["TSMH"].ToString();
                                 string lessonTime = data["Tiết Học"].ToString();
                                 string roomId = data["Phòng"].ToString();
                                 string lecturerId = data["Mã CBGD"].ToString();
@@ -471,10 +463,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                     hocphan.ID_TaiKhoan = tkGv.ID;
 
                                 //Cập nhật thông tin về thời khóa biểu
-                                tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                                tkb.SoTC = Int32.Parse(tc);
                                 tkb.Thu = day;
                                 tkb.TietBD = Int32.Parse(startLesson);
-                                tkb.SoTiet = Int32.Parse(lessonNumber);
+                                tkb.TSMH = Int32.Parse(tsmh);
                                 tkb.TietHoc = lessonTime;
                                 tkb.ThuS = Int32.Parse(day2);
                                 tkb.TietS = Int32.Parse(startLesson2);
@@ -561,10 +553,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             string classSectionid = data["Mã LHP"].ToString();
                             string name = data["Tên HP"].ToString();
                             string type = data["Loại HP"].ToString();
-                            string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                            string tc = data["Số TC"].ToString();
                             string day = data["Thứ"].ToString();
                             string startLesson = data["Tiết BĐ"].ToString();
-                            string lessonNumber = data["Số Tiết"].ToString();
+                            string tsmh = data["TSMH"].ToString();
                             string lessonTime = data["Tiết Học"].ToString();
                             string roomId = data["Phòng"].ToString();
                             string lecturerId = data["Mã CBGD"].ToString();
@@ -578,8 +570,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             string namemajor = data["Tên Ngành"].ToString();
 
                             // Check if values is null
-                            string[] validRows = { subjectId, classSectionid, name, type, totalLesson, day, startLesson
-                                        , lessonNumber, lessonTime, roomId, lecturerId, fullName
+                            string[] validRows = { subjectId, classSectionid, name, type, tc, day, startLesson
+                                        , tsmh, lessonTime, roomId, lecturerId, fullName
                                     , day2, startLesson2, idmajor, namemajor, startWeek, endWeek };
                             string checkNull = ValidateNotNull(validRows);
                             if (checkNull != null)
@@ -605,10 +597,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             string classSectionid = data["Mã LHP"].ToString();
                             string name = data["Tên HP"].ToString();
                             string type = data["Loại HP"].ToString();
-                            string totalLesson = data["Số Tiết Đã xếp"].ToString();
+                            string tc = data["Số TC"].ToString();
                             string day = data["Thứ"].ToString();
                             string startLesson = data["Tiết BĐ"].ToString();
-                            string lessonNumber = data["Số Tiết"].ToString();
+                            string tsmh = data["TSMH"].ToString();
                             string lessonTime = data["Tiết Học"].ToString();
                             string roomId = data["Phòng"].ToString();
                             string lecturerId = data["Mã CBGD"].ToString();
@@ -660,10 +652,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                             tkb.ID_HocKy = hocky;
                             tkb.ID_Nganh = nganh;
                             tkb.ID_LopHocPhan = idHp;
-                            tkb.SoTietDaXep = Int32.Parse(totalLesson);
+                            tkb.SoTC = Int32.Parse(tc);
                             tkb.Thu = day;
                             tkb.TietBD = Int32.Parse(startLesson);
-                            tkb.SoTiet = Int32.Parse(lessonNumber);
+                            tkb.TSMH = Int32.Parse(tsmh);
                             tkb.TietHoc = lessonTime;
                             tkb.ThuS = Int32.Parse(day2);
                             tkb.TietS = Int32.Parse(startLesson2);
@@ -726,7 +718,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             // Declare the valid column names
             string[] validColumns = {
                 "Mã MH", "Mã LHP", "Tên HP", "Loại HP",
-                "Số Tiết Đã xếp","Thứ", "Tiết BĐ", "Số Tiết", "Tiết Học", "Phòng", "Mã CBGD",
+                "Số TC","Thứ", "Tiết BĐ", "TSMH", "Tiết Học", "Phòng", "Mã CBGD",
                 "Tên CBGD", "ThuS", "TietS", "Số SVĐK", "Tuần BD", "Tuần KT", "Mã Ngành", "Tên Ngành"
             };
 
