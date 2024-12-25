@@ -9,6 +9,9 @@
         var idLHP = $('body').find('[id="idLHPDX"]').val();
         var lydo = $('body').find('[id="lydo"]').val().trim();
 
+        var checkTongSoGio = $('body').find('[id="giotoida"]').val();
+        var tongsogio = 0;
+
         var mota = "";
         var khoiluong = "";
         var thoigian = "";
@@ -17,23 +20,13 @@
 
         var check = true;
 
-        $('body').find('[id^="valid-lydo"]').text('');
+        $('body').find('[id="valid-lydo"]').text('');
+        $('body').find('[id="valid-giotoida"]').text('');
         $('body').find('[id^="valid-mota-"]').each(function () { $(this).text(''); });
         $('body').find('[id^="valid-khoiluong-"]').each(function () { $(this).text(''); });
         $('body').find('[id^="valid-thoigian-"]').each(function () { $(this).text(''); });
         $('body').find('[id^="valid-noilamviec-"]').each(function () { $(this).text(''); });
         $('body').find('[id^="valid-ketqua-"]').each(function () { $(this).text(''); });
-
-        if (lydo.length < 1) {
-            check = false;
-
-            btn.html('Lưu thông tin');
-            btn.prop('disabled', false);
-            $('body').find('[id="btnDeXuatClose"]').prop('disabled', false);
-
-            $('body').find('[id^="valid-lydo"]').text('Vui lòng nhập lý do cần TA hỗ trợ.');
-            $('body').find('[id="lydo"]').focus();
-        }
 
         $('body').find('[id^="mota-"]').each(function () {
             var inp = $(this);
@@ -67,6 +60,7 @@
             }
             else {
                 khoiluong += val + "~";
+                tongsogio += Number(val);
             }
         });
         $('body').find('[id^="thoigian-"]').each(function () {
@@ -120,6 +114,31 @@
                 ketqua += val + "~";
             }
         });
+
+        if (Number(checkTongSoGio) < Number(tongsogio)) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnDeXuatClose"]').prop('disabled', false);
+
+            $('body').find('[id="valid-giotoida"]').text('Tổng số giờ quy đổi phải nhỏ hơn hoặc bằng ' + checkTongSoGio + ' giờ.');
+
+            $('.modal-dexuattrogiang-dialog .modal-body').animate({
+                scrollTop: $('.modal-dexuattrogiang-dialog .modal-body').height()
+            }, 0);
+        }
+
+        if (lydo.length < 1) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnDeXuatClose"]').prop('disabled', false);
+
+            $('body').find('[id="valid-lydo"]').text('Vui lòng nhập lý do cần TA hỗ trợ.');
+            $('body').find('[id="lydo"]').focus();
+        }
 
         if (check == true) {
             var formData = new FormData();

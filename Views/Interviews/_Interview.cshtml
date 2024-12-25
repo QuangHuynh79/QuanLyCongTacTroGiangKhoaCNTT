@@ -4,8 +4,15 @@
 {
     var pv = Model.DanhGiaPhongVan.First();
     <div class="modal-body pt-0 pb-0" id="phongvanContent">
-        <input hidden id="idut" value="@Model.ID" />
+        <input hidden name="@Model.TaiKhoan.Ma - @Model.TaiKhoan.HoTen - HK@(Model.LopHocPhan.HocKy.TenHocKy) - @Model.LopHocPhan.Nganh.TenNganh" id="idut" value="@Model.ID" />
         <div class="row">
+            <div class="col-12 mb-3 mt-3">
+                <div class="w-100 text-end">
+                    <a id="export-interview" class="btn btn-outline-secondary">
+                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                    </a>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="table-card mt-0">
                     <table class="table table-hover table-bordered">

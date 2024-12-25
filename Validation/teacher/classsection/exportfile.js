@@ -9,8 +9,6 @@
         var formData = new FormData();
         formData.append('idLhp', idLhp);
 
-        alert(idLhp);
-
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
             url: $('#requestPath').val() + "ClassManagement/ExportData",
