@@ -15,6 +15,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class InterviewsController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
+
         // GET: TeachingAssistant
         /// <summary>
         /// Lấy hoặc thiết lập một thể hiện của `ApplicationUserManager`. Nếu chưa được khởi tạo, nó sẽ lấy đối tượng này từ OWIN context.
@@ -177,31 +179,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         model.SaveChanges();
                     }
 
-                    var thongbao = new ThongBao()
-                    {
-                        TieuDe = "Kết quả phỏng vấn.",
-                        NoiDung = ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " đã đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".",
-                        ThoiGian = DateTime.Now,
-                        DaDoc = false,
-                        ForRole = "1#4",
-                        ID_TaiKhoan = ut.ID_TaiKhoan,
-                    };
-                    model.ThongBao.Add(thongbao);
-                    model.SaveChanges();
+                    string saveNoti = noti.SetNotification("Kết quả phỏng vấn.", ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " đã đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan);
                 }
                 else
                 {
-                    var thongbao = new ThongBao()
-                    {
-                        TieuDe = "Kết quả phỏng vấn.",
-                        NoiDung = ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " không đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".",
-                        ThoiGian = DateTime.Now,
-                        DaDoc = false,
-                        ForRole = "1#4",
-                        ID_TaiKhoan = ut.ID_TaiKhoan,
-                    };
-                    model.ThongBao.Add(thongbao);
-                    model.SaveChanges();
+                    string saveNoti = noti.SetNotification("Kết quả phỏng vấn.", ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " không đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan);
                 }
 
                 model = new CongTacTroGiangKhoaCNTTEntities();

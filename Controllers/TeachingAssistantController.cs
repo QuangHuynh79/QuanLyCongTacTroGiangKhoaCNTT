@@ -25,6 +25,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class TeachingAssistantController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
+
         // GET: TeachingAssistant
         /// <summary>
         /// Lấy hoặc thiết lập một thể hiện của `ApplicationUserManager`. Nếu chưa được khởi tạo, nó sẽ lấy đối tượng này từ OWIN context.
@@ -117,18 +119,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.Entry(ut).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
-                var thongbao = new ThongBao()
-                {
-                    TieuDe = "Duyệt ứng tuyển.",
-                    NoiDung = "Bạn đã được duyệt ứng tuyển Lớp " + ut.LopHocPhan.MaLHP + ".",
-                    ThoiGian = DateTime.Now,
-                    DaDoc = false,
-                    ForRole = "1#4",
-                    ID_TaiKhoan = ut.ID_TaiKhoan
-                };
-                model.ThongBao.Add(thongbao);
-                model.SaveChanges();
-
+                string saveNoti = noti.SetNotification("Duyệt ứng tuyển.", "Bạn đã được duyệt ứng tuyển Lớp HP " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan);
+               
                 model = new CongTacTroGiangKhoaCNTTEntities();
                 return Content("SUCCESS");
             }

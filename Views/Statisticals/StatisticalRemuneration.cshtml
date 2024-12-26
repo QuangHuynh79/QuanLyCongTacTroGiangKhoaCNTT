@@ -369,12 +369,16 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="giotoida">Số giờ tối đa <span class="text-danger">*</span></label>
-                            <input type="text" defaultData="@giotoida"
-                                   data-type="numbers"
-                                   id="giotoida"
-                                   class="form-control"
-                                   placeholder="Nhập số giờ tối đa công việc TA"
-                                   value="@giotoida">
+                            <div>
+                                Khối lượng trợ giảng của TA không vượt quá 1 / <input type="text" defaultData="@giotoida"
+                                                                                     data-type="numbers"
+                                                                                     id="giotoida"
+                                                                                     class="form-control d-inline" style="width: 50px !important;padding: .5rem .5rem"
+                                                                                     placeholder=""
+                                                                                     value="@giotoida">
+                                khối lượng thiết kế của học phần (tính theo số tiết của môn học).
+                            </div>
+                           
                             <span class="text-danger" id="valid-giotoida"></span>
                         </div>
                     </div>

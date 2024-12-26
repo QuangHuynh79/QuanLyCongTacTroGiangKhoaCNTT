@@ -12,6 +12,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class AdvancesClassectionController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
 
         /// <summary>
         /// Hiển thị danh sách lớp học phần đã được giảng viên chọn và đề xuất học phần.
@@ -98,17 +99,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 if (!trangthai)
                 {
-                    var thongbao = new ThongBao()
-                    {
-                        TieuDe = "Đề xuất trợ giảng.",
-                        NoiDung = "Lớp " + lhp.MaLHP + "đã được duyệt đề xuất trợ giảng.",
-                        ThoiGian = DateTime.Now,
-                        DaDoc = false,
-                        ForRole = "2",
-                        ID_TaiKhoan = lhp.ID_TaiKhoan
-                    };
-                    model.ThongBao.Add(thongbao);
-                    model.SaveChanges();
+                    var tkNguoiNhan = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lhp.MaCBGD.ToLower()));
+                    string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được duyệt đề xuất trợ giảng bởi quản trị viên.", "0", tkNguoiNhan.ID);
                 }
                 return Content("SUCCESS");
             }

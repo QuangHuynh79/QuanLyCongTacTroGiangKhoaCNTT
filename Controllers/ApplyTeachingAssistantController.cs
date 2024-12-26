@@ -13,6 +13,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class ApplyTeachingAssistantController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
 
         /// <summary>
         /// Mở trang đăng ký trợ giảng (TA) cho người dùng có vai trò TA.
@@ -239,17 +240,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     model.UngTuyenTroGiang.Add(ut);
                     model.SaveChanges();
 
-                    var thongbao = new ThongBao()
-                    {
-                        TieuDe = "Ứng tuyển trợ giảng.",
-                        NoiDung = tk.HoTen + " - " + tk.Ma + " đã ứng tuyển vào Lớp " + lhp.MaLHP + ".",
-                        ThoiGian = DateTime.Now,
-                        DaDoc = false,
-                        ForRole = "3",
-                    };
-                    model.ThongBao.Add(thongbao);
-                    model.SaveChanges();
-
+                    string saveNoti = noti.SetNotification("Ứng tuyển trợ giảng."
+                        , tk.HoTen + " - " + tk.Ma + " đã ứng tuyển vào Lớp HP " + lhp.MaLHP + "."
+                    , "#5#3#n" + lhp.ID_Nganh, null);
+                   
                     model = new CongTacTroGiangKhoaCNTTEntities();
                     return Content("SUCCESS");
                 }

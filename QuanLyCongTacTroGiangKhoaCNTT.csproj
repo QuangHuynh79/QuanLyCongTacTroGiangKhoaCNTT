@@ -542,6 +542,8 @@
     <Content Include="Validation\department\statisticals\cauhinh.js" />
     <Content Include="Validation\department\statisticals\thulao\filter.js" />
     <Content Include="Validation\department\statisticals\trogiang\filter.js" />
+    <Content Include="Validation\notification\search.js" />
+    <Content Include="Validation\notification\delete.js" />
     <Content Include="Validation\SVandTA\cancelapply.js" />
     <Content Include="Validation\SVandTA\resultApply\opentask.js" />
     <Content Include="Validation\teacher\Assignment\submitAssign.js" />
@@ -641,6 +643,7 @@
     <Content Include="Views\ClassManagement\_ResultRollcall.cshtml" />
     <Content Include="Views\Interviews\_Interview.cshtml" />
     <Content Include="Views\Interviews\_Export.cshtml" />
+    <Content Include="Views\Notifications\_Search.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -671,7 +674,6 @@
     <Content Include="Validation\department\major\add.js" />
     <Content Include="Validation\department\major\delete.js" />
     <Content Include="Validation\department\major\edit.js" />
-    <Content Include="Validation\department\notifications\delete.js" />
     <Content Include="Validation\department\semester\add.js" />
     <Content Include="Validation\department\semester\delete.js" />
     <Content Include="Validation\department\semester\edit.js" />
@@ -728,7 +730,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

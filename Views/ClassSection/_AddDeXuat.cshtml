@@ -12,7 +12,8 @@
     var lstDeXuat = models.DeXuatTroGiang.Where(w => w.LopHocPhan.TenHP.ToLower().Equals(name) && w.LopHocPhan.MaCBGD.ToLower().Equals(ma)).ToList();
     int i = 1;
 
-    string giotoida = ConfigurationManager.AppSettings["RemunerationMaxHouse"];
+    string giotoidas = ConfigurationManager.AppSettings["RemunerationMaxHouse"];
+    float? giotoida = lhp.ThoiKhoaBieu.First().TSMH * (1 / float.Parse(giotoidas));
 }
 <div class="modal-body" id="loadcontentdexuat">
     <div class="row">

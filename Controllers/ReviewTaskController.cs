@@ -20,6 +20,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class ReviewTaskController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
 
         // GET: TaskList
         /// <summary>
@@ -107,6 +108,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     model.Entry(congviec).State = System.Data.Entity.EntityState.Modified;
                 }
                 model.SaveChanges();
+
+                string saveNoti = noti.SetNotification("Đánh giá công việc.", "Công việc của lớp " + pc.LopHocPhan.MaLHP + " đã được đánh giá bởi " + pc.LopHocPhan.TenCBGD + ".", "0", pc.ID_TaiKhoan);
+
                 model = new CongTacTroGiangKhoaCNTTEntities();
                 return Content("SUCCESS");
             }

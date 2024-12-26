@@ -1,4 +1,16 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var idTk = Int32.Parse(Session["user-id"].ToString());
+    var tk = models.TaiKhoan.Find(idTk);
+    var lstNganh = models.Nganh.ToList();
+
+    string roleId = Session["user-role-id"].ToString();
+    var lstNoti = models.ThongBao.ToList();
+    lstNoti = lstNoti.Where(w => w.ID_TaiKhoan == idTk || w.ForRole.IndexOf(roleId) != -1).ToList();
+
+    Session["list-noti-default"] = lstNoti;
+}
 <!doctype html>
 <html lang="vi">
 <head>
@@ -92,7 +104,7 @@
         }
     </style>
     @*<img class="santa" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/santas.gif" style="position: fixed; width: 12vw; min-width: 100px; z-index: 9999; cursor: pointer; -webkit-animation: FlyingSanta 38s infinite linear; -moz-animation: FlyingSanta 38s infinite linear; -ms-animation: FlyingSanta 38s infinite linear; -o-animation: FlyingSanta 38s infinite linear; animation: FlyingSanta 38s infinite linear; bottom: 0px; left: 0px; filter: drop-shadow(5px 5px 5px #155);" />
-    <img style="position: fixed; left: 0px; bottom: 20px; height: auto; width: 15vw; filter: opacity(0.9); z-index: 9998; filter: drop-shadow(0px -20px 50px #EC0);" src="~/Content/Christams/christams_01.gif" />*@
+        <img style="position: fixed; left: 0px; bottom: 20px; height: auto; width: 15vw; filter: opacity(0.9); z-index: 9998; filter: drop-shadow(0px -20px 50px #EC0);" src="~/Content/Christams/christams_01.gif" />*@
 
 
     @*<div id="pageLoader" style="background: #000000b0; display: none; align-items: center; justify-content: center; width: 100vw; height: 100vh; position: fixed; z-index: 9999;">
@@ -207,7 +219,8 @@
                                    id="dropdownNotification"
                                    data-bs-toggle="dropdown"
                                    aria-haspopup="true"
-                                   aria-expanded="false">
+                                   aria-expanded="false"
+                                   data-bs-auto-close="false">
                                     <i class="fe fe-bell"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg" aria-labelledby="dropdownNotification">
@@ -217,44 +230,58 @@
                                         </div>
                                         <div class="p-3 border-bottom ">
                                             <div class="input-group">
-                                                <input class="form-control form-control-sm" placeholder="nhập từ khóa cần tìm" type="search" />
-                                                <a class="btn btn-secondary btn-sm" role="button">
+                                                <input id="inp-search-thongbao" class="form-control form-control-sm" placeholder="nhập từ khóa cần tìm" type="search" />
+                                                <a id="btn-search-thongbao" class="btn btn-secondary btn-sm" role="button">
                                                     <i class="fe fe-search"></i>
                                                 </a>
                                             </div>
                                         </div>
                                         <!-- List group -->
-                                        <ul class="list-group list-group-flush" data-simplebar style="max-height: 300px">
-                                            @for (int i = 0; i < 10; i++)
+                                        <ul id="content-cpn-thongbao" class="list-group list-group-flush" data-simplebar style="max-height: 420px">
+                                            @if (lstNoti.Count < 1)
                                             {
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <a class="text-body" href="#">
-                                                                <div class="d-flex">
-                                                                    <img src="~/Content/img/notifi.png" alt="" class="avatar-md" />
-                                                                    <div class="ms-3">
-                                                                        <h5 class="fw-bold mb-1">Tiêu đề thông báo @i</h5>
-                                                                        <p class="mb-3">Nội dung thông báo @i</p>
-                                                                        <span class="fs-6">
-                                                                            <span>
-                                                                                <span class="bi-clock-history me-1"></span>
-                                                                                1@(i):20 2@(i)/10/2024
+                                                <li class="list-group-item text-center">
+                                                    <span class="fs-6 mb-3 mt-3">
+                                                        Không có thông báo để hiển thị.
+                                                    </span>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in lstNoti.OrderByDescending(o => o.ThoiGian))
+                                                {
+                                                    string link = item.TieuDe.Equals("Đề xuất trợ giảng.") ? Url.Content("~/ClassSection")
+                                                        : item.TieuDe.IndexOf("Ứng tuyển trợ giảng") != -1 ? Url.Content("~/TeachingAssistant/Registered") : "#";
+
+                                                    <li class="list-group-item" id="cpn-thongbao-@item.ID">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <a class="text-body" href="@link">
+                                                                    <div class="d-flex">
+                                                                        <i class="bi bi-bell-fill fs-3 mt-1"></i>
+                                                                        <div class="ms-3">
+                                                                            <h5 class="fw-bold mb-1">@item.TieuDe</h5>
+                                                                            <p class="mb-3">@item.NoiDung</p>
+                                                                            <span class="fs-6">
+                                                                                <span>
+                                                                                    <span class="bi-clock-history me-1"></span>
+                                                                                    @item.ThoiGian.ToString("HH:mm dd/MM/yyyy")
+                                                                                </span>
                                                                             </span>
-                                                                        </span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-auto text-center me-2">
-                                                            <div>
-                                                                <a href="#" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
-                                                                    <i class="fe fe-x"></i>
                                                                 </a>
                                                             </div>
+                                                            <div class="col-auto text-center me-2">
+                                                                <div>
+                                                                    <a id="deleteNoti-@item.ID" name="@item.ID" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
+                                                                        <i class="fe fe-x"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                }
                                             }
                                         </ul>
                                         <div class="border-top px-3 pt-3 pb-0">
@@ -317,12 +344,6 @@
     <input id="requestPath" value="@Url.Content("~")" />
 
     <!-- Thông tin cá nhân -->
-    @{
-        CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-        var idTk = Int32.Parse(Session["user-id"].ToString());
-        var tk = models.TaiKhoan.Find(idTk);
-        var lstNganh = models.Nganh.ToList();
-    }
     <div class="modal fade" id="thongtincanhanmodal" tabindex="-1" role="dialog" aria-labelledby="thongtincanhanmodal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -510,6 +531,10 @@
     <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
     <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
+
+    <script src="~/Validation/notification/delete.js"></script>
+    <script src="~/Validation/notification/search.js"></script>
+
     <script>
         const Toast = Swal.mixin({
             toast: true,
@@ -565,10 +590,10 @@
             }
     </style>
     @*<div id='snowflakeContainer'>
-        <p class='snowflake'>❄</p>
-    </div>
-    <script style='text/javascript'>
-        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; var transforms = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"]; var transformProperty = getSupportedPropertyName(transforms); var snowflakes = []; var browserWidth; var browserHeight; var numberOfSnowflakes = 50; var resetPosition = false; function setup() { window.addEventListener("DOMContentLoaded", generateSnowflakes, false); window.addEventListener("resize", setResetFlag, false) } setup(); function getSupportedPropertyName(b) { for (var a = 0; a < b.length; a++) { if (typeof document.body.style[b[a]] != "undefined") { return b[a] } } return null } function Snowflake(b, a, d, e, c) { this.element = b; this.radius = a; this.speed = d; this.xPos = e; this.yPos = c; this.counter = 0; this.sign = Math.random() < 0.5 ? 1 : -1; this.element.style.opacity = 0.5 + Math.random(); this.element.style.fontSize = 4 + Math.random() * 30 + "px" } Snowflake.prototype.update = function () { this.counter += this.speed / 5000; this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40; this.yPos += Math.sin(this.counter) / 40 + this.speed / 30; setTranslate3DTransform(this.element, Math.round(this.xPos), Math.round(this.yPos)); if (this.yPos > browserHeight) { this.yPos = -50 } }; function setTranslate3DTransform(a, c, b) { var d = "translate3d(" + c + "px, " + b + "px, 0)"; a.style[transformProperty] = d } function generateSnowflakes() { var b = document.querySelector(".snowflake"); var h = b.parentNode; browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var d = 0; d < numberOfSnowflakes; d++) { var j = b.cloneNode(true); h.appendChild(j); var e = getPosition(50, browserWidth); var a = getPosition(50, browserHeight); var c = 5 + Math.random() * 40; var g = 4 + Math.random() * 10; var f = new Snowflake(j, g, c, e, a); snowflakes.push(f) } h.removeChild(b); moveSnowflakes() } function moveSnowflakes() { for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.update() } if (resetPosition) { browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.xPos = getPosition(50, browserWidth); a.yPos = getPosition(50, browserHeight) } resetPosition = false } requestAnimationFrame(moveSnowflakes) } function getPosition(b, a) { return Math.round(-1 * b + Math.random() * (a + 2 * b)) } function setResetFlag(a) { resetPosition = true };
-    </script>*@
+            <p class='snowflake'>❄</p>
+        </div>
+        <script style='text/javascript'>
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; var transforms = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"]; var transformProperty = getSupportedPropertyName(transforms); var snowflakes = []; var browserWidth; var browserHeight; var numberOfSnowflakes = 50; var resetPosition = false; function setup() { window.addEventListener("DOMContentLoaded", generateSnowflakes, false); window.addEventListener("resize", setResetFlag, false) } setup(); function getSupportedPropertyName(b) { for (var a = 0; a < b.length; a++) { if (typeof document.body.style[b[a]] != "undefined") { return b[a] } } return null } function Snowflake(b, a, d, e, c) { this.element = b; this.radius = a; this.speed = d; this.xPos = e; this.yPos = c; this.counter = 0; this.sign = Math.random() < 0.5 ? 1 : -1; this.element.style.opacity = 0.5 + Math.random(); this.element.style.fontSize = 4 + Math.random() * 30 + "px" } Snowflake.prototype.update = function () { this.counter += this.speed / 5000; this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40; this.yPos += Math.sin(this.counter) / 40 + this.speed / 30; setTranslate3DTransform(this.element, Math.round(this.xPos), Math.round(this.yPos)); if (this.yPos > browserHeight) { this.yPos = -50 } }; function setTranslate3DTransform(a, c, b) { var d = "translate3d(" + c + "px, " + b + "px, 0)"; a.style[transformProperty] = d } function generateSnowflakes() { var b = document.querySelector(".snowflake"); var h = b.parentNode; browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var d = 0; d < numberOfSnowflakes; d++) { var j = b.cloneNode(true); h.appendChild(j); var e = getPosition(50, browserWidth); var a = getPosition(50, browserHeight); var c = 5 + Math.random() * 40; var g = 4 + Math.random() * 10; var f = new Snowflake(j, g, c, e, a); snowflakes.push(f) } h.removeChild(b); moveSnowflakes() } function moveSnowflakes() { for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.update() } if (resetPosition) { browserWidth = document.documentElement.clientWidth; browserHeight = document.documentElement.clientHeight; for (var b = 0; b < snowflakes.length; b++) { var a = snowflakes[b]; a.xPos = getPosition(50, browserWidth); a.yPos = getPosition(50, browserHeight) } resetPosition = false } requestAnimationFrame(moveSnowflakes) } function getPosition(b, a) { return Math.round(-1 * b + Math.random() * (a + 2 * b)) } function setResetFlag(a) { resetPosition = true };
+        </script>*@
 </body>
 </html>

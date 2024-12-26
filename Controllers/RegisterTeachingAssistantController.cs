@@ -12,6 +12,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class RegisterTeachingAssistantController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
+
         // GET: TeachingAssistant
         /// <summary>
         /// Lấy hoặc thiết lập một thể hiện của `ApplicationUserManager`. Nếu chưa được khởi tạo, nó sẽ lấy đối tượng này từ OWIN context.
@@ -85,17 +87,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
                 var hockyDb = model.HocKy.Find(hocky);
-                var thongbao = new ThongBao();
-
-                thongbao.TieuDe = "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy;
-                thongbao.NoiDung = "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + " năm học " + hockyDb.NamBatDau + "-" + hockyDb.NamKetThuc
-                + ". Thời gian ứng tuyển từ ngày " + thoigianmo.ToString("dd/MM/yyyy") + " đến ngày" + thoigiandong.ToString("dd/MM/yyyy");
-                thongbao.ThoiGian = DateTime.Now;
-                thongbao.DaDoc = false;
-                thongbao.ForRole = "1#4";
-
-                model.ThongBao.Add(thongbao);
-                model.SaveChanges();
+                string saveNoti = noti.SetNotification("Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + "."
+                    , "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + " năm học " + hockyDb.NamBatDau + "-" + hockyDb.NamKetThuc
+                + ". Thời gian ứng tuyển từ ngày " + thoigianmo.ToString("dd/MM/yyyy") + " đến ngày " + thoigiandong.ToString("dd/MM/yyyy") + "."
+                , "#1#2#4" + model.Nganh.Find(nganh).ID, null);
 
                 return Content("SUCCESS");
             }
