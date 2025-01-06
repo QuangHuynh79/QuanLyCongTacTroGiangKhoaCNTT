@@ -10,7 +10,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/OpenSuggest",
+            url: $('#requestPath').val() + "AdvancesClassection/OpenSuggest",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -53,7 +53,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/AcceptedAdvances",
+            url: $('#requestPath').val() + "AdvancesClassection/AcceptedAdvances",
             data: formData,
             dataType: 'html',
             type: 'POST',

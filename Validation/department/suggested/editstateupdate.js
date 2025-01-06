@@ -10,7 +10,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/EditStateAdvances",
+            url: $('#requestPath').val() + "AdvancesClassection/EditStateAdvances",
             data: formData,
             dataType: 'html',
             type: 'POST',

@@ -213,7 +213,7 @@
                                 </label>
                                 <select class="form-select" id="hocky">
                                     <option value="">---- Chọn học kỳ ----</option>
-                                    @foreach (var item in lstHk.OrderByDescending(o => o.ID))
+                                    @foreach (var item in lstHk.Where(w => w.ThoiKhoaBieu.Count() > 0).ToList().OrderByDescending(o => o.ID))
                                     {
                                         int idDf = lstHk.OrderByDescending(o => o.ID).First().ID;
                                         if (first == 0)

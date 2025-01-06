@@ -21020,6 +21020,10 @@ textarea.form-control-lg {
     position: relative
 }
 
+    .list-group-item:hover {
+        background-color: var(--geeks-border-color);
+    }
+
     .list-group-item:first-child {
         border-top-left-radius: inherit;
         border-top-right-radius: inherit
@@ -45875,7 +45879,7 @@ textarea.form-control-lg {
         line-height: 1.2rem;
         margin: 1.125rem 0;
         min-width: 12rem;
-        padding: 1rem 0;
+        padding: 1rem 0 0 0;
         top: 28px
     }
 
@@ -45971,7 +45975,7 @@ textarea.form-control-lg {
             }
 }
 
-@media (min-width:1200px) {
+/*@media (min-width:1200px) {
     .navbar .dropdown-menu {
         display: block;
         opacity: 0;
@@ -45995,7 +45999,7 @@ textarea.form-control-lg {
         transform: scaleY(1);
         visibility: visible
     }
-}
+}*/
 
 .navbar-transparent {
     background-color: transparent;
@@ -46527,7 +46531,7 @@ table tr:last-child td {
 
 .dropdown-menu-lg {
     border-radius: .5rem;
-    min-width: 22rem !important
+    min-width: 32rem !important
 }
 
 .dropdown-menu-xl {

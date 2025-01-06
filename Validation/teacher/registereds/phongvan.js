@@ -11,7 +11,7 @@
 
         $.ajax({
             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-            url: $('#requestPath').val() + "TeachingAssistant/OpenPhongVanRegistereds",
+            url: $('#requestPath').val() + "Interviews/OpenInterview",
             data: formData,
             dataType: 'html',
             type: 'POST',
@@ -212,7 +212,7 @@
             formData.append('ngayduyetpv', ngayduyetpv);
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
-                url: $('#requestPath').val() + "TeachingAssistant/SubmitPhongVanRegistereds",
+                url: $('#requestPath').val() + "Interviews/SubmitInterview",
                 data: formData,
                 dataType: 'html',
                 type: 'POST',
@@ -247,5 +247,67 @@
                 }
             });
         }
+    });
+
+    $('body').on('click', '[id="export-interview"]', function () {
+        var btn = $(this);
+        btn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang Export...');
+
+        var idUt = $('body').find('[id="idut"]').val();
+        var fileName = $('body').find('[id="idut"]').attr('name');
+
+        var formData = new FormData();
+        formData.append('id', idUt);
+
+        $.ajax({
+            error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },
+            url: $('#requestPath').val() + "Interviews/ExportData",
+            dataType: 'html',
+            data: formData,
+            type: 'POST',
+            processData: false,
+            contentType: false
+        }).done(function (ketqua) {
+            $('body').find('[id="table-export-data"]').html(ketqua);
+
+            // Xuất file Excel
+            var table = $('body').find('[id="exportTablesTA01"]')[0];
+
+            var wb = XLSX.utils.book_new();
+            var ws1 = XLSX.utils.table_to_sheet(table);
+            for (var cell in ws1) {
+                if (ws1.hasOwnProperty(cell) && cell[0] !== '!') { // Bỏ qua các metadata của sheet 
+                    var cellAddress = XLSX.utils.decode_cell(cell);
+                    if (cellAddress.r > 3) {
+
+                        if (!ws1[cell]) ws1[cell] = {};
+                        ws1[cell].t = 's'; // Định dạng kiểu chuỗi 
+                        ws1[cell].z = '@'; // Định dạng chuỗi
+                    }
+                }
+            }
+            XLSX.utils.book_append_sheet(wb, ws1, "Phụ lục TA-01");
+
+            var table2 = $('body').find('[id="exportTablesCongViec"]')[0];
+            var ws2 = XLSX.utils.table_to_sheet(table2);
+            for (var cell in ws2) {
+                if (ws2.hasOwnProperty(cell) && cell[0] !== '!') { // Bỏ qua các metadata của sheet 
+                    var cellAddress = XLSX.utils.decode_cell(cell);
+                    if (cellAddress.r > 3) {
+
+                        if (!ws2[cell]) ws2[cell] = {};
+                        ws2[cell].t = 's'; // Định dạng kiểu chuỗi 
+                        ws2[cell].z = '@'; // Định dạng chuỗi
+                    }
+                }
+            }
+            XLSX.utils.book_append_sheet(wb, ws2, "Bảng mô tả công việc");
+
+
+            XLSX.writeFile(wb, "TA01 - " + fileName + ".xlsx");
+
+            $('body').find('[id="table-export-data"]').html('');
+            btn.html('Export');
+        });
     });
 });

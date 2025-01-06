@@ -61,7 +61,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// </summary>
         /// <returns>Trả về trạng thái đã lưu thành công hay lỗi thất bại.</returns>
         [Authorize, BCNRole]
-        public ActionResult UpdateRemuneratiion(string thulao)
+        public ActionResult UpdateRemuneratiion(string thulao, string giotoida)
         {
             try
             {
@@ -70,6 +70,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (objAppsettings != null)
                 {
                     objAppsettings.Settings["RemunerationPrice"].Value = thulao;
+                    objAppsettings.Settings["RemunerationMaxHouse"].Value = giotoida;
+
                     objConfig.Save();
                 }
                 return Content("SUCCESS");

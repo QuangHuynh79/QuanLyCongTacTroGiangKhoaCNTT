@@ -2,10 +2,29 @@
 @{
     var ut = Model.ToList();
     int i = 0;
+
+    string tenhk = "..........";
+    string namhoc = "..........";
+    string tenkhoa = "..........";
+    if (ut.Count > 0)
+    {
+        tenhk = ut.First().LopHocPhan.HocKy.TenHocKy;
+        namhoc = ut.First().LopHocPhan.HocKy.NamBatDau + " - " + ut.First().LopHocPhan.HocKy.NamKetThuc;
+        tenkhoa = ut.First().LopHocPhan.Nganh.Khoa.TenKhoa;
+    }
 }
 
-<table id="exportTable" style="width:100%">
+<table id="exportTables" style="width:100%">
     <thead>
+        <tr>
+            <th colspan="12">TRƯỜNG ĐẠI HỌC VĂN LANG</th>
+        </tr>
+        <tr>
+            <th colspan="12">Khoa/TT: @tenkhoa</th>
+        </tr>
+        <tr>
+            <th align="center" colspan="12">DANH SÁCH TEACHING ASSISTANT HỌC KỲ: @tenhk - NĂM HỌC: @namhoc</th>
+        </tr>
         <tr>
             <th>TT</th>
             <th>Mã TA (mã sv)</th>
@@ -29,11 +48,11 @@
                 i++;
                 <tr>
                     <td valign="middle">@i</td>
-                    <td valign="middle">'@item.MSSV</td>
+                    <td valign="middle">@item.MSSV</td>
                     <td valign="middle">@item.HoTen</td>
-                    <td valign="middle">'@item.LopHocPhan.MaCBGD</td>
+                    <td valign="middle">@item.LopHocPhan.MaCBGD</td>
                     <td valign="middle">@item.LopHocPhan.TenCBGD</td>
-                    <td valign="middle">'@item.LopHocPhan.MaLHP</td>
+                    <td valign="middle">@item.LopHocPhan.MaLHP</td>
                     <td valign="middle">@item.LopHocPhan.TenHP</td>
                     <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
                     <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>

@@ -90,7 +90,7 @@
                     <div class="mb-3 col-md-4 col-12">
                         <label class="form-label">Lọc giảng viên</label>
                         <select class="form-select" id="locgiangvien" placeholder="Lọc giảng viên" multiple="multiple" filter="true">
-                            @foreach (var item in lstTkb.GroupBy(o => o.TenCBGD).ToList())
+                            @foreach (var item in lstTkb.GroupBy(o => o.MaCBGD).ToList())
                             {
                                 var items = item.Select(s => new { s.MaCBGD, s.TenCBGD }).First();
                                 <option selected value="@items.MaCBGD">@items.TenCBGD</option>

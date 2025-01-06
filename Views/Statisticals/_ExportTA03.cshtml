@@ -1,22 +1,120 @@
 ﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
 @using QuanLyCongTacTroGiangKhoaCNTT.Models
+@using System.Configuration;
 @{
     var models = new CongTacTroGiangKhoaCNTTEntities();
     var ut = Model.ToList();
     int i = 0;
-
+    int j = 0;
     int id_hkGanNhat = 0;
     int id_nganh = 0;
 
+    string tenhk = "..........";
+    string namhoc = "..........";
+    string tenkhoa = "..........";
     if (ut.Count > 0)
     {
+        tenhk = ut.First().LopHocPhan.HocKy.TenHocKy;
+        namhoc = ut.First().LopHocPhan.HocKy.NamBatDau + " - " + ut.First().LopHocPhan.HocKy.NamKetThuc;
+        tenkhoa = ut.First().LopHocPhan.Nganh.Khoa.TenKhoa;
+
         id_hkGanNhat = ut.First().LopHocPhan.ID_HocKy;
         id_nganh = ut.First().LopHocPhan.ID_Nganh;
     }
+
+    string thulao = ConfigurationManager.AppSettings["RemunerationPrice"];
+    var tongThuLao = 0.0;
+    foreach (var items in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+    {
+        tongThuLao += items.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe * float.Parse(thulao);
+    }
 }
 
-<table id="exportTable" style="width:100%">
+<!-- Sheet thù lao -->
+
+<table id="exportTables" style="width:100%">
     <thead>
+        <tr>
+            <th colspan="14">TRƯỜNG ĐẠI HỌC VĂN LANG</th>
+        </tr>
+        <tr>
+            <th colspan="14">Khoa/TT: @tenkhoa</th>
+        </tr>
+        <tr>
+            <th align="center" colspan="14">BẢNG QUY ĐỔI THÙ LAO CỦA TEACHING ASSISTANT</th>
+        </tr>
+        <tr>
+            <th align="center" class="text-center" colspan="14">HỌC KỲ: @tenhk - NĂM HỌC: @namhoc</th>
+        </tr>
+        <tr>
+            <th>TT</th>
+            <th>Mã SV</th>
+            <th>Họ & Tên SV</th>
+            <th>Làm trợ lý giảng dạy học phần</th>
+            <th>Mã HP</th>
+            <th>Mã LHP</th>
+            <th>Số TC</th>
+            <th>Tổng số<br />giờ HP</th>
+            <th>Số giờ TA<br />(theo kế hoạch)</th>
+            <th>Số giờ TA<br />(làm thực tế)</th>
+            <th>Đơn giá<br />(đồng)/giờ</th>
+            <th>Thành tiền<br />(đồng)</th>
+            <th>GV ký</th>
+            <th>Ghi chú</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() : 0) > 0)
+        {
+            var pctg = models.PhanCongTroGiang.Where(w => w.LopHocPhan.ID_HocKy == id_hkGanNhat && w.LopHocPhan.ID_Nganh == id_nganh).ToList();
+            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).ToList())
+            {
+                var soLopHocPhan = pctg.Where(w => w.LopHocPhan.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == item.First().ID_TaiKhoan).Count() > 0);
+
+                foreach (var lhp in soLopHocPhan.ToList())
+                {
+                    j++;
+
+                    var thulaos = Convert.ToDecimal(thulao);
+                    var giothucte = Convert.ToDecimal(lhp.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe);
+                    <tr>
+                        <td valign="middle">@j</td>
+                        <td valign="middle">@item.First().MSSV</td>
+                        <td valign="middle">@item.First().HoTen</td>
+                        <td valign="middle">@lhp.LopHocPhan.TenHP</td>
+                        <td valign="middle">@lhp.LopHocPhan.MaMH</td>
+                        <td valign="middle">@lhp.LopHocPhan.MaLHP</td>
+                        <td valign="middle">@lhp.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                        <td valign="middle">@lhp.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                        <td valign="middle">@lhp.LopHocPhan.CongViec.Sum(s => s.SoGioQuyDoi)</td>
+                        <td valign="middle">@lhp.LopHocPhan.PhanCongTroGiang.First().SoGioThucTe</td>
+                        <td valign="middle">@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))đ</td>
+                        <td valign="middle">@((giothucte * thulaos).ToString("0,0").Equals("00") ? "0" : (giothucte * thulaos).ToString("0,0"))đ</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Sheet ngân hàng -->
+<table id="exportTables2" style="width:100%">
+    <thead>
+        <tr>
+            <th colspan="10">TRƯỜNG ĐẠI HỌC VĂN LANG</th>
+        </tr>
+        <tr>
+            <th colspan="10">Khoa/TT: @tenkhoa</th>
+        </tr>
+        <tr>
+            <th align="center" colspan="10">DANH SÁCH CUNG CẤP THÔNG TIN TÀI KHOẢN NGÂN HÀNG CỦA SV THAM GIA HOẠT ĐỘNG TRỢ LÝ GIẢNG DẠY (TA)</th>
+        </tr>
+        <tr>
+            <th align="center" class="text-center" colspan="10">HỌC KỲ: @tenhk - NĂM HỌC: @namhoc</th>
+        </tr>
         <tr>
             <th>TT</th>
             <th>Mã SV</th>
@@ -39,14 +137,14 @@
                 i++;
                 <tr>
                     <td>@i</td>
-                    <td>'@item.First().MSSV</td>
+                    <td>@item.First().MSSV</td>
                     <td>@item.First().HoTen</td>
-                    <td>'@item.First().LopHocPhan.MaLHP</td>
-                    <td>'@item.First().TaiKhoan.SoTaiKhoanNganHang</td>
+                    <td>@item.First().LopHocPhan.MaLHP</td>
+                    <td>@item.First().TaiKhoan.SoTaiKhoanNganHang</td>
                     <td>@item.First().TaiKhoan.TenNganHang</td>
                     <td>@item.First().TaiKhoan.ChuTaiKhoanNganHang</td>
-                    <td>'@item.First().TaiKhoan.MaSoCanCuocCongDan</td>
-                    <td>'@item.First().TaiKhoan.MaSoThue</td>
+                    <td>@item.First().TaiKhoan.MaSoCanCuocCongDan</td>
+                    <td>@item.First().TaiKhoan.MaSoThue</td>
                     <td></td>
                 </tr>
             }

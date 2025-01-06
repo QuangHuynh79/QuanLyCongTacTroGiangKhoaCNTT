@@ -20,6 +20,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
     public class ClassSectionController : Controller
     {
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
+        NotificationsController noti = new NotificationsController();
+
         // GET: ClassSection 
         /// <summary>
         /// Tải danh sách lớp học phần và hiển thị giao diện danh sách lớp học phần.
@@ -259,18 +261,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.Entry(dexuat).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
                 model = new CongTacTroGiangKhoaCNTTEntities();
+
                 // Tạo thông báo về việc cập nhật công việc
-                var tk = Session["TaiKhoan"] as TaiKhoan;
-                var thongbao = new ThongBao()
-                {
-                    TieuDe = "Chi tiết công việc được cập nhật.",
-                    NoiDung = "Lớp " + lhp.MaLHP + " đã được cập nhật mô tả chi tiết công việc trợ giảng bởi " + tk.Ma + ".",
-                    ThoiGian = DateTime.Now,
-                    DaDoc = false,
-                    ForRole = "3",
-                };
-                model.ThongBao.Add(thongbao);
-                model.SaveChanges();
+                string saveNoti = noti.SetNotification("Chi tiết công việc được cập nhật.", "Lớp " + lhp.MaLHP + " đã được cập nhật mô tả chi tiết công việc trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + lhp.ID_Nganh, null);
 
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
@@ -340,17 +333,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     }; model.CongViec.Add(cv);
                 }
                 model.SaveChanges();
+
                 // Tạo thông báo về việc đề xuất trợ giảng
-                var thongbao = new ThongBao()
-                {
-                    TieuDe = "Đề xuất trợ giảng.",
-                    NoiDung = "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".",
-                    ThoiGian = DateTime.Now,
-                    DaDoc = false,
-                    ForRole = "3",
-                };
-                model.ThongBao.Add(thongbao);
-                model.SaveChanges();
+                var tkNguoiNhan = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lhp.MaCBGD.ToLower()));
+                string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + tkNguoiNhan.ID_Nganh, tkNguoiNhan.ID);
 
                 return Content("SUCCESS");
             }

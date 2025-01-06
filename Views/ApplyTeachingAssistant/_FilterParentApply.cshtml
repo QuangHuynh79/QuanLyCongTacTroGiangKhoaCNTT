@@ -35,18 +35,20 @@
                 <div class="mb-3 col-md-4 col-12">
                     <label class="form-label">Lọc môn học</label>
                     <select class="form-select" id="locmonhoc" placeholder="Lọc giảng viên" multiple="multiple">
-                        @foreach (var item in lstTkb.ToList())
+                        @foreach (var item in lstTkb.GroupBy(o => o.MaMH).ToList())
                         {
-                            <option selected value="@item.MaMH">@item.TenHP</option>
+                            var items = item.Select(s => new { s.TenHP, s.MaMH }).First();
+                            <option selected value="@items.MaMH">@items.TenHP</option>
                         }
                     </select>
                 </div>
                 <div class="mb-3 col-md-4 col-12">
                     <label class="form-label">Lọc giảng viên</label>
                     <select class="form-select" id="locgiangvien" placeholder="Lọc giảng viên" multiple="multiple" filter="true">
-                        @foreach (var item in lstTkb)
+                        @foreach (var item in lstTkb.GroupBy(o => o.MaCBGD).ToList())
                         {
-                            <option selected value="@item.MaCBGD">@item.TenCBGD</option>
+                            var items = item.Select(s => new { s.MaCBGD, s.TenCBGD }).First();
+                            <option selected value="@items.MaCBGD">@items.TenCBGD</option>
                         }
                     </select>
                 </div>

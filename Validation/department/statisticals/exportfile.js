@@ -25,17 +25,26 @@
             contentType: false
         }).done(function (ketqua) {
             $('body').find('[id="table-export-data"]').html(ketqua);
-            var datas = new Blob([document.getElementById('table-export-data').innerHTML], {
-                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset:utf-8"
-            });
+
+            // Xuất file Excel
+            var table = $('body').find('[id="exportTables"]')[0];
             if (type == "ta02") {
-                saveAs(datas, "TA02 - HK" + tenhocky + " - " + tennganh + ".xls");
+                var wb = XLSX.utils.table_to_book(table, { sheet: "Phụ lục TA-02" });
+                XLSX.writeFile(wb, "TA02 - HK" + tenhocky + " - " + tennganh + ".xlsx");
             }
             else {
-                saveAs(datas, "TA03 - HK" + tenhocky + " - " + tennganh + ".xls");
+                var wb = XLSX.utils.book_new();
+
+                var ws1 = XLSX.utils.table_to_sheet(table);
+                XLSX.utils.book_append_sheet(wb, ws1, "Phụ lục TA-03");
+
+                var table2 = $('body').find('[id="exportTables2"]')[0];
+                var ws2 = XLSX.utils.table_to_sheet(table2);
+                XLSX.utils.book_append_sheet(wb, ws2, "Thong tin chuyen khoan");
+
+                XLSX.writeFile(wb, "TA03 - HK" + tenhocky + " - " + tennganh + ".xlsx");
             }
             $('body').find('[id="table-export-data"]').html('');
-
             btn.html('Export');
         });
     });

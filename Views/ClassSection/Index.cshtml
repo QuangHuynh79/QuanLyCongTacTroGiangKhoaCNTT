@@ -166,6 +166,12 @@
                                                         <span><i class="bi bi-calendar3 me-2"></i></span>
                                                     </a>
                                                 </span>
+
+                                                <span id="viewKetQuaDiemDanh-@item.ID" tieudeForm="Kết quả điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Kết quả điểm danh lớp học" class="text-success">
+                                                        <span><i class="bi bi-calendar-check me-2"></i></span>
+                                                    </a>
+                                                </span>
                                             }
 
                                             @if (item.DeXuatTroGiang.Count < 1)
@@ -197,7 +203,7 @@
     </div>
 
     <div class="modal fade" id="dexuattrogiang" tabindex="-1" role="dialog" aria-labelledby="dexuattrogiang" aria-hidden="true">
-        <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable modal-dialog-centered modal-dexuattrogiang-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="dexuattrogiangTitle"></h5>
@@ -285,7 +291,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="diemdanhsvTitle">Điểm danh LHP 221_71ITBS10103_01</h5>
+                    <h5 class="modal-title" id="diemdanhsvTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -300,8 +306,26 @@
             </div>
         </div>
     </div>
-</section>
 
+    <div class="modal fade" id="ketquadiemdanhmodal" tabindex="-1" role="dialog" aria-labelledby="ketquadiemdanhmodal" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ketquadiemdanhmodalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body overflow-x-hidden" id="loadcontentketquadiemdanhmodal">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnCloseKetQuaDiemDanh" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section style="display: none" id="table-export-data">
 </section>
@@ -312,6 +336,8 @@
 <script src="~/Validation/teacher/classsection/updatetask.js"></script>
 <script src="~/Validation/teacher/classsection/filter.js"></script>
 <script src="~/Validation/teacher/classsection/danhSachSinhVien.js"></script>
+<script src="~/Validation/teacher/classsection/ketQuaDiemDanh.js"></script>
 <script src="~/Validation/teacher/classsection/import.js"></script>
 <script src="~/Validation/teacher/classsection/diemDanh.js"></script>
+<script src="~/Content/assets/libs/XLSX-Full/xlsx.full.min.js"></script>
 <script src="~/Validation/teacher/classsection/exportfile.js"></script>

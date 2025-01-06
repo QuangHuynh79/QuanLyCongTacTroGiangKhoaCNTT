@@ -25,7 +25,7 @@
 
                 $.ajax({
                     error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-                    url: $('#requestPath').val() + "TeachingAssistant/CancelApply",
+                    url: $('#requestPath').val() + "ApplyTeachingAssistant/CancelApply",
                     data: formData,
                     dataType: 'html',
                     type: 'POST',

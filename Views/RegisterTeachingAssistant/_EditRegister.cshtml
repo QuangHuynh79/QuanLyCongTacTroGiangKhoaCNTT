@@ -24,7 +24,7 @@
                 </label>
                 <input hidden id="idFdk" value="@Model.ID" />
                 <select class="form-select" id="edithocky">
-                    @foreach (var item in lstHk.OrderByDescending(o => o.ID))
+                    @foreach (var item in lstHk.Where(w => w.ThoiKhoaBieu.Count() > 0).ToList().OrderByDescending(o => o.ID))
                     {
                         if (Model.ID_HocKy == item.ID)
                         {

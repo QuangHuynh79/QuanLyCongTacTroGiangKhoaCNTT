@@ -412,7 +412,7 @@
                 }
                 $.ajax({
                     error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-                    url: $('#requestPath').val() + "TeachingAssistant/SubmitApply",
+                    url: $('#requestPath').val() + "ApplyTeachingAssistant/SubmitApply",
                     data: formData,
                     dataType: 'html',
                     type: 'POST',
@@ -466,7 +466,7 @@
 
                 $.ajax({
                     error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-                    url: $('#requestPath').val() + "TeachingAssistant/DeleteImageApply",
+                    url: $('#requestPath').val() + "ApplyTeachingAssistant/DeleteImageApply",
                     data: formData,
                     dataType: 'html',
                     type: 'POST',
@@ -505,7 +505,7 @@
                         }
                         $.ajax({
                             error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signout"; } },
-                            url: $('#requestPath').val() + "TeachingAssistant/SubmitApply",
+                            url: $('#requestPath').val() + "ApplyTeachingAssistant/SubmitApply",
                             data: formData,
                             dataType: 'html',
                             type: 'POST',

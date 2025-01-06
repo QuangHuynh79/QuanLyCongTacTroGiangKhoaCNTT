@@ -1,4 +1,16 @@
 ﻿@using QuanLyCongTacTroGiangKhoaCNTT.Models;
+@{
+    CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
+    var idTk = Int32.Parse(Session["user-id"].ToString());
+    var tk = models.TaiKhoan.Find(idTk);
+    var lstNganh = models.Nganh.ToList();
+
+    string roleId = Session["user-role-id"].ToString();
+    var lstNoti = models.ThongBao.ToList();
+    lstNoti = lstNoti.Where(w => w.ID_TaiKhoan == idTk || w.ForRole.IndexOf(roleId) != -1).ToList();
+
+    Session["list-noti-default"] = lstNoti;
+}
 <!doctype html>
 <html lang="vi">
 <head>
@@ -128,7 +140,7 @@
                             <ul class="nav flex-column">
                                 <li class="nav-item ">
                                     <a id="child-trogiang-apply" class="child-nav-link nav-link "
-                                       href="@Url.Action("Apply", "TeachingAssistant")">
+                                       href="@Url.Action("Apply", "ApplyTeachingAssistant")">
                                         Đăng ký
                                     </a>
                                 </li>
@@ -166,7 +178,8 @@
                                    id="dropdownNotification"
                                    data-bs-toggle="dropdown"
                                    aria-haspopup="true"
-                                   aria-expanded="false">
+                                   aria-expanded="false"
+                                   data-bs-auto-close="false">
                                     <i class="fe fe-bell"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg" aria-labelledby="dropdownNotification">
@@ -176,44 +189,57 @@
                                         </div>
                                         <div class="p-3 border-bottom ">
                                             <div class="input-group">
-                                                <input class="form-control form-control-sm" placeholder="nhập từ khóa cần tìm" type="search" />
-                                                <a class="btn btn-secondary btn-sm" role="button">
+                                                <input id="inp-search-thongbao" class="form-control form-control-sm" placeholder="nhập từ khóa cần tìm" type="search" />
+                                                <a id="btn-search-thongbao" class="btn btn-secondary btn-sm" role="button">
                                                     <i class="fe fe-search"></i>
                                                 </a>
                                             </div>
                                         </div>
                                         <!-- List group -->
-                                        <ul class="list-group list-group-flush" data-simplebar style="max-height: 300px">
-                                            @for (int i = 0; i < 10; i++)
+                                        <ul id="content-cpn-thongbao" class="list-group list-group-flush" data-simplebar style="max-height: 420px">
+                                            @if (lstNoti.Count < 1)
                                             {
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <a class="text-body" href="#">
-                                                                <div class="d-flex">
-                                                                    <img src="~/Content/img/notifi.png" alt="" class="avatar-md" />
-                                                                    <div class="ms-3">
-                                                                        <h5 class="fw-bold mb-1">Tiêu đề thông báo @i</h5>
-                                                                        <p class="mb-3">Nội dung thông báo @i</p>
-                                                                        <span class="fs-6">
-                                                                            <span>
-                                                                                <span class="bi-clock-history me-1"></span>
-                                                                                1@(i):20 2@(i)/10/2024
+                                                <li class="list-group-item text-center">
+                                                    <span class="fs-6 mb-3 mt-3">
+                                                        Không có thông báo để hiển thị.
+                                                    </span>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in lstNoti.OrderByDescending(o => o.ThoiGian))
+                                                {
+                                                    string link = item.TieuDe.IndexOf("Ứng tuyển trợ giảng") != -1 ? Url.Content("~/ApplyTeachingAssistant/Apply") : "#";
+
+                                                    <li class="list-group-item" id="cpn-thongbao-@item.ID">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <a class="text-body" href="@link">
+                                                                    <div class="d-flex">
+                                                                        <i class="bi bi-bell-fill fs-3 mt-1"></i>
+                                                                        <div class="ms-3">
+                                                                            <h5 class="fw-bold mb-1">@item.TieuDe</h5>
+                                                                            <p class="mb-3">@item.NoiDung</p>
+                                                                            <span class="fs-6">
+                                                                                <span>
+                                                                                    <span class="bi-clock-history me-1"></span>
+                                                                                    @item.ThoiGian.ToString("HH:mm dd/MM/yyyy")
+                                                                                </span>
                                                                             </span>
-                                                                        </span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-auto text-center me-2">
-                                                            <div>
-                                                                <a href="#" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
-                                                                    <i class="fe fe-x"></i>
                                                                 </a>
                                                             </div>
+                                                            <div class="col-auto text-center me-2">
+                                                                <div>
+                                                                    <a id="deleteNoti-@item.ID" name="@item.ID" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
+                                                                        <i class="fe fe-x"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                }
                                             }
                                         </ul>
                                         <div class="border-top px-3 pt-3 pb-0">
@@ -278,12 +304,6 @@
     <input id="requestPath" value="@Url.Content("~")" />
 
     <!-- Thông tin cá nhân -->
-    @{
-        CongTacTroGiangKhoaCNTTEntities models = new CongTacTroGiangKhoaCNTTEntities();
-        var idTk = Int32.Parse(Session["user-id"].ToString());
-        var tk = models.TaiKhoan.Find(idTk);
-        var lstNganh = models.Nganh.ToList();
-    }
     <div class="modal fade" id="thongtincanhanmodal" tabindex="-1" role="dialog" aria-labelledby="thongtincanhanmodal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -484,6 +504,10 @@
     <script src="~/Content/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/assets/libs/dropzone/dist/min/dropzone.min.js"></script>
     <script src="~/Content/assets/libs/Sweetalert2/js/sweetalert2.all.min.js"></script>
+
+    <script src="~/Validation/notification/delete.js"></script>
+    <script src="~/Validation/notification/search.js"></script>
+
     <script>
         const Toast = Swal.mixin({
             toast: true,

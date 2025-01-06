@@ -3,10 +3,33 @@
     var lstLichHoc = Session["Export-LichHoc"] as List<QuanLyCongTacTroGiangKhoaCNTT.Models.LichHoc>;
     var dssv = Model.ToList();
     int i = 0;
+
+    string tenhk = "..........";
+    string namhoc = "..........";
+    string tenkhoa = "..........";
+    string ttLhp = "..........";
+    int col = 7;
+    if (lstLichHoc.Count > 0)
+    {
+        tenhk = lstLichHoc.First().LopHocPhan.HocKy.TenHocKy;
+        namhoc = lstLichHoc.First().LopHocPhan.HocKy.NamBatDau + " - " + lstLichHoc.First().LopHocPhan.HocKy.NamKetThuc;
+        tenkhoa = lstLichHoc.First().LopHocPhan.Nganh.Khoa.TenKhoa;
+        ttLhp = lstLichHoc.First().LopHocPhan.MaLHP + " - " + lstLichHoc.First().LopHocPhan.TenHP;
+        col = lstLichHoc.Count + 7;
+    }
 }
 
-<table id="exportTable" style="width:100%">
+<table id="exportTables" style="width:100%">
     <thead>
+        <tr>
+            <th colspan="@col">TRƯỜNG ĐẠI HỌC VĂN LANG</th>
+        </tr>
+        <tr>
+            <th colspan="@col">Khoa/TT: @tenkhoa</th>
+        </tr>
+        <tr>
+            <th colspan="@col">DANH SÁCH SINH VIÊN LHP: @ttLhp</th>
+        </tr>
         <tr>
             <th class="text-nowrap">TT</th>
             <th class="text-nowrap">MSSV</th>
@@ -28,7 +51,7 @@
             i++;
             <tr>
                 <td valign="middle">@i</td>
-                <td valign="middle">'@item.MaSV</td>
+                <td valign="middle">@item.MaSV</td>
                 <td valign="middle">@item.HoLot</td>
                 <td valign="middle">@item.Ten</td>
                 <td valign="middle">@item.Email</td>

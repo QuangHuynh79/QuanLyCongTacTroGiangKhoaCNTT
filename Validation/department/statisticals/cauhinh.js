@@ -3,6 +3,11 @@
         var thulao = $('body').find('[id="giathulao"]').attr('defaultData');
         $('body').find('[id="giathulao"]').val(thulao);
         $('body').find('[id="valid-giathulao"]').text('');
+
+        var giotoida = $('body').find('[id="giotoida"]').attr('defaultData');
+        $('body').find('[id="giotoida"]').val(giotoida);
+        $('body').find('[id="valid-giotoida"]').text('');
+
         $('body').find('[id="cauhinh"]').modal('toggle');
     });
 
@@ -16,6 +21,10 @@
         var validthulao = $('body').find('[id="valid-giathulao"]');
         validthulao.text('');
 
+        var giotoida = $('body').find('[id="giotoida"]').val();
+        var validgiotoida = $('body').find('[id="valid-giotoida"]');
+        validgiotoida.text('');
+
         var check = true;
 
         if (thulao.length < 1) {
@@ -28,7 +37,7 @@
             validthulao.text("Vui lòng không bỏ trống giá thù lao.");
             $('body').find('[id="giathulao"]').focus();
         }
-        else if (Number(thulao.replace(/,/g, '')) <= 0) {
+        else if (Number(thulao) <= 0) {
             check = false;
 
             btn.html('Lưu thông tin');
@@ -39,9 +48,31 @@
             $('body').find('[id="giathulao"]').focus();
         }
 
+        if (giotoida.length < 1) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnThuLaoClose"]').prop('disabled', false);
+
+            validgiotoida.text("Vui lòng không bỏ trống số giờ tối đa.");
+            $('body').find('[id="giotoida"]').focus();
+        }
+        else if (Number(giotoida) <= 0) {
+            check = false;
+
+            btn.html('Lưu thông tin');
+            btn.prop('disabled', false);
+            $('body').find('[id="btnThuLaoClose"]').prop('disabled', false);
+
+            validgiotoida.text("Số giờ tối đa phải lớn hơn 0");
+            $('body').find('[id="giotoida"]').focus();
+        }
+
         if (check == true) {
             var formData = new FormData();
             formData.append('thulao', thulao.replace(/,/g, ''));
+            formData.append('giotoida', giotoida);
 
             $.ajax({
                 error: function (a, xhr, c) { if (a.status == 403 && a.responseText.indexOf("SystemLoginAgain") != -1) { window.location.href = $('body').find('[id="requestPath"]').val() + "account/signin"; } },

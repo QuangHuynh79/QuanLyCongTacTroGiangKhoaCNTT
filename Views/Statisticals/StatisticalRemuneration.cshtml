@@ -46,6 +46,8 @@
     }
 
     string thulao = ConfigurationManager.AppSettings["RemunerationPrice"];
+    string giotoida = ConfigurationManager.AppSettings["RemunerationMaxHouse"];
+
     var tongThuLao = 0.0;
     foreach (var items in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
     {
@@ -75,7 +77,7 @@
                 </div>
                 <!-- button -->
                 <div>
-                    <a class="btn btn-primary me-2" id="btncauhinhthulao">Cấu hình</a>
+                    <a class="btn btn-primary me-2" id="btncauhinhthulao"><i class="bi bi-gear me-2"></i>Cài đặt</a>
                 </div>
             </div>
         </div>
@@ -347,7 +349,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="cauhinhTitle">Cấu hình</h5>
+                <h5 class="modal-title" id="cauhinhTitle">Cài đặt</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
@@ -364,6 +366,20 @@
                                    placeholder="Nhập đơn giá thù lao (VNĐ)"
                                    value="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))">
                             <span class="text-danger" id="valid-giathulao"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="giotoida">Số giờ tối đa <span class="text-danger">*</span></label>
+                            <div>
+                                Khối lượng trợ giảng của TA không vượt quá 1 / <input type="text" defaultData="@giotoida"
+                                                                                     data-type="numbers"
+                                                                                     id="giotoida"
+                                                                                     class="form-control d-inline" style="width: 50px !important;padding: .5rem .5rem"
+                                                                                     placeholder=""
+                                                                                     value="@giotoida">
+                                khối lượng thiết kế của học phần (tính theo số tiết của môn học).
+                            </div>
+                           
+                            <span class="text-danger" id="valid-giotoida"></span>
                         </div>
                     </div>
                 </div>
@@ -464,5 +480,6 @@
 </script>
 
 <script src="~/Validation/department/statisticals/thulao/filter.js"></script>
-<script src="~/Validation/department/statisticals/thulao/cauhinh.js"></script>
+<script src="~/Validation/department/statisticals/cauhinh.js"></script>
+<script src="~/Content/assets/libs/XLSX-Full/xlsx.full.min.js"></script>
 <script src="~/Validation/department/statisticals/exportfile.js"></script>
