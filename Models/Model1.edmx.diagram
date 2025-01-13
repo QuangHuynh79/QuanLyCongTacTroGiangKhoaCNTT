@@ -57,6 +57,8 @@
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThongBao_TaiKhoan" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_UngTuyenTroGiang_TaiKhoan" ManuallyRouted="false" />
         <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CongTacTroGiangKhoaCNTTModel.ThongBaoMail" Width="1.5" PointX="7.5" PointY="8.875" />
+        <AssociationConnector Association="CongTacTroGiangKhoaCNTTModel.FK_ThongBaoMail_TaiKhoan" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

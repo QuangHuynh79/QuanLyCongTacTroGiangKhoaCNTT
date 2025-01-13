@@ -32,7 +32,7 @@
             });
             saveAs(datas, "Danh Sach Sinh Vien Da Dang Ky Tro Giang - HK" + namehocky + " - " + namenganh + ".xls");
             $('body').find('[id="table-export-data"]').html('');
-            btn.html('<i class="bi bi-file-earmark-arrow-down me-1"></i> Export');
+            btn.html('<i class="bi bi-file-earmark-arrow-down me-1"></i> Xuất');
         });
     });
 });

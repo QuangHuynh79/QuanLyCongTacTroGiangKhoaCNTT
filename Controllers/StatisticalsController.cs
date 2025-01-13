@@ -55,34 +55,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             var data = model.UngTuyenTroGiang.Where(w => w.TaiKhoan.ID_Nganh == nganh && w.LopHocPhan.ID_HocKy == hocky).ToList();
             return PartialView("_FilterRemuneration", data);
         }
-
-        /// <summary>
-        /// Hàm này dùng để lưu cập nhật giá thù lao.
-        /// </summary>
-        /// <returns>Trả về trạng thái đã lưu thành công hay lỗi thất bại.</returns>
-        [Authorize, BCNRole]
-        public ActionResult UpdateRemuneratiion(string thulao, string giotoida)
-        {
-            try
-            {
-                Configuration objConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-                AppSettingsSection objAppsettings = (AppSettingsSection)objConfig.GetSection("appSettings");
-                if (objAppsettings != null)
-                {
-                    objAppsettings.Settings["RemunerationPrice"].Value = thulao;
-                    objAppsettings.Settings["RemunerationMaxHouse"].Value = giotoida;
-
-                    objConfig.Save();
-                }
-                return Content("SUCCESS");
-            }
-            catch (Exception Ex)
-            {
-                return Content("Chi tiết lỗi " + Ex.Message);
-            }
-
-        }
-
+       
         /// <summary>
         /// Lấy dữ liệu và xuất file danh sách TA được phân công hoặc được tính thù lao.
         /// </summary>

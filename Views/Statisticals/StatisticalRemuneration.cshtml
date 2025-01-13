@@ -70,14 +70,14 @@
                             <li class="breadcrumb-item">
                                 <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
                             </li>
+                            <li class="breadcrumb-item">
+                                Thống kê
+                            </li>
                             <li class="breadcrumb-item" aria-current="page">
+                                Thù lao
                             </li>
                         </ol>
                     </nav>
-                </div>
-                <!-- button -->
-                <div>
-                    <a class="btn btn-primary me-2" id="btncauhinhthulao"><i class="bi bi-gear me-2"></i>Cài đặt</a>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
                                 <label class="form-label"> </label>
                                 <div class="w-100 text-end mt-2">
                                     <a id="exportfile" name="ta03" class="btn btn-outline-secondary">
-                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Xuất
                                     </a>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                                 <label class="form-label"> </label>
                                 <div class="w-100 text-end mt-2">
                                     <a id="exportfile" name="ta03" class="btn btn-outline-secondary">
-                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Xuất
                                     </a>
                                 </div>
                             </div>
@@ -345,52 +345,7 @@
 
     </div>
 </section>
-<div class="modal fade" id="cauhinh" tabindex="-1" role="dialog" aria-labelledby="cauhinh" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cauhinhTitle">Cài đặt</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"></span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <label class="form-label" for="giathulao">Giá thù lao (VNĐ) <span class="text-danger">*</span></label>
-                            <input type="text" defaultData="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))"
-                                   data-type="currency"
-                                   id="giathulao"
-                                   class="form-control"
-                                   placeholder="Nhập đơn giá thù lao (VNĐ)"
-                                   value="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))">
-                            <span class="text-danger" id="valid-giathulao"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="giotoida">Số giờ tối đa <span class="text-danger">*</span></label>
-                            <div>
-                                Khối lượng trợ giảng của TA không vượt quá 1 / <input type="text" defaultData="@giotoida"
-                                                                                     data-type="numbers"
-                                                                                     id="giotoida"
-                                                                                     class="form-control d-inline" style="width: 50px !important;padding: .5rem .5rem"
-                                                                                     placeholder=""
-                                                                                     value="@giotoida">
-                                khối lượng thiết kế của học phần (tính theo số tiết của môn học).
-                            </div>
-                           
-                            <span class="text-danger" id="valid-giotoida"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="btnThuLaoClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button id="btnSubmitThuLao" type="button" class="btn btn-primary">Lưu thông tin</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <section style="display: none" id="table-export-data">
 </section>
 <script>
@@ -480,6 +435,5 @@
 </script>
 
 <script src="~/Validation/department/statisticals/thulao/filter.js"></script>
-<script src="~/Validation/department/statisticals/cauhinh.js"></script>
 <script src="~/Content/assets/libs/XLSX-Full/xlsx.full.min.js"></script>
 <script src="~/Validation/department/statisticals/exportfile.js"></script>

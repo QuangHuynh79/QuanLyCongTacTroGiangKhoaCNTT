@@ -284,6 +284,7 @@
     <Compile Include="Controllers\RegisterTeachingAssistantController.cs" />
     <Compile Include="Controllers\ResultApplyTeachingAssistantController.cs" />
     <Compile Include="Controllers\ReviewTaskController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\StatisticalsController.cs" />
     <Compile Include="Controllers\TaskManagementController.cs" />
     <Compile Include="Controllers\TeachingAssistantController.cs" />
@@ -379,6 +380,9 @@
     <Compile Include="Models\ThongBao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ThongBaoMail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UngTuyenTroGiang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -393,6 +397,7 @@
     <Content Include="ActiveItemMenu\SemesterAndMajor\hocky.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\khoa.js" />
     <Content Include="ActiveItemMenu\SemesterAndMajor\nganh.js" />
+    <Content Include="ActiveItemMenu\Setting\index.js" />
     <Content Include="ActiveItemMenu\Statisticals\thulao.js" />
     <Content Include="ActiveItemMenu\Statisticals\trogiang.js" />
     <Content Include="ActiveItemMenu\TeachingAssistant\advances.js" />
@@ -538,8 +543,9 @@
     <Content Include="Validation\department\faculty\add.js" />
     <Content Include="Validation\department\faculty\delete.js" />
     <Content Include="Validation\department\faculty\edit.js" />
+    <Content Include="Validation\department\setting\filter.js" />
     <Content Include="Validation\department\statisticals\exportfile.js" />
-    <Content Include="Validation\department\statisticals\cauhinh.js" />
+    <Content Include="Validation\department\setting\cauhinh.js" />
     <Content Include="Validation\department\statisticals\thulao\filter.js" />
     <Content Include="Validation\department\statisticals\trogiang\filter.js" />
     <Content Include="Validation\notification\search.js" />
@@ -644,6 +650,8 @@
     <Content Include="Views\Interviews\_Interview.cshtml" />
     <Content Include="Views\Interviews\_Export.cshtml" />
     <Content Include="Views\Notifications\_Search.cshtml" />
+    <Content Include="Views\Settings\Setting.cshtml" />
+    <Content Include="Views\Settings\_Filter.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
