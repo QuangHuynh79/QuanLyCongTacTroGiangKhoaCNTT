@@ -123,7 +123,7 @@
         <nav class="navbar-vertical navbar" style="background-image: url(@Url.Content("~/Content/img/img_sidebar_background.jpg")); background-size: cover">
             <div class="vh-100" data-simplebar>
                 <!-- Brand logo -->
-                <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("index","Dashboard")">
+                <a class="navbar-brand" style="filter: unset !important" href="@Url.Action("index", "Dashboard")">
                     <img src="~/Content/img/logo-vlu.png" style="width: 100%; height: auto" alt="Trợ giảng VLU" />
                 </a>
                 <!-- Navbar nav -->
@@ -287,6 +287,15 @@
                             Người dùng
                         </a>
                     </li>
+                    @if (Session["user-role-id"].ToString().Equals("5"))
+                    {
+                        <li class="nav-item">
+                            <a id="child-setting" class="nav-link child-nav-link " href="@Url.Action("setting", "settings")">
+                                <i class="nav-icon fe fe-settings me-2"></i>
+                                Cài đặt
+                            </a>
+                        </li>
+                    }
                 </ul>
 
             </div>
@@ -354,7 +363,7 @@
                                                     <li class="list-group-item" id="cpn-thongbao-@item.ID">
                                                         <div class="row">
                                                             <div class="col">
-                                                                <a class="text-body"  href="@link">
+                                                                <a class="text-body" href="@link">
                                                                     <div class="d-flex">
                                                                         <i class="bi bi-bell-fill fs-3 mt-1"></i>
                                                                         <div class="ms-3">

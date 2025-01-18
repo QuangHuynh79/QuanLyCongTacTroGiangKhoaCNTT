@@ -1,0 +1,142 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.ThongBaoMail>
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "Cài Đặt";
+    Layout = Session["layout"].ToString();
+
+    bool checkUpdate = Convert.ToBoolean(Session["user-update-info"].ToString());
+
+    var mailFirst = Model.First();
+    int idFirst = Model.First().ID;
+
+    string thulao = ConfigurationManager.AppSettings["RemunerationPrice"];
+    string giotoida = ConfigurationManager.AppSettings["RemunerationMaxHouse"];
+}
+<script src="~/ActiveItemMenu/Setting/index.js"></script>
+
+<section class="container-fluid p-4 ">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- page header -->
+            <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Cài đặt</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("index", "dashboard")">Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">
+                                Cài đặt
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-4">
+            <!-- card -->
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="m-0">Cài đặt thù lao trợ giảng</h4>
+                </div>
+                <!-- card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="giathulao">Giá thù lao TA (VNĐ) <span class="text-danger">*</span></label>
+                                <input type="text" defaultData="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))"
+                                       data-type="currency"
+                                       id="giathulao"
+                                       class="form-control"
+                                       placeholder="Nhập đơn giá thù lao (VNĐ)"
+                                       value="@(Convert.ToDecimal(thulao).ToString("0,0").Equals("00") ? "0" : Convert.ToDecimal(thulao).ToString("0,0"))">
+                                <span class="text-danger" id="valid-giathulao"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="giotoida">Số giờ tối đa TA <span class="text-danger">*</span></label>
+                                <div>
+                                    Khối lượng trợ giảng của TA không vượt quá 1 / <input type="text" defaultData="@giotoida"
+                                                                                          data-type="numbers"
+                                                                                          id="giotoida"
+                                                                                          class="form-control d-inline" style="width: 50px !important;padding: .5rem .5rem"
+                                                                                          placeholder=""
+                                                                                          value="@giotoida">
+                                    khối lượng thiết kế của học phần (tính theo số tiết của môn học).
+                                </div>
+
+                                <span class="text-danger" id="valid-giotoida"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button id="btnSubmitThuLao" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-4">
+            <!-- card -->
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="m-0">Cài đặt nội dung thông báo Mail tự động</h4>
+                </div>
+                <!-- card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="loai">Loại Mail thông báo</label>
+                                <select id="loai" class="form-select text-dark me-3 w-100">
+                                    @foreach (var item in Model.ToList())
+                                    {
+                                        if (item.ID == idFirst)
+                                        {
+                                            <option name="@item.ID" selected value="@item.ID">@item.LoaiMail</option>
+                                            continue;
+                                        }
+                                        <option name="@item.ID" value="@item.ID">@item.LoaiMail</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 p-0 m-0" id="filterLoad">
+                            <div class="row p-0 m-0">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="tieude">Tiêu đề Mail <span class="text-danger">*</span></label>
+                                        <input type="text" id="tieude" value="@mailFirst.TieuDe" class="form-control" placeholder="Nhập tiêu đề Mail">
+                                        <span class="text-danger" id="valid-tieude"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="noidung">Nội dung Mail <span class="text-danger">*</span></label>
+                                        <textarea rows="10" class="form-control" id="noidung" placeholder="Nhập nội dung Mail">@mailFirst.NoiDung</textarea>
+                                        <span class="text-danger" id="valid-noidung"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3" style="margin-top: -10px">
+                                    <small class="small"><i><i class="bi bi-info-circle-fill me-1"></i>Lưu ý nội dung trong @("<...>") không được thay đổi.</i></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button id="btnSubmitEmail" type="button" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Validation/department/setting/cauhinh.js"></script>
+<script src="~/Validation/department/setting/filter.js"></script>
