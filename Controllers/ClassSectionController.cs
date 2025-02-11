@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNet.Identity;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
 using System;
@@ -263,7 +264,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
                 // Tạo thông báo về việc cập nhật công việc
-                string saveNoti = noti.SetNotification("Chi tiết công việc được cập nhật.", "Lớp " + lhp.MaLHP + " đã được cập nhật mô tả chi tiết công việc trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + lhp.ID_Nganh, null);
+                string saveNoti = noti.SetNotification("Chi tiết công việc được cập nhật.", "Lớp " + lhp.MaLHP + " đã được cập nhật mô tả chi tiết công việc trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + lhp.ID_Nganh, null, 0, "", "", "", "");
 
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
@@ -336,7 +337,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                 // Tạo thông báo về việc đề xuất trợ giảng
                 var tkNguoiNhan = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lhp.MaCBGD.ToLower()));
-                string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + tkNguoiNhan.ID_Nganh, tkNguoiNhan.ID);
+                string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + tkNguoiNhan.ID_Nganh, null, 8, "BCN#" + tkNguoiNhan.ID_Nganh, "", lhp.TenHP, System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/AdvancesClassection/Advances");
 
                 return Content("SUCCESS");
             }

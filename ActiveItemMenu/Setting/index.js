@@ -8,5 +8,5 @@
     $('body').find('#parent-setting').attr('aria-expanded', 'true');
     $('body').find('#parent-setting').removeClass('collapsed');
     $('body').find('#nav-setting').addClass('show');
-    $('body').find('#child-setting-index').addClass('active');
+    $('body').find('#child-setting').addClass('active');
 });
