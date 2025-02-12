@@ -64,7 +64,7 @@ This project is licensed under the **MIT License**.
 ## 👨‍💻 Development Team  
 
 - [QuangHuynh79](https://github.com/QuangHuynh79) - Huỳnh Quang  
-- [diepthtai27](https://github.com/diepthtai27)   - Thế Tài 
+- [diepthtai27](https://github.com/diepthetai27)   - Thế Tài 
 - [duytoan2205](https://github.com/duytoan2205)   - Duy Toàn
 - [ManhTai1001](https://github.com/ManhTai1001)   - Mạnh Tài
 - [Quang-Duong](https://github.com/Quang-Duong)   - Minh Quang  
