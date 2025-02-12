@@ -96,11 +96,20 @@ This project is licensed under the **MIT License**.
 
 ## 👨‍💻 Development Team  
 
-- [QuangHuynh79](https://github.com/QuangHuynh79) - Huỳnh Quang  
-- [diepthtai27](https://github.com/diepthetai27)   - Thế Tài 
-- [duytoan2205](https://github.com/duytoan2205)   - Duy Toàn
-- [ManhTai1001](https://github.com/ManhTai1001)   - Mạnh Tài
-- [Quang-Duong](https://github.com/Quang-Duong)   - Minh Quang   
+| Member        | GitHub Username        | Role                 |  
+|--------------|----------------------|----------------------|  
+| Huỳnh Quang  | [QuangHuynh79](https://github.com/QuangHuynh79) | Developer |  
+| Minh Quang   | [Quang-Duong](https://github.com/Quang-Duong) | Scrum Master |  
+| Mạnh Tài     | [ManhTai1001](https://github.com/ManhTai1001) | Business Analyst (BA) |  
+| Duy Toàn     | [duytoan2205](https://github.com/duytoan2205) | Developer & Tester |  
+| Điệp Thái    | [diepthtai27](https://github.com/diepthtai27) | Developer |  
 
 
 📧 Contact: `cnnttest.vanlanguni.edu.vn:1808/CAP24T/`  
+
+
+
+
+
+
+
