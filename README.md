@@ -67,5 +67,6 @@ This project is licensed under the **MIT License**.
 - [diepthtai27](https://github.com/diepthtai27)   - Thế Tài 
 - [duytoan2205](https://github.com/duytoan2205)   - Duy Toàn
 - [ManhTai1001](https://github.com/ManhTai1001)   - Mạnh Tài
-- [Quang-Duong](https://github.com/Quang-Duong)   - Quang Dương 
+- [Quang-Duong](https://github.com/Quang-Duong)   - Minh Quang  
+
 📧 Contact: `cnnttest.vanlanguni.edu.vn:1808/CAP24T/`  
