@@ -47,7 +47,7 @@ The **Teaching Assistant Management System VLU** is designed to help track, assi
 
 1. **Clone the repository**:  
    ```sh  
-   git clone https://github.com/QuangHuynh79/Teaching-Assistant-Management-System-VLU.git  
+   git clone https://github.com/QuangHuynh79/QuanLyCongTacTroGiangKhoaCNTT.git 
    ```  
 2. **Open the project in Visual Studio**.  
 3. **Configure the database** in `Web.config`.  
