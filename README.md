@@ -67,7 +67,15 @@ Alternatively, use the command line:
 
 ```sh  
 dotnet test QuanLyCongTacTroGiangKhoaCNTTTest  
-```  
+```
+## 🖥️ Main Interface  
+
+![Main Website UI](https://github.com/user-attachments/assets/a1ff9297-c070-4fab-89f4-75b6bf03ba4e)  
+
+The homepage features a **login system using VLU Email**, ensuring security and authentication for students and faculty members.  
+## 🌐 Live Website  
+
+🔗 **Access the system here:** [Teaching Assistant Management System VLU](https://cntttest.vanlanguni.edu.vn:18081/CAP24Team02)  
 
 ## 🔑 Test Accounts  
 
@@ -92,20 +100,32 @@ If you would like to contribute, please fork this repository and create a pull r
 
 ## 📜 License  
 
-This project is licensed under the **MIT License**.  
+This project is licensed under the **`Document Promulgating Regulations on organization and management of Teaching Assistant activities at Van Lang University, Decision No. 1352/QD-DHVL-DT, issued on August 27, 2024` License**.  
 
 ## 👨‍💻 Development Team  
 
-| Member        | GitHub Username        | Role                 |  
+| Member       | GitHub Username      | Role                 |  
 |--------------|----------------------|----------------------|  
 | Huỳnh Quang  | [QuangHuynh79](https://github.com/QuangHuynh79) | Developer |  
 | Minh Quang   | [Quang-Duong](https://github.com/Quang-Duong) | Scrum Master |  
 | Mạnh Tài     | [ManhTai1001](https://github.com/ManhTai1001) | Business Analyst (BA) |  
 | Duy Toàn     | [duytoan2205](https://github.com/duytoan2205) | Developer & Tester |  
-| Điệp Thái    | [diepthtai27](https://github.com/diepthtai27) | Developer |  
+| Thế Tài      | [diepthetai27](https://github.com/diepthetai27) | Developer |  
 
 
-📧 Contact: `cnnttest.vanlanguni.edu.vn:1808/CAP24T/`  
+📧 Contact: `k.cntt@vlu.edu.vn`  
+📞 Hotline: `028.71099240`  
+
+
+
+
+
+
+
+
+
+
+
 
 
 
