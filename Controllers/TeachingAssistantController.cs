@@ -119,7 +119,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.Entry(ut).State = System.Data.Entity.EntityState.Modified;
                 model.SaveChanges();
 
-                string saveNoti = noti.SetNotification("Duyệt ứng tuyển.", "Bạn đã được duyệt ứng tuyển Lớp HP " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan);
+                string saveNoti = noti.SetNotification("Duyệt ứng tuyển.", "Bạn đã được duyệt ứng tuyển Lớp HP " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan, 0, "", "", "", "");
                
                 model = new CongTacTroGiangKhoaCNTTEntities();
                 return Content("SUCCESS");

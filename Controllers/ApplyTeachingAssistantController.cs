@@ -242,7 +242,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                     string saveNoti = noti.SetNotification("Ứng tuyển trợ giảng."
                         , tk.HoTen + " - " + tk.Ma + " đã ứng tuyển vào Lớp HP " + lhp.MaLHP + "."
-                    , "#5#3#n" + lhp.ID_Nganh, null);
+                    , "#5#3#n" + lhp.ID_Nganh, null, 0, "", "", "", "");
                    
                     model = new CongTacTroGiangKhoaCNTTEntities();
                     return Content("SUCCESS");

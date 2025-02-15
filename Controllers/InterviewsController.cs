@@ -179,11 +179,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         model.SaveChanges();
                     }
 
-                    string saveNoti = noti.SetNotification("Kết quả phỏng vấn.", ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " đã đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan);
+                    string saveNoti = noti.SetNotification("Kết quả phỏng vấn.", ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " đã đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan, 11, ut.TaiKhoan.Email, ut.TaiKhoan.HoTen, ut.LopHocPhan.TenHP, "");
                 }
                 else
                 {
-                    string saveNoti = noti.SetNotification("Kết quả phỏng vấn.", ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " không đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan);
+                    string saveNoti = noti.SetNotification("Kết quả phỏng vấn.", ut.TaiKhoan.Ma + " - " + ut.TaiKhoan.HoTen + " không đạt yêu cầu phỏng vấn vào Lớp " + ut.LopHocPhan.MaLHP + ".", "0", ut.ID_TaiKhoan, 12, ut.TaiKhoan.Email, ut.TaiKhoan.HoTen, ut.LopHocPhan.TenHP, "");
                 }
 
                 model = new CongTacTroGiangKhoaCNTTEntities();

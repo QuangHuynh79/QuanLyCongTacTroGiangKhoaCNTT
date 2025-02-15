@@ -14,6 +14,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
+using System.Net.Mail;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -40,7 +41,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// <returns>
         /// Trả về dữ liệu thông báo được lưu xuống database
         /// </returns>
-        public string SetNotification(string title, string content, string forRole, int? idTk) //Lưu thông báo
+        public string SetNotification(string title, string content, string forRole, int? idTk, int sendMailType, string email, string hoten, string tenlhp, string link) //Lưu thông báo
         {
             try
             {
@@ -55,6 +56,87 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 };
                 model.ThongBao.Add(thongbao);
                 model.SaveChanges();
+
+                if (sendMailType != 0)
+                {
+                    try
+                    {
+                        var mailDb = model.ThongBaoMail.Find(sendMailType);
+                        if (mailDb != null)
+                        {
+                            string mailSend = "k.cntt-test1@vanlanguni.vn";
+                            string passMailSend = "cntt@Test1";
+
+                            string tieuDe = mailDb.TieuDe;
+                            string noiDung = mailDb.NoiDung.Replace("\n", "<br><br>");
+
+                            string mail = email;
+                            string hoTen = hoten;
+                            string tenLhp = tenlhp;
+                            string lienKet = link;
+
+                            tieuDe = tieuDe.Replace("<TenLopHocPhan>", tenLhp);
+                            noiDung = noiDung.Replace("<HoTenSinhVien>", hoten).Replace("<TenLopHocPhan>", tenLhp).Replace("<LienKet>", "<a href=\"" + lienKet + "\">" + lienKet + "</a>");
+
+                            if (mail.IndexOf("BCN") != -1)
+                            {
+                                int idNganh = Int32.Parse(mail.Split('#')[1].ToString().Trim());
+
+                                using (MailMessage mailMessage = new MailMessage())
+                                {
+                                    mailMessage.From = new MailAddress(mailSend);
+
+                                    var lstBcn = model.TaiKhoan.Where(w => w.ID_Nganh == idNganh && w.AspNetUsers.AspNetRoles.Where(ws => ws.ID.Equals("3") || ws.ID.Equals("5")).Count() > 0).ToList();
+                                    foreach (var item in lstBcn)
+                                        mailMessage.To.Add(item.Email);
+
+                                    mailMessage.IsBodyHtml = true;
+                                    mailMessage.Subject = tieuDe;
+                                    mailMessage.Body = noiDung;
+
+                                    using (SmtpClient smtp = new SmtpClient())
+                                    {
+                                        smtp.Host = "smtp-mail.outlook.com";
+                                        smtp.EnableSsl = true;
+                                        NetworkCredential cred = new NetworkCredential(mailSend, passMailSend);
+                                        smtp.UseDefaultCredentials = true;
+                                        smtp.Credentials = cred;
+                                        smtp.Port = 587;
+
+                                        smtp.Send(mailMessage);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                using (MailMessage mailMessage = new MailMessage())
+                                {
+                                    mailMessage.From = new MailAddress(mailSend);
+                                    mailMessage.To.Add(mail);
+
+                                    mailMessage.IsBodyHtml = true;
+                                    mailMessage.Subject = tieuDe;
+                                    mailMessage.Body = noiDung;
+
+                                    using (SmtpClient smtp = new SmtpClient())
+                                    {
+                                        smtp.Host = "smtp-mail.outlook.com";
+                                        smtp.EnableSsl = true;
+                                        NetworkCredential cred = new NetworkCredential(mailSend, passMailSend);
+                                        smtp.UseDefaultCredentials = true;
+                                        smtp.Credentials = cred;
+                                        smtp.Port = 587;
+
+                                        smtp.Send(mailMessage);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                    }
+                }
                 return "SUCCESS";
             }
             catch (Exception Ex)

@@ -100,7 +100,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 if (!trangthai)
                 {
                     var tkNguoiNhan = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lhp.MaCBGD.ToLower()));
-                    string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được duyệt đề xuất trợ giảng bởi quản trị viên.", "0", tkNguoiNhan.ID);
+                    string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được duyệt đề xuất trợ giảng bởi quản trị viên.", "0", tkNguoiNhan.ID, 9, tkNguoiNhan.Email, tkNguoiNhan.HoTen, lhp.TenHP, "");
                 }
                 return Content("SUCCESS");
             }

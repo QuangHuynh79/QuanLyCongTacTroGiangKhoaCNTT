@@ -87,10 +87,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model = new CongTacTroGiangKhoaCNTTEntities();
 
                 var hockyDb = model.HocKy.Find(hocky);
-                string saveNoti = noti.SetNotification("Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + "."
-                    , "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + " năm học " + hockyDb.NamBatDau + "-" + hockyDb.NamKetThuc
-                + ". Thời gian ứng tuyển từ ngày " + thoigianmo.ToString("dd/MM/yyyy") + " đến ngày " + thoigiandong.ToString("dd/MM/yyyy") + "."
-                , "#1#2#4" + model.Nganh.Find(nganh).ID, null);
+                string saveNoti = noti.SetNotification("Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + ".", "Ứng tuyển trợ giảng học kỳ " + hockyDb.TenHocKy + " năm học " + hockyDb.NamBatDau + "-" + hockyDb.NamKetThuc + ". Thời gian ứng tuyển từ ngày " + thoigianmo.ToString("dd/MM/yyyy") + " đến ngày " + thoigiandong.ToString("dd/MM/yyyy") + ".", "#1#2#4" + model.Nganh.Find(nganh).ID, null, 0, "", "", "", "");
 
                 return Content("SUCCESS");
             }
