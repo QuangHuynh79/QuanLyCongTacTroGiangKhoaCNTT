@@ -276,6 +276,7 @@
     <Compile Include="Controllers\ClassManagementController.cs" />
     <Compile Include="Controllers\ClassSectionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacultysController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InterviewsController.cs" />
@@ -508,6 +509,8 @@
     <Content Include="Content\assets\libs\tippy.js\dist\tippy-bundle.umd.min.js" />
     <Content Include="Content\assets\libs\XLSX-Full\xlsx.full.min.js" />
     <Content Include="Content\Christams\christams_01.gif" />
+    <Content Include="Content\error-assets\script.js" />
+    <Content Include="Content\error-assets\style.css" />
     <Content Include="Content\img\icon-vlu.png" />
     <Content Include="Content\img\img_login_background.jpg" />
     <Content Include="Content\img\img_sidebar_background.jpg" />
@@ -652,6 +655,7 @@
     <Content Include="Views\Notifications\_Search.cshtml" />
     <Content Include="Views\Settings\Setting.cshtml" />
     <Content Include="Views\Settings\_Filter.cshtml" />
+    <None Include="Error.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

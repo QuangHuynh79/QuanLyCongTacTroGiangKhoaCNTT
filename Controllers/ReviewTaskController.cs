@@ -99,11 +99,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                     if (Convert.ToBoolean(trangthai[i]))
                     {
+                        congviec.TrangThai = "hoanthanh";
                         congviec.KetQuaCongViec = "hoanthanh";
                     }
                     else
                     {
                         congviec.KetQuaCongViec = "chuahoanthanh";
+                        congviec.TrangThai = "dangthuchien";
                     }
                     model.Entry(congviec).State = System.Data.Entity.EntityState.Modified;
                 }
