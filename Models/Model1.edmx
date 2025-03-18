@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CongTacTroGiangKhoaCNTTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="ID" />
@@ -228,7 +228,7 @@
           <Property Name="HoTen" Type="nvarchar" MaxLength="256" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
           <Property Name="TrangThai" Type="bit" Nullable="false" />
-          <Property Name="Ma" Type="char" MaxLength="10" />
+          <Property Name="Ma" Type="nvarchar" MaxLength="256" />
           <Property Name="GioiTinh" Type="nvarchar" MaxLength="5" />
           <Property Name="SDT" Type="varchar" MaxLength="12" />
           <Property Name="NgaySinh" Type="date" />
@@ -865,7 +865,8 @@
             <End Role="UngTuyenTroGiang" EntitySet="UngTuyenTroGiang" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CongTacTroGiangKhoaCNTTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1128,7 +1129,7 @@
           <Property Name="HoTen" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="TrangThai" Type="Boolean" Nullable="false" />
-          <Property Name="Ma" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Ma" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="GioiTinh" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="SDT" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="NgaySinh" Type="DateTime" Precision="0" />
@@ -1148,8 +1149,8 @@
           <NavigationProperty Name="Nganh" Relationship="Self.FK_TaiKhoan_Nganh" FromRole="TaiKhoan" ToRole="Nganh" />
           <NavigationProperty Name="PhanCongTroGiang" Relationship="Self.FK_PhanCongTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="PhanCongTroGiang" />
           <NavigationProperty Name="ThongBao" Relationship="Self.FK_ThongBao_TaiKhoan" FromRole="TaiKhoan" ToRole="ThongBao" />
+          <NavigationProperty Name="ThongBaoMail" Relationship="Self.FK_ThongBaoMail_TaiKhoan" FromRole="TaiKhoan" ToRole="ThongBaoMail" />
           <NavigationProperty Name="UngTuyenTroGiang" Relationship="Self.FK_UngTuyenTroGiang_TaiKhoan" FromRole="TaiKhoan" ToRole="UngTuyenTroGiang" />
-          <NavigationProperty Name="ThongBaoMail" Relationship="CongTacTroGiangKhoaCNTTModel.FK_ThongBaoMail_TaiKhoan" FromRole="TaiKhoan" ToRole="ThongBaoMail" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -1187,6 +1188,18 @@
           <Property Name="ID_TaiKhoan" Type="Int32" />
           <Property Name="ForRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TaiKhoan" Relationship="Self.FK_ThongBao_TaiKhoan" FromRole="ThongBao" ToRole="TaiKhoan" />
+        </EntityType>
+        <EntityType Name="ThongBaoMail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoaiMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TieuDe" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SuaDoiCuoi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NguoiSuaDoi" Type="Int32" />
+          <NavigationProperty Name="TaiKhoan" Relationship="Self.FK_ThongBaoMail_TaiKhoan" FromRole="ThongBaoMail" ToRole="TaiKhoan" />
         </EntityType>
         <EntityType Name="UngTuyenTroGiang">
           <Key>
@@ -1564,6 +1577,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ThongBaoMail_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="ThongBaoMail" Type="Self.ThongBaoMail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ThongBaoMail">
+              <PropertyRef Name="NguoiSuaDoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UngTuyenTroGiang_TaiKhoan">
           <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="1" />
           <End Role="UngTuyenTroGiang" Type="Self.UngTuyenTroGiang" Multiplicity="*" />
@@ -1601,6 +1626,7 @@
           <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" />
+          <EntitySet Name="ThongBaoMail" EntityType="Self.ThongBaoMail" />
           <EntitySet Name="UngTuyenTroGiang" EntityType="Self.UngTuyenTroGiang" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserID" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserID">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1718,6 +1744,10 @@
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
             <End Role="ThongBao" EntitySet="ThongBao" />
           </AssociationSet>
+          <AssociationSet Name="FK_ThongBaoMail_TaiKhoan" Association="Self.FK_ThongBaoMail_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="ThongBaoMail" EntitySet="ThongBaoMail" />
+          </AssociationSet>
           <AssociationSet Name="FK_UngTuyenTroGiang_TaiKhoan" Association="Self.FK_UngTuyenTroGiang_TaiKhoan">
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
             <End Role="UngTuyenTroGiang" EntitySet="UngTuyenTroGiang" />
@@ -1726,36 +1756,7 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="ThongBaoMail" EntityType="CongTacTroGiangKhoaCNTTModel.ThongBaoMail" />
-          <AssociationSet Name="FK_ThongBaoMail_TaiKhoan" Association="CongTacTroGiangKhoaCNTTModel.FK_ThongBaoMail_TaiKhoan">
-            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
-            <End Role="ThongBaoMail" EntitySet="ThongBaoMail" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="ThongBaoMail">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LoaiMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TieuDe" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SuaDoiCuoi" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="NguoiSuaDoi" Type="Int32" />
-          <NavigationProperty Name="TaiKhoan" Relationship="CongTacTroGiangKhoaCNTTModel.FK_ThongBaoMail_TaiKhoan" FromRole="ThongBaoMail" ToRole="TaiKhoan" />
-        </EntityType>
-        <Association Name="FK_ThongBaoMail_TaiKhoan">
-          <End Type="CongTacTroGiangKhoaCNTTModel.TaiKhoan" Role="TaiKhoan" Multiplicity="0..1" />
-          <End Type="CongTacTroGiangKhoaCNTTModel.ThongBaoMail" Role="ThongBaoMail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaiKhoan">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ThongBaoMail">
-              <PropertyRef Name="NguoiSuaDoi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2040,6 +2041,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ThongBaoMail">
+            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.ThongBaoMail">
+              <MappingFragment StoreEntitySet="ThongBaoMail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LoaiMail" ColumnName="LoaiMail" />
+                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="SuaDoiCuoi" ColumnName="SuaDoiCuoi" />
+                <ScalarProperty Name="NguoiSuaDoi" ColumnName="NguoiSuaDoi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UngTuyenTroGiang">
             <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.UngTuyenTroGiang">
               <MappingFragment StoreEntitySet="UngTuyenTroGiang">
@@ -2069,18 +2082,6 @@
               <ScalarProperty Name="ID" ColumnName="UserID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="ThongBaoMail">
-            <EntityTypeMapping TypeName="CongTacTroGiangKhoaCNTTModel.ThongBaoMail">
-              <MappingFragment StoreEntitySet="ThongBaoMail">
-                <ScalarProperty Name="NguoiSuaDoi" ColumnName="NguoiSuaDoi" />
-                <ScalarProperty Name="SuaDoiCuoi" ColumnName="SuaDoiCuoi" />
-                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
-                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
-                <ScalarProperty Name="LoaiMail" ColumnName="LoaiMail" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

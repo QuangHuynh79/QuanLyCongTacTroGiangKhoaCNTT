@@ -23,8 +23,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
             this.LopHocPhan = new HashSet<LopHocPhan>();
             this.PhanCongTroGiang = new HashSet<PhanCongTroGiang>();
             this.ThongBao = new HashSet<ThongBao>();
-            this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
             this.ThongBaoMail = new HashSet<ThongBaoMail>();
+            this.UngTuyenTroGiang = new HashSet<UngTuyenTroGiang>();
         }
     
         public int ID { get; set; }
@@ -61,8 +61,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThongBao> ThongBao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThongBaoMail> ThongBaoMail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UngTuyenTroGiang> UngTuyenTroGiang { get; set; }
     }
 }

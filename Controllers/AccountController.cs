@@ -113,7 +113,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
 
                 //Lấy thông tin họ tên email của tài khoản VLU
-                string ma = null;
+                string ma = "";
                 string hoten = FullName;
                 // Tách mã và họ tên từ chuỗi FullName nếu định dạng phù hợp
                 string pattern = string.Format(@"\b{0}\b", " - ");
@@ -150,7 +150,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     // Nếu chưa có tài khoản trong bảng TaiKhoan, tạo mới
                     TaiKhoan newUser = new TaiKhoan();
                     newUser.HoTen = hoten;
-                    if (ma != null)
+                    if (!string.IsNullOrEmpty(ma))
                         newUser.Ma = ma;
 
                     newUser.Email = EmailUser;

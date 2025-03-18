@@ -617,13 +617,6 @@
     <Content Include="Views\Statisticals\Statistical.cshtml" />
     <Content Include="Views\Statisticals\_FilterStatistical.cshtml" />
     <Content Include="Views\ClassManagement\_ClassList.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\ClassManagement\_Export.cshtml" />
     <Content Include="Views\Statisticals\StatisticalRemuneration.cshtml" />
     <Content Include="Views\Statisticals\_FilterRemuneration.cshtml" />
@@ -656,6 +649,13 @@
     <Content Include="Views\Settings\Setting.cshtml" />
     <Content Include="Views\Settings\_Filter.cshtml" />
     <None Include="Error.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
