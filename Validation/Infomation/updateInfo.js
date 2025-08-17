@@ -138,11 +138,15 @@
         $('body').find('[id="btnInfoClose"]').prop('disabled', true);
 
         var ma = $('body').find('[id="infoma"]').val().trim();
+
+        var codefor = $('body').find('[id="infoma"]').attr('codefor');
+
         var dienthoai = $('body').find('[id="infodienthoai"]').val().trim();
         var nganh = $('body').find('[id="infonganh"] :selected').val();
 
         var validdienthoai = $('body').find('[id="valid-infodienthoai"]');
         var validnganh = $('body').find('[id="valid-infonganh"]');
+        var validma = $('body').find('[id="valid-infoma"]');
 
         validdienthoai.text('');
         validnganh.text('');
@@ -168,6 +172,18 @@
 
             validnganh.text("Vui lòng chọn ngành đang theo học/dạy chính.");
             $('body').find('[id="infonganh"]').focus();
+        }
+
+        if (codefor == "gv") {
+            if (ma.length < 1) {
+                check = false;
+
+                btn.html('Lưu thông tin');
+                btn.prop('disabled', false);
+
+                validma.text("Vui lòng nhập mã giảng viên của bạn.");
+                $('body').find('[id="infoma"]').focus();
+            }
         }
 
         if (check == true) {

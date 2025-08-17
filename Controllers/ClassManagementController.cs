@@ -62,7 +62,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         /// <returns>Danh sách sinh viên của lớp học phần được chọn.</returns>
         [Authorize, GVRole]
         [HttpPost]
-        public ActionResult ImportStudient(HttpPostedFileBase fileImport, int idLhp, string confirm)
+        public ActionResult ImportStudent(HttpPostedFileBase fileImport, int idLhp, string confirm)
         {
             try
             {

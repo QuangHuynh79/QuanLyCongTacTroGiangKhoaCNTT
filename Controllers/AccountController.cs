@@ -125,8 +125,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                     ma = FullName.Split('#')[0].Trim();
                     hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
                 }
-                // Gán vai trò mặc định cho người dùng
-                var aspNetRolesSinhVien = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
 
                 //Tạo aspnet user
                 AspNetUsers aspNetUsers = new AspNetUsers();
@@ -138,7 +136,13 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 aspNetUsers.LockoutEnabled = false;
                 aspNetUsers.AccessFailedCount = 0;
                 aspNetUsers.UserName = ma != null ? ma : hoten;
-                aspNetUsers.AspNetRoles = aspNetRolesSinhVien;
+
+                // Gán vai trò mặc định cho người dùng
+                if (EmailUser.IndexOf("vlu.edu.vn") != -1) //Người dùng là giảng viên
+                    aspNetUsers.AspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("2")).ToList();
+                else
+                    aspNetUsers.AspNetRoles = model.AspNetRoles.Where(w => w.ID.Equals("1")).ToList();
+
                 model.AspNetUsers.Add(aspNetUsers);
                 model.SaveChanges();
 

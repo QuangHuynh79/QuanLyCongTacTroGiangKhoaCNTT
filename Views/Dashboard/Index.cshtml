@@ -59,13 +59,27 @@ else
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div hidden class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label" for="infoma">Mã sinh viên <span class="text-danger">*</span></label>
-                                    <input disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã sinh viên">
-                                    <span class="text-danger" id="valid-infoma"></span>
+                            @if (tk.Email.ToLower().IndexOf("vlu.edu.vn") != -1)
+                            {
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infoma">Mã giảng viên<span class="text-danger">*</span></label>
+                                        <input codefor="gv" value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã giảng viên">
+                                        <span class="text-danger" id="valid-infoma"></span>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div hidden class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infoma">Mã sinh viên <span class="text-danger">*</span></label>
+                                        <input codefor="sv" disabled value="@tk.Ma" name="@tk.ID" type="text" id="infoma" class="form-control" placeholder="Nhập mã sinh viên">
+                                        <span class="text-danger" id="valid-infoma"></span>
+                                    </div>
+                                </div>
+                            }
+
                             <div hidden class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="infoemail">Email</label>
@@ -80,38 +94,78 @@ else
                                     <span class="text-danger" id="valid-infohoten"></span>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label" for="infonganh">
-                                        Ngành học <span class="text-danger">*</span><i title="Vui lòng kiểm tra & chọn đúng ngành mà bạn đang theo học!" data-bs-toggle="tooltip" data-bs-html="true" class="bi bi-info-circle-fill ms-1 text-danger"></i>
-                                    </label>
-                                    <select class="form-select" id="infonganh" filter="true">
-                                        @if (tk.ID_Nganh == null)
-                                        {
-                                            <option selected value="">---- Chọn ngành ----</option>
-                                            foreach (var item in lstNganh)
-                                            {
-                                                <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <option value="">---- Chọn ngành ----</option>
-                                            foreach (var item in lstNganh)
-                                            {
-                                                if (item.ID == tk.ID_Nganh)
-                                                {
-                                                    <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
-                                                    continue;
-                                                }
-                                                <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
-                                            }
-                                        }
 
-                                    </select>
-                                    <span class="text-danger" id="valid-infonganh"></span>
+                            @if (tk.Email.ToLower().IndexOf("vlu.edu.vn") != -1)
+                            {
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infonganh">
+                                            Ngành dạy chính <span class="text-danger">*</span><i title="Vui lòng kiểm tra & chọn đúng ngành mà bạn đang dạy chính!" data-bs-toggle="tooltip" data-bs-html="true" class="bi bi-info-circle-fill ms-1 text-danger"></i>
+                                        </label>
+                                        <select class="form-select" id="infonganh" filter="true">
+                                            @if (tk.ID_Nganh == null)
+                                            {
+                                                <option selected value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    if (item.ID == tk.ID_Nganh)
+                                                    {
+                                                        <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                        continue;
+                                                    }
+                                                    <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                }
+                                            }
+
+                                        </select>
+                                        <span class="text-danger" id="valid-infonganh"></span>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="infonganh">
+                                            Ngành học <span class="text-danger">*</span><i title="Vui lòng kiểm tra & chọn đúng ngành mà bạn đang theo học!" data-bs-toggle="tooltip" data-bs-html="true" class="bi bi-info-circle-fill ms-1 text-danger"></i>
+                                        </label>
+                                        <select class="form-select" id="infonganh" filter="true">
+                                            @if (tk.ID_Nganh == null)
+                                            {
+                                                <option selected value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="">---- Chọn ngành ----</option>
+                                                foreach (var item in lstNganh)
+                                                {
+                                                    if (item.ID == tk.ID_Nganh)
+                                                    {
+                                                        <option selected value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                        continue;
+                                                    }
+                                                    <option value="@item.ID">@item.MaNganh - @item.TenNganh</option>
+                                                }
+                                            }
+
+                                        </select>
+                                        <span class="text-danger" id="valid-infonganh"></span>
+                                    </div>
+                                </div>
+                            }
+
 
                             <div class="col-12">
                                 <div class="mb-3">
