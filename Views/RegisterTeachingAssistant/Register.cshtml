@@ -25,7 +25,7 @@
         lstForm = Model.ToList().Where(w => idNganh.Contains(w.ID_Nganh)).ToList();
     }
 
-    ViewBag.Title = "Teaching Assistant";
+    ViewBag.Title = "Đăng Ký Trợ Giảng";
     Layout = Session["layout"].ToString();
     var currentDate = DateTime.Now;
     int first = 0;
