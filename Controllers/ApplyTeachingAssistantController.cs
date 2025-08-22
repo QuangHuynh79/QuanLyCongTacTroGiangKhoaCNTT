@@ -330,7 +330,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         }
         /// <summary>
         /// Hủy bỏ ứng tuyển trợ giảng cho lớp học phần và tài khoản người ứng tuyển.
-        /// Hàm này tìm kiếm thông tin ứng tuyển của người dùng dựa trên ID form đăng ký, ID tài khoản, và ID lớp học phần.
+        /// Hàm này tìm kiếm thông tin ứng tuyển của người dùng dựa trên ID Biểu mẫu đăng ký, ID tài khoản, và ID lớp học phần.
         /// Nếu thông tin ứng tuyển tồn tại, hệ thống sẽ xóa thông tin ứng tuyển và các đánh giá phỏng vấn liên quan.
         /// Sau khi xóa thành công, trả về thông báo "SUCCESS".
         /// </summary>
@@ -364,7 +364,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
         /// <summary>
         /// Xóa hình ảnh minh chứng trong thông tin ứng tuyển trợ giảng.
-        /// Hàm này tìm kiếm thông tin ứng tuyển của người dùng dựa trên ID form đăng ký, ID tài khoản, và ID lớp học phần.
+        /// Hàm này tìm kiếm thông tin ứng tuyển của người dùng dựa trên ID Biểu mẫu đăng ký, ID tài khoản, và ID lớp học phần.
         /// Sau đó, nếu tìm thấy hình ảnh trong danh sách, hệ thống sẽ xóa hình ảnh đó khỏi thư mục lưu trữ và cập nhật lại thông tin trong cơ sở dữ liệu.
         /// </summary>
         /// <returns>

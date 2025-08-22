@@ -58,7 +58,7 @@
             processData: false,
             contentType: false,
         }).done(function (ketqua) {
-            if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Form đăng ký không tồn tại") !== -1) {
+            if (ketqua.indexOf("Chi tiết lỗi") !== -1 || ketqua.indexOf("Biểu mẫu đăng ký không tồn tại") !== -1) {
                 Toast.fire({
                     icon: "error",
                     title: ketqua
@@ -68,7 +68,7 @@
             }
             else {
                 $('body').find('[id="capnhat-partial"]').replaceWith(ketqua);
-                $('body').find('[id="capnhatTitle"]').text("Cập nhật form đăng ký học kỳ " + $('body').find('[id="edithocky"] :selected').text());
+                $('body').find('[id="capnhatTitle"]').text("Cập nhật Biểu mẫu đăng ký học kỳ " + $('body').find('[id="edithocky"] :selected').text());
                 $('body').find('[id="capnhat"]').modal('toggle');
             }
         });

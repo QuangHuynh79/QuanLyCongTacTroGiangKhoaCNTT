@@ -5,7 +5,7 @@
         var formData = new FormData();
         formData.append('id', $(this).attr('name'));
         Swal.fire({
-            text: 'Bạn có muốn xóa form đăng ký "' + fullname + '" không?',
+            text: 'Bạn có muốn xóa Biểu mẫu đăng ký "' + fullname + '" không?',
             icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#d33",
@@ -25,7 +25,7 @@
 
                     Toast.fire({
                         icon: "success",
-                        title: "Xóa thành công form đăng ký trợ giảng."
+                        title: "Xóa thành công Biểu mẫu đăng ký trợ giảng."
                     }).then(() => {
                         window.location.reload();
                     });

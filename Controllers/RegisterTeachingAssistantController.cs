@@ -97,11 +97,11 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
         /// <summary>
-        /// Mở form cập nhật thông tin của một form đăng ký trợ giảng theo ID. Nếu không tìm thấy form đăng ký, trả về thông báo lỗi.
+        /// Mở form cập nhật thông tin của một Biểu mẫu đăng ký trợ giảng theo ID. Nếu không tìm thấy Biểu mẫu đăng ký, trả về thông báo lỗi.
         /// </summary>
         /// <returns>
-        /// Trả về một PartialView "_EditRegister" với dữ liệu của form đăng ký cần cập nhật nếu tìm thấy.
-        /// Nếu không tìm thấy, trả về thông báo lỗi với nội dung "Form đăng ký không tồn tại trên hệ thống".
+        /// Trả về một PartialView "_EditRegister" với dữ liệu của Biểu mẫu đăng ký cần cập nhật nếu tìm thấy.
+        /// Nếu không tìm thấy, trả về thông báo lỗi với nội dung "Biểu mẫu đăng ký không tồn tại trên hệ thống".
         /// </returns>
         [Authorize, BCNRole]
         [HttpPost]
@@ -111,7 +111,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             {
                 var data = model.FormDangKyTroGiang.Find(id);
                 if (data == null)
-                    return Content("Form đăng ký không tồn tại trên hệ thống.");
+                    return Content("Biểu mẫu đăng ký không tồn tại trên hệ thống.");
 
                 return PartialView("_EditRegister", data);
             }
@@ -121,12 +121,12 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
             }
         }
         /// <summary>
-        /// Cập nhật thông tin của một form đăng ký trợ giảng. Nếu có form đăng ký khác trùng với thời gian, trả về thông báo lỗi.
+        /// Cập nhật thông tin của một Biểu mẫu đăng ký trợ giảng. Nếu có Biểu mẫu đăng ký khác trùng với thời gian, trả về thông báo lỗi.
         /// Kiểm tra thời gian đăng ký và đảm bảo không nhỏ hơn thời gian hiện tại.
         /// </summary>
         /// <returns>
         /// Trả về thông báo "SUCCESS" nếu cập nhật thành công.
-        /// Nếu có lỗi (ví dụ, thời gian trùng với form đăng ký khác hoặc thời gian không hợp lệ), trả về thông báo lỗi cụ thể.
+        /// Nếu có lỗi (ví dụ, thời gian trùng với Biểu mẫu đăng ký khác hoặc thời gian không hợp lệ), trả về thông báo lỗi cụ thể.
         /// </returns>
         [Authorize, BCNRole]
         [HttpPost]
