@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using DocumentFormat.OpenXml.Drawing;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Microsoft.Owin.Security;
-using Microsoft.Owin;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 using QuanLyCongTacTroGiangKhoaCNTT.Middlewall;
 using QuanLyCongTacTroGiangKhoaCNTT.Models;
-using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 {
@@ -119,11 +122,44 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 string pattern = string.Format(@"\b{0}\b", " - ");
                 int counter = Regex.Matches(FullName, pattern).Count;
 
+                //Send mail
+                string mailSend = "k.cntt-test1@vanlanguni.vn";
+                string passMailSend = "cntt@Test1";
+                using (MailMessage mailMessage = new MailMessage())
+                {
+                    mailMessage.From = new MailAddress("dv.tuan3010@gmail.com");
+
+                    mailMessage.IsBodyHtml = true;
+                    mailMessage.Subject = "sss";
+                    mailMessage.Body = hoten;
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = "smtp-mail.outlook.com";
+                        smtp.EnableSsl = true;
+                        NetworkCredential cred = new NetworkCredential(mailSend, passMailSend);
+                        smtp.UseDefaultCredentials = true;
+                        smtp.Credentials = cred;
+                        smtp.Port = 587;
+
+                        smtp.Send(mailMessage);
+                    }
+                }
+                //End send mail
+
                 if (counter == 2)
                 {
                     FullName = FullName.Replace(" - ", "#");
-                    ma = FullName.Split('#')[0].Trim();
-                    hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
+
+                    if (EmailUser.IndexOf("vlu.edu.vn") != -1)
+                    {
+                        hoten = FullName.Split('#')[0].Trim();
+                    }
+                    else
+                    {
+                        ma = FullName.Split('#')[0].Trim();
+                        hoten = FullName.Split('#')[1].Trim() + " - " + FullName.Split('#')[2].Trim();
+                    }
                 }
 
                 //Tạo aspnet user
