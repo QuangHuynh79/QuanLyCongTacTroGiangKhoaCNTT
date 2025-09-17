@@ -122,31 +122,6 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 string pattern = string.Format(@"\b{0}\b", " - ");
                 int counter = Regex.Matches(FullName, pattern).Count;
 
-                //Send mail
-                string mailSend = "k.cntt-test1@vanlanguni.vn";
-                string passMailSend = "cntt@Test1";
-                using (MailMessage mailMessage = new MailMessage())
-                {
-                    mailMessage.From = new MailAddress("dv.tuan3010@gmail.com");
-
-                    mailMessage.IsBodyHtml = true;
-                    mailMessage.Subject = "sss";
-                    mailMessage.Body = hoten;
-
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Host = "smtp-mail.outlook.com";
-                        smtp.EnableSsl = true;
-                        NetworkCredential cred = new NetworkCredential(mailSend, passMailSend);
-                        smtp.UseDefaultCredentials = true;
-                        smtp.Credentials = cred;
-                        smtp.Port = 587;
-
-                        smtp.Send(mailMessage);
-                    }
-                }
-                //End send mail
-
                 if (counter == 2)
                 {
                     FullName = FullName.Replace(" - ", "#");
