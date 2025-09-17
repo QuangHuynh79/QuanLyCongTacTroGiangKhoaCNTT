@@ -336,8 +336,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 model.SaveChanges();
 
                 // Tạo thông báo về việc đề xuất trợ giảng
+                string fullUrl = Request.Url.GetLeftPart(UriPartial.Authority) + VirtualPathUtility.ToAbsolute("~");
                 var tkNguoiNhan = model.TaiKhoan.FirstOrDefault(f => f.Ma.ToLower().Equals(lhp.MaCBGD.ToLower()));
-                string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + tkNguoiNhan.ID_Nganh, null, 8, "BCN#" + tkNguoiNhan.ID_Nganh, "", lhp.TenHP, System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/AdvancesClassection/Advances");
+                string saveNoti = noti.SetNotification("Đề xuất trợ giảng.", "Lớp " + lhp.MaLHP + " đã được đề xuất trợ giảng bởi " + lhp.TenCBGD + ".", "#5#3#n" + tkNguoiNhan.ID_Nganh, null, 8, "BCN#" + tkNguoiNhan.ID_Nganh, "", lhp.TenHP, fullUrl + "/AdvancesClassection/Advances");
 
                 return Content("SUCCESS");
             }

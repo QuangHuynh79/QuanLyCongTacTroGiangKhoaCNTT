@@ -111,7 +111,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 }
                 model.SaveChanges();
 
-                string saveNoti = noti.SetNotification("Đánh giá công việc.", "Công việc của lớp " + pc.LopHocPhan.MaLHP + " đã được đánh giá bởi " + pc.LopHocPhan.TenCBGD + ".", "0", pc.ID_TaiKhoan, 10, pc.TaiKhoan.Email, pc.TaiKhoan.HoTen, pc.LopHocPhan.TenHP, System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/TaskManagement/TaskList");
+                string fullUrl = Request.Url.GetLeftPart(UriPartial.Authority) + VirtualPathUtility.ToAbsolute("~");
+                string saveNoti = noti.SetNotification("Đánh giá công việc.", "Công việc của lớp " + pc.LopHocPhan.MaLHP + " đã được đánh giá bởi " + pc.LopHocPhan.TenCBGD + ".", "0", pc.ID_TaiKhoan, 10, pc.TaiKhoan.Email, pc.TaiKhoan.HoTen, pc.LopHocPhan.TenHP, fullUrl + "/TaskManagement/TaskList");
 
                 model = new CongTacTroGiangKhoaCNTTEntities();
                 return Content("SUCCESS");
