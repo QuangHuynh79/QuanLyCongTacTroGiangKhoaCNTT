@@ -15,6 +15,8 @@
             contentType: false
         }).done(function (ketqua) {
             $('body').find('[id="modal-content-assign"]').replaceWith(ketqua);
+            $('body').find('[id="phancongTitle"]').html(btn.attr('titleForm'));
+
             $('body').find('[id="phancong"]').modal('toggle');
 
             if ($('body').find('[id="quantity-ta"]').val() == 0) {

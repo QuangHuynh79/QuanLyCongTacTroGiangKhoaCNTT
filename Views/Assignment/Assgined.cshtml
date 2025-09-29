@@ -30,7 +30,7 @@
 
     var lstTkb = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.MaCBGD.ToLower().Equals(ma) && w.PhanCongTroGiang.Count() > 0).ToList();
 }
-<script src="~/ActiveItemMenu/TeachingAssistant/assigned.js"></script>
+<script src="~/ActiveItemMenu/TeachingAssistant/assigned.js?v=1.0"></script>
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
@@ -152,7 +152,7 @@
                                         </td>
                                         <td valign="middle">0</td>
                                         <td valign="middle" class="text-nowrap">
-                                            <a style="font-size: 20px" name="@item.ID" id="btnOpenAssign-@item.ID" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho lớp học phần" class="text-primary">
+                                            <a style="font-size: 20px" name="@item.ID" id="btnOpenAssign-@item.ID"  titleForm="Phân công trợ giảng cho LHP @item.MaLHP - @item.TenHP" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Chọn TA cho lớp học phần" class="text-primary">
                                                 <span><i class="bi bi-person-check"></i></span>
                                             </a>
                                         </td>
@@ -170,7 +170,7 @@
         <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="phancongTitle">Phân công trợ giảng cho LHP 221_71ITBS10103_01 - Nhập môn công nghệ thông tin.</h5>
+                    <h5 class="modal-title" id="phancongTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>
@@ -188,6 +188,6 @@
     </div>
 </section>
 
-<script src="~/Validation/teacher/Assignment/filter.js"></script>
-<script src="~/Validation/teacher/Assignment/openAssgin.js"></script>
-<script src="~/Validation/teacher/Assignment/submitAssign.js"></script>
+<script src="~/Validation/teacher/Assignment/filter.js?v=1.0"></script>
+<script src="~/Validation/teacher/Assignment/openAssgin.js?v=1.0"></script>
+<script src="~/Validation/teacher/Assignment/submitAssign.js?v=1.0"></script>

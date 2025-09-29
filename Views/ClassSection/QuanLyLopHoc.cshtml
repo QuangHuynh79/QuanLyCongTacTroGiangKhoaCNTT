@@ -31,7 +31,7 @@
 
     var lstTkb = models.LopHocPhan.Where(w => w.ID_HocKy == id_hkGanNhat && w.ID_Nganh == id_nganhCNTT && w.PhanCongTroGiang.Where(wp => wp.ID_TaiKhoan == taikhoan.ID).Count() > 0).ToList();
 }
-<script src="~/ActiveItemMenu/ClassSection/index.js"></script>
+<script src="~/ActiveItemMenu/ClassSection/index.js?v=1.0"></script>
 <section class="container-fluid p-4">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
@@ -172,9 +172,9 @@
     </div>
 
 </section>
-<script src="~/Validation/teacher/classsection/danhSachSinhVien.js"></script>
-<script src="~/Validation/teacher/classsection/diemDanh.js"></script>
-<script src="~/Validation/teacher/classsection/filterQuanLyLopHoc.js"></script>
+<script src="~/Validation/teacher/classsection/danhSachSinhVien.js?v=1.0"></script>
+<script src="~/Validation/teacher/classsection/diemDanh.js?v=1.0"></script>
+<script src="~/Validation/teacher/classsection/filterQuanLyLopHoc.js?v=1.0"></script>
 <script>
     $(document).ready(function () {
         $("#diemDanhTable").DataTable();

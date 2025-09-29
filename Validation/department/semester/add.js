@@ -144,14 +144,14 @@
             $('body').find('[id="ngaybatdau"]').focus();
         }
 
-        if (tenhocky.length < 1) {
+        if (tenhocky.length <= 2) {
             check = false;
 
             btn.html('Lưu thông tin');
             btn.prop('disabled', false);
             $('body').find('[id="btnClose"]').prop('disabled', false);
 
-            validtenhocky.text("Vui lòng nhập học kỳ");
+            validtenhocky.text("Vui lòng nhập học kỳ đúng");
             $('body').find('[id="tenhocky"]').focus();
         }
         else if (tenhocky.length == 3) {
