@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     $('body').on('click', '[id^="btnOpenAssign-"]', function () {
+        var btn = $(this);
         var id = $(this).attr('name');
 
         var formData = new FormData();
