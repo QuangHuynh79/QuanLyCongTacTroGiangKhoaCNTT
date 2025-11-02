@@ -193,6 +193,16 @@
                                             window.location.reload();
                                         });
                                     }
+                                    else if (ketqua == "FAILED") {
+                                        btn.html('Import');
+
+                                        Toast.fire({
+                                            icon: "warning",
+                                            title: "Thời khóa biểu có lớp học phần đã được phân công, không thể thay thế dữ liệu. Hãy chọn thực hiện cập nhật thời khóa biểu nếu cần cập nhật thông tin mới cho thời khóa biểu."
+                                        }).then(() => {
+                                            window.location.reload();
+                                        });
+                                    }
                                     else if (ketqua.indexOf("Đã có lỗi") != -1) {
                                         btn.html('Import');
                                         Toast.fire({
@@ -252,9 +262,17 @@
                                     else {
                                         btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
 
+                                        var totalCount = ketqua.split('-')[1];
+                                        var successCount = ketqua.split('-')[2];
+                                        var failedCount = ketqua.split('-')[3];
+
                                         Toast.fire({
                                             icon: "success",
-                                            title: 'Đã cập nhật thông tin thời khóa biểu!'
+                                            title: 'Đã cập nhật thời khóa biểu!',
+                                            html:
+                                                '- Tổng cộng: [' + totalCount + '] dòng.<br>' +
+                                                '- Đã cập nhật: [' + successCount + '] dòng.<br>' +
+                                                '- Đã bỏ qua: [' + failedCount + '] dòng không thuộc ngành được chọn.'
                                         }).then(() => {
                                             window.location.reload();
                                         });
@@ -289,6 +307,16 @@
                                             window.location.reload();
                                         });
                                     }
+                                    else if (ketqua == "FAILED") {
+                                        btn.html('Import');
+
+                                        Toast.fire({
+                                            icon: "warning",
+                                            title: "Thời khóa biểu có lớp học phần đã được phân công, không thể thay thế dữ liệu. Hãy chọn thực hiện cập nhật thời khóa biểu nếu cần cập nhật thông tin mới cho thời khóa biểu."
+                                        }).then(() => {
+                                            window.location.reload();
+                                        });
+                                    }
                                     else if (ketqua.indexOf("Đã có lỗi") != -1) {
                                         btn.html('Import');
 
@@ -347,9 +375,18 @@
                                     else {
                                         btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
 
+
+                                        var totalCount = ketqua.split('-')[1];
+                                        var successCount = ketqua.split('-')[2];
+                                        var failedCount = ketqua.split('-')[3];
+
                                         Toast.fire({
                                             icon: "success",
-                                            title: 'Đã thay thế thông tin thời khóa biểu!'
+                                            title: 'Đã thay thế thời khóa biểu!',
+                                            html:
+                                                '- Tổng cộng: [' + totalCount + '] dòng.<br>' +
+                                                '- Đã thay thế: [' + successCount + '] dòng.<br>' +
+                                                '- Đã bỏ qua: [' + failedCount + '] dòng không thuộc ngành được chọn.'
                                         }).then(() => {
                                             window.location.reload();
                                         });
@@ -367,6 +404,16 @@
                         });
                         
                     }
+                    else if (ketqua == "FAILED") {
+                        btn.html('Import');
+
+                        Toast.fire({
+                            icon: "warning",
+                            title: "Thời khóa biểu có lớp học phần đã được phân công, không thể thay thế dữ liệu. Hãy chọn thực hiện cập nhật thời khóa biểu nếu cần cập nhật thông tin mới cho thời khóa biểu."
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
                     else if (ketqua == "INCORRECT") { // Mẫu import không hợp lệ
                         btn.html('Import');
 
@@ -378,9 +425,17 @@
                     else {
                         btn.html('<span class="material-icons-outlined upload-button-icon"> check_circle </span> Đã import');
 
+                        var totalCount = ketqua.split('-')[1];
+                        var successCount = ketqua.split('-')[2];
+                        var failedCount = ketqua.split('-')[3];
+
                         Toast.fire({
                             icon: "success",
-                            title: 'Đã import thời khóa biểu mới!'
+                            title: 'Đã nhập thời khóa biểu mới!',
+                            html:
+                                '- Tổng cộng: [' + totalCount + '] dòng.<br>' +
+                                '- Đã nhập: [' + successCount + '] dòng.<br>' +
+                                '- Đã bỏ qua: [' + failedCount + '] dòng không thuộc ngành được chọn.'
                         }).then(() => {
                             window.location.reload();
                         });

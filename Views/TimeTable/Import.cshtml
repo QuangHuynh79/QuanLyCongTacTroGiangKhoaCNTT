@@ -193,6 +193,9 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
             <!-- Card -->
             <div class="card mb-4" style="padding: 30px;">
+                <div class="card-header p-0 mb-3">
+                    <label class="mb-3">* Lưu ý: <b>Tên ngành</b> và <b>Mã ngành</b> được chọn để import trên hệ thống phải trùng khớp với <b>Tên ngành</b> và <b>Mã ngành</b> trong File import (không phân biệt chữ hoa, chữ thường). Nếu <b>Tên ngành</b> & <b>Mã ngành</b> không trùng khớp hệ thống sẽ bỏ qua mà không thêm dòng dữ liệu đó vào hệ thống.</label>
+                </div>
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
@@ -219,7 +222,7 @@
                                     <option selected value="">---- Chọn ngành ----</option>
                                     @foreach (var item in userKhoa.Nganh.ToList().OrderByDescending(o => o.ID).ToList())
                                     {
-                                        <option value="@item.ID">@item.TenNganh</option>
+                                        <option value="@item.ID">@item.TenNganh - [@item.MaNganh]</option>
                                     }
                                 </select>
                             }
@@ -229,7 +232,7 @@
                                     <option selected value="">---- Chọn ngành ----</option>
                                     @foreach (var item in lstNganh.OrderByDescending(o => o.ID).ToList())
                                     {
-                                        <option value="@item.ID">@item.TenNganh</option>
+                                        <option value="@item.ID">@item.TenNganh - [@item.MaNganh]</option>
                                     }
 
                                 </select>

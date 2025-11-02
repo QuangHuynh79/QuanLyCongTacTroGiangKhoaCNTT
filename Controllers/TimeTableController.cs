@@ -117,6 +117,10 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                 }
                 else
                 {
+                    var allRowCount = 0;
+                    var successRowCount = 0;
+                    var failedRowCount = 0;
+
                     var nganhdb = model.Nganh.Find(nganh);
                     if (nganhdb == null) //Ngành không tồn tại
                         return Content("NOTEXISTNGANH");
@@ -133,9 +137,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                         {
                             var currentTkb = model.ThoiKhoaBieu.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
                             model.ThoiKhoaBieu.RemoveRange(currentTkb); //Xóa tkb cũ
-                            model.SaveChanges();
 
                             var currentHocPhan = model.LopHocPhan.Where(t => t.ID_HocKy == hocky && t.ID_Nganh == nganh).ToList();
+                            
                             model.LopHocPhan.RemoveRange(currentHocPhan); //Xóa lớp học phần của tkb cũ
                             model.SaveChanges();
 
@@ -177,6 +181,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                             odaExcel.SelectCommand = cmdExcel;
                                             odaExcel.Fill(dt);
                                             connExcel.Close();
+
+                                            allRowCount = dt.Rows.Count;
                                         }
                                     }
                                 }
@@ -317,7 +323,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                                 model.ThoiKhoaBieu.Add(tkb);
                                 model.SaveChanges();
-
+                                successRowCount++;
                             }
                         }
                         else //cập nhật (update cái tkb đang có sẵn)
@@ -362,6 +368,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                             odaExcel.SelectCommand = cmdExcel;
                                             odaExcel.Fill(dt);
                                             connExcel.Close();
+
+                                            allRowCount = dt.Rows.Count;
                                         }
                                     }
                                 }
@@ -478,6 +486,7 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                 model.Entry(hocphan).State = System.Data.Entity.EntityState.Modified;
                                 model.Entry(tkb).State = System.Data.Entity.EntityState.Modified;
                                 model.SaveChanges();
+                                successRowCount++;
                             }
                         }
                     }
@@ -525,6 +534,8 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
                                         odaExcel.SelectCommand = cmdExcel;
                                         odaExcel.Fill(dt);
                                         connExcel.Close();
+
+                                        allRowCount = dt.Rows.Count;
                                     }
                                 }
                             }
@@ -666,14 +677,19 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
 
                             model.ThoiKhoaBieu.Add(tkb);
                             model.SaveChanges();
-
+                            successRowCount++;
                         }
                     }
-                    return Content("SUCCESS");
+
+                    failedRowCount = allRowCount > 0 ? (allRowCount - successRowCount) : 0;
+                    return Content("SUCCESS-" + allRowCount + "-" + successRowCount + "-" + failedRowCount);
                 }
             }
             catch (Exception Ex)
             {
+                if (Ex.InnerException != null)
+                    if (Ex.InnerException.InnerException.Message.IndexOf("The DELETE statement conflicted with the REFERENCE constraint") != -1)
+                        return Content("FAILED");
                 return Content("Chi tiết lỗi: " + Ex.Message);
             }
         }
