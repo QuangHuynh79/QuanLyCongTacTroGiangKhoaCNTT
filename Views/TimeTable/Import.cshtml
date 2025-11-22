@@ -194,7 +194,13 @@
             <!-- Card -->
             <div class="card mb-4" style="padding: 30px;">
                 <div class="card-header p-0 mb-3">
-                    <label class="mb-3">* Lưu ý: <b>Tên ngành</b> và <b>Mã ngành</b> được chọn để import trên hệ thống phải trùng khớp với <b>Tên ngành</b> và <b>Mã ngành</b> trong File import (không phân biệt chữ hoa, chữ thường). Nếu <b>Tên ngành</b> & <b>Mã ngành</b> không trùng khớp hệ thống sẽ bỏ qua mà không thêm dòng dữ liệu đó vào hệ thống.</label>
+                    <label class="mb-3">
+                        * Lưu ý: <b>Tên ngành</b> và <b>Mã ngành</b> được chọn để import trên hệ thống phải trùng khớp với <b>Tên ngành</b> và <b>Mã ngành</b> trong File import (không phân biệt chữ hoa, chữ thường). Nếu <b>Tên ngành</b> & <b>Mã ngành</b> không trùng khớp hệ thống sẽ bỏ qua mà không thêm dòng dữ liệu đó vào hệ thống.
+                        <br />
+                        <br />
+                        * File import chỉ được tồn tại duy nhất 1 sheet chứa dữ liệu thời khóa biểu, không được tồn tại sheet thứ 2 khác trong file.
+
+                    </label>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-12">
@@ -227,7 +233,7 @@
                                 </select>
                             }
                             else
-                            { 
+                            {
                                 <select class="form-select" id="importnganh">
                                     <option selected value="">---- Chọn ngành ----</option>
                                     @foreach (var item in lstNganh.OrderByDescending(o => o.ID).ToList())
