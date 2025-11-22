@@ -1,0 +1,104 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan>
+
+<div class="card-body mt-3" id="filterLoad">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-nowrap">Mã LHP</th>
+                    <th class="text-nowrap">Tên HP</th>
+                    <th class="text-nowrap">Lịch Học</th>
+                    <th class="text-nowrap" data-bs-toggle="tooltip" data-bs-html="true" title="Trạng thái đăng ký đề xuất trợ giảng cho LHP">Trạng thái</th>
+                    <th class="text-nowrap"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
+                {
+                    <tr>
+                        <td valign="middle">@item.MaLHP</td>
+                        <td valign="middle">@item.TenHP</td>
+                        <td valign="middle">
+                            <ul>
+                                @foreach (var items in item.ThoiKhoaBieu.ToList())
+                                {
+                                    <li>
+                                        @(items.Thu); Tiết @(items.TietHoc); Tuần @(items.TuanBD) - @(items.TuanKT); Phòng @(items.Phong)
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            @if (item.DeXuatTroGiang.Count < 1)
+                            {
+                                <span class="badge bg-secondary">Không đăng ký</span>
+                            }
+                            else
+                            {
+                                if (item.DeXuatTroGiang.First().TrangThai)
+                                {
+                                    <span class="badge bg-success">Đã duyệt</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Chưa duyệt</span>
+                                }
+                            }
+                        </td>
+                        <td class="text-nowrap" valign="middle">
+                            @if (item.DanhSachSinhVien.Count < 1)
+                            {
+                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Upload danh sách sinh viên" class="text-success">
+                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a name="@item.ID" id="btnimportsv-@item.ID" tieudeForm="Import DSSV LHP @item.MaLHP - @item.TenHP" style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật lại danh sách sinh viên" class="text-primary">
+                                    <span><i class="bi bi-file-earmark-arrow-up me-2"></i></span>
+                                </a>
+                            }
+
+                            @if (item.DanhSachSinhVien.Count() > 0)
+                            {
+                                <span id="viewDiemDanh-@item.ID" tieudeForm="Điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                        <span><i class="bi bi-calendar3 me-2"></i></span>
+                                    </a>
+                                </span>
+
+                                <span id="viewKetQuaDiemDanh-@item.ID" tieudeForm="Kết quả điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Kết quả điểm danh lớp học" class="text-success">
+                                        <span><i class="bi bi-calendar-check me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+
+                            @if (item.DeXuatTroGiang.Count < 1)
+                            {
+                                <span id="dexuat-@item.ID" tieudeForm="Đề xuất trợ giảng LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Đề xuất trợ giảng" class="text-warning">
+                                        <span><i class="bi bi-bookmark-star me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span id="viewTaskList-@item.ID" tieudeForm="Bảng mô tả công việc LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Danh sách công việc" class="text-danger">
+                                        <span><i class="bi bi-list-task me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#dataTableBasic').DataTable();
+</script>

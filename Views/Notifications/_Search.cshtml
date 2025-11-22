@@ -1,0 +1,48 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.ThongBao>
+@{
+    var lstNoti = Model.ToList();
+}
+<ul id="content-cpn-thongbao" class="list-group list-group-flush" data-simplebar style="max-height: 420px">
+    @if (lstNoti.Count < 1)
+    {
+        <li class="list-group-item text-center">
+            <span class="fs-6 mb-3 mt-3">
+                Không tìm thấy kết quả phù hợp.
+            </span>
+        </li>
+    }
+    else
+    {
+        foreach (var item in lstNoti.OrderByDescending(o => o.ThoiGian))
+        {
+            <li class="list-group-item" id="cpn-thongbao-@item.ID">
+                <div class="row">
+                    <div class="col">
+                        <a class="text-body" href="#">
+                            <div class="d-flex">
+                                <i class="bi bi-bell-fill fs-3 mt-1"></i>
+                                <div class="ms-3">
+                                    <h5 class="fw-bold mb-1">@item.TieuDe</h5>
+                                    <p class="mb-3">@item.NoiDung</p>
+                                    <span class="fs-6">
+                                        <span>
+                                            <span class="bi-clock-history me-1"></span>
+                                            @item.ThoiGian.ToString("HH:mm dd/MM/yyyy")
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-auto text-center me-2">
+                        <div>
+                            <a id="deleteNoti-@item.ID" name="@item.ID" class="bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa thông báo">
+                                <i class="fe fe-x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    }
+</ul>

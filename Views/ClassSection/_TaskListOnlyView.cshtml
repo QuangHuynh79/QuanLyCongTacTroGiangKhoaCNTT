@@ -1,0 +1,51 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.CongViec>
+<div class="modal-body" id="loadcontentviewtasklistmodal">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <h5 class="text-center" for="tennganh">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</h5>
+        </div>
+        <div class="col-12">
+            <div class="table-card mt-0">
+                <table class="table table-hover" data-width="100%">
+                    <thead class="table-light">
+                        <tr>
+                            <input hidden value="true" id="viewchixem" />
+                            <input hidden value="" viewchixem="true" id="dexuatLHPID" />
+                            <th class="ps-3 text-nowrap">Mô tả công việc</th>
+                            <th style="max-width: 120px;" class="ps-3 text-nowrap">Giờ quy đổi</th>
+                            <th class="ps-3 text-nowrap">Thời hạn hoàn thành</th>
+                            <th class="ps-3 text-nowrap">Nơi làm việc</th>
+                            <th class="ps-3 text-nowrap">Kết quả mong đợi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contentAddTaskList">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td valign="middle" class="pe-0 ps-3">
+                                    <div class="form-control">@item.MoTa</div>
+                                </td>
+                                <td valign="middle" style="width: 80px;" class="pe-0 ps-3">
+                                    <div class="form-control">@(item.SoGioQuyDoi.ToString().Replace(",","."))</div>
+                                </td>
+                                <td valign="middle" class="pe-0 ps-3">
+                                    <div class="form-control">@item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")</div>
+                                </td>
+                                <td valign="middle" class="pe-0 ps-3">
+                                    <div class="form-control">@item.NoiLamViec</div>
+                                </td>
+                                <td valign="middle" class="ps-3">
+                                    <div class="form-control">@item.KetQuaMongDoi</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('body').find('[id="btnviewtasklistmodalSubmit"]').prop('hidden', true);
+    $('body').find('[id="formCamKet"]').prop('hidden', true);
+</script>

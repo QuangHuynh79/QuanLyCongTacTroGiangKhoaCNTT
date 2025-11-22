@@ -1,0 +1,64 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@{ 
+    var lhp = Session["title-update-assign"] as QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan;
+    string title = lhp == null ? "" : lhp.MaLHP;
+    int idLHP = lhp == null ? 0 : lhp.ID;
+
+    int idtk = lhp == null ? 0 : lhp.PhanCongTroGiang.Count() < 1 ? 0 : lhp.PhanCongTroGiang.First().ID_TaiKhoan;
+}
+
+<div class="modal-body overflow-x-hidden" id="modal-content-assign">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center mb-3" for="tennganh">DANH SÁCH SINH VIÊN ĐĂNG KÝ LÀM TA LHP @title</h3>
+            <input hidden id="id-lhp-assign-update" value="@idLHP" />
+            <input hidden id="quantity-ta" value="@Model.Count()" />
+        </div>
+    </div>
+    <div class="table-card mt-0">
+        <table id="phanCongTable" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th>Thông tin sinh viên</th>
+                    <th>Điểm số</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(w => w.ID_TaiKhoan != idtk).ToList())
+                {
+                    <tr>
+                        <td valign="middle">
+                            MSSV: @item.TaiKhoan.Ma
+                            <br />
+                            Họ & Tên: @item.HoTen
+                            <br />
+                            <span class="text-nowrap">Email: @item.Email</span>
+                            <br />
+                            <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SoDienThoai<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                        </td>
+
+                        <td valign="middle" class="text-nowrap">
+                            TB Chung: @item.DiemTBTL
+                            <br />
+                            Rèn luyện: @item.DiemRL
+                            <br />
+                            TK môn: @item.DiemTKMH
+                        </td>
+                        <td valign="middle" class="text-nowrap">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="chonLamTA" keyta="@item.ID_TaiKhoan" id="chonLamTA-@item.ID">
+                                <label class="form-check-label" for="chonLamTA-@item.ID">
+                                    Chọn
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#phanCongTable').DataTable();
+</script>

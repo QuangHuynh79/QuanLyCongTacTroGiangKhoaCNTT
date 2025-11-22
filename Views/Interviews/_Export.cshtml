@@ -1,0 +1,194 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang
+@{
+    var ut = Model;
+    var pv = Model.DanhGiaPhongVan.First();
+    var lstCv = ut.LopHocPhan.CongViec.ToList();
+    string tenhk = "..........";
+    string namhoc = "..........";
+    string tenkhoa = "..........";
+    string ttLhp = "..........";
+    if (ut != null)
+    {
+        tenhk = ut.LopHocPhan.HocKy.TenHocKy;
+        namhoc = ut.LopHocPhan.HocKy.NamBatDau + " - " + ut.LopHocPhan.HocKy.NamKetThuc;
+        tenkhoa = ut.LopHocPhan.Nganh.Khoa.TenKhoa;
+        ttLhp = ut.LopHocPhan.MaLHP + " - " + ut.LopHocPhan.TenHP;
+    }
+    int i = 0;
+}
+
+<table id="exportTablesTA01" style="width:100%">
+    <thead>
+        <tr>
+            <th colspan="4">TRƯỜNG ĐẠI HỌC VĂN LANG</th>
+        </tr>
+        <tr>
+            <th colspan="4">Khoa/TT: @tenkhoa</th>
+        </tr>
+        <tr>
+            <th colspan="4">PHIẾU ĐÁNH GIÁ, TUYỂN CHỌN TRỢ LÝ GIẢNG DẠY (TA)</th>
+        </tr>
+        <tr>
+            <th align="center" class="text-center" colspan="4">HỌC KỲ: @tenhk - NĂM HỌC: @namhoc</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td valign="middle" colspan="4">Phần 1. Thông tin của ứng viên</td>
+        </tr>
+        <tr>
+            <td valign="middle">Họ và tên sinh viên: @ut.HoTen</td>
+            <td valign="middle" colspan="3">MSSV: @ut.MSSV</td>
+        </tr>
+        <tr>
+            <td valign="middle">Ngày sinh: @ut.NgaySinh.Value.ToString("dd/MM/yyyy")</td>
+            <td valign="middle" colspan="3">Giới tính: @ut.GioiTinh</td>
+        </tr>
+        <tr>
+            <td valign="middle">Số điện thoại liên lạc: @ut.SoDienThoai</td>
+            <td valign="middle" colspan="3">Email: @ut.Email</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Học phần ứng tuyển làm TA: @ut.LopHocPhan.MaLHP - @ut.LopHocPhan.TenHP</td>
+        </tr>
+        <tr>
+            <td valign="middle">Điểm TBCTL của HK gần nhất: @ut.DiemTBTL</td>
+            <td valign="middle" colspan="3">Điểm rèn luyện của HK gần nhất: @ut.DiemRL</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Điểm tổng kết (thi lần 1) của HP đăng ký làm TA: @ut.DiemTKMH</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Phần 2. Đánh giá của đơn vị tuyển chọn TA <i>(Đánh dấu x vào ô tương ứng)</i></td>
+        </tr>
+        <tr>
+            <td valign="middle" rowspan="2">Tiêu chí</td>
+            <td valign="middle" colspan="3">Chấm điểm</td>
+        </tr>
+        <tr>
+            <td valign="middle">Không đạt</td>
+            <td valign="middle">Phân vân</td>
+            <td valign="middle">Đạt</td>
+        </tr>
+        <tr>
+            <td valign="middle">1.  Ngoại hình, tác phong</td>
+            <td valign="middle">@(pv.NgoaiHinhTacPhong.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.NgoaiHinhTacPhong.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.NgoaiHinhTacPhong.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">2.  Kiến thức chuyên môn liên quan học phần cần TA</td>
+            <td valign="middle">@(pv.KienThuc.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.KienThuc.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.KienThuc.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">3.  Hiểu biết về công việc</td>
+            <td valign="middle">@(pv.HieuBietCongViec.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.HieuBietCongViec.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.HieuBietCongViec.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">4.  Thái độ tích cực</td>
+            <td valign="middle">@(pv.ThaIDoTichCuc.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.ThaIDoTichCuc.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.ThaIDoTichCuc.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">5.  Kỹ năng trình bày</td>
+            <td valign="middle">@(pv.KyNangTrinhBay.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.KyNangTrinhBay.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.KyNangTrinhBay.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">6.  Kỹ năng giao tiếp</td>
+            <td valign="middle">@(pv.KyNangGiaoTiep.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.KyNangGiaoTiep.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.KyNangGiaoTiep.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">7.  Kỹ năng giải quyết vấn đề</td>
+            <td valign="middle">@(pv.GiaiQuyetVanDe.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.GiaiQuyetVanDe.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.GiaiQuyetVanDe.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">8.  Khả năng sư phạm</td>
+            <td valign="middle">@(pv.KhaNangSuPham.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.KhaNangSuPham.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.KhaNangSuPham.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">9.  Kỹ năng sử dụng công nghệ thông tin</td>
+            <td valign="middle">@(pv.KyNangCNTT.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.KyNangCNTT.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.KyNangCNTT.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">10.  Yếu tố khác phù hợp yêu cầu đặc thù của môn học</td>
+            <td valign="middle">@(pv.YeuToKhac.Equals("0") ? "X" : "")</td>
+            <td valign="middle">@(pv.YeuToKhac.Equals("1") ? "X" : "")</td>
+            <td valign="middle">@(pv.YeuToKhac.Equals("2") ? "X" : "")</td>
+        </tr>
+        <tr>
+            <td valign="middle">Tổng số tiêu chí "đạt", "không đạt", "phân vân"</td>
+            <td valign="middle">@pv.TongSoDiemChuaDat</td>
+            <td valign="middle">@pv.TongSoDiemPhanVan</td>
+            <td valign="middle">@pv.TongSoDiemDat</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">SV đủ điều kiện làm TA khi có ít nhất 8 tiêu chí được đánh giá "đạt" trong đó bắt buộc có tiêu chí 2.</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Nhận xét: @pv.NhanXet</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Kết luận: @(pv.KetLuanDat == true ? "Đạt yêu cầu" : "Không đạt yêu cầu")</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Ngày phỏng vấn: @pv.NgayPhongVan.Value.ToString("dd/MM/yyyy")</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="4">Ngày duyệt: @pv.NgayDuyet.Value.ToString("dd/MM/yyyy")</td>
+        </tr>
+    </tbody>
+</table>
+
+<table id="exportTablesCongViec" style="width:100%">
+    <thead>
+        <tr>
+            <th colspan="6">TRƯỜNG ĐẠI HỌC VĂN LANG</th>
+        </tr>
+        <tr>
+            <th colspan="6">Khoa/TT: @tenkhoa</th>
+        </tr>
+        <tr>
+            <th colspan="6">BẢNG MÔ TẢ CÔNG VIỆC GIAO CHO TA</th>
+        </tr>
+        <tr>
+            <th align="center" class="text-center" colspan="6">HỌC KỲ: @tenhk - NĂM HỌC: @namhoc</th>
+        </tr>
+        <tr>
+            <th class="fw-bold">TT</th>
+            <th class="fw-bold">Nội dung công việc</th>
+            <th class="fw-bold">Khối lượng dự kiến</th>
+            <th class="fw-bold">Thời gian thực hiện</th>
+            <th class="fw-bold">Nơi làm việc</th>
+            <th class="fw-bold">Kết quả mong đợi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in lstCv)
+        {
+            i++;
+            <tr>
+                <td valign="middle">@i</td>
+                <td valign="middle">@item.MoTa</td>
+                <td valign="middle">@item.SoGioQuyDoi</td>
+                <td valign="middle">@item.ThoiHanHoanThanh.ToString("dd/MM/yyyy")</td>
+                <td valign="middle">@item.NoiLamViec</td>
+                <td valign="middle">@item.KetQuaMongDoi</td>
+            </tr>
+        }
+    </tbody>
+</table>

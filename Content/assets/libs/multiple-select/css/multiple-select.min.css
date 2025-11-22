@@ -113,7 +113,7 @@
     display: none;
     padding: 0;
     position: absolute;
-    z-index: 1000;
+    z-index: 1030;
     background-color: var(--geeks-input-bg);
     color: #94a3b8;
     left: 0;
@@ -220,7 +220,7 @@
 
             .ms-drop ul > li.hide-radio.selected {
                 color: #fff;
-                background-color: #007bff
+                background-color: #2c00ff80
             }
 
             .ms-drop ul > li.hide-radio label {

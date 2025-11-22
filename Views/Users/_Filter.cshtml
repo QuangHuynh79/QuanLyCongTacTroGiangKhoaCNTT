@@ -1,0 +1,64 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.AspNetUsers>
+@{
+    int i = 0;
+    int idUs = Int32.Parse(Session["user-id"].ToString());
+}
+
+<div id="filterParentLoad">
+    <div class="card-body">
+        <!-- table  -->
+        <div class="table-card">
+            <table class="table table-hover" style="width:100%">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-nowrap"></th>
+                        <th class="text-nowrap">Mã</th>
+                        <th class="text-nowrap">Họ & Tên</th>
+                        <th class="text-nowrap">Liên hệ</th>
+                        <th class="text-nowrap">Vai trò</th>
+                        <th class="text-nowrap">Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in Model.ToList())
+                    {
+                        var item = items.TaiKhoan.First();
+                        i++;
+                        <tr>
+                            <td valign="middle">@i</td>
+
+                            <td valign="middle">@item.Ma</td>
+                            <td valign="middle">@item.HoTen</td>
+                            <td valign="middle" class="text-nowrap">
+                                @item.Email<br />
+                                <span data-bs-toggle="tooltip" data-bs-html="true" title="Số ĐT: @item.SDT<br/>Ngày sinh: @(item.NgaySinh != null ? item.NgaySinh.Value.ToString("yyyy-MM-dd") : "")<br />Giới tính: @item.GioiTinh<br />Ngành: @(item.ID_Nganh != null ? item.Nganh.TenNganh : "")" class="badge bg-info" role="button"><i class="bi bi-info-circle me-2"></i>Thông tin thêm</span>
+                            </td>
+                            <td valign="middle" class="text-nowrap">@item.AspNetUsers.AspNetRoles.First().Name</td>
+                            <td valign="middle">
+                                @if (idUs != item.ID && item.AspNetUsers.AspNetRoles.Where(w => !w.ID.Equals("5") && !w.ID.Equals("3")).Count() > 0)
+                                {
+                                    <div class="form-check form-switch  mb-2">
+                                        <input class="form-check-input" type="checkbox" role="switch" fullname="@item.Ma - @item.HoTen" name="@item.ID" id="trangthai-@item.ID" checked="@(item.AspNetUsers.LockoutEnabled ? false : true)">
+                                    </div>
+                                }
+                            </td>
+                            <td valign="middle" class="text-nowrap">
+                                @if (idUs != item.ID && item.AspNetUsers.AspNetRoles.Where(w => !w.ID.Equals("5") && !w.ID.Equals("3")).Count() > 0)
+                                {
+                                    <a style="font-size: 20px" role="button" id="openSua-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-success">
+                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Cập nhật"><i class="bi bi-pencil-square me-2"></i></span>
+                                    </a>
+
+                                    @*<a style="font-size: 20px" role="button" id="openXoa-@item.ID" fullname="@item.Ma - @item.HoTen" name="@item.ID" class="text-danger">
+                                        <span data-bs-toggle="tooltip" data-bs-html="true" title="Xóa bỏ"><i class="bi bi-trash"></i></span>
+                                    </a>*@
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

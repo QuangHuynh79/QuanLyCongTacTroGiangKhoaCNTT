@@ -1,0 +1,184 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@{
+    var ut = Model.ToList();
+    int i = 0;
+}
+<!-- card body -->
+<div class="card-body" id="filterLoad">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="card bg-light-warning mb-4">
+                <!-- Card body -->
+                <div class="card-body d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="lh-1 d-flex flex-column gap-1">
+                            <h2 class="h1 fw-bold mb-0">@(ut.Count() > 0 ? ut.GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
+                            <span>Đã Đăng Ký</span>
+                        </div>
+                        <div>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i style="font-size: 24px" class="bi bi-person-fill"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="card bg-light-success mb-4">
+                <!-- Card body -->
+                <div class="card-body d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="lh-1 d-flex flex-column gap-1">
+                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.TrangThai == true).Count() > 0 ? ut.Where(w => w.TrangThai == true).GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
+                            <span>Được Duyệt</span>
+                        </div>
+                        <div>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i style="font-size: 24px" class="bi bi-person-fill-check"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="card bg-light-primary mb-4">
+                <!-- Card body -->
+                <div class="card-body d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="lh-1 d-flex flex-column gap-1">
+                            <h2 class="h1 fw-bold mb-0">@(ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ?ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count().ToString("D2") : "0")</h2>
+                            <span>Đã Phân Công</span>
+                        </div>
+                        <div>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i style="font-size: 24px" class="bi bi-person-fill-gear"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-card mt-3 border-top-lg">
+        <div class="card-body mt-3" id="filterLoad">
+            <div class="table-card">
+                <table id="dataTableBasics" class="table table-hover" style="width:100%">
+                    <thead id="thread-thongke" class="table-light">
+                        <tr>
+                            <th align="center" class="text-center bg-white" colspan="7">
+                                <h4>Danh sách Trợ Giảng đã được phân công</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>TT</th>
+                            <th class="p-0 m-0"></th>
+                            <th>Mã TA</th>
+                            <th>Họ & Tên TA</th>
+                            <th>Mã GV</th>
+                            <th>Họ & Tên GV</th>
+                            <th>Mã LHP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ((ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).Count() > 0 ? ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList().GroupBy(g => g.ID_TaiKhoan).Count() : 0) > 0)
+                        {
+                            foreach (var item in ut.Where(w => w.LopHocPhan.PhanCongTroGiang.FirstOrDefault(wl => wl.ID_TaiKhoan == w.ID_TaiKhoan) != null).ToList())
+                            {
+                                i++;
+                                <tr name="@item.ID">
+                                    <td valign="middle">
+                                        @i
+                                    </td>
+                                    <td class="ps-0 pe-0">
+                                        <i name="@item.ID" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>
+                                    </td>
+                                    <td valign="middle">@item.MSSV</td>
+                                    <td valign="middle">
+                                        @item.HoTen
+                                    </td>
+                                    <td valign="middle">
+                                        @item.LopHocPhan.MaCBGD
+                                    </td>
+                                    <td valign="middle">
+                                        @item.LopHocPhan.TenCBGD
+                                    </td>
+                                    <td valign="middle">
+                                        @item.LopHocPhan.MaLHP
+                                        <div hidden name="@item.ID" id="child-data-@item.ID">
+                                            <table d="none-datatable" class="table table-sm table-sm m-0" style="width:100%">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Tên LHP</th>
+                                                        <th>TC</th>
+                                                        <th>Tổng số giờ HP</th>
+                                                        <th>Số giờ TA</th>
+                                                        <th>Số SV</th>
+                                                        <th>Lý do đề xuất</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td valign="middle">@item.LopHocPhan.TenHP</td>
+                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().SoTC</td>
+                                                        <td valign="middle">@item.LopHocPhan.ThoiKhoaBieu.First().TSMH</td>
+                                                        <td valign="middle">
+                                                            @item.LopHocPhan.PhanCongTroGiang.First().SoGioQuyDoi
+                                                        </td>
+                                                        <td valign="middle">
+                                                            @item.LopHocPhan.DanhSachSinhVien.Count
+                                                        </td>
+                                                        <td valign="middle">
+                                                            @item.LopHocPhan.DeXuatTroGiang.First().LyDoDeXuat
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            function format(d, id) {
+                return (
+                    $('body').find('[id="' + id + '"]').html()
+                );
+            }
+
+            let table = $("#dataTableBasics").DataTable();
+            table.on('click', '.btn-open-child', function (e) {
+                //table.rows().every(function () {
+                //    var row = this;
+                //    if (row.child.isShown()) {
+                //        row.child.hide();
+                //        $(this.node()).removeClass('shown');
+                //        $(".close-child-rows").addClass("disable-button");
+                //    }
+                //});
+                var id = 'child-data-' + $(this).attr('name');
+                if (id.indexOf('undefined') == -1) {
+                    let tr = e.target.closest('tr');
+                    let row = table.row(tr);
+
+                    if (row.child.isShown()) {
+                        row.child.hide();
+                        $(this).replaceWith(`<i name="` + $(this).attr('name') + `" role="button" style="font-size: 21px" class="bi bi-plus-circle-fill text-success btn-open-child"></i>`)
+                    }
+                    else {
+                        row.child(format(row.data(), id)).show();
+                        $(this).replaceWith(`<i name="` + $(this).attr('name') + `" role="button" style="font-size: 21px" class="bi bi-dash-circle-fill text-danger btn-open-child"></i>`)
+                    }
+                }
+            });
+        });
+    </script>
+</div>

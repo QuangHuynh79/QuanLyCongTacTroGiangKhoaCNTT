@@ -1,0 +1,58 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.HocKy
+
+<div class="modal-body" id="capnhathocky-partial">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="edittenhocky">Học kỳ </label>
+                <input hidden id="idhk" value="@Model.ID" />
+                <input value="@Model.TenHocKy" disabled type="number" id="edittenhocky" class="form-control" placeholder="Nhập học kỳ (VD: 224)">
+                <span class="text-danger" id="valid-edittenhocky"></span>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editnambatdau">
+                    Năm bắt đầu
+                </label>
+                <select disabled class="form-select" id="editnambatdau">
+                    @for (int i = DateTime.Now.Year - 10; i < DateTime.Now.Year + 10; i++)
+                    {
+                        if (i == Model.NamBatDau)
+                        {
+                            <option selected value="@i">@i</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+                <span class="text-danger" id="valid-editnambatdau"></span>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editnamketthuc">
+                    Năm kết thúc
+                </label>
+                <select disabled class="form-select" id="editnamketthuc">
+                    <option selected value="@(Model.NamBatDau + 1)">@(Model.NamBatDau + 1)</option>
+                </select>
+                <span class="text-danger" id="valid-editnamketthuc"></span>
+            </div>
+        </div>
+        
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="editngaybatdau">
+                    Ngày bắt đầu <span class="text-danger">*</span>
+                </label>
+                <input data-default="@Model.NgayBatDau.ToString("yyyy-MM-dd")" value="@Model.NgayBatDau.ToString("yyyy-MM-dd")" id="editngaybatdau" type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu">
+                <span class="text-danger" id="valid-editngaybatdau"></span>
+            </div>
+        </div>
+
+    </div>
+</div>

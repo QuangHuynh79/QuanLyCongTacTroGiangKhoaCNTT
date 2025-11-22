@@ -1,0 +1,23 @@
+﻿@model QuanLyCongTacTroGiangKhoaCNTT.Models.ThongBaoMail
+
+<div class="col-12 p-0 m-0" id="filterLoad">
+    <div class="row p-0 m-0">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="tieude">Tiêu đề Mail <span class="text-danger">*</span></label>
+                <input type="text" id="tieude" value="@Model.TieuDe" class="form-control" placeholder="Nhập tiêu đề Mail">
+                <span class="text-danger" id="valid-tieude"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label" for="noidung">Nội dung Mail <span class="text-danger">*</span></label>
+                <textarea rows="10" class="form-control" id="noidung" placeholder="Nhập nội dung Mail">@Model.NoiDung</textarea>
+                <span class="text-danger" id="valid-noidung"></span>
+            </div>
+        </div>
+        <div class="col-12 mb-3" style="margin-top: -10px">
+            <small class="small"><i><i class="bi bi-info-circle-fill me-1"></i>Lưu ý nội dung trong @("<...>") không được thay đổi.</i></small>
+        </div>
+    </div>
+</div>

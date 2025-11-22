@@ -14,16 +14,9 @@ namespace QuanLyCongTacTroGiangKhoaCNTT.Controllers
         CongTacTroGiangKhoaCNTTEntities model = new CongTacTroGiangKhoaCNTTEntities();
         // GET: Dashboard
 
-        [Authorize]
-        [AllRole]
-        public ActionResult Index()
+        [Authorize, AllRole]
+        public ActionResult Index() //Trang chủ
         {
-            var user = User.Identity.GetUserName();
-            Session["user-email"] = user;
-            var role = model.TaiKhoan.FirstOrDefault(f => f.Email.ToLower().Equals(user.ToLower()));
-            Session["user-role-name"] = role.Quyen.name;
-            Session["user-role-id"] = role.ID_Quyen;
-
             return View("index");
         }
     }

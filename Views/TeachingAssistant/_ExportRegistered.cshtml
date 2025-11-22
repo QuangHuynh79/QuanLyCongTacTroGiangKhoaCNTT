@@ -1,0 +1,42 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.UngTuyenTroGiang>
+@{
+    var lstUt = Model.ToList();
+}
+<table name="sheet1" style="border: 1px solid black; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">MSSV</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Họ & Tên</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Email</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Điện thoại</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Ngày sinh</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Giới tính</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Mã LHP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Tên LHP</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Điểm TB chung</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Điểm rèn luyện</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Điểm TK môn</th>
+            <th style="border: 1px solid #adadad; border-collapse: collapse;">Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in lstUt)
+        {
+            <tr>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.MSSV</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.HoTen</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.Email</td>
+                <th style="border: 1px solid #adadad; border-collapse: collapse;">@item.SoDienThoai</th>
+                <th style="border: 1px solid #adadad; border-collapse: collapse;">@item.NgaySinh.Value.ToString("yyyy-MM-dd")</th>
+                <th style="border: 1px solid #adadad; border-collapse: collapse;">@item.GioiTinh</th>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.LopHocPhan.MaLHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.LopHocPhan.TenHP</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.DiemTBTL</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.DiemRL</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@item.DiemTKMH</td>
+                <td style="border: 1px solid #adadad; border-collapse: collapse;">@(item.TrangThai ? "Đã được duyệt" : "Chưa được duyệt")</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

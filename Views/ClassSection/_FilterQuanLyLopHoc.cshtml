@@ -1,0 +1,55 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan>
+
+<!-- table  -->
+<div class="card-body mt-3" id="filterLoad">
+    <div class="table-card">
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-nowrap">Mã LHP</th>
+                    <th class="text-nowrap">Tên HP</th>
+                    <th class="text-nowrap">Lịch Học</th>
+                    <th class="text-nowrap">Số SV</th>
+                    <th class="text-nowrap"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList().OrderByDescending(o => o.ID))
+                {
+                    <tr>
+                        <td>@item.MaLHP</td>
+                        <td>@item.TenHP</td>
+                        <td>
+                            <ul>
+                                @foreach (var items in item.ThoiKhoaBieu.ToList())
+                                {
+                                    <li>
+                                        @(items.Thu); Tiết @(items.TietHoc); Tuần @(items.TuanBD) - @(items.TuanKT); Phòng @(items.Phong)
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            @item.DanhSachSinhVien.Count()
+                        </td>
+                        <td class="text-nowrap">
+                            @if (item.DanhSachSinhVien.Count() > 0)
+                            {
+                                <span id="viewDiemDanh-@item.ID" tieudeForm="Điểm danh LHP @item.MaLHP - @item.TenHP" name="@item.ID">
+                                    <a style="font-size: 20px" role="button" data-bs-toggle="tooltip" data-bs-html="true" title="Điểm danh lớp học" class="text-primary">
+                                        <span><i class="bi bi-calendar3 me-2"></i></span>
+                                    </a>
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#dataTableBasic').DataTable();
+</script>

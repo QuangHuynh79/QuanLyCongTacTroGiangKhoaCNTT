@@ -1,0 +1,18 @@
+﻿@model IEnumerable<QuanLyCongTacTroGiangKhoaCNTT.Models.LopHocPhan>
+@using QuanLyCongTacTroGiangKhoaCNTT.Models
+@{
+    var task = Model.ToList();
+    var firstTask = task.Count > 0 ? task.First() : new LopHocPhan();
+}
+
+<select id="lophocphan" class="form-select" data-width="100%">
+    @foreach (var item in task)
+    {
+        if (item.ID == firstTask.ID)
+        {
+            <option selected value="@item.ID">@item.MaLHP - @item.TenHP</option>
+            continue;
+        }
+        <option value="@item.ID">@item.MaLHP - @item.TenHP</option>
+    }
+</select>
